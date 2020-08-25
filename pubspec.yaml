@@ -37,6 +37,8 @@ dependencies:
   sqflite_sqlcipher: ^1.1.1
   uuid: 2.2.0
   json_annotation: ^3.0.1
+  formz: ^0.2.0
+  rxdart: ^0.24.0
 
 
   # The following adds the Cupertino Icons font to your application.
