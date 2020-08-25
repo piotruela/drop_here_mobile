@@ -7,7 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   testWidgets('FormPage has icons and title', (WidgetTester tester) async {
-    await tester.pumpWidget(App());
+    await tester.pumpWidget(LoginPage());
 
     expect(find.text('Flutter Form Validation'), findsOneWidget);
     expect(find.text('Form Submitted Successfully'), findsNothing);
@@ -18,7 +18,7 @@ void main() {
   });
 
   testWidgets('FormPage has Submit button', (WidgetTester tester) async {
-    await tester.pumpWidget(App());
+    await tester.pumpWidget(LoginPage());
 
     expect(find.byType(RaisedButton), findsOneWidget);
   });

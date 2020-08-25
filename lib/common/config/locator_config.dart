@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 import 'app_config.dart';
@@ -21,4 +22,7 @@ abstract class LocatorConfig {
   void _registerTheme(AppConfig appConfig) {
     locator.registerSingleton<ThemeConfig>(appConfig.themeConfig);
   }
+
+  @protected
+  void registerServices();
 }
