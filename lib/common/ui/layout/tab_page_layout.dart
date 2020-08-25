@@ -1,5 +1,3 @@
-import 'package:drop_here_mobile/common/config/locator_config.dart';
-import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/material.dart';
 
 typedef TabBuilder<T> = Tab Function(T model);

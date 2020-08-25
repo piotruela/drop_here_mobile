@@ -1,4 +1,3 @@
-import 'package:drop_here_mobile/config/drop_here_locator_config.dart';
 import 'package:flutter/material.dart';
 
 import 'common/config/app_config.dart';

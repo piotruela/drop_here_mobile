@@ -42,7 +42,7 @@ class _MainWidgetState extends State<MainWidget> {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: LocalizationDelegate.supportedLocales,
-      home: LoginPage(),//GreeterPage(),
+      home: LoginPage(),
       builder: (builderContext, child) {
         return AppInheritedNavigationNotifier(
           notifier: notifier,
