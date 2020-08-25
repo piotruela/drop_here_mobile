@@ -6,7 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('FormPage has icons and title', (WidgetTester tester) async {
     await tester.pumpWidget(App());
 
     expect(find.text('Flutter Form Validation'), findsOneWidget);
@@ -15,5 +15,11 @@ void main() {
     expect(find.byIcon(Icons.email), findsOneWidget);
     expect(find.byIcon(Icons.lock), findsOneWidget);
 
+  });
+
+  testWidgets('FormPage has Submit button', (WidgetTester tester) async {
+    await tester.pumpWidget(App());
+
+    expect(find.byType(RaisedButton), findsOneWidget);
   });
 }
