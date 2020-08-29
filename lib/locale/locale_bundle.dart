@@ -6,4 +6,10 @@ abstract class LocaleBundle {
   String get greetPageNavBarText;
 
   String get infoPageNavBarText;
+
+  String get lorem;
+
+  String get getStarted;
+
+  String get welcomeText;
 }
