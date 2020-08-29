@@ -17,6 +17,9 @@ class BasePageNavigator {
       }
     }
   }
+  static void pop(){
+    navigatorKey.currentState.pop(); //FIXME: Pops to blank page
+  }
 }
 
 class NavigationArguments {

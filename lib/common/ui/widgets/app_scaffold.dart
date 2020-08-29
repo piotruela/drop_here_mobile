@@ -19,7 +19,6 @@ class _AppScaffoldState extends State<AppScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.child,
-      //bottomNavigationBar: BottomBar(),
     );
   }
 }
