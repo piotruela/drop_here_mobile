@@ -1,3 +1,4 @@
+import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/locator_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/navigation/navigator.dart';
@@ -10,6 +11,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SplashPage extends StatelessWidget {
   final ThemeConfig themeConfig = locator.get<ThemeConfig>();
+  final AssetsConfig assetsConfig = locator.get<AssetsConfig>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +25,13 @@ class SplashPage extends StatelessWidget {
               child: Container(
                   height: 193,
                   width: 268,
-                  child: SvgPicture.asset("assets/images/first_page_image.svg")
+                  child: SvgPicture.asset(assetsConfig.splashScreenImage),
               ),
             ),
             Padding(
               padding: const EdgeInsets.only(top: 19.0, bottom: 17.0),
               child: Text(
-                  "drop.here", style: themeConfig.textStyles.primaryTitle),
+                  Localization.of(context).bundle.appTitle, style: themeConfig.textStyles.primaryTitle),
             ),
             Padding(
               padding: const EdgeInsets.only(left: 67.0, right: 67.0),
