@@ -1,3 +1,5 @@
+import 'package:drop_here_mobile/common/config/locator_config.dart';
+import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/material.dart';
 
 typedef TabBuilder<T> = Tab Function(T model);
@@ -70,6 +72,7 @@ class _TabPageLayoutState<T> extends State<TabPageLayout<T>> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     return Theme(
+        data: locator.get<ThemeConfig>().primaryTheme(),
         child: Column(
           children: [
             if (widget.additionalAppBarWidget != null) widget.additionalAppBarWidget,
