@@ -72,6 +72,7 @@ class _TabPageLayoutState<T> extends State<TabPageLayout<T>> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     return Theme(
+        data: locator.get<ThemeConfig>().primaryTheme(),
         child: Column(
           children: [
             if (widget.additionalAppBarWidget != null) widget.additionalAppBarWidget,

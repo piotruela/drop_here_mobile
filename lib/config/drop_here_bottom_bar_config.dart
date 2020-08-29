@@ -15,6 +15,6 @@ class DHBottomBarConfig extends BottomBarConfig {
     BottomBarItem(
         icon: Icon(Icons.info),
         text: (context) => Localization.of(context).bundle.infoPageNavBarText,
-        navigate: (context) => BasePageNavigator.push(CounterRoutes.login)),
+        navigate: (context) => BasePageNavigator.push(CounterRoutes.info)),
   ];
 }

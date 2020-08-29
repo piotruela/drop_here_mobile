@@ -1,3 +1,5 @@
+import 'package:drop_here_mobile/common/config/locator_config.dart';
+import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/counter/bloc/my_form_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,6 +7,7 @@ import 'package:formz/formz.dart';
 
 
 class LoginPage extends StatelessWidget {
+  final ThemeConfig themeConfig = locator.get<ThemeConfig>();
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -20,6 +23,7 @@ class LoginPage extends StatelessWidget {
 }
 
 class MyForm extends StatelessWidget {
+  final ThemeConfig themeConfig = locator.get<ThemeConfig>();
   @override
   Widget build(BuildContext context) {
     return BlocListener<MyFormBloc, MyFormState>(
@@ -39,14 +43,23 @@ class MyForm extends StatelessWidget {
             );
         }
       },
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            EmailInput(),
-            PasswordInput(),
-            SubmitButton(),
-          ],
+      child: Container(
+        color: themeConfig.colors.facebookColor,
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              EmailInput(),
+              PasswordInput(),
+              SubmitButton(),
+              Text("drop.here", style: themeConfig.textStyles.primaryTitle),
+              Container(
+                child: Icon(Icons.email, color: themeConfig.colors.facebookColor),
+              ),
+              RaisedButton(onPressed: null,
+              color: Colors.teal,)
+            ],
+          ),
         ),
       ),
     );

@@ -1,10 +1,6 @@
-import 'package:drop_here_mobile/common/config/bottom_bar_config.dart';
-import 'package:drop_here_mobile/common/config/locator_config.dart';
-import 'package:drop_here_mobile/config/drop_here_bottom_bar_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-import 'bottom_bar.dart';
 
 
 class AppScaffold extends StatefulWidget {
@@ -23,7 +19,7 @@ class _AppScaffoldState extends State<AppScaffold> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: widget.child,
-      bottomNavigationBar: BottomBar(),
+      //bottomNavigationBar: BottomBar(),
     );
   }
 }
