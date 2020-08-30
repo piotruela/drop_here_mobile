@@ -39,7 +39,7 @@ class _MainWidgetState extends State<MainWidget> {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: LocalizationDelegate.supportedLocales,
-      home: BuyerRegistrationPage(),
+      home: SplashPage(),
       builder: (builderContext, child) {
         return AppScaffold(
           child: child,

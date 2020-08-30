@@ -21,7 +21,7 @@ class LoginPage extends StatelessWidget {
             Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top:144.0),
+                  padding: const EdgeInsets.only(top:144.0, bottom: 82),
                   child: Text(Localization.of(context).bundle.loginPageHeader, style: themeConfig.textStyles.secondaryTitle),
                 ),
                 DhTextFormField(labelText: Localization.of(context).bundle.email, padding: EdgeInsets.only(left: 40, right: 40.0, top: 13.0, bottom: 9.0),),
@@ -32,12 +32,12 @@ class LoginPage extends StatelessWidget {
                       onTap: () {},
                       child: Text(Localization.of(context).bundle.forgotPasswordQuestion, style: themeConfig.textStyles.contentTitle)),
                 ),
-                Padding(
+                Padding(//TODO: Use DhButton padding
                   padding: const EdgeInsets.only(top:32.0, bottom: 20.0),
                   child: DhButton(onPressed: () {}, text: Localization.of(context).bundle.logIn, backgroundColor: themeConfig.colors.primary1,),
                 ),
                 Text(Localization.of(context).bundle.or, style: themeConfig.textStyles.secondaryTitle),
-                Padding(
+                Padding(//TODO: Use DhButton padding
                   padding: const EdgeInsets.only(top:26.0, bottom: 11.0),
                   child: DhButton(onPressed: () {}, text: Localization.of(context).bundle.logInWithFacebook, backgroundColor: themeConfig.colors.facebookColor,),
                 ),

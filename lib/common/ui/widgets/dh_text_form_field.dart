@@ -13,24 +13,27 @@ class DhTextFormField extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: padding,
-      child: TextFormField(
-          style: themeConfig.textStyles.secondaryTitle.copyWith(color: themeConfig.colors.secondary),
-          decoration: InputDecoration(
-            fillColor: themeConfig.colors.white, filled: true,
-            labelText: labelText,
-            labelStyle: themeConfig.textStyles.textFieldHint,
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5.0),
-              borderSide: BorderSide(
+      child: SizedBox(
+        height: 50,
+        child: TextFormField(
+            style: themeConfig.textStyles.secondaryTitle.copyWith(color: themeConfig.colors.secondary),
+            decoration: InputDecoration(
+              fillColor: themeConfig.colors.white, filled: true,
+              labelText: labelText,
+              labelStyle: themeConfig.textStyles.textFieldHint,
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.0),
+                borderSide: BorderSide(
+                ),
               ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5.0),
-              borderSide: BorderSide(
-                width: 2.0,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(5.0),
+                borderSide: BorderSide(
+                  width: 2.0,
+                ),
               ),
-            ),
-          )),
+            )),
+      ),
     );
   }
 }

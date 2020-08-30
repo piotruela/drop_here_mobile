@@ -41,7 +41,7 @@ class SplashPage extends StatelessWidget {
                   .lorem, style: themeConfig.textStyles.contentTitle,
                   textAlign: TextAlign.center),
             ),
-            Padding(
+            Padding(//TODO: Use DhButton padding
                 padding: const EdgeInsets.only(top: 55.0),
                 child: DhButton(
                   onPressed: () {

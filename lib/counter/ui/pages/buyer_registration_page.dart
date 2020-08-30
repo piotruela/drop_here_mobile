@@ -32,12 +32,12 @@ class BuyerRegistrationPage extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 10,bottom: 10),
                   child: Text(Localization.of(context).bundle.or, style: themeConfig.textStyles.secondaryTitle),
                 ),
-                Padding(
+                Padding( //TODO: Use DhButton padding
                   padding: const EdgeInsets.only( bottom: 11.0),
                   child: DhButton(onPressed: () {}, text: Localization.of(context).bundle.signUpWithFacebook, backgroundColor:
                   themeConfig.colors.facebookColor,),
                 ),
-                Padding(
+                Padding(//TODO: Use DhButton padding
                   padding: const EdgeInsets.only( bottom: 6.0),
                   child: GestureDetector(
                       onTap: () {},

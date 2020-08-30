@@ -26,12 +26,12 @@ class SellerRegistrationPage extends StatelessWidget {
                 DhTextFormField(labelText: Localization.of(context).bundle.password, padding: EdgeInsets.only(left: 40, right: 40.0, top: 13.0, bottom: 9.0)),
                 DhTextFormField(labelText: Localization.of(context).bundle.repeatPassword, padding: EdgeInsets.only(left: 40,
                     right: 40.0, top: 13.0, bottom: 9.0)),
-                Padding(
+                Padding(//TODO: Use DhButton padding
                   padding: const EdgeInsets.only(top:132.0, bottom: 11.0),
                   child: DhButton(onPressed: () {}, text: Localization.of(context).bundle.signUp, backgroundColor:
                   themeConfig.colors.primary1,),
                 ),
-                Padding(
+                Padding(//TODO: Make clickable text class
                   padding: const EdgeInsets.only( bottom: 6.0),
                   child: GestureDetector(
                       onTap: () {},
