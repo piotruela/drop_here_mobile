@@ -1,5 +1,7 @@
 import 'package:drop_here_mobile/common/config/app_config.dart';
 import 'package:drop_here_mobile/common/navigation/navigator.dart';
+import 'package:drop_here_mobile/counter/ui/pages/buyer_registration_page.dart';
+import 'package:drop_here_mobile/counter/ui/pages/seller_registration_page.dart';
 import 'package:drop_here_mobile/counter/ui/pages/splash_page.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
