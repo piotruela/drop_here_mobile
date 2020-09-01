@@ -1,6 +1,8 @@
 
 import 'package:drop_here_mobile/common/navigation/navigator.dart';
+import 'package:drop_here_mobile/counter/ui/pages/buyer_details_registration_page.dart';
 import 'package:drop_here_mobile/counter/ui/pages/login_page.dart';
+import 'package:drop_here_mobile/counter/ui/pages/sandbox_page.dart';
 import 'package:drop_here_mobile/counter/ui/pages/splash_page.dart';
 import 'package:drop_here_mobile/counter/ui/pages/welcome_page.dart';
 
@@ -19,4 +21,12 @@ class CounterRoutes {
       name: '/login',
       builder: (context) => LoginPage(),
       arguments: NavigationArguments(replaceCurrent: true));
+  static RouteDefinition sandbox = RouteDefinition(
+      name: '/sandbox',
+      builder: (context) => SandboxPage(),
+      arguments: NavigationArguments(replaceCurrent: false));
+  static RouteDefinition buyerDetailsRegistration = RouteDefinition(
+      name: '/buyerDetailsRegistration',
+      builder: (context) => BuyerDetailsRegistrationPage(),
+      arguments: NavigationArguments(replaceCurrent: false));
 }

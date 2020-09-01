@@ -50,8 +50,11 @@ class SplashPage extends StatelessWidget {
                     .of(context)
                     .bundle
                     .getStarted, backgroundColor: themeConfig.colors.primary1,)
-            )
-          ],
+            ),
+      FlatButton(
+        onPressed: (){BasePageNavigator.push(CounterRoutes.sandbox);},
+        child: Text("sandbox", style: TextStyle(color: Colors.black),),
+      )],
         ),
       ),
     ));

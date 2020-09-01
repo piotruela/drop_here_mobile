@@ -22,7 +22,7 @@ class DhButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(5.0)
         ),
-        child: Text(text, style: themeConfig.textStyles.secondaryTitle),),
+        child: Text(text, style: themeConfig.textStyles.dhButton),),
     );
   }
 }

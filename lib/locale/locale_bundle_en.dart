@@ -73,4 +73,16 @@ class LocaleBundleEn extends LocaleBundle {
   @override
   String get welcomePageText => "drop.here is the place where the local seller meets the local buyer. As your first step, choose which of these people you are.";
 
+  @override
+  String get addDetailsAboutBuyerHeader => "Add details about you";
+
+  @override
+  String get lastName => "Last name";
+
+  @override
+  String get firstName => "First name";
+
+  @override
+  String get continueText => "Continue";
+
 }
