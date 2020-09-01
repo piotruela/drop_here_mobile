@@ -32,13 +32,24 @@ class BuyerDetailsRegistrationPage extends StatelessWidget {
                         width: 110.0,
                         height: 110.0,
                       ),
-                      CircleAvatar(
-                        backgroundColor: themeConfig.colors.primary1,
-                        radius: 50.0,
-                        child: Icon(
-                          Icons.person,
-                          color: themeConfig.colors.background,
-                          size: 60.0,
+                      Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                                blurRadius: 4,
+                                color: Colors.grey.withOpacity(0.25),
+                                spreadRadius: 5)
+                          ],
+                        ),
+                        child: CircleAvatar(
+                          backgroundColor: themeConfig.colors.primary1,
+                          radius: 50.0,
+                          child: Icon(
+                            Icons.person,
+                            color: themeConfig.colors.background,
+                            size: 60.0,
+                          ),
                         ),
                       ),
                       Positioned(
