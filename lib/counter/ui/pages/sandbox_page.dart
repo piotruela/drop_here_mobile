@@ -13,17 +13,32 @@ class SandboxPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MainLayout(child: Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 15.0),
-          child: Column(
-            children: [
-              FlatButton(child: Text("buyer details registration"), onPressed: (){BasePageNavigator.push(CounterRoutes.buyerDetailsRegistration);},),
-            ],
+    return MainLayout(
+      child: Scaffold(
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 15.0),
+            child: Column(
+              children: [
+                FlatButton(
+                  child: Text("buyer details registration"),
+                  onPressed: () {
+                    BasePageNavigator.push(
+                        CounterRoutes.buyerDetailsRegistration);
+                  },
+                ),
+                FlatButton(
+                  child: Text("seller details registration"),
+                  onPressed: () {
+                    BasePageNavigator.push(
+                        CounterRoutes.sellerDetailsRegistration);
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
-    ),);
+    );
   }
 }

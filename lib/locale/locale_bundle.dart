@@ -54,4 +54,10 @@ abstract class LocaleBundle {
   String get firstName;
 
   String get continueText;
+
+  String get addDetailsAboutCompanyHeader;
+
+  String get companyName;
+
+  String get countryName;
 }
