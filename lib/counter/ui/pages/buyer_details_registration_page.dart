@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:drop_here_mobile/common/config/locator_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/layout/main_layout.dart';
@@ -5,9 +7,20 @@ import 'package:drop_here_mobile/common/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/counter/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
-class BuyerDetailsRegistrationPage extends StatelessWidget {
+class BuyerDetailsRegistrationPage extends StatefulWidget {
+  @override
+  _BuyerDetailsRegistrationPageState createState() =>
+      _BuyerDetailsRegistrationPageState();
+}
+
+class _BuyerDetailsRegistrationPageState
+    extends State<BuyerDetailsRegistrationPage> {
   final ThemeConfig themeConfig = locator.get<ThemeConfig>();
+  final picker = ImagePicker();
+  File _image;
+
   @override
   Widget build(BuildContext context) {
     return MainLayout(
@@ -43,28 +56,40 @@ class BuyerDetailsRegistrationPage extends StatelessWidget {
                           ],
                         ),
                         child: CircleAvatar(
-                          backgroundColor: themeConfig.colors.primary1,
                           radius: 50.0,
-                          child: Icon(
-                            Icons.person,
-                            color: themeConfig.colors.background,
-                            size: 60.0,
+                          child: ClipOval(
+                            child: (_image != null)
+                                ? Image.file(_image)
+                                : CircleAvatar(
+                                    backgroundColor:
+                                        themeConfig.colors.primary1,
+                                    radius: 50.0,
+                                    child: Icon(
+                                      Icons.person,
+                                      color: themeConfig.colors.background,
+                                      size: 60.0,
+                                    ),
+                                  ),
                           ),
+                          backgroundColor: Colors.white,
                         ),
                       ),
                       Positioned(
                         bottom: 0.0,
                         right: 0.0,
-                        child: CircleAvatar(
-                          radius: 20.0,
-                          backgroundColor: themeConfig.colors.secondary,
+                        child: InkWell(
+                          onTap: getImage,
                           child: CircleAvatar(
-                            backgroundColor: themeConfig.colors.primary1,
-                            radius: 18.0,
-                            child: Icon(
-                              Icons.edit,
-                              color: themeConfig.colors.background,
-                              size: 20.0,
+                            radius: 20.0,
+                            backgroundColor: themeConfig.colors.secondary,
+                            child: CircleAvatar(
+                              backgroundColor: themeConfig.colors.primary1,
+                              radius: 18.0,
+                              child: Icon(
+                                Icons.edit,
+                                color: themeConfig.colors.background,
+                                size: 20.0,
+                              ),
                             ),
                           ),
                         ),
@@ -91,5 +116,13 @@ class BuyerDetailsRegistrationPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    setState(() {
+      _image = File(pickedFile.path);
+    });
   }
 }
