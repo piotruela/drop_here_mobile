@@ -96,4 +96,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get countryName => "Country name";
+
+  @override
+  String get whoAreYou => "Who are you";
 }

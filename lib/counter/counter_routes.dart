@@ -1,5 +1,6 @@
 import 'package:drop_here_mobile/common/navigation/navigator.dart';
 import 'package:drop_here_mobile/counter/ui/pages/buyer_details_registration_page.dart';
+import 'package:drop_here_mobile/counter/ui/pages/choose_user_page.dart';
 import 'package:drop_here_mobile/counter/ui/pages/login_page.dart';
 import 'package:drop_here_mobile/counter/ui/pages/sandbox_page.dart';
 import 'package:drop_here_mobile/counter/ui/pages/seller_details_registration_page.dart';
@@ -33,5 +34,9 @@ class CounterRoutes {
   static RouteDefinition sellerDetailsRegistration = RouteDefinition(
       name: '/sellerDetailsRegistration',
       builder: (context) => SellerDetailsRegistrationPage(),
+      arguments: NavigationArguments(replaceCurrent: false));
+  static RouteDefinition chooseUser = RouteDefinition(
+      name: '/chooseUser',
+      builder: (context) => ChooseUserPage(),
       arguments: NavigationArguments(replaceCurrent: false));
 }

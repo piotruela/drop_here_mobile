@@ -34,6 +34,12 @@ class SandboxPage extends StatelessWidget {
                         CounterRoutes.sellerDetailsRegistration);
                   },
                 ),
+                FlatButton(
+                  child: Text("choose user"),
+                  onPressed: () {
+                    BasePageNavigator.push(CounterRoutes.chooseUser);
+                  },
+                ),
               ],
             ),
           ),
