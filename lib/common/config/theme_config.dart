@@ -6,18 +6,25 @@ abstract class ThemeConfig {
   ThemeData primaryTheme();
 }
 
-class TextStyleTheme{
+class TextStyleTheme {
   final TextStyle primaryTitle;
   final TextStyle secondaryTitle;
   final TextStyle contentTitle;
   final TextStyle textFieldHint;
   final TextStyle dhButton;
+  final TextStyle cardCaption;
 
-  TextStyleTheme({this.primaryTitle, this.secondaryTitle, this.contentTitle, this.textFieldHint, this.dhButton,});
+  TextStyleTheme({
+    this.primaryTitle,
+    this.secondaryTitle,
+    this.contentTitle,
+    this.textFieldHint,
+    this.dhButton,
+    this.cardCaption,
+  });
 }
 
-
-class ColorTheme{
+class ColorTheme {
   final Color primary1;
   final Color primary2;
   final Color secondary;
@@ -28,6 +35,12 @@ class ColorTheme{
 
   final Color white;
 
-  ColorTheme({this.background, this.primary1, this.primary2, this.secondary, this.facebookColor, this.textFieldHint, this.white});
-
+  ColorTheme(
+      {this.background,
+      this.primary1,
+      this.primary2,
+      this.secondary,
+      this.facebookColor,
+      this.textFieldHint,
+      this.white});
 }
