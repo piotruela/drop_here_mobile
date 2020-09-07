@@ -13,6 +13,7 @@ class TextStyleTheme {
   final TextStyle textFieldHint;
   final TextStyle dhButton;
   final TextStyle cardCaption;
+  final TextStyle listTileTitle;
 
   TextStyleTheme({
     this.primaryTitle,
@@ -21,6 +22,7 @@ class TextStyleTheme {
     this.textFieldHint,
     this.dhButton,
     this.cardCaption,
+    this.listTileTitle,
   });
 }
 
@@ -34,13 +36,20 @@ class ColorTheme {
   final Color textFieldHint;
 
   final Color white;
+  final Color listTileMenu;
+  final Color listTileMenuIcon;
+  final Color listTileMenuText;
 
-  ColorTheme(
-      {this.background,
-      this.primary1,
-      this.primary2,
-      this.secondary,
-      this.facebookColor,
-      this.textFieldHint,
-      this.white});
+  ColorTheme({
+    this.background,
+    this.primary1,
+    this.primary2,
+    this.secondary,
+    this.facebookColor,
+    this.textFieldHint,
+    this.white,
+    this.listTileMenu,
+    this.listTileMenuIcon,
+    this.listTileMenuText,
+  });
 }

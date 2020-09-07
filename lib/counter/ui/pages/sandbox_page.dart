@@ -40,6 +40,18 @@ class SandboxPage extends StatelessWidget {
                     BasePageNavigator.push(CounterRoutes.chooseUser);
                   },
                 ),
+                FlatButton(
+                  child: Text("company details"),
+                  onPressed: () {
+                    BasePageNavigator.push(CounterRoutes.companyDetails);
+                  },
+                ),
+                FlatButton(
+                  child: Text("client details"),
+                  onPressed: () {
+                    BasePageNavigator.push(CounterRoutes.clientDetails);
+                  },
+                ),
               ],
             ),
           ),

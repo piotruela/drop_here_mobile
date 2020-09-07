@@ -29,19 +29,22 @@ class DHThemeConfig extends ThemeConfig {
       textFieldHint: _textFieldHintTextStyle,
       dhButton: _dhButtonTextStyle,
       cardCaption: _cardCaptionTextStyle,
+      listTileTitle: _listTileTitleTextStyle,
     );
   }
 
   void _initColorTheme() {
     colors = ColorTheme(
-      primary1: _primaryColor1,
-      primary2: _primaryColor2,
-      secondary: _secondaryColor,
-      facebookColor: _facebookColor,
-      textFieldHint: _textFieldHintColor,
-      white: _white,
-      background: _backgroundColor,
-    );
+        primary1: _primaryColor1,
+        primary2: _primaryColor2,
+        secondary: _secondaryColor,
+        facebookColor: _facebookColor,
+        textFieldHint: _textFieldHintColor,
+        white: _white,
+        background: _backgroundColor,
+        listTileMenu: _listTileMenuColor,
+        listTileMenuIcon: _listTileMenuIconColor,
+        listTileMenuText: _listTileMenuTextColor);
   }
 
   static final TextStyle _baseTextStyle = TextStyle(
@@ -68,7 +71,13 @@ class DHThemeConfig extends ThemeConfig {
   static final TextStyle _cardCaptionTextStyle = _baseTextStyle.copyWith(
       fontSize: 20.0,
       color: _white,
-      height: 23.0 / 21.0,
+      height: 23.0 / 20.0,
+      fontWeight: FontWeight.bold);
+
+  static final TextStyle _listTileTitleTextStyle = _baseTextStyle.copyWith(
+      fontSize: 20.0,
+      color: _listTileMenuTextColor,
+      height: 23.0 / 20.0,
       fontWeight: FontWeight.bold);
 
   static final Color _primaryColor1 = const Color(0xfff5550a);
@@ -83,4 +92,8 @@ class DHThemeConfig extends ThemeConfig {
   static final Color _dhButtonTextColor = const Color(0xffffffff);
 
   static final Color _white = const Color(0xffffffff);
+
+  static final Color _listTileMenuColor = const Color(0xfff2f2f2);
+  static final Color _listTileMenuIconColor = const Color(0xff828282);
+  static final Color _listTileMenuTextColor = const Color(0xff8D8D8D);
 }

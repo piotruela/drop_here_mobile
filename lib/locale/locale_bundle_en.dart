@@ -99,4 +99,10 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get whoAreYou => "Who are you";
+
+  @override
+  String get companyDetails => "Company details";
+
+  @override
+  String get yourDetails => "Your details";
 }
