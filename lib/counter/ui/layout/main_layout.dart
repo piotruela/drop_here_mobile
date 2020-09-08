@@ -11,7 +11,7 @@ class MainLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: themeConfig.colors.secondary,
+      color: themeConfig.colors.background,
       child: Stack(
         children: [
           Padding(

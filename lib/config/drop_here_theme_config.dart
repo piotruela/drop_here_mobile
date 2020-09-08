@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DHThemeConfig extends ThemeConfig {
-
   @override
   TextStyleTheme textStyles;
 
@@ -19,8 +18,6 @@ class DHThemeConfig extends ThemeConfig {
   ThemeData primaryTheme() {
     ThemeData baseTheme = ThemeData.light();
 
-
-
     return baseTheme;
   }
 
@@ -31,7 +28,10 @@ class DHThemeConfig extends ThemeConfig {
       contentTitle: _contentTextStyle,
       textFieldHint: _textFieldHintTextStyle,
       button: _buttonTextStyle,
-      clickableText: _clickableTextStyle
+      clickableText: _clickableTextStyle,
+      dhButton: _dhButtonTextStyle,
+      cardCaption: _cardCaptionTextStyle,
+      listTileTitle: _listTileTitleTextStyle,
     );
   }
 
@@ -39,29 +39,58 @@ class DHThemeConfig extends ThemeConfig {
     colors = ColorTheme(
       primary1: _primaryColor1,
       primary2: _primaryColor2,
-      secondary: _secondaryColor,
       facebookColor: _facebookColor,
       textFieldHint: _textFieldHintColor,
       white: _white,
-        black: _black
+        black: _black,
+        background: _backgroundColor,
+        listTileMenu: _listTileMenuColor,
+        listTileMenuIcon: _listTileMenuIconColor,
+        listTileMenuText: _listTileMenuTextColor
     );
   }
 
-  static final TextStyle _baseTextStyle = TextStyle(fontFamily: 'Roboto', color: _black, letterSpacing: 0.0, fontWeight:
-  FontWeight.normal);
-  static final TextStyle _primaryTitleTextStyle = _baseTextStyle.copyWith(fontSize: 30.0, height: 35.0 / 30.0, fontWeight: FontWeight.bold);
-  static final TextStyle _secondaryTitleTextStyle = _baseTextStyle.copyWith(fontSize: 18.0, height: 21.0 / 18.0,
-    fontWeight: FontWeight.bold,);
   static final TextStyle _buttonTextStyle = _secondaryTitleTextStyle.copyWith(color: _white);
-  static final TextStyle _contentTextStyle = _baseTextStyle.copyWith(fontSize: 14.0, height: 16.0 / 14.0, fontWeight: FontWeight.bold);
-  static final TextStyle _textFieldHintTextStyle = _baseTextStyle.copyWith(fontSize: 18.0, color: _textFieldHintColor, height: 21.0 / 18.0, fontWeight: FontWeight.bold);
   static final TextStyle _clickableTextStyle = _baseTextStyle.copyWith(fontSize: 14.0, color: _primaryColor1, height:
   21.0/18.0, fontWeight: FontWeight.w600, decoration: TextDecoration.underline);
+
+  static final TextStyle _baseTextStyle = TextStyle(
+      fontFamily: 'Roboto',
+      color: _black,
+      letterSpacing: 0.0,
+      fontWeight: FontWeight.normal);
+  static final TextStyle _primaryTitleTextStyle = _baseTextStyle.copyWith(
+      fontSize: 30.0, height: 35.0 / 30.0, fontWeight: FontWeight.bold);
+  static final TextStyle _secondaryTitleTextStyle = _baseTextStyle.copyWith(
+      fontSize: 18.0, height: 21.0 / 18.0, fontWeight: FontWeight.bold);
+  static final TextStyle _dhButtonTextStyle = _baseTextStyle.copyWith(
+      color: _dhButtonTextColor,
+      fontSize: 18.0,
+      height: 21.0 / 18.0,
+      fontWeight: FontWeight.bold);
+  static final TextStyle _contentTextStyle = _baseTextStyle.copyWith(
+      fontSize: 14.0, height: 16.0 / 14.0, fontWeight: FontWeight.bold);
+  static final TextStyle _textFieldHintTextStyle = _baseTextStyle.copyWith(
+      fontSize: 18.0,
+      color: _textFieldHintColor,
+      height: 21.0 / 18.0,
+      fontWeight: FontWeight.bold);
+  static final TextStyle _cardCaptionTextStyle = _baseTextStyle.copyWith(
+      fontSize: 20.0,
+      color: _white,
+      height: 23.0 / 20.0,
+      fontWeight: FontWeight.bold);
+
+  static final TextStyle _listTileTitleTextStyle = _baseTextStyle.copyWith(
+      fontSize: 20.0,
+      color: _listTileMenuTextColor,
+      height: 23.0 / 20.0,
+      fontWeight: FontWeight.bold);
 
   static final Color _primaryColor1 = const Color(0xfff5550a);
   static final Color _primaryColor2 = const Color(0xfff99363);
 
-  static final Color _secondaryColor = _white;
+  static final Color _backgroundColor = const Color(0xffffffff);
 
   static final Color _facebookColor = const Color(0xff3b5998);
   static final Color _textFieldHintColor = const Color(0xff8d8d8d);
@@ -69,4 +98,9 @@ class DHThemeConfig extends ThemeConfig {
   static final Color _white = const Color (0xffffffff);
 
   static final Color _black = const Color (0xff000000);
+  static final Color _dhButtonTextColor = _white;
+
+  static final Color _listTileMenuColor = const Color(0xfff2f2f2);
+  static final Color _listTileMenuIconColor = const Color(0xff828282);
+  static final Color _listTileMenuTextColor = const Color(0xff8D8D8D);
 }

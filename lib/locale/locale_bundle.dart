@@ -46,4 +46,24 @@ abstract class LocaleBundle {
   String get signUp;
 
   String get signUpWithFacebook;
+
+  String get addDetailsAboutBuyerHeader;
+
+  String get lastName;
+
+  String get firstName;
+
+  String get continueText;
+
+  String get addDetailsAboutCompanyHeader;
+
+  String get companyName;
+
+  String get countryName;
+
+  String get whoAreYou;
+
+  String get companyDetails;
+
+  String get yourDetails;
 }

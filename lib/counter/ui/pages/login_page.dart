@@ -3,6 +3,7 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/counter/bloc/login_bloc.dart';
 import 'package:drop_here_mobile/counter/ui/layout/main_layout.dart';
+import 'package:drop_here_mobile/counter/ui/pages/sandbox_page.dart';
 import 'package:drop_here_mobile/counter/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/counter/ui/widgets/dh_text_button.dart';
 import 'package:drop_here_mobile/counter/ui/widgets/dh_text_form_field.dart';
@@ -41,8 +42,7 @@ class LoginPage extends BlocWidget<LoginBloc> {
                           bloc.add(MailChanged(mail: value)),),
                       DhTextFormField(labelText: Localization.of(context).bundle.password, onChanged: (value) =>
                       bloc.add(PasswordChanged(password: value))),
-                      DhTextButton(text: Localization.of(context).bundle.forgotPasswordQuestion, onTap: () {key
-                          .currentState.validate();}),
+                      DhTextButton(text: Localization.of(context).bundle.forgotPasswordQuestion, onTap: () => Get.to(SandboxPage())),
                       DhButton(onPressed: () =>
                           bloc.add(LoginFormSubmitted(isValid: key
                               .currentState.validate())),

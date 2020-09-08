@@ -38,7 +38,7 @@ class _ErrorReportLogAppender extends _LogAppender {
   void append(LogRecord logRecord, String concatenatedLog) {
     /// Checking for specific loggers that require data hiding
 //    if (!logsExcludedFromLoggingToCrashLogger.containsValue(logRecord.loggerName)) {
-//      locator.get<ErrorReportDataCollector>().log(concatenatedLog);
+//      Get.find.get<ErrorReportDataCollector>().log(concatenatedLog);
 //    }
   }
 }
