@@ -85,13 +85,13 @@ class CompanyDetailsPage extends StatelessWidget {
           DhListTile(
             themeConfig: themeConfig,
             icon: Icons.person,
-            title: "Name",
+            title: Localization.of(context).bundle.name,
             trailing: "drop.here",
           ),
           DhListTile(
             themeConfig: themeConfig,
             icon: Icons.map,
-            title: "Country",
+            title: Localization.of(context).bundle.country,
             trailing: "Poland",
           ),
           Expanded(
@@ -103,14 +103,13 @@ class CompanyDetailsPage extends StatelessWidget {
                     accentColor: Colors.black,
                   ),
                   child: ExpansionTile(
-                    backgroundColor: Colors.black,
+                    leading: Icon(
+                      Icons.people,
+                      color: themeConfig.colors.textFieldHint,
+                    ),
                     title: Text(
                       sellers[i].title,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.italic),
+                      style: themeConfig.textStyles.textFieldHint,
                     ),
                     children: <Widget>[
                       Column(
@@ -132,14 +131,21 @@ class CompanyDetailsPage extends StatelessWidget {
 
     for (String content in vehicle.contents)
       columnContent.add(
-        new ListTile(
-          trailing: Text(content),
-          title: new Text(
+        ListTile(
+          trailing: Text(
+            content,
+            style: themeConfig.textStyles.secondaryTitle,
+          ),
+          title: Text(
             'Name',
-            style: new TextStyle(fontSize: 18.0),
+            style: themeConfig.textStyles.textFieldHint,
           ),
           leading: CircleAvatar(
-            child: Text(getInitials(content).toUpperCase()),
+            backgroundColor: themeConfig.colors.primary1,
+            child: Text(
+              getInitials(content).toUpperCase(),
+              style: themeConfig.textStyles.cardCaption,
+            ),
           ),
         ),
       );

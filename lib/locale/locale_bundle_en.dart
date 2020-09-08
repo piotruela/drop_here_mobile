@@ -105,4 +105,10 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get yourDetails => "Your details";
+
+  @override
+  String get name => "Name";
+
+  @override
+  String get country => "Country";
 }

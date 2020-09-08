@@ -66,4 +66,8 @@ abstract class LocaleBundle {
   String get companyDetails;
 
   String get yourDetails;
+
+  String get name;
+
+  String get country;
 }
