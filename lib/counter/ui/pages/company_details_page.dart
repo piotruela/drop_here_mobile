@@ -94,11 +94,92 @@ class CompanyDetailsPage extends StatelessWidget {
             title: "Country",
             trailing: "Poland",
           ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: sellers.length,
+              itemBuilder: (context, i) {
+                return Theme(
+                  data: ThemeData(
+                    accentColor: Colors.black,
+                  ),
+                  child: ExpansionTile(
+                    // backgroundColor: Colors.black,
+                    title: Text(
+                      sellers[i].title,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic),
+                    ),
+                    children: <Widget>[
+                      Column(
+                        children: _buildExpandableContent(sellers[i]),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
   }
+
+  _buildExpandableContent(Seller vehicle) {
+    List<Widget> columnContent = [];
+
+    for (String content in vehicle.contents)
+      columnContent.add(
+        new ListTile(
+          trailing: Text(content),
+          title: new Text(
+            'Name',
+            style: new TextStyle(fontSize: 18.0),
+          ),
+          leading: CircleAvatar(
+            child: Text(getInitials(content).toUpperCase()),
+          ),
+        ),
+      );
+
+    return columnContent;
+  }
+
+  String getInitials(name) {
+    List<String> names = name.split(" ");
+    String initials = "";
+    int numWords = 2;
+
+    if (numWords > names.length) {
+      numWords = names.length;
+    }
+    for (int i = 0; i < numWords; i++) {
+      initials += '${names[i][0]}';
+    }
+    return initials;
+  }
 }
+
+class Seller {
+  final String title;
+  List<String> contents = [];
+
+  Seller(this.title, this.contents);
+}
+
+List<Seller> sellers = [
+  new Seller(
+    'Sellers',
+    ['Seller no. 1', 'Seller no. 2', 'Seller no. 7', 'Seller no. 10'],
+  ),
+  // new Seller(
+  //   'Cars',
+  //   ['Seller no. 3', 'Seller no. 4', 'Seller no. 6'],
+  //   Icons.directions_car,
+  // ),
+];
 
 class DhListTile extends StatelessWidget {
   const DhListTile({
