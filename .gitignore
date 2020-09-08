@@ -34,3 +34,8 @@ output.json
 #NDK
 obj/
 .externalNativeBuild
+
+.dart_tool
+.flutter-plugins-dependencies
+.flutter-plugins
+.bat

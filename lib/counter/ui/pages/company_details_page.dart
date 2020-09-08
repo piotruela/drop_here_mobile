@@ -103,7 +103,7 @@ class CompanyDetailsPage extends StatelessWidget {
                     accentColor: Colors.black,
                   ),
                   child: ExpansionTile(
-                    // backgroundColor: Colors.black,
+                    backgroundColor: Colors.black,
                     title: Text(
                       sellers[i].title,
                       style: TextStyle(
