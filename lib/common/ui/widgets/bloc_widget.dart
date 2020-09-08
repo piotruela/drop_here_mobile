@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
+import 'package:drop_here_mobile/common/subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../subscription.dart';
 
 abstract class BlocWidget<T extends Bloc> extends StatefulWidget {
   final SubscriptionManager subscriptionManager = SubscriptionManager();

@@ -1,10 +1,10 @@
-import 'package:drop_here_mobile/common/config/locator_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class MainLayout extends StatelessWidget {
   final Widget child;
-  final ThemeConfig themeConfig = locator.get<ThemeConfig>();
+  final ThemeConfig themeConfig = Get.find<ThemeConfig>();
 
   MainLayout({Key key, this.child}) : super(key: key);
 
@@ -38,7 +38,7 @@ class MainLayout extends StatelessWidget {
     return Transform.scale(
         scale: 102.0,
         child: CircleAvatar(radius: 1,
-          backgroundColor: color
+            backgroundColor: color
         ));
   }
 }

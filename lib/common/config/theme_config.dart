@@ -11,8 +11,10 @@ class TextStyleTheme{
   final TextStyle secondaryTitle;
   final TextStyle contentTitle;
   final TextStyle textFieldHint;
+  final TextStyle button;
+  final TextStyle clickableText;
 
-  TextStyleTheme({this.primaryTitle, this.secondaryTitle, this.contentTitle, this.textFieldHint});
+  TextStyleTheme({this.primaryTitle, this.secondaryTitle, this.contentTitle, this.textFieldHint, this.button, this.clickableText});
 }
 
 
@@ -25,7 +27,9 @@ class ColorTheme{
   final Color textFieldHint;
 
   final Color white;
+  final Color black;
 
-  ColorTheme({this.primary1, this.primary2, this.secondary, this.facebookColor, this.textFieldHint, this.white});
+  ColorTheme({this.primary1, this.primary2, this.secondary, this.facebookColor, this.textFieldHint, this.white, this
+      .black});
 
 }
