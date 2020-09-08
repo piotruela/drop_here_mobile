@@ -1,7 +1,5 @@
 import 'package:drop_here_mobile/common/config/app_config.dart';
 import 'package:drop_here_mobile/common/navigation/navigator.dart';
-import 'package:drop_here_mobile/counter/ui/pages/buyer_registration_page.dart';
-import 'package:drop_here_mobile/counter/ui/pages/seller_registration_page.dart';
 import 'package:drop_here_mobile/counter/ui/pages/splash_page.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
@@ -13,14 +11,14 @@ class MainWidget extends StatefulWidget {
   final AppConfig appConfig;
   final GlobalKey navigatorKey;
 
-  const MainWidget({Key key, this.appConfig, this.navigatorKey}) : super(key: key);
+  const MainWidget({Key key, this.appConfig, this.navigatorKey})
+      : super(key: key);
 
   @override
   _MainWidgetState createState() => _MainWidgetState();
 }
 
 class _MainWidgetState extends State<MainWidget> {
-
   @override
   void initState() {
     super.initState();
@@ -30,7 +28,8 @@ class _MainWidgetState extends State<MainWidget> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      onGenerateTitle: (BuildContext context) => Localization.of(context).bundle.appTitle,
+      onGenerateTitle: (BuildContext context) =>
+          Localization.of(context).bundle.appTitle,
       navigatorKey: widget.navigatorKey,
       theme: widget.appConfig.themeConfig.primaryTheme(),
       localizationsDelegates: [

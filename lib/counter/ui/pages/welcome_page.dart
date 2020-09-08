@@ -47,7 +47,7 @@ class WelcomePage extends StatelessWidget {
                   padding: const EdgeInsets.only(top:94.0, bottom: 6.0),
                   child: Text(Localization.of(context).bundle.haveAnAccountQuestion, style: themeConfig.textStyles.contentTitle),
                 ),
-                DhButton(onPressed: () {BasePageNavigator.push(CounterRoutes.login);}, text: Localization.of(context).bundle.signIn, backgroundColor: themeConfig.colors.primary1,)
+                DhButton(onPressed: () {BasePageNavigator.push(CounterRoutes.login);}, text: Localization.of(context).bundle.signIn, backgroundColor: themeConfig.colors.primary1,),
               ],
             ),
           ],

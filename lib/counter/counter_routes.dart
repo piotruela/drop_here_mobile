@@ -1,6 +1,11 @@
-
 import 'package:drop_here_mobile/common/navigation/navigator.dart';
+import 'package:drop_here_mobile/counter/ui/pages/buyer_details_registration_page.dart';
+import 'package:drop_here_mobile/counter/ui/pages/choose_user_page.dart';
+import 'package:drop_here_mobile/counter/ui/pages/client_details_page.dart';
+import 'package:drop_here_mobile/counter/ui/pages/company_details_page.dart';
 import 'package:drop_here_mobile/counter/ui/pages/login_page.dart';
+import 'package:drop_here_mobile/counter/ui/pages/sandbox_page.dart';
+import 'package:drop_here_mobile/counter/ui/pages/seller_details_registration_page.dart';
 import 'package:drop_here_mobile/counter/ui/pages/splash_page.dart';
 import 'package:drop_here_mobile/counter/ui/pages/welcome_page.dart';
 
@@ -19,4 +24,29 @@ class CounterRoutes {
       name: '/login',
       builder: (context) => LoginPage(),
       arguments: NavigationArguments(replaceCurrent: true));
+  static RouteDefinition sandbox = RouteDefinition(
+      name: '/sandbox',
+      builder: (context) => SandboxPage(),
+      arguments: NavigationArguments(replaceCurrent: false));
+  static RouteDefinition buyerDetailsRegistration = RouteDefinition(
+      name: '/buyerDetailsRegistration',
+      builder: (context) => BuyerDetailsRegistrationPage(),
+      arguments: NavigationArguments(replaceCurrent: false));
+
+  static RouteDefinition sellerDetailsRegistration = RouteDefinition(
+      name: '/sellerDetailsRegistration',
+      builder: (context) => SellerDetailsRegistrationPage(),
+      arguments: NavigationArguments(replaceCurrent: false));
+  static RouteDefinition chooseUser = RouteDefinition(
+      name: '/chooseUser',
+      builder: (context) => ChooseUserPage(),
+      arguments: NavigationArguments(replaceCurrent: false));
+  static RouteDefinition companyDetails = RouteDefinition(
+      name: '/companyDetails',
+      builder: (context) => CompanyDetailsPage(),
+      arguments: NavigationArguments(replaceCurrent: false));
+  static RouteDefinition clientDetails = RouteDefinition(
+      name: '/clientDetails',
+      builder: (context) => ClientDetailsPage(),
+      arguments: NavigationArguments(replaceCurrent: false));
 }
