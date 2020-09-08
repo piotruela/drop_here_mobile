@@ -39,3 +39,8 @@ obj/
 .flutter-plugins-dependencies
 .flutter-plugins
 .bat
+.packages
+gradlew
+gradlew.bat
+pubspec.lock
+.jar
