@@ -25,38 +25,53 @@ class ChooseUserPage extends StatelessWidget {
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                   padding: EdgeInsets.all(5),
-                  child: Card(
-                    color: themeConfig.colors.primary2,
-                    semanticContainer: true,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Expanded(
-                          child: Center(
-                            child: CircleAvatar(
-                              radius: 63.0,
-                              backgroundColor: themeConfig.colors.white,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 15.0),
-                          child: Center(
-                            child: Text(
-                              "Name",
-                              style: themeConfig.textStyles.cardCaption,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                  child: UserCard(
+                    themeConfig: themeConfig,
+                    name: "Name",
                   ),
                 );
               },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class UserCard extends StatelessWidget {
+  const UserCard({this.themeConfig, this.name});
+
+  final ThemeConfig themeConfig;
+  final String name;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: themeConfig.colors.primary2,
+      semanticContainer: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.0),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: Center(
+              child: CircleAvatar(
+                radius: 63.0,
+                backgroundColor: themeConfig.colors.white,
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 15.0),
+            child: Center(
+              child: Text(
+                "Name",
+                style: themeConfig.textStyles.cardCaption,
+              ),
             ),
           ),
         ],
