@@ -1,11 +1,11 @@
-import 'package:drop_here_mobile/common/config/locator_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/dh_list_tile.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ClientDetailsPage extends StatelessWidget {
-  final ThemeConfig themeConfig = locator.get<ThemeConfig>();
+  final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
