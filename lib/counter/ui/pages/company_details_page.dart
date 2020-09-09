@@ -1,5 +1,6 @@
 import 'package:drop_here_mobile/common/config/locator_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/ui/widgets/dh_list_tile.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 
@@ -15,8 +16,7 @@ class CompanyDetailsPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 27.0, vertical: 14.0),
+            padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 14.0),
             child: Text(
               Localization.of(context).bundle.companyDetails,
               style: themeConfig.textStyles.secondaryTitle,
@@ -35,12 +35,7 @@ class CompanyDetailsPage extends StatelessWidget {
                       Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                                blurRadius: 4,
-                                color: Colors.grey.withOpacity(0.25),
-                                spreadRadius: 5)
-                          ],
+                          boxShadow: [BoxShadow(blurRadius: 4, color: Colors.grey.withOpacity(0.25), spreadRadius: 5)],
                         ),
                         child: CircleAvatar(
                           radius: 64.0,
@@ -186,42 +181,3 @@ List<Seller> sellers = [
   //   Icons.directions_car,
   // ),
 ];
-
-class DhListTile extends StatelessWidget {
-  const DhListTile({
-    Key key,
-    @required this.themeConfig,
-    this.icon,
-    this.title,
-    this.trailing,
-  }) : super(key: key);
-
-  final ThemeConfig themeConfig;
-  final IconData icon;
-  final String title;
-  final String trailing;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 7.0),
-      child: Ink(
-        color: themeConfig.colors.listTileMenu,
-        child: ListTile(
-          leading: Icon(
-            icon,
-            color: themeConfig.colors.listTileMenuIcon,
-          ),
-          title: Text(
-            title,
-            style: themeConfig.textStyles.listTileTitle,
-          ),
-          trailing: Text(
-            trailing,
-            style: themeConfig.textStyles.secondaryTitle,
-          ),
-        ),
-      ),
-    );
-  }
-}
