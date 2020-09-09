@@ -1,15 +1,18 @@
 import 'package:drop_here_mobile/common/config/assets_config.dart';
-import 'package:drop_here_mobile/common/config/locator_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/common/navigation/navigator.dart';
-import 'package:drop_here_mobile/common/ui/layout/main_layout.dart';
-import 'package:drop_here_mobile/counter/counter_routes.dart';
+import 'package:drop_here_mobile/counter/ui/layout/main_layout.dart';
+import 'package:drop_here_mobile/counter/ui/pages/buyer_details_registration_page.dart';
+import 'package:drop_here_mobile/counter/ui/pages/choose_user_page.dart';
+import 'package:drop_here_mobile/counter/ui/pages/client_details_page.dart';
+import 'package:drop_here_mobile/counter/ui/pages/company_details_page.dart';
+import 'package:drop_here_mobile/counter/ui/pages/seller_details_registration_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SandboxPage extends StatelessWidget {
-  final ThemeConfig themeConfig = locator.get<ThemeConfig>();
-  final AssetsConfig assetsConfig = locator.get<AssetsConfig>();
+  final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+  final AssetsConfig assetsConfig = Get.find<AssetsConfig>();
 
   @override
   Widget build(BuildContext context) {
@@ -23,33 +26,31 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                   child: Text("buyer details registration"),
                   onPressed: () {
-                    BasePageNavigator.push(
-                        CounterRoutes.buyerDetailsRegistration);
+                    Get.to(BuyerDetailsRegistrationPage());
                   },
                 ),
                 FlatButton(
                   child: Text("seller details registration"),
                   onPressed: () {
-                    BasePageNavigator.push(
-                        CounterRoutes.sellerDetailsRegistration);
+                    Get.to(SellerDetailsRegistrationPage());
                   },
                 ),
                 FlatButton(
                   child: Text("choose user"),
                   onPressed: () {
-                    BasePageNavigator.push(CounterRoutes.chooseUser);
+                    Get.to(ChooseUserPage());
                   },
                 ),
                 FlatButton(
                   child: Text("company details"),
                   onPressed: () {
-                    BasePageNavigator.push(CounterRoutes.companyDetails);
+                    Get.to(CompanyDetailsPage());
                   },
                 ),
                 FlatButton(
                   child: Text("client details"),
                   onPressed: () {
-                    BasePageNavigator.push(CounterRoutes.clientDetails);
+                    Get.to(ClientDetailsPage());
                   },
                 ),
               ],

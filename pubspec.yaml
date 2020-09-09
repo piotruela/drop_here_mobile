@@ -40,6 +40,7 @@ dependencies:
   formz: ^0.2.0
   rxdart: ^0.24.0
   flutter_svg: ^0.18.1
+  get: ^3.8.0
   image_picker: ^0.6.7+7
 
 

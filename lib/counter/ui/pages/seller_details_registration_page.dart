@@ -1,10 +1,10 @@
-import 'package:drop_here_mobile/common/config/locator_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/common/ui/layout/main_layout.dart';
-import 'package:drop_here_mobile/common/ui/widgets/dh_text_form_field.dart';
+import 'package:drop_here_mobile/counter/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/counter/ui/widgets/dh_button.dart';
+import 'package:drop_here_mobile/counter/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SellerDetailsRegistrationPage extends StatefulWidget {
   @override
@@ -14,7 +14,7 @@ class SellerDetailsRegistrationPage extends StatefulWidget {
 
 class _SellerDetailsRegistrationPageState
     extends State<SellerDetailsRegistrationPage> {
-  final ThemeConfig themeConfig = locator.get<ThemeConfig>();
+  final ThemeConfig themeConfig = Get.find<ThemeConfig>();
 
   @override
   Widget build(BuildContext context) {

@@ -1,12 +1,12 @@
 import 'dart:io';
 
-import 'package:drop_here_mobile/common/config/locator_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/common/ui/layout/main_layout.dart';
-import 'package:drop_here_mobile/common/ui/widgets/dh_text_form_field.dart';
+import 'package:drop_here_mobile/counter/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/counter/ui/widgets/dh_button.dart';
+import 'package:drop_here_mobile/counter/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class BuyerDetailsRegistrationPage extends StatefulWidget {
@@ -17,7 +17,7 @@ class BuyerDetailsRegistrationPage extends StatefulWidget {
 
 class _BuyerDetailsRegistrationPageState
     extends State<BuyerDetailsRegistrationPage> {
-  final ThemeConfig themeConfig = locator.get<ThemeConfig>();
+  final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final picker = ImagePicker();
   File _image;
 

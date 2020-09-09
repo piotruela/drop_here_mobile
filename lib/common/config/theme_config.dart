@@ -11,11 +11,15 @@ class TextStyleTheme {
   final TextStyle secondaryTitle;
   final TextStyle contentTitle;
   final TextStyle textFieldHint;
+  final TextStyle button;
+  final TextStyle clickableText;
+
   final TextStyle dhButton;
   final TextStyle cardCaption;
   final TextStyle listTileTitle;
 
   TextStyleTheme({
+    this.button, this.clickableText,
     this.primaryTitle,
     this.secondaryTitle,
     this.contentTitle,
@@ -36,11 +40,14 @@ class ColorTheme {
   final Color textFieldHint;
 
   final Color white;
+  final Color black;
+
   final Color listTileMenu;
   final Color listTileMenuIcon;
   final Color listTileMenuText;
 
   ColorTheme({
+    this.black,
     this.background,
     this.primary1,
     this.primary2,
