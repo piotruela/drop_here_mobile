@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/ui/widgets/dh_list_tile.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,8 +16,7 @@ class CompanyDetailsPage extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 27.0, vertical: 14.0),
+            padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 14.0),
             child: Text(
               Localization.of(context).bundle.companyDetails,
               style: themeConfig.textStyles.secondaryTitle,
@@ -35,12 +35,7 @@ class CompanyDetailsPage extends StatelessWidget {
                       Container(
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                                blurRadius: 4,
-                                color: Colors.grey.withOpacity(0.25),
-                                spreadRadius: 5)
-                          ],
+                          boxShadow: [BoxShadow(blurRadius: 4, color: Colors.grey.withOpacity(0.25), spreadRadius: 5)],
                         ),
                         child: CircleAvatar(
                           radius: 64.0,
@@ -85,13 +80,13 @@ class CompanyDetailsPage extends StatelessWidget {
           DhListTile(
             themeConfig: themeConfig,
             icon: Icons.person,
-            title: "Name",
+            title: Localization.of(context).bundle.name,
             trailing: "drop.here",
           ),
           DhListTile(
             themeConfig: themeConfig,
             icon: Icons.map,
-            title: "Country",
+            title: Localization.of(context).bundle.country,
             trailing: "Poland",
           ),
           Expanded(
@@ -103,14 +98,13 @@ class CompanyDetailsPage extends StatelessWidget {
                     accentColor: Colors.black,
                   ),
                   child: ExpansionTile(
-                    backgroundColor: Colors.black,
+                    leading: Icon(
+                      Icons.people,
+                      color: themeConfig.colors.textFieldHint,
+                    ),
                     title: Text(
                       sellers[i].title,
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.italic),
+                      style: themeConfig.textStyles.textFieldHint,
                     ),
                     children: <Widget>[
                       Column(
@@ -132,14 +126,21 @@ class CompanyDetailsPage extends StatelessWidget {
 
     for (String content in vehicle.contents)
       columnContent.add(
-        new ListTile(
-          trailing: Text(content),
-          title: new Text(
+        ListTile(
+          trailing: Text(
+            content,
+            style: themeConfig.textStyles.secondaryTitle,
+          ),
+          title: Text(
             'Name',
-            style: new TextStyle(fontSize: 18.0),
+            style: themeConfig.textStyles.textFieldHint,
           ),
           leading: CircleAvatar(
-            child: Text(getInitials(content).toUpperCase()),
+            backgroundColor: themeConfig.colors.primary1,
+            child: Text(
+              getInitials(content).toUpperCase(),
+              style: themeConfig.textStyles.cardCaption,
+            ),
           ),
         ),
       );
@@ -180,42 +181,3 @@ List<Seller> sellers = [
   //   Icons.directions_car,
   // ),
 ];
-
-class DhListTile extends StatelessWidget {
-  const DhListTile({
-    Key key,
-    @required this.themeConfig,
-    this.icon,
-    this.title,
-    this.trailing,
-  }) : super(key: key);
-
-  final ThemeConfig themeConfig;
-  final IconData icon;
-  final String title;
-  final String trailing;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 7.0),
-      child: Ink(
-        color: themeConfig.colors.listTileMenu,
-        child: ListTile(
-          leading: Icon(
-            icon,
-            color: themeConfig.colors.listTileMenuIcon,
-          ),
-          title: Text(
-            title,
-            style: themeConfig.textStyles.listTileTitle,
-          ),
-          trailing: Text(
-            trailing,
-            style: themeConfig.textStyles.secondaryTitle,
-          ),
-        ),
-      ),
-    );
-  }
-}
