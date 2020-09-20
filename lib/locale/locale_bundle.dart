@@ -70,4 +70,6 @@ abstract class LocaleBundle {
   String get name;
 
   String get country;
+
+  String get addProduct;
 }

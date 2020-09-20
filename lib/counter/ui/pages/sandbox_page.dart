@@ -1,6 +1,7 @@
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/counter/ui/layout/main_layout.dart';
+import 'package:drop_here_mobile/counter/ui/pages/add_product_page.dart';
 import 'package:drop_here_mobile/counter/ui/pages/buyer_details_registration_page.dart';
 import 'package:drop_here_mobile/counter/ui/pages/choose_user_page.dart';
 import 'package:drop_here_mobile/counter/ui/pages/client_details_page.dart';
@@ -51,6 +52,12 @@ class SandboxPage extends StatelessWidget {
                   child: Text("client details"),
                   onPressed: () {
                     Get.to(ClientDetailsPage());
+                  },
+                ),
+                FlatButton(
+                  child: Text("add product"),
+                  onPressed: () {
+                    Get.to(AddProductPage());
                   },
                 ),
               ],

@@ -173,7 +173,7 @@ class Seller {
 List<Seller> sellers = [
   new Seller(
     'Sellers',
-    ['Seller no. 1', 'Seller no. 2', 'Seller no. 7', 'Seller no. 10'],
+    ['Seller no. 1', 'Seller no. 2', 'Seller no. 7', 'Seller no. 10', 'Seller no. 12'],
   ),
   // new Seller(
   //   'Cars',

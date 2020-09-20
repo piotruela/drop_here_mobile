@@ -111,4 +111,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get country => "Country";
+
+  @override
+  String get addProduct => "Add product";
 }

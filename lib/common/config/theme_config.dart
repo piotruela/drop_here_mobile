@@ -19,7 +19,8 @@ class TextStyleTheme {
   final TextStyle listTileTitle;
 
   TextStyleTheme({
-    this.button, this.clickableText,
+    this.button,
+    this.clickableText,
     this.primaryTitle,
     this.secondaryTitle,
     this.contentTitle,
@@ -46,17 +47,19 @@ class ColorTheme {
   final Color listTileMenuIcon;
   final Color listTileMenuText;
 
-  ColorTheme({
-    this.black,
-    this.background,
-    this.primary1,
-    this.primary2,
-    this.secondary,
-    this.facebookColor,
-    this.textFieldHint,
-    this.white,
-    this.listTileMenu,
-    this.listTileMenuIcon,
-    this.listTileMenuText,
-  });
+  final Color addSthHere;
+
+  ColorTheme(
+      {this.black,
+      this.background,
+      this.primary1,
+      this.primary2,
+      this.secondary,
+      this.facebookColor,
+      this.textFieldHint,
+      this.white,
+      this.listTileMenu,
+      this.listTileMenuIcon,
+      this.listTileMenuText,
+      this.addSthHere});
 }
