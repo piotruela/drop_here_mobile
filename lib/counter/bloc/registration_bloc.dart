@@ -9,7 +9,7 @@ part 'registration_state.dart';
 
 class RegistrationBloc extends Bloc<RegistrationFormEvent, RegistrationFormState> {
   final RegistrationService registrationService = RegistrationService(path: "/accounts");
-  RegistrationBloc() : super(RegistrationFormState(mail: null, password: null, passwordRepeat: null, isValid: false));
+  RegistrationBloc() : super(RegistrationFormState(mail: null, password: null, isValid: false));
 
 
   @override
@@ -24,9 +24,13 @@ class RegistrationBloc extends Bloc<RegistrationFormEvent, RegistrationFormState
       final password = event.password;
       yield state.copyWith(password: password);
     }
+    else if (event is PasswordRepeatChanged){
+      final passwordRepeat = event.passwordRepeat;
+      yield state.copyWith(passwordRepeat: passwordRepeat);
+    }
     else if (event is RegistrationFormSubmitted){
       if(event.isValid){
-          registrationService.register(RegistrationCredentials(mail: event.mail, password: event.password,
+          registrationService.register(RegistrationCredentials(mail: state.mail, password: state.password,
               accountType: event.accountType));
       }
     }

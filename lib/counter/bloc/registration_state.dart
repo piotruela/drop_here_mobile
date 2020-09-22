@@ -25,12 +25,12 @@ class RegistrationFormState extends Equatable {
     return RegistrationFormState(
       mail: mail ?? this.mail,
       password: password ?? this.password,
-      passwordRepeat: passwordRepeat ?? this.passwordRepeat,
+        passwordRepeat: passwordRepeat ?? this.passwordRepeat,
       isValid: isValid ?? this.isValid,
       accountType: accountType ?? this.accountType
     );
   }
 
   @override
-  List<Object> get props => [mail, password, passwordRepeat, isValid, accountType];
+  List<Object> get props => [mail, password,passwordRepeat, isValid, accountType];
 }

@@ -35,17 +35,23 @@ class PasswordChanged extends RegistrationFormEvent{
   List<Object> get props => [password];
 }
 
-class RegistrationFormSubmitted extends RegistrationFormEvent{
-  final String mail;
-  final String password;
+class PasswordRepeatChanged extends RegistrationFormEvent{
   final String passwordRepeat;
+
+  PasswordRepeatChanged({this.passwordRepeat});
+
+  @override
+  List<Object> get props => [passwordRepeat];
+}
+
+class RegistrationFormSubmitted extends RegistrationFormEvent{
   final bool isValid;
   final AccountType accountType;
 
-  RegistrationFormSubmitted({this.mail, this.password, this.isValid, this.passwordRepeat, this.accountType});
+  RegistrationFormSubmitted({this.isValid, this.accountType});
 
   @override
-  List<Object> get props => [mail, password, isValid, passwordRepeat, accountType];
+  List<Object> get props => [ isValid, accountType];
 }
 
 enum AccountType{
