@@ -1,15 +1,17 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:drop_here_mobile/counter/services/registration_service.dart';
+import 'package:drop_here_mobile/accounts/model/credentials.dart';
+import 'package:drop_here_mobile/accounts/services/registration_service.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 
 part 'registration_event.dart';
 part 'registration_state.dart';
 
 class RegistrationBloc extends Bloc<RegistrationFormEvent, RegistrationFormState> {
-  final RegistrationService registrationService = RegistrationService(path: "/accounts");
-  RegistrationBloc() : super(RegistrationFormState(mail: null, password: null, isValid: false));
+  final RegistrationService registrationService = RegistrationService();
+  RegistrationBloc({@required AccountType accountType}) : super(RegistrationFormState(mail: null, password: null, isValid: false, result: null, accountType: accountType));
 
 
   @override
@@ -30,8 +32,10 @@ class RegistrationBloc extends Bloc<RegistrationFormEvent, RegistrationFormState
     }
     else if (event is RegistrationFormSubmitted){
       if(event.isValid){
-          registrationService.register(RegistrationCredentials(mail: state.mail, password: state.password,
+        yield state.copyWith(result: RegistrationResult.in_progress);
+          RegistrationResult result = await registrationService.register(RegistrationCredentials(mail: state.mail, password: state.password,
               accountType: event.accountType));
+          yield state.copyWith(result: result);
       }
     }
   }

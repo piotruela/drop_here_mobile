@@ -53,7 +53,3 @@ class RegistrationFormSubmitted extends RegistrationFormEvent{
   @override
   List<Object> get props => [ isValid, accountType];
 }
-
-enum AccountType{
-  CUSTOMER,COMPANY
-}

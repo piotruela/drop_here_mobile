@@ -22,8 +22,8 @@ class DhTextFormField extends StatelessWidget {
         height: 80,
         child: TextFormField(
           controller: controller,
-            validator: validator ?? _defaultValidator,
             onChanged: onChanged,
+            validator: validator ?? _defaultValidator,
             style: themeConfig.textStyles.secondaryTitle.copyWith(color: themeConfig.colors.black, fontWeight: FontWeight.normal),
             decoration: InputDecoration(
               fillColor: themeConfig.colors.white, filled: true,

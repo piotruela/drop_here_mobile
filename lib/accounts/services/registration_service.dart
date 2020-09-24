@@ -1,23 +1,22 @@
+import 'dart:convert';
 import 'dart:io';
 
+import 'package:drop_here_mobile/accounts/model/credentials.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
-import 'package:drop_here_mobile/counter/bloc/registration_bloc.dart';
-import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 
 class RegistrationService {
   final Map<String, String> _headers = {HttpHeaders.contentTypeHeader: "application/json"};
   final DhHttpClient _httpClient = Get.find<DhHttpClient>();
-  final String path;
+  final String path = "/accounts";
 
-  RegistrationService({this.path});
+  RegistrationService();
 
   Future<RegistrationResult> register(RegistrationCredentials registrationCredentials) async {
     try {
       Map<String, dynamic> response = await _httpClient.post(canRepeatRequest: true,
           headers: _headers,
-          body: '{"accountType": "${describeEnum(registrationCredentials.accountType)}","mail": "${registrationCredentials
-              .mail}", "password": "${registrationCredentials.password}"}',
+          body: json.encode(registrationCredentials.toJson()),
           path: path,
           out: (_) => (_));
       print(response['token']);
@@ -25,20 +24,29 @@ class RegistrationService {
       return RegistrationResult.account_created;
     }
     catch(error){
+      if(error is HttpStatusException){
+        switch(error.statusCode){
+          case 422:
+            return RegistrationResult.account_exists;
+            break;
+          case 400:
+            return RegistrationResult.bad_credentials;
+            break;
+            default:
+              return RegistrationResult.error;
+            break;
+        }
+      }
       return RegistrationResult.error;
     }
   }
 }
 
+
 enum RegistrationResult {
   account_created,
+  account_exists,
+  bad_credentials,
   error,
-}
-
-class RegistrationCredentials {
-  final AccountType accountType;
-  final String mail;
-  final String password;
-
-  RegistrationCredentials({this.accountType, this.mail, this.password});
+  in_progress
 }

@@ -1,11 +1,11 @@
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/counter/ui/layout/main_layout.dart';
-import 'package:drop_here_mobile/counter/ui/pages/buyer_registration_page.dart';
-import 'package:drop_here_mobile/counter/ui/pages/login_page.dart';
-import 'package:drop_here_mobile/counter/ui/pages/seller_registration_page.dart';
-import 'package:drop_here_mobile/counter/ui/widgets/dh_button.dart';
-import 'package:drop_here_mobile/counter/ui/widgets/dh_text_button.dart';
+import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/buyer_registration_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/login_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/seller_registration_page.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_button.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
