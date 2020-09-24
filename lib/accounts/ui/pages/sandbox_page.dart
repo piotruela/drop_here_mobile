@@ -1,11 +1,11 @@
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/counter/ui/layout/main_layout.dart';
-import 'package:drop_here_mobile/counter/ui/pages/buyer_details_registration_page.dart';
-import 'package:drop_here_mobile/counter/ui/pages/choose_user_page.dart';
-import 'package:drop_here_mobile/counter/ui/pages/client_details_page.dart';
-import 'package:drop_here_mobile/counter/ui/pages/company_details_page.dart';
-import 'package:drop_here_mobile/counter/ui/pages/seller_details_registration_page.dart';
+import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/buyer_details_registration_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/choose_user_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/client_details_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/company_details_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/seller_details_registration_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

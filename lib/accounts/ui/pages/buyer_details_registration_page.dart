@@ -1,9 +1,9 @@
 import 'dart:io';
 
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/counter/ui/layout/main_layout.dart';
-import 'package:drop_here_mobile/counter/ui/widgets/dh_button.dart';
-import 'package:drop_here_mobile/counter/ui/widgets/dh_text_form_field.dart';
+import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
