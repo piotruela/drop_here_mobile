@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -23,7 +24,7 @@ class DhTextFormField extends StatelessWidget {
         child: TextFormField(
           controller: controller,
             onChanged: onChanged,
-            validator: validator ?? _defaultValidator,
+            validator: validator ?? (val) => _defaultValidator(val, context),
             style: themeConfig.textStyles.secondaryTitle.copyWith(color: themeConfig.colors.black, fontWeight: FontWeight.normal),
             decoration: InputDecoration(
               fillColor: themeConfig.colors.white, filled: true,
@@ -52,7 +53,7 @@ class DhTextFormField extends StatelessWidget {
       ),
     );
   }
-  String _defaultValidator(String value) => value.isEmpty
-      ? labelText + " is required"
+  String _defaultValidator(String value, BuildContext context) => value.isEmpty
+      ? labelText + Localization.of(context).bundle.isRequired
       : null;
 }

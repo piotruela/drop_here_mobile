@@ -111,4 +111,28 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get country => "Country";
+
+  @override
+  String get isRequired => " is required";
+
+  @override
+  String get registrationError => "Registration error: ";
+
+  @override
+  String get accountAlreadyExists => "user already exists";
+
+  @override
+  String get badCredentials => "bad credentials";
+
+  @override
+  String get unexpectedError => "unexpected error";
+
+  @override
+  String get invalidMail => " is not valid mail";
+
+  @override
+  String get toShort => " is to short";
+
+  @override
+  String get isNotTheSame => " is not the same";
 }
