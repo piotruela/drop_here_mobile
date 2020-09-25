@@ -48,30 +48,7 @@ class AddProductPage extends StatelessWidget {
                       'Photo',
                       style: themeConfig.textStyles.secondaryTitle,
                     ),
-                    GestureDetector(
-                      child: Container(
-                        child: Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: 46.0,
-                        ),
-                        width: 80.0,
-                        height: 80.0,
-                        decoration: BoxDecoration(
-                          color: themeConfig.colors.addSthHere,
-                          borderRadius: BorderRadius.circular(8.0),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(0.5),
-                              spreadRadius: 0,
-                              blurRadius: 0,
-                              offset: Offset(4, 4),
-                            )
-                          ],
-                        ),
-                      ),
-                      onTap: getImage,
-                    ),
+                    choosePhotoWidget(),
                     Text(
                       'Category*',
                       style: themeConfig.textStyles.secondaryTitle,
@@ -98,6 +75,7 @@ class AddProductPage extends StatelessWidget {
                       style: themeConfig.textStyles.secondaryTitle,
                     ),
                     DropdownButton<String>(
+                      isExpanded: true,
                       onChanged: (String newValue) {},
                       value: ddValue,
                       icon: Icon(Icons.arrow_drop_down),
@@ -133,6 +111,33 @@ class AddProductPage extends StatelessWidget {
             ),
           ],
         ));
+  }
+
+  GestureDetector choosePhotoWidget() {
+    return GestureDetector(
+      child: Container(
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+          size: 46.0,
+        ),
+        width: 80.0,
+        height: 80.0,
+        decoration: BoxDecoration(
+          color: themeConfig.colors.addSthHere,
+          borderRadius: BorderRadius.circular(8.0),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.25),
+              spreadRadius: 0,
+              blurRadius: 5,
+              offset: Offset(2, 3),
+            )
+          ],
+        ),
+      ),
+      onTap: getImage,
+    );
   }
 
   Future getImage() async {
