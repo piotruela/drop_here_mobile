@@ -1,9 +1,11 @@
 import 'dart:io';
 
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/counter/bloc/add_product_bloc.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -15,6 +17,7 @@ class AddProductPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LocaleBundle locale = Localization.of(context).bundle;
+    final addProductBloc = BlocProvider.of<AddProductBloc>(context);
     return Scaffold(
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {},
@@ -29,87 +32,91 @@ class AddProductPage extends StatelessWidget {
           backgroundColor: themeConfig.colors.primary1,
           title: Text(Localization.of(context).bundle.addProduct),
         ),
-        body: ListView(
-          children: [
-            Form(
-              child: Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Name*',
-                      style: themeConfig.textStyles.secondaryTitle,
-                    ),
-                    dhTextFormField(
-                      hintText: 'e.g. Strawberries',
-                    ),
-                    Text(
-                      'Photo',
-                      style: themeConfig.textStyles.secondaryTitle,
-                    ),
-                    choosePhotoWidget(),
-                    Text(
-                      'Category*',
-                      style: themeConfig.textStyles.secondaryTitle,
-                    ),
-                    GestureDetector(
-                      onTap: () => {},
-                      child: Container(
-                        margin: const EdgeInsets.all(5.0),
-                        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-                        decoration:
-                            BoxDecoration(border: Border.all(), borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                        child: Text(
-                          'Fruits',
+        body: BlocBuilder<AddProductBloc, AddProductState>(
+          builder: (context, state) {
+            return ListView(
+              children: [
+                Form(
+                  child: Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Name*',
+                          style: themeConfig.textStyles.secondaryTitle,
                         ),
-                      ),
+                        dhTextFormField(
+                          hintText: 'e.g. Strawberries',
+                        ),
+                        Text(
+                          'Photo',
+                          style: themeConfig.textStyles.secondaryTitle,
+                        ),
+                        choosePhotoWidget(),
+                        Text(
+                          'Category*',
+                          style: themeConfig.textStyles.secondaryTitle,
+                        ),
+                        GestureDetector(
+                          onTap: () => {},
+                          child: Container(
+                            margin: const EdgeInsets.all(5.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                            decoration: BoxDecoration(
+                                border: Border.all(), borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                            child: Text(
+                              'Fruits',
+                            ),
+                          ),
+                        ),
+                        Text(
+                          'Description',
+                          style: themeConfig.textStyles.secondaryTitle,
+                        ),
+                        dhTextArea(),
+                        Text(
+                          'Unit type*',
+                          style: themeConfig.textStyles.secondaryTitle,
+                        ),
+                        DropdownButton<UnitType>(
+                          isExpanded: true,
+                          onChanged: (UnitType unitType) => addProductBloc.add(ChooseUnitType(unitType: unitType)),
+                          value: state.unitType,
+                          icon: Icon(Icons.arrow_drop_down),
+                          items: <UnitType>[UnitType.grams, UnitType.kilograms]
+                              .map<DropdownMenuItem<UnitType>>((UnitType value) {
+                            return DropdownMenuItem<UnitType>(
+                              value: value,
+                              child: Text(value.toString().split('.').last),
+                            );
+                          }).toList(),
+                        ),
+                        Text(
+                          'Price per unit* (PLN)',
+                          style: themeConfig.textStyles.secondaryTitle,
+                        ),
+                        dhTextFormField(
+                          hintText: 'e.g. 4.20',
+                        ),
+                        Text(
+                          'Unit fraction*',
+                          style: themeConfig.textStyles.secondaryTitle,
+                        ),
+                        dhTextFormField(
+                          hintText: 'minimum value: 0.1',
+                        ),
+                        SizedBox(
+                          height: 50.0,
+                        )
+                        //dhTextFormField(),
+                      ],
                     ),
-                    Text(
-                      'Description',
-                      style: themeConfig.textStyles.secondaryTitle,
-                    ),
-                    dhTextArea(),
-                    Text(
-                      'Unit type*',
-                      style: themeConfig.textStyles.secondaryTitle,
-                    ),
-                    DropdownButton<String>(
-                      isExpanded: true,
-                      onChanged: (String newValue) {},
-                      value: ddValue,
-                      icon: Icon(Icons.arrow_drop_down),
-                      items: <String>['Kilograms', 'Grams', 'Pieces', 'Liters']
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                    ),
-                    Text(
-                      'Price per unit* (PLN)',
-                      style: themeConfig.textStyles.secondaryTitle,
-                    ),
-                    dhTextFormField(
-                      hintText: 'e.g. 4.20',
-                    ),
-                    Text(
-                      'Unit fraction*',
-                      style: themeConfig.textStyles.secondaryTitle,
-                    ),
-                    dhTextFormField(
-                      hintText: 'minimum value: 0.1',
-                    ),
-                    SizedBox(
-                      height: 50.0,
-                    )
-                    //dhTextFormField(),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          ],
+              ],
+            );
+          },
         ));
   }
 
@@ -178,18 +185,19 @@ class dhTextFormField extends StatelessWidget {
 // ignore: camel_case_types
 class dhTextArea extends StatelessWidget {
   final String hintText;
-  const dhTextArea({this.hintText});
-
+  dhTextArea({this.hintText});
+  final _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 13.0),
       child: TextFormField(
+        controller: _controller,
         cursorColor: Colors.black,
         minLines: 1,
         maxLines: 4,
         decoration: InputDecoration(
-          suffixIcon: Icon(Icons.clear),
+          suffixIcon: IconButton(onPressed: () => _controller.clear(), icon: Icon(Icons.clear)),
           hintText: hintText,
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.grey),
