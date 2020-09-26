@@ -2,6 +2,7 @@ import 'package:drop_here_mobile/accounts/bloc/registration_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/credentials.dart';
 import 'package:drop_here_mobile/accounts/services/registration_service.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/buyer_details_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/seller_details_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
@@ -18,7 +19,7 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
 
   @override
-  RegistrationBloc bloc() => RegistrationBloc(accountType: AccountType.COMPANY);
+  RegistrationBloc bloc() => RegistrationBloc(accountType: accountType);
 
   @override
   Widget build(BuildContext context, RegistrationBloc bloc, _) {
@@ -31,7 +32,10 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
               listenWhen: (previous, current) => previous.result != current.result,
               listener: (context, state) {
                 if (state.result == RegistrationResult.account_created) {
-                  Get.to(SellerDetailsRegistrationPage());
+                  Widget page = bloc.state.accountType == AccountType.CUSTOMER
+                      ? BuyerDetailsRegistrationPage()
+                      : SellerDetailsRegistrationPage();
+                  Get.to(page);
                 } else if (state.result == RegistrationResult.account_exists ||
                     state.result == RegistrationResult.bad_credentials) {
                   Scaffold.of(context).showSnackBar(SnackBar(
