@@ -98,6 +98,7 @@ class AddProductPage extends StatelessWidget {
                         ),
                         dhTextFormField(
                           hintText: 'e.g. 4.20',
+                          inputType: InputType.number,
                         ),
                         Text(
                           'Unit fraction*',
@@ -105,6 +106,7 @@ class AddProductPage extends StatelessWidget {
                         ),
                         dhTextFormField(
                           hintText: 'minimum value: 0.1',
+                          inputType: InputType.number,
                         ),
                         SizedBox(
                           height: 50.0,
@@ -160,13 +162,15 @@ class AddProductPage extends StatelessWidget {
 // ignore: camel_case_types
 class dhTextFormField extends StatelessWidget {
   final String hintText;
-  const dhTextFormField({this.hintText});
+  final InputType inputType;
+  const dhTextFormField({this.hintText, this.inputType});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 13.0),
       child: TextFormField(
+        keyboardType: inputType == InputType.number ? TextInputType.number : null,
         cursorColor: Colors.black,
         decoration: InputDecoration(
           hintText: hintText,
@@ -181,6 +185,8 @@ class dhTextFormField extends StatelessWidget {
     );
   }
 }
+
+enum InputType { text, number }
 
 // ignore: camel_case_types
 class dhTextArea extends StatelessWidget {
