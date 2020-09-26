@@ -13,7 +13,7 @@ class AddProductPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final picker = ImagePicker();
   File _image;
-  final String ddValue = 'Grams';
+
   @override
   Widget build(BuildContext context) {
     final LocaleBundle locale = Localization.of(context).bundle;
@@ -53,7 +53,7 @@ class AddProductPage extends StatelessWidget {
                           'Photo',
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
-                        choosePhotoWidget(),
+                        choosePhotoWidget(addProductBloc),
                         Text(
                           'Category*',
                           style: themeConfig.textStyles.secondaryTitle,
@@ -84,7 +84,7 @@ class AddProductPage extends StatelessWidget {
                           onChanged: (UnitType unitType) => addProductBloc.add(ChooseUnitType(unitType: unitType)),
                           value: state.unitType,
                           icon: Icon(Icons.arrow_drop_down),
-                          items: <UnitType>[UnitType.grams, UnitType.kilograms]
+                          items: <UnitType>[UnitType.grams, UnitType.kilograms, UnitType.pieces, UnitType.liters]
                               .map<DropdownMenuItem<UnitType>>((UnitType value) {
                             return DropdownMenuItem<UnitType>(
                               value: value,
@@ -122,7 +122,7 @@ class AddProductPage extends StatelessWidget {
         ));
   }
 
-  GestureDetector choosePhotoWidget() {
+  GestureDetector choosePhotoWidget(Bloc bloc) {
     return GestureDetector(
       child: Container(
         child: Icon(
@@ -145,13 +145,17 @@ class AddProductPage extends StatelessWidget {
           ],
         ),
       ),
-      onTap: getImage,
+      onTap: () => getImage(bloc),
     );
   }
 
-  Future getImage() async {
+  Future getImage(Bloc bloc) async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     _image = File(pickedFile.path);
+    bloc.add(ChoosePhoto(photo: _image));
+
+    // onChanged: (UnitType unitType) => addProductBloc.add(ChooseUnitType(unitType: unitType)),
+    // value: state.unitType,
 
     // setState(() {
     //   _image = File(pickedFile.path);
