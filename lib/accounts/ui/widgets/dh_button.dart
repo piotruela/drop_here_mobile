@@ -12,7 +12,7 @@ class DhButton extends StatelessWidget {
   final EdgeInsets padding;
 
   DhButton({Key key, this.height = 60, this.width = 330, this.onPressed, this.backgroundColor, this.text, this
-      .padding = const EdgeInsets.only(top: 10, bottom: 10)}) : super(key: key);
+      .padding = const EdgeInsets.only(top: 10, bottom: 10, left:40.0, right: 40.0)}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

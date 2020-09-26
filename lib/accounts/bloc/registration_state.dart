@@ -1,19 +1,23 @@
 part of 'registration_bloc.dart';
 
 class RegistrationFormState extends Equatable {
-  const RegistrationFormState({
-    this.mail,
-    this.password,
-    this.passwordRepeat,
-    this.isValid,
-    this.accountType
-  });
+
 
   final String mail;
   final String password;
   final String passwordRepeat;
   final bool isValid;
   final AccountType accountType;
+  final RegistrationResult result;
+
+  const RegistrationFormState({
+    this.mail,
+    this.password,
+    this.passwordRepeat,
+    this.isValid,
+    this.accountType,
+    this.result,
+  });
 
   RegistrationFormState copyWith({
     String mail,
@@ -21,16 +25,19 @@ class RegistrationFormState extends Equatable {
     String passwordRepeat,
     bool isValid,
     AccountType accountType,
+    RegistrationResult result,
   }) {
     return RegistrationFormState(
       mail: mail ?? this.mail,
       password: password ?? this.password,
-      passwordRepeat: passwordRepeat ?? this.passwordRepeat,
+        passwordRepeat: passwordRepeat ?? this.passwordRepeat,
       isValid: isValid ?? this.isValid,
-      accountType: accountType ?? this.accountType
+      accountType: accountType ?? this.accountType,
+      result: result ?? this.result
     );
   }
 
   @override
-  List<Object> get props => [mail, password, passwordRepeat, isValid, accountType];
+  List<Object> get props => [mail, password, passwordRepeat, isValid, accountType, result];
 }
+

@@ -72,4 +72,20 @@ abstract class LocaleBundle {
   String get country;
 
   String get addProduct;
+
+  String get isRequired;
+
+  String get registrationError;
+
+  String get accountAlreadyExists;
+
+  String get badCredentials;
+
+  String get unexpectedError;
+
+  String get invalidMail;
+
+  String get toShort;
+
+  String get isNotTheSame;
 }

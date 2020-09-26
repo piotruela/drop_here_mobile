@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:drop_here_mobile/counter/services/authentication_service.dart';
+import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:equatable/equatable.dart';
 
 part 'login_event.dart';

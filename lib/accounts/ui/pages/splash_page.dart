@@ -1,9 +1,9 @@
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/counter/ui/layout/main_layout.dart';
-import 'package:drop_here_mobile/counter/ui/pages/sandbox_page.dart';
-import 'package:drop_here_mobile/counter/ui/pages/welcome_page.dart';
-import 'package:drop_here_mobile/counter/ui/widgets/dh_button.dart';
+import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/sandbox_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/welcome_page.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
