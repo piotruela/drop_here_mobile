@@ -1,9 +1,8 @@
-
 import 'package:drop_here_mobile/accounts/ui/pages/buyer_details_registration_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/buyer_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_user_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/client_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/customer_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/sandbox_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/seller_details_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/seller_registration_page.dart';
@@ -17,7 +16,7 @@ class LoginPages {
     GetPage(name: '/welcome', page: () => WelcomePage()),
     GetPage(name: '/sellerRegister', page: () => SellerRegistrationPage()),
     GetPage(name: '/sellerDetailsRegistration', page: () => SellerDetailsRegistrationPage()),
-    GetPage(name: '/buyerRegister', page: () => BuyerRegistrationPage()),
+    GetPage(name: '/buyerRegister', page: () => CustomerRegistrationPage()),
     GetPage(name: '/buyerDetailsRegistration', page: () => BuyerDetailsRegistrationPage()),
     GetPage(name: '/chooseUser', page: () => ChooseUserPage()),
     GetPage(name: '/companyDetails', page: () => CompanyDetailsPage()),

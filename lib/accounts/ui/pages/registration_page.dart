@@ -14,9 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-abstract class RegistrationPage extends BlocWidget<RegistrationBloc>{
+abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-
 
   @override
   RegistrationBloc bloc() => RegistrationBloc(accountType: AccountType.COMPANY);
@@ -27,72 +26,103 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc>{
     return MainLayout(
         child: Scaffold(
             backgroundColor: Colors.transparent,
-            body:BlocListener<RegistrationBloc, RegistrationFormState>(
+            body: BlocListener<RegistrationBloc, RegistrationFormState>(
               bloc: bloc,
               listenWhen: (previous, current) => previous.result != current.result,
               listener: (context, state) {
-                if(state.result == RegistrationResult.account_created){
+                if (state.result == RegistrationResult.account_created) {
                   Get.to(SellerDetailsRegistrationPage());
-                } else if( state.result == RegistrationResult.account_exists || state.result == RegistrationResult.bad_credentials) {
+                } else if (state.result == RegistrationResult.account_exists ||
+                    state.result == RegistrationResult.bad_credentials) {
                   Scaffold.of(context).showSnackBar(SnackBar(
                       backgroundColor: themeConfig.colors.primary1,
-                      content: Text(localeBundle.registrationError + (state.result == RegistrationResult.account_exists ? localeBundle.accountAlreadyExists : localeBundle.badCredentials))));
-                } else if( state.result == RegistrationResult.error){
-                  Scaffold.of(context).showSnackBar(SnackBar(content: Text(localeBundle.registrationError + localeBundle.unexpectedError)));
+                      content: Text(localeBundle.registrationError +
+                          (state.result == RegistrationResult.account_exists
+                              ? localeBundle.accountAlreadyExists
+                              : localeBundle.badCredentials))));
+                } else if (state.result == RegistrationResult.error) {
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                      content:
+                          Text(localeBundle.registrationError + localeBundle.unexpectedError)));
                 }
               },
               child: registrationForm(bloc, context, localeBundle),
             )));
-
   }
 
   Widget registrationForm(RegistrationBloc bloc, BuildContext context, LocaleBundle localeBundle);
 
-  bool get validation;
-
   AccountType get accountType;
 
-  Widget mailField(RegistrationBloc bloc, LocaleBundle localeBundle){
-    return DhTextFormField(labelText: localeBundle.email, onChanged: (val) => bloc.add(MailChanged(mail: val)),
+  String formTitle(BuildContext context);
+
+  List<Widget> formElements(RegistrationBloc bloc, LocaleBundle localeBundle);
+
+  bool get validate;
+
+  Widget titleText(String text) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 100.0, bottom: 10.0),
+        child: Text(text, style: themeConfig.textStyles.secondaryTitle),
+      ),
+    );
+  }
+
+  Widget mailField(RegistrationBloc bloc, LocaleBundle localeBundle) {
+    return DhTextFormField(
+        labelText: localeBundle.email,
+        onChanged: (val) => bloc.add(MailChanged(mail: val)),
         validator: (mail) => mailValidator(mail, localeBundle));
   }
 
-  Widget passwordField(RegistrationBloc bloc, LocaleBundle localeBundle){
-    return DhTextFormField(labelText: localeBundle.password,
+  Widget passwordField(RegistrationBloc bloc, LocaleBundle localeBundle) {
+    return DhTextFormField(
+        labelText: localeBundle.password,
         onChanged: (val) => bloc.add(PasswordChanged(password: val)),
         validator: (password) => passwordValidator(password, localeBundle));
   }
 
-  Widget repeatPasswordField(RegistrationBloc bloc, LocaleBundle localeBundle){
-    return DhTextFormField(labelText: localeBundle.repeatPassword,
+  Widget repeatPasswordField(RegistrationBloc bloc, LocaleBundle localeBundle) {
+    return DhTextFormField(
+        labelText: localeBundle.repeatPassword,
         onChanged: (val) => bloc.add(PasswordRepeatChanged(passwordRepeat: val)),
         validator: (repeatedPassword) =>
             repeatPasswordValidator(bloc.state.password, repeatedPassword, localeBundle));
   }
 
-  Widget signUpButton(RegistrationBloc bloc, LocaleBundle localeBundle){
-    return DhButton(onPressed: () => bloc
-        .add(RegistrationFormSubmitted(isValid: validation,
-        accountType: accountType)), text: localeBundle.signUp, backgroundColor:
-    themeConfig.colors.primary1);
+  Widget signUpButton(RegistrationBloc bloc, LocaleBundle localeBundle) {
+    return DhButton(
+        onPressed: () =>
+            bloc.add(RegistrationFormSubmitted(isValid: validate, accountType: accountType)),
+        text: localeBundle.signUp,
+        backgroundColor: themeConfig.colors.primary1);
   }
 
-  String mailValidator(String mail, LocaleBundle localeBundle){
-    if(mail.isEmpty) return localeBundle.email + localeBundle.isRequired;
-    if(!EmailValidator.validate(mail)) return localeBundle.email + localeBundle.invalidMail;
+  Widget orText(LocaleBundle localeBundle) =>
+      Text(localeBundle.or, style: themeConfig.textStyles.secondaryTitle);
+
+  Widget signUpWithFBButton(LocaleBundle localeBundle) => DhButton(
+      onPressed: () {},
+      text: localeBundle.signUpWithFacebook,
+      backgroundColor: themeConfig.colors.facebookColor);
+
+  String mailValidator(String mail, LocaleBundle localeBundle) {
+    if (mail.isEmpty) return localeBundle.email + localeBundle.isRequired;
+    if (!EmailValidator.validate(mail)) return localeBundle.email + localeBundle.invalidMail;
     return null;
   }
 
-  String passwordValidator(String password, LocaleBundle localeBundle){
-    if(password.isEmpty) return localeBundle.password + localeBundle.isRequired;
-    if(password.length<8) return localeBundle.password + localeBundle.toShort;
-    return null;
-  }
-  String repeatPasswordValidator(String password,String repeatedPassword, LocaleBundle localeBundle){
-    if(password != repeatedPassword) return localeBundle.repeatPassword + localeBundle.isNotTheSame;
+  String passwordValidator(String password, LocaleBundle localeBundle) {
+    if (password.isEmpty) return localeBundle.password + localeBundle.isRequired;
+    if (password.length < 8) return localeBundle.password + localeBundle.toShort;
     return null;
   }
 
-
-
+  String repeatPasswordValidator(
+      String password, String repeatedPassword, LocaleBundle localeBundle) {
+    if (password != repeatedPassword)
+      return localeBundle.repeatPassword + localeBundle.isNotTheSame;
+    return null;
+  }
 }
