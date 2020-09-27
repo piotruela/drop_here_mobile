@@ -18,6 +18,16 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductFormState> {
       yield state.copyWith(photo: event.photo);
     } else if (event is UnitTypeChosen) {
       yield state.copyWith(unitType: event.unitType);
+    } else if (event is NameChosen) {
+      yield state.copyWith(name: event.name);
+    } else if (event is CategoryChosen) {
+      yield state.copyWith(category: event.category);
+    } else if (event is DescriptionChosen) {
+      yield state.copyWith(description: event.description);
+    } else if (event is PricePerUnitChosen) {
+      yield state.copyWith(pricePerUnit: event.pricePerUnit);
+    } else if (event is UnitFractionChosen) {
+      yield state.copyWith(unitFraction: event.unitFraction);
     } else if (event is FormSubmitted) {
       //TODO
     }

@@ -76,7 +76,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           'Description',
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
-                        DHTextArea(),
+                        DhTextArea(),
                         Text(
                           'Unit type*',
                           style: themeConfig.textStyles.secondaryTitle,
@@ -166,13 +166,15 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
 class DhPlainTextFormField extends StatelessWidget {
   final String hintText;
   final InputType inputType;
-  const DhPlainTextFormField({this.hintText, this.inputType});
+  final void Function(String) onChanged;
+  const DhPlainTextFormField({this.hintText, this.inputType, this.onChanged});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 13.0),
       child: TextFormField(
+        onChanged: onChanged,
         keyboardType: inputType == InputType.number ? TextInputType.number : null,
         cursorColor: Colors.black,
         decoration: InputDecoration(
@@ -191,9 +193,9 @@ class DhPlainTextFormField extends StatelessWidget {
 
 enum InputType { text, number }
 
-class DHTextArea extends StatelessWidget {
+class DhTextArea extends StatelessWidget {
   final String hintText;
-  DHTextArea({this.hintText});
+  DhTextArea({this.hintText});
   final _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {

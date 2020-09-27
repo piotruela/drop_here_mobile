@@ -4,11 +4,12 @@ class AddProductFormState extends Equatable {
   final File photo;
   final UnitType unitType;
   final String name;
+  final String category;
   final String description;
   final double pricePerUnit;
   final double unitFraction;
   const AddProductFormState(
-      {this.name, this.description, this.pricePerUnit, this.unitFraction, this.photo, this.unitType});
+      {this.name, this.description, this.category, this.pricePerUnit, this.unitFraction, this.photo, this.unitType});
 
   AddProductFormState copyWith({
     final File photo,
@@ -17,6 +18,7 @@ class AddProductFormState extends Equatable {
     final String description,
     final double pricePerUnit,
     final double unitFraction,
+    final String category,
   }) {
     return AddProductFormState(
       photo: photo ?? this.photo,
@@ -25,11 +27,12 @@ class AddProductFormState extends Equatable {
       description: description ?? this.description,
       pricePerUnit: pricePerUnit ?? this.pricePerUnit,
       unitFraction: unitFraction ?? this.unitFraction,
+      category: category ?? this.category,
     );
   }
 
   @override
-  List<Object> get props => [photo, unitType, name, description, pricePerUnit, unitFraction];
+  List<Object> get props => [photo, unitType, name, description, pricePerUnit, unitFraction, category];
 }
 
 enum UnitType {

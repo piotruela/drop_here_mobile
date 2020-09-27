@@ -41,6 +41,15 @@ class NameChosen extends AddProductEvent {
   List<Object> get props => [name];
 }
 
+class CategoryChosen extends AddProductEvent {
+  final String category;
+
+  CategoryChosen({this.category});
+
+  @override
+  List<Object> get props => [category];
+}
+
 class DescriptionChosen extends AddProductEvent {
   final String description;
 
