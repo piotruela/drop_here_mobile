@@ -127,11 +127,13 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
   GestureDetector choosePhotoWidget(Bloc bloc) {
     return GestureDetector(
       child: Container(
-        child: Icon(
-          Icons.add,
-          color: Colors.white,
-          size: 46.0,
-        ),
+        child: bloc.state.photo != null
+            ? Image.file(bloc.state.photo)
+            : Icon(
+                Icons.add,
+                color: Colors.white,
+                size: 46.0,
+              ),
         width: 80.0,
         height: 80.0,
         decoration: BoxDecoration(
