@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:drop_here_mobile/accounts/bloc/add_product_bloc.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
+import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
@@ -9,21 +11,21 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddProductPage extends StatelessWidget {
+class AddProductPage extends BlocWidget<AddProductBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final picker = ImagePicker();
   File _image;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, AddProductBloc addProductBloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
-    final addProductBloc = BlocProvider.of<AddProductBloc>(context);
+    //final addProductBloc = BlocProvider.of<AddProductBloc>(context);
     return Scaffold(
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {},
           label: Text(
             'Add product',
-            style: TextStyle(color: Colors.orange),
+            style: TextStyle(color: themeConfig.colors.primary1),
           ),
           backgroundColor: Colors.white,
         ),
@@ -32,7 +34,7 @@ class AddProductPage extends StatelessWidget {
           backgroundColor: themeConfig.colors.primary1,
           title: Text(Localization.of(context).bundle.addProduct),
         ),
-        body: BlocBuilder<AddProductBloc, AddProductState>(
+        body: BlocBuilder<AddProductBloc, AddProductFormState>(
           builder: (context, state) {
             return ListView(
               children: [
@@ -46,7 +48,7 @@ class AddProductPage extends StatelessWidget {
                           'Name*',
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
-                        dhTextFormField(
+                        DhPlainTextFormField(
                           hintText: 'e.g. Strawberries',
                         ),
                         Text(
@@ -74,21 +76,21 @@ class AddProductPage extends StatelessWidget {
                           'Description',
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
-                        dhTextArea(),
+                        DHTextArea(),
                         Text(
                           'Unit type*',
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
                         DropdownButton<UnitType>(
                           isExpanded: true,
-                          onChanged: (UnitType unitType) => addProductBloc.add(ChooseUnitType(unitType: unitType)),
+                          onChanged: (UnitType unitType) => addProductBloc.add(UnitTypeChosen(unitType: unitType)),
                           value: state.unitType,
                           icon: Icon(Icons.arrow_drop_down),
                           items: <UnitType>[UnitType.grams, UnitType.kilograms, UnitType.pieces, UnitType.liters]
                               .map<DropdownMenuItem<UnitType>>((UnitType value) {
                             return DropdownMenuItem<UnitType>(
                               value: value,
-                              child: Text(value.toString().split('.').last),
+                              child: Text(describeEnum(value)),
                             );
                           }).toList(),
                         ),
@@ -96,7 +98,7 @@ class AddProductPage extends StatelessWidget {
                           'Price per unit* (PLN)',
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
-                        dhTextFormField(
+                        DhPlainTextFormField(
                           hintText: 'e.g. 4.20',
                           inputType: InputType.number,
                         ),
@@ -104,7 +106,7 @@ class AddProductPage extends StatelessWidget {
                           'Unit fraction*',
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
-                        dhTextFormField(
+                        DhPlainTextFormField(
                           hintText: 'minimum value: 0.1',
                           inputType: InputType.number,
                         ),
@@ -152,22 +154,17 @@ class AddProductPage extends StatelessWidget {
   Future getImage(Bloc bloc) async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     _image = File(pickedFile.path);
-    bloc.add(ChoosePhoto(photo: _image));
-
-    // onChanged: (UnitType unitType) => addProductBloc.add(ChooseUnitType(unitType: unitType)),
-    // value: state.unitType,
-
-    // setState(() {
-    //   _image = File(pickedFile.path);
-    // });
+    bloc.add(PhotoChosen(photo: _image));
   }
+
+  @override
+  AddProductBloc bloc() => AddProductBloc();
 }
 
-// ignore: camel_case_types
-class dhTextFormField extends StatelessWidget {
+class DhPlainTextFormField extends StatelessWidget {
   final String hintText;
   final InputType inputType;
-  const dhTextFormField({this.hintText, this.inputType});
+  const DhPlainTextFormField({this.hintText, this.inputType});
 
   @override
   Widget build(BuildContext context) {
@@ -192,10 +189,9 @@ class dhTextFormField extends StatelessWidget {
 
 enum InputType { text, number }
 
-// ignore: camel_case_types
-class dhTextArea extends StatelessWidget {
+class DHTextArea extends StatelessWidget {
   final String hintText;
-  dhTextArea({this.hintText});
+  DHTextArea({this.hintText});
   final _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {

@@ -4,33 +4,39 @@ abstract class AddProductEvent extends Equatable {
   const AddProductEvent();
 }
 
-class AddProduct extends AddProductEvent {
+class ProductAdded extends AddProductEvent {
   final String name;
   final String description;
 
-  const AddProduct({this.name, this.description});
+  const ProductAdded({this.name, this.description});
 
   @override
-  // TODO: implement props
   List<Object> get props => [name, description];
 }
 
-class ChoosePhoto extends AddProductEvent {
+class PhotoChosen extends AddProductEvent {
   final File photo;
 
-  ChoosePhoto({this.photo});
+  PhotoChosen({this.photo});
 
   @override
-  // TODO: implement props
   List<Object> get props => [photo];
 }
 
-class ChooseUnitType extends AddProductEvent {
+class UnitTypeChosen extends AddProductEvent {
   final UnitType unitType;
 
-  ChooseUnitType({this.unitType});
+  UnitTypeChosen({this.unitType});
 
   @override
-  // TODO: implement props
+  List<Object> get props => [unitType];
+}
+
+class FormSubmitted extends AddProductEvent {
+  final UnitType unitType;
+
+  FormSubmitted({this.unitType});
+
+  @override
   List<Object> get props => [unitType];
 }

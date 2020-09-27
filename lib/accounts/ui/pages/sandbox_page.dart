@@ -1,4 +1,3 @@
-import 'package:drop_here_mobile/accounts/bloc/add_product_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/buyer_details_registration_page.dart';
@@ -10,7 +9,6 @@ import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
 class SandboxPage extends StatelessWidget {
@@ -59,10 +57,7 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                   child: Text("add product"),
                   onPressed: () {
-                    Get.to(BlocProvider(
-                      create: (context) => AddProductBloc(),
-                      child: AddProductPage(),
-                    ));
+                    Get.to(AddProductPage());
                   },
                 ),
               ],

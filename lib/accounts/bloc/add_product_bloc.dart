@@ -7,21 +7,19 @@ import 'package:equatable/equatable.dart';
 part 'add_product_event.dart';
 part 'add_product_state.dart';
 
-class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
-  AddProductBloc() : super(AddProductInitial());
+class AddProductBloc extends Bloc<AddProductEvent, AddProductFormState> {
+  AddProductBloc() : super(AddProductFormState(photo: null, unitType: null));
 
   @override
-  Stream<AddProductState> mapEventToState(
+  Stream<AddProductFormState> mapEventToState(
     AddProductEvent event,
   ) async* {
-    if (event is ChoosePhoto) {
-      // final picker = ImagePicker();
-      // File _image;
-      // final pickedFile = await picker.getImage(source: ImageSource.gallery);
-      // _image = File(pickedFile.path);
-      yield ProductPhotoChosen(event.photo);
-    } else if (event is ChooseUnitType) {
-      yield ProductUnitTypeChosen(event.unitType);
+    if (event is PhotoChosen) {
+      yield state.copyWith(photo: event.photo);
+    } else if (event is UnitTypeChosen) {
+      yield state.copyWith(unitType: event.unitType);
+    } else if (event is FormSubmitted) {
+      //TODO
     }
   }
 }
