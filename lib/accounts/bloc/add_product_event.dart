@@ -32,6 +32,42 @@ class UnitTypeChosen extends AddProductEvent {
   List<Object> get props => [unitType];
 }
 
+class NameChosen extends AddProductEvent {
+  final String name;
+
+  NameChosen({this.name});
+
+  @override
+  List<Object> get props => [name];
+}
+
+class DescriptionChosen extends AddProductEvent {
+  final String description;
+
+  DescriptionChosen({this.description});
+
+  @override
+  List<Object> get props => [description];
+}
+
+class PricePerUnitChosen extends AddProductEvent {
+  final double pricePerUnit;
+
+  PricePerUnitChosen({this.pricePerUnit});
+
+  @override
+  List<Object> get props => [pricePerUnit];
+}
+
+class UnitFractionChosen extends AddProductEvent {
+  final double unitFraction;
+
+  UnitFractionChosen({this.unitFraction});
+
+  @override
+  List<Object> get props => [unitFraction];
+}
+
 class FormSubmitted extends AddProductEvent {
   final UnitType unitType;
 
