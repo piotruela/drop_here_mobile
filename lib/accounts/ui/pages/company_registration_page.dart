@@ -5,7 +5,7 @@ import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 
-class SellerRegistrationPage extends RegistrationPage {
+class CompanyRegistrationPage extends RegistrationPage {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override

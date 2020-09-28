@@ -3,7 +3,7 @@ import 'package:drop_here_mobile/accounts/model/credentials.dart';
 import 'package:drop_here_mobile/accounts/services/registration_service.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/buyer_details_registration_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/seller_details_registration_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/company_details_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -34,7 +34,7 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
                 if (state.result == RegistrationResult.account_created) {
                   Widget page = bloc.state.accountType == AccountType.CUSTOMER
                       ? BuyerDetailsRegistrationPage()
-                      : SellerDetailsRegistrationPage();
+                      : CompanyDetailsRegistrationPage();
                   Get.to(page);
                 } else if (state.result == RegistrationResult.account_exists ||
                     state.result == RegistrationResult.bad_credentials) {

@@ -13,13 +13,16 @@ class TextStyleTheme {
   final TextStyle textFieldHint;
   final TextStyle button;
   final TextStyle clickableText;
+  final TextStyle filledTextField;
 
   final TextStyle dhButton;
   final TextStyle cardCaption;
   final TextStyle listTileTitle;
 
   TextStyleTheme({
-    this.button, this.clickableText,
+    this.button,
+    this.clickableText,
+    this.filledTextField,
     this.primaryTitle,
     this.secondaryTitle,
     this.contentTitle,

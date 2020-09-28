@@ -16,8 +16,7 @@ class DhHttpClient {
   HttpClient _baseClient;
   Future<dynamic> initialized;
   final _Session session;
-  String _baseUrl =
-      "http://drop-here-backend-drop-here-backend.apps.us-east-1.starter.openshift-online.com";
+  String _baseUrl = "https://drop-here.herokuapp.com";
   final Map<String, String> _httpHeaders = {};
 
   DhHttpClient({bool useSession = true, bool withTrustedRoots = false})

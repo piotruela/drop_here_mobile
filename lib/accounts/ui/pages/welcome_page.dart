@@ -1,7 +1,7 @@
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/company_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/customer_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/login_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/seller_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_button.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
@@ -41,7 +41,7 @@ class WelcomePage extends StatelessWidget {
                       Padding(
                           padding: const EdgeInsets.only(left: 30.0, right: 40.0),
                           child: _sellerBuyerChoiceTile(() {
-                            Get.to(SellerRegistrationPage());
+                            Get.to(CompanyRegistrationPage());
                           }, Localization.of(context).bundle.imASeller, assetsConfig.sellerImage)),
                       _sellerBuyerChoiceTile(() {
                         Get.to(CustomerRegistrationPage());
