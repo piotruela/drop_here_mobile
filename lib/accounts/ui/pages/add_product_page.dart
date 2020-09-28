@@ -21,14 +21,17 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
     final LocaleBundle locale = Localization.of(context).bundle;
     //final addProductBloc = BlocProvider.of<AddProductBloc>(context);
     return Scaffold(
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
-          label: Text(
-            'Add product',
-            style: TextStyle(color: themeConfig.colors.primary1),
-          ),
-          backgroundColor: Colors.white,
-        ),
+        floatingActionButton: BlocBuilder<AddProductBloc, AddProductFormState>(builder: (context, state) {
+          return FloatingActionButton.extended(
+            onPressed: () {},
+            label: Text(
+              'Add product',
+              style: TextStyle(
+                  color: addProductBloc.state.isFilled ? themeConfig.colors.primary1 : themeConfig.colors.addSthHere),
+            ),
+            backgroundColor: themeConfig.colors.white,
+          );
+        }),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         appBar: AppBar(
           backgroundColor: themeConfig.colors.primary1,
@@ -50,6 +53,9 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                         ),
                         DhPlainTextFormField(
                           hintText: 'e.g. Strawberries',
+                          onChanged: (String name) {
+                            addProductBloc.add(NameChosen(name: name));
+                          },
                         ),
                         Text(
                           'Photo',
@@ -101,6 +107,9 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                         DhPlainTextFormField(
                           hintText: 'e.g. 4.20',
                           inputType: InputType.number,
+                          onChanged: (String value) {
+                            addProductBloc.add(PricePerUnitChosen(pricePerUnit: double.parse(value)));
+                          },
                         ),
                         Text(
                           'Unit fraction*',
@@ -109,6 +118,10 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                         DhPlainTextFormField(
                           hintText: 'minimum value: 0.1',
                           inputType: InputType.number,
+                          onChanged: (String value) {
+                            addProductBloc
+                                .add(UnitFractionChosen(unitFraction: value != "" ? double.parse(value) : null));
+                          },
                         ),
                         SizedBox(
                           height: 50.0,
