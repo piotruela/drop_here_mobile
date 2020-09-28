@@ -88,4 +88,24 @@ abstract class LocaleBundle {
   String get toShort;
 
   String get isNotTheSame;
+
+  String get nameMandatory;
+
+  String get productNameExample;
+
+  String get photo;
+
+  String get categoryMandatory;
+
+  String get description;
+
+  String get unitTypeMandatory;
+
+  String get pricePerUnitMandatory;
+
+  String get pricePerUnitExample;
+
+  String get unitFractionMandatory;
+
+  String get unitFractionExample;
 }

@@ -138,4 +138,34 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get isNotTheSame => " is not the same";
+
+  @override
+  String get categoryMandatory => "Category*";
+
+  @override
+  String get description => "Description";
+
+  @override
+  String get nameMandatory => "Name*";
+
+  @override
+  String get photo => "Photo";
+
+  @override
+  String get pricePerUnitMandatory => "Price per unit* (PLN)";
+
+  @override
+  String get pricePerUnitExample => "e.g. 4.20";
+
+  @override
+  String get productNameExample => "e.g. strawberries";
+
+  @override
+  String get unitFractionMandatory => "Unit fraction*";
+
+  @override
+  String get unitFractionExample => "minimum value: 0.1";
+
+  @override
+  String get unitTypeMandatory => "Unit type*";
 }

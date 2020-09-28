@@ -19,7 +19,6 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
   @override
   Widget build(BuildContext context, AddProductBloc addProductBloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
-    //final addProductBloc = BlocProvider.of<AddProductBloc>(context);
     return Scaffold(
         floatingActionButton: BlocBuilder<AddProductBloc, AddProductFormState>(builder: (context, state) {
           return FloatingActionButton.extended(
@@ -48,22 +47,22 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Name*',
+                          locale.nameMandatory,
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
                         DhPlainTextFormField(
-                          hintText: 'e.g. Strawberries',
+                          hintText: locale.productNameExample,
                           onChanged: (String name) {
                             addProductBloc.add(NameChosen(name: name));
                           },
                         ),
                         Text(
-                          'Photo',
+                          locale.photo,
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
                         choosePhotoWidget(addProductBloc),
                         Text(
-                          'Category*',
+                          locale.categoryMandatory,
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
                         GestureDetector(
@@ -79,12 +78,12 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           ),
                         ),
                         Text(
-                          'Description',
+                          locale.description,
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
                         DhTextArea(),
                         Text(
-                          'Unit type*',
+                          locale.unitTypeMandatory,
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
                         DropdownButton<UnitType>(
@@ -101,22 +100,22 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           }).toList(),
                         ),
                         Text(
-                          'Price per unit* (PLN)',
+                          locale.pricePerUnitMandatory,
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
                         DhPlainTextFormField(
-                          hintText: 'e.g. 4.20',
+                          hintText: locale.pricePerUnitExample,
                           inputType: InputType.number,
                           onChanged: (String value) {
                             addProductBloc.add(PricePerUnitChosen(pricePerUnit: double.parse(value)));
                           },
                         ),
                         Text(
-                          'Unit fraction*',
+                          locale.unitFractionMandatory,
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
                         DhPlainTextFormField(
-                          hintText: 'minimum value: 0.1',
+                          hintText: locale.unitFractionExample,
                           inputType: InputType.number,
                           onChanged: (String value) {
                             addProductBloc
