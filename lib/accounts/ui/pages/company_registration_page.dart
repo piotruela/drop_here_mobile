@@ -39,6 +39,5 @@ class CompanyRegistrationPage extends RegistrationPage {
   }
 
   @override
-  // TODO: implement validate
   bool get validate => formKey.currentState.validate();
 }

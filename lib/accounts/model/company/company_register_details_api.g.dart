@@ -10,11 +10,12 @@ CompanyDetails _$CompanyDetailsFromJson(Map<String, dynamic> json) {
   return CompanyDetails(
     companyName: json['name'] as String,
     countryName: json['country'] as String,
-    visibility: json['visibilityStatus'] as bool,
+    visibility: json['visibilityStatus'] as String,
   );
 }
 
-Map<String, dynamic> _$CompanyDetailsToJson(CompanyDetails instance) => <String, dynamic>{
+Map<String, dynamic> _$CompanyDetailsToJson(CompanyDetails instance) =>
+    <String, dynamic>{
       'name': instance.companyName,
       'country': instance.countryName,
       'visibilityStatus': instance.visibility,

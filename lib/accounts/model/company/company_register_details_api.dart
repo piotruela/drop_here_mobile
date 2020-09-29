@@ -9,14 +9,14 @@ class CompanyDetails {
   @JsonKey(name: 'country')
   final String countryName;
   @JsonKey(name: 'visibilityStatus')
-  final bool visibility;
+  final String visibility;
 
   CompanyDetails({this.companyName, this.countryName, this.visibility});
 
   factory CompanyDetails.fromJson(Map<String, dynamic> json) => _$CompanyDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$CompanyDetailsToJson(this);
 
-  CompanyDetails copyWith({String companyName, String countryName, bool visibility}) {
+  CompanyDetails copyWith({String companyName, String countryName, String visibility}) {
     return CompanyDetails(
         companyName: companyName ?? this.companyName,
         countryName: countryName ?? this.countryName,

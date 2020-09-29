@@ -1,28 +1,24 @@
 part of 'login_bloc.dart';
 
 class LoginFormState extends Equatable {
+  final LoginCredentials form;
+
   const LoginFormState({
-    this.mail,
-    this.password,
-    this.isValid,
+    this.form,
   });
 
-  final String mail;
-  final String password;
-  final bool isValid;
-
-  LoginFormState copyWith({
-    String mail,
-    String password,
-    bool isValid,
-  }) {
+  LoginFormState copyWith({LoginCredentials form}) {
     return LoginFormState(
-      mail: mail ?? this.mail,
-      password: password ?? this.password,
-      isValid: isValid ?? this.isValid,
+      form: form ?? this.form,
     );
   }
 
   @override
-  List<Object> get props => [mail, password, isValid];
+  List<Object> get props => [form];
 }
+
+class CreateProfileLoadingState extends LoginFormState {}
+
+class ErrorState extends LoginFormState {}
+
+class SuccessState extends LoginFormState {}

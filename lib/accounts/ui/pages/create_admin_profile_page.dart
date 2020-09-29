@@ -1,0 +1,76 @@
+import 'package:drop_here_mobile/accounts/bloc/create_profile_bloc.dart';
+import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/company_details_registration_page.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
+import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/locale/locale_bundle.dart';
+import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+
+class CreateAdminProfilePage extends BlocWidget<CreateProfileBloc> {
+  final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  @override
+  CreateProfileBloc bloc() => CreateProfileBloc();
+
+  @override
+  Widget build(BuildContext context, CreateProfileBloc bloc, _) {
+    LocaleBundle localeBundle = Localization.of(context).bundle;
+    return MainLayout(
+        child: Scaffold(
+            backgroundColor: Colors.transparent,
+            body: BlocListener<CreateProfileBloc, CreateProfileState>(
+              bloc: bloc,
+              listenWhen: (previous, current) => previous != current,
+              listener: (context, state) {
+                if (state is SuccessState) {
+                  Get.to(CompanyDetailsRegistrationPage());
+                } else if (state is ErrorState) {
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                      content:
+                          Text(localeBundle.registrationError + localeBundle.unexpectedError)));
+                }
+              },
+              child: Form(
+                key: formKey,
+                child: ListView(
+                  children: [
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 144.0, bottom: 22.0),
+                          child: Text(localeBundle.createAdminProfile,
+                              style: themeConfig.textStyles.secondaryTitle),
+                        ),
+                        DhTextFormField(
+                            onChanged: (value) => bloc
+                                .add(FormChanged(form: bloc.state.form.copyWith(firstName: value))),
+                            labelText: Localization.of(context).bundle.firstName,
+                            padding: EdgeInsets.only(left: 40, right: 40.0)),
+                        DhTextFormField(
+                            onChanged: (value) => bloc
+                                .add(FormChanged(form: bloc.state.form.copyWith(lastName: value))),
+                            labelText: Localization.of(context).bundle.lastName,
+                            padding: EdgeInsets.only(left: 40, right: 40.0)),
+                        DhTextFormField(
+                            onChanged: (value) => bloc
+                                .add(FormChanged(form: bloc.state.form.copyWith(password: value))),
+                            labelText: Localization.of(context).bundle.password,
+                            padding: EdgeInsets.only(left: 40, right: 40.0, bottom: 20.0)),
+                        DhButton(
+                          onPressed: () => bloc.add(FormSubmitted(form: bloc.state.form)),
+                          text: "Create",
+                          backgroundColor: themeConfig.colors.primary1,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            )));
+  }
+}

@@ -47,7 +47,7 @@ class RegistrationService {
           canRepeatRequest: true,
           headers: _headers,
           body: json.encode(companyDetails.toJson()),
-          path: "management/companies",
+          path: "/management/companies",
           out: (dynamic json) => json);
       print(response.toString());
       return 1;

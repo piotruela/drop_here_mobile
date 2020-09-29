@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:drop_here_mobile/accounts/model/credentials.dart';
 import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:equatable/equatable.dart';
 
@@ -8,29 +9,20 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginFormEvent, LoginFormState> {
-  LoginBloc() : super(LoginFormState(mail: null, password: null, isValid: false));
-  final AuthenticationService authenticationService = AuthenticationService("/authentication");
-
+  LoginBloc() : super(LoginFormState(form: LoginCredentials()));
+  final AuthenticationService authenticationService = AuthenticationService();
 
   @override
   Stream<LoginFormState> mapEventToState(
-      LoginFormEvent event,
+    LoginFormEvent event,
   ) async* {
-    if(event is MailChanged){
-      final mail = event.mail;
-      yield state.copyWith(mail: mail);
-    }
-    else if (event is PasswordChanged){
-      final password = event.password;
-      yield state.copyWith(password: password);
-    }
-    else if (event is LoginFormSubmitted){
-      if(event.isValid){
-        authenticationService.authenticate(LoginCredentials(mail: state.mail,
-            password: state.mail));
+    if (event is FormChanged) {
+      final form = event.form;
+      yield state.copyWith(form: form);
+    } else if (event is FormSubmitted) {
+      if (event.isValid) {
+        authenticationService.authenticate(event.form);
       }
     }
   }
 }
-//"maszkamszota@gmail.com"
-//"abcd213123"
