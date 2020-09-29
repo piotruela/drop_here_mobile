@@ -7,6 +7,7 @@ import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,8 +53,8 @@ class LoginPage extends BlocWidget<LoginBloc> {
                           text: Localization.of(context).bundle.forgotPasswordQuestion,
                           onTap: () => Get.to(SandboxPage())),
                       DhButton(
-                        onPressed: () =>
-                            bloc.add(FormSubmitted(isValid: key.currentState.validate())),
+                        onPressed: () => bloc.add(FormSubmitted(
+                            isValid: key.currentState.validate(), form: bloc.state.form)),
                         text: Localization.of(context).bundle.logIn,
                         backgroundColor: themeConfig.colors.primary1,
                       ),
@@ -71,6 +72,19 @@ class LoginPage extends BlocWidget<LoginBloc> {
             ],
           ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () => {},
+          backgroundColor: themeConfig.colors.primary1,
+          child: Container(
+            child: Icon(
+              Icons.add,
+              size: 40.0,
+            ),
+          ),
+          elevation: 4.0,
+        ),
+        bottomNavigationBar: DHBottomBar(selectedIndex: 1),
       ),
     );
   }

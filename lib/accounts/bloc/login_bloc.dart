@@ -20,8 +20,14 @@ class LoginBloc extends Bloc<LoginFormEvent, LoginFormState> {
       final form = event.form;
       yield state.copyWith(form: form);
     } else if (event is FormSubmitted) {
+      yield LoginLoadingState();
       if (event.isValid) {
-        authenticationService.authenticate(event.form);
+        AuthenticationResult result = await authenticationService.authenticate(event.form);
+        if (result == AuthenticationResult.success) {
+          yield SuccessState();
+        } else {
+          yield ErrorState();
+        }
       }
     }
   }

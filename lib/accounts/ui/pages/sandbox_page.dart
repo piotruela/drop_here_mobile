@@ -4,6 +4,7 @@ import 'package:drop_here_mobile/accounts/ui/pages/choose_user_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/client_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_registration_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/home_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/cupertino.dart';
@@ -51,6 +52,12 @@ class SandboxPage extends StatelessWidget {
                   child: Text("client details"),
                   onPressed: () {
                     Get.to(ClientDetailsPage());
+                  },
+                ),
+                FlatButton(
+                  child: Text("home page"),
+                  onPressed: () {
+                    Get.to(Home());
                   },
                 ),
               ],

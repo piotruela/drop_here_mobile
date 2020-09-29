@@ -17,7 +17,7 @@ class LoginFormState extends Equatable {
   List<Object> get props => [form];
 }
 
-class CreateProfileLoadingState extends LoginFormState {}
+class LoginLoadingState extends LoginFormState {}
 
 class ErrorState extends LoginFormState {}
 
