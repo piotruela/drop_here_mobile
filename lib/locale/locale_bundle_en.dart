@@ -168,4 +168,37 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get unitTypeMandatory => "Unit type*";
+
+  @override
+  String get clients => 'Clients';
+
+  @override
+  String get persons => 'Persons';
+
+  @override
+  String get sellers => 'Sellers';
+
+  @override
+  String get search => 'Search';
+
+  @override
+  String get active => 'active';
+
+  @override
+  String get block => 'block';
+
+  @override
+  String get blocked => 'blocked';
+
+  @override
+  String get edit => 'edit';
+
+  @override
+  String get memberOf => 'member of';
+
+  @override
+  String get spots => 'spots';
+
+  @override
+  String get unblock => 'unblock';
 }

@@ -108,4 +108,26 @@ abstract class LocaleBundle {
   String get unitFractionMandatory;
 
   String get unitFractionExample;
+
+  String get persons;
+
+  String get clients;
+
+  String get sellers;
+
+  String get search;
+
+  String get blocked;
+
+  String get active;
+
+  String get memberOf;
+
+  String get spots;
+
+  String get block;
+
+  String get unblock;
+
+  String get edit;
 }

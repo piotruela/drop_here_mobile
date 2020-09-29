@@ -17,6 +17,8 @@ class TextStyleTheme {
   final TextStyle dhButton;
   final TextStyle cardCaption;
   final TextStyle listTileTitle;
+  final TextStyle cardSubtitle;
+  final TextStyle popupMenu;
 
   TextStyleTheme({
     this.button,
@@ -28,6 +30,8 @@ class TextStyleTheme {
     this.dhButton,
     this.cardCaption,
     this.listTileTitle,
+    this.cardSubtitle,
+    this.popupMenu,
   });
 }
 

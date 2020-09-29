@@ -24,7 +24,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
           return FloatingActionButton.extended(
             onPressed: () {},
             label: Text(
-              'Add product',
+              locale.addProduct,
               style: TextStyle(
                   color: addProductBloc.state.isFilled ? themeConfig.colors.primary1 : themeConfig.colors.addSthHere),
             ),

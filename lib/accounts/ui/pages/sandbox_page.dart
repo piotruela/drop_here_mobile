@@ -3,6 +3,7 @@ import 'package:drop_here_mobile/accounts/ui/pages/add_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/buyer_details_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_user_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/client_details_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/clients_list_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/seller_details_registration_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
@@ -58,6 +59,12 @@ class SandboxPage extends StatelessWidget {
                   child: Text("add product"),
                   onPressed: () {
                     Get.to(AddProductPage());
+                  },
+                ),
+                FlatButton(
+                  child: Text("clients list"),
+                  onPressed: () {
+                    Get.to(ClientsListPage());
                   },
                 ),
               ],

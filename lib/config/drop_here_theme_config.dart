@@ -32,6 +32,8 @@ class DHThemeConfig extends ThemeConfig {
       dhButton: _dhButtonTextStyle,
       cardCaption: _cardCaptionTextStyle,
       listTileTitle: _listTileTitleTextStyle,
+      cardSubtitle: _cardSubtitleTextStyle,
+      popupMenu: _popupMenuTextStyle,
     );
   }
 
@@ -76,6 +78,12 @@ class DHThemeConfig extends ThemeConfig {
 
   static final TextStyle _listTileTitleTextStyle = _baseTextStyle.copyWith(
       fontSize: 20.0, color: _listTileMenuTextColor, height: 23.0 / 20.0, fontWeight: FontWeight.bold);
+
+  static final TextStyle _cardSubtitleTextStyle = _baseTextStyle.copyWith(
+      fontSize: 12.0, color: _listTileMenuTextColor, height: 14.0 / 12.0, fontWeight: FontWeight.w300);
+
+  static final TextStyle _popupMenuTextStyle =
+      _baseTextStyle.copyWith(fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w400);
 
   static final Color _primaryColor1 = const Color(0xfff5550a);
   static final Color _primaryColor2 = const Color(0xfff99363);
