@@ -50,7 +50,7 @@ class DHBottomBar extends StatelessWidget {
               onPressed: () => Get.to(CompanyDetailsRegistrationPage()),
               iconSize: 35.0,
               icon: Icon(
-                Icons.pin_drop_sharp,
+                Icons.shopping_basket,
                 color: selectedIndex == 2
                     ? themeConfig.colors.primary1
                     : themeConfig.colors.textFieldHint,
@@ -60,7 +60,7 @@ class DHBottomBar extends StatelessWidget {
               onPressed: () => Get.to(CompanyRegistrationPage()),
               iconSize: 35.0,
               icon: Icon(
-                Icons.person,
+                Icons.shopping_basket,
                 color: selectedIndex == 3
                     ? themeConfig.colors.primary1
                     : themeConfig.colors.textFieldHint,
