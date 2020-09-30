@@ -135,4 +135,10 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get isNotTheSame => " is not the same";
+
+  @override
+  String get pickACountry => "Pick a country";
+
+  @override
+  String get createAdminProfile => "Create admin profile";
 }

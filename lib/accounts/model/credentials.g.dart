@@ -76,16 +76,8 @@ LoginCredentials _$LoginCredentialsFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$LoginCredentialsToJson(LoginCredentials instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('mail', instance.mail);
-  writeNotNull('password', instance.password);
-  return val;
-}
+Map<String, dynamic> _$LoginCredentialsToJson(LoginCredentials instance) =>
+    <String, dynamic>{
+      'mail': instance.mail,
+      'password': instance.password,
+    };

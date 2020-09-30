@@ -86,4 +86,8 @@ abstract class LocaleBundle {
   String get toShort;
 
   String get isNotTheSame;
+
+  String get pickACountry;
+
+  String get createAdminProfile;
 }

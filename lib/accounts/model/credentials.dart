@@ -2,9 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'credentials.g.dart';
 
-enum AccountType{
-  CUSTOMER,COMPANY
-}
+enum AccountType { CUSTOMER, COMPANY }
 
 @JsonSerializable(includeIfNull: false)
 class RegistrationCredentials {
@@ -14,11 +12,12 @@ class RegistrationCredentials {
 
   RegistrationCredentials({this.accountType, this.mail, this.password});
 
-  factory RegistrationCredentials.fromJson(Map<String, dynamic> json) => _$RegistrationCredentialsFromJson(json);
+  factory RegistrationCredentials.fromJson(Map<String, dynamic> json) =>
+      _$RegistrationCredentialsFromJson(json);
   Map<String, dynamic> toJson() => _$RegistrationCredentialsToJson(this);
 }
 
-@JsonSerializable(includeIfNull: false)
+@JsonSerializable()
 class LoginCredentials {
   final String mail;
   final String password;
@@ -27,4 +26,8 @@ class LoginCredentials {
 
   factory LoginCredentials.fromJson(Map<String, dynamic> json) => _$LoginCredentialsFromJson(json);
   Map<String, dynamic> toJson() => _$LoginCredentialsToJson(this);
+
+  LoginCredentials copyWith({String mail, String password}) {
+    return LoginCredentials(mail: mail ?? this.mail, password: password ?? this.password);
+  }
 }
