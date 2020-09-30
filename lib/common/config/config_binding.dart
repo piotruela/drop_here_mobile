@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/services/implementation/dh_account_service.dart';
+import 'package:drop_here_mobile/accounts/services/implementation/dh_countries_service.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
@@ -13,5 +14,6 @@ class ConfigBinding extends Bindings {
     Get.lazyPut<AssetsConfig>(() => DHAssetsConfig());
     Get.put<DhHttpClient>(DhHttpClient());
     Get.put(DropHereAccountService());
+    Get.put(DHCountriesService());
   }
 }

@@ -7,6 +7,13 @@ abstract class CompanyRegisterFormEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class FormInitialized extends CompanyRegisterFormEvent {
+  FormInitialized();
+
+  @override
+  List<Object> get props => [];
+}
+
 class FormChanged extends CompanyRegisterFormEvent {
   final CompanyDetails form;
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:drop_here_mobile/accounts/model/account.dart';
 import 'package:drop_here_mobile/accounts/model/company/create_profile_form.dart';
 import 'package:drop_here_mobile/accounts/services/account_service.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
@@ -23,5 +24,12 @@ class DropHereAccountService extends AccountsService {
     } catch (Error) {
       return -1;
     }
+  }
+
+  @override
+  Future<Account> fetchAccountDetails() async {
+    dynamic response = await _httpClient.get(
+        canRepeatRequest: true, path: "/accounts", out: (dynamic json) => json);
+    return Account.fromJson(response);
   }
 }

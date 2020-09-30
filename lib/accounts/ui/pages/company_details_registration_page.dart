@@ -7,8 +7,8 @@ import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
 
 List<DropdownMenuItem> countries = [
   DropdownMenuItem(child: Text('Italy'), value: 'Italy'),
@@ -20,7 +20,7 @@ class CompanyDetailsRegistrationPage extends BlocWidget<CompanyRegisterDetailsBl
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
 
   @override
-  CompanyRegisterDetailsBloc bloc() => CompanyRegisterDetailsBloc();
+  CompanyRegisterDetailsBloc bloc() => CompanyRegisterDetailsBloc()..add(FormInitialized());
 
   @override
   Widget build(BuildContext context, CompanyRegisterDetailsBloc bloc, _) {
@@ -45,16 +45,30 @@ class CompanyDetailsRegistrationPage extends BlocWidget<CompanyRegisterDetailsBl
                           .add(FormChanged(form: bloc.state.form.copyWith(companyName: value)))),
                   Padding(
                     padding: const EdgeInsets.only(left: 40, right: 40.0),
-                    child: SizedBox(
-                      height: 70,
-                      child: SearchableDropdown.single(
-                          style: themeConfig.textStyles.filledTextField,
-                          hint: Text(localeBundle.pickACountry,
-                              style: themeConfig.textStyles.textFieldHint),
-                          isExpanded: true,
-                          items: countries,
-                          onChanged: (value) => bloc.add(
-                              FormChanged(form: bloc.state.form.copyWith(countryName: value)))),
+                    child: BlocBuilder<CompanyRegisterDetailsBloc,
+                        CompanyRegistrationDetailsFormState>(
+                      buildWhen: (previous, current) =>
+                          previous.countries != current.countries || previous.form != current.form,
+                      builder: (context, state) {
+                        if (state?.countries?.isNotEmpty ?? false) {
+                          return DropdownButton<String>(
+                            hint: Text("Country"),
+                            value: state.form.countryName,
+                            isExpanded: true,
+                            items: List<DropdownMenuItem<String>>.generate(
+                              bloc.state?.countries?.length,
+                              (int index) => DropdownMenuItem<String>(
+                                value: bloc.state.countries.elementAt(index).name,
+                                child: Text(bloc.state.countries.elementAt(index).name),
+                              ),
+                            ),
+                            onChanged: (String chosenCountry) => bloc.add(FormChanged(
+                                form: bloc.state.form.copyWith(countryName: chosenCountry))),
+                          );
+                        } else {
+                          return CircularProgressIndicator();
+                        }
+                      },
                     ),
                   ),
                   DhButton(
