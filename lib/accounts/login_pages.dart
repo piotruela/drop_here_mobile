@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/ui/pages/buyer_details_registration_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_user_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/client_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_page.dart';
@@ -28,5 +29,6 @@ class LoginPages {
     GetPage(name: '/customerDetails', page: () => ClientDetailsPage()),
     GetPage(name: '/sandbox', page: () => SandboxPage()),
     GetPage(name: '/homePage', page: () => Home()),
+    GetPage(name: '/chooseProfile', page: () => ChooseProfilePage()),
   ];
 }

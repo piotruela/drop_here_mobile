@@ -26,7 +26,7 @@ class LoginBloc extends Bloc<LoginFormEvent, LoginFormState> {
         if (result == AuthenticationResult.success) {
           yield SuccessState();
         } else {
-          yield ErrorState();
+          yield ErrorState(); //TODO:Return form when result is error
         }
       }
     }

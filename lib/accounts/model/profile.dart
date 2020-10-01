@@ -13,6 +13,12 @@ class Profile {
 
   Profile();
 
+  Profile.withName({String firstName, String lastName, ProfileType profileType}) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.profileType = profileType;
+  }
+
   factory Profile.fromJson(Map<String, dynamic> json) => _$ProfileFromJson(json);
   Map<String, dynamic> toJson() => _$ProfileToJson(this);
 }

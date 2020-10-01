@@ -1,5 +1,6 @@
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/buyer_details_registration_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_user_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/client_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_page.dart';
@@ -58,6 +59,12 @@ class SandboxPage extends StatelessWidget {
                   child: Text("home page"),
                   onPressed: () {
                     Get.to(Home());
+                  },
+                ),
+                FlatButton(
+                  child: Text("choose profile page"),
+                  onPressed: () {
+                    Get.to(ChooseProfilePage());
                   },
                 ),
               ],
