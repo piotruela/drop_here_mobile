@@ -24,7 +24,6 @@ class ClientsFetched extends DhListState {
   const ClientsFetched(this.clients);
 
   @override
-  // TODO: implement props
   List<Object> get props => [clients];
 }
 

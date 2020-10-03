@@ -19,12 +19,24 @@ class DhListBloc extends Bloc<DhListEvent, DhListState> {
   ) async* {
     yield ListLoading();
     if (event is FetchClients) {
-      print('fetchclients');
       try {
+        //TODO change service
         final List<Client> clients = await clientsListService.fetchClientsList();
-        print("in");
         yield ClientsFetched(clients);
-        print("fetched");
+      } catch (e) {
+        yield FetchingError(e);
+      }
+    } else if (event is FilterClients) {
+      try {
+        final List<Client> clients = await clientsListService.fetchClientsList(filter: event.filter);
+        yield ClientsFetched(clients);
+      } catch (e) {
+        yield FetchingError(e);
+      }
+    } else if (event is SearchClients) {
+      try {
+        final List<Client> clients = await clientsListService.fetchClientsList(searchText: event.searchText);
+        yield ClientsFetched(clients);
       } catch (e) {
         yield FetchingError(e);
       }

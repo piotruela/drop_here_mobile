@@ -27,7 +27,7 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
           } else if (state is FetchingError) {
             return Container(child: Text(state.error));
           } else if (state is ClientsFetched) {
-            return buildColumnWithData(locale, state, context);
+            return buildColumnWithData(locale, state, context, dhListBloc);
           }
           return Container();
         },
@@ -35,7 +35,7 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
     );
   }
 
-  SafeArea buildColumnWithData(LocaleBundle locale, ClientsFetched state, BuildContext context) {
+  SafeArea buildColumnWithData(LocaleBundle locale, ClientsFetched state, BuildContext context, DhListBloc bloc) {
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,15 +59,17 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
               buildFlatButton(context, locale.company),
             ],
           ),
-          DhSearchBar(),
+          DhSearchBar(bloc),
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: GestureDetector(
-              onTap: () => {},
+              onTap: () => {bloc.add(FilterClients())},
               child: Container(
                 margin: const EdgeInsets.all(5.0),
                 padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-                decoration: BoxDecoration(border: Border.all(), borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                decoration: BoxDecoration(
+                    border: Border.all(color: themeConfig.colors.addSthHere),
+                    borderRadius: BorderRadius.all(Radius.circular(20.0))),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -98,7 +100,10 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
   FlatButton buildFlatButton(BuildContext context, String text) {
     return FlatButton(
       child: Container(
-        decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.all(Radius.circular(8.0))),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        ),
         width: (MediaQuery.of(context).size.width - 130) / 3,
         height: 40.0,
         alignment: Alignment.center,

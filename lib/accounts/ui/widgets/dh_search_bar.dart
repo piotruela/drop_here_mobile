@@ -1,3 +1,4 @@
+import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
@@ -5,7 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class DhSearchBar extends StatelessWidget {
-  const DhSearchBar();
+  final DhListBloc bloc;
+  const DhSearchBar(this.bloc);
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +16,9 @@ class DhSearchBar extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 18.0),
       child: TextField(
+        onChanged: (String searchText) {
+          bloc.add(SearchClients(searchText: searchText));
+        },
         maxLines: 1,
         decoration: InputDecoration(
           hintText: locale.search,
