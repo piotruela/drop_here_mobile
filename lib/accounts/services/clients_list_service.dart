@@ -7,7 +7,10 @@ abstract class ClientsListService {
 class FakeClientsListService implements ClientsListService {
   @override
   Future<List<Client>> fetchClientsList() {
-    List<Client> clients = [Client(name: 'abc'), Client(name: 'def')];
+    List<Client> clients = [
+      Client(name: 'abc', isActive: true, numberOfDropsMember: 5),
+      Client(name: 'def', isActive: false, numberOfDropsMember: 3)
+    ];
     return Future.delayed(Duration(seconds: 1), () {
       return clients;
     });

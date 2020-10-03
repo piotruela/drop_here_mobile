@@ -20,65 +20,74 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
       body: BlocBuilder<DhListBloc, DhListState>(
         builder: (context, state) {
           if (state is DhListInitial) {
-            return Container(
-              child: Text('initial'),
-            );
+            return Center(child: CircularProgressIndicator());
           } else if (state is ListLoading) {
             return Center(child: CircularProgressIndicator());
           } else if (state is FetchingError) {
-            return Container(
-              child: Text('errkr'),
-            );
+            return Container(child: Text(state.error));
           } else if (state is ClientsFetched) {
-            return SafeArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 25.0),
-                    child: Text(
-                      locale.persons,
-                      style: themeConfig.textStyles.primaryTitle,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      SizedBox(
-                        width: 10.0,
-                      ),
-                      FlatButton(
-                        child: Container(
-                          decoration:
-                              BoxDecoration(color: Colors.red, borderRadius: BorderRadius.all(Radius.circular(8.0))),
-                          width: 190.0,
-                          height: 40.0,
-                          alignment: Alignment.center,
-                          child: Text(
-                            locale.clients,
-                            style: themeConfig.textStyles.secondaryTitle,
-                          ),
-                        ),
-                      ),
-                      FlatButton(
-                        child: Text(
-                          locale.sellers,
-                          style: themeConfig.textStyles.secondaryTitle,
-                        ),
-                      ),
-                    ],
-                  ),
-                  DhSearchBar(),
-                  DhCard(
-                    title: state.clients[0].name,
-                    isActive: false,
-                    dropsNumber: 7,
-                  ),
-                ],
-              ),
-            );
+            return buildColumnWithData(locale, state);
           }
           return Container();
         },
+      ),
+    );
+  }
+
+  SafeArea buildColumnWithData(LocaleBundle locale, ClientsFetched state) {
+    return SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0),
+            child: Text(
+              locale.persons,
+              style: themeConfig.textStyles.primaryTitle,
+            ),
+          ),
+          Row(
+            children: [
+              SizedBox(
+                width: 10.0,
+              ),
+              FlatButton(
+                child: Container(
+                  decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.all(Radius.circular(8.0))),
+                  width: 190.0,
+                  height: 40.0,
+                  alignment: Alignment.center,
+                  child: Text(
+                    locale.clients,
+                    style: themeConfig.textStyles.secondaryTitle,
+                  ),
+                ),
+              ),
+              FlatButton(
+                child: Text(
+                  locale.sellers,
+                  style: themeConfig.textStyles.secondaryTitle,
+                ),
+              ),
+            ],
+          ),
+          DhSearchBar(),
+          ListView.builder(
+              shrinkWrap: true,
+              itemCount: state.clients.length,
+              itemBuilder: (BuildContext context, int index) {
+                return DhCard(
+                  title: state.clients[index].name,
+                  isActive: state.clients[index].isActive,
+                  dropsNumber: state.clients[index].numberOfDropsMember,
+                );
+              }),
+          // DhCard(
+          //   title: state.clients[0].name,
+          //   isActive: false,
+          //   dropsNumber: 7,
+          // ),
+        ],
       ),
     );
   }
