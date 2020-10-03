@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
 import 'package:get/get.dart';
-
+//TODO: Get clients list
 /*curl -X GET "https://drop-here.herokuapp.com/management/companies/customers?blocked=true
 &customerName=dd&offset=12&pageNumber=12&pageSize=12&paged=true&sort.sorted=false
 &sort.unsorted=true&unpaged=true" */
