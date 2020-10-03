@@ -26,7 +26,7 @@ class DhCard extends StatelessWidget {
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(isActive ? locale.active : locale.blocked),
+              statusText(locale, themeConfig, isActive),
               Text(
                 locale.memberOf + ' ' + dropsNumber.toString() + ' ' + locale.spots,
                 style: themeConfig.textStyles.cardSubtitle,
@@ -49,6 +49,19 @@ class DhCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Text statusText(LocaleBundle locale, ThemeConfig themeConfig, bool isActive) {
+    if (isActive) {
+      return Text(
+        locale.active,
+        style: themeConfig.textStyles.active,
+      );
+    }
+    return Text(
+      locale.blocked,
+      style: themeConfig.textStyles.blocked,
     );
   }
 }

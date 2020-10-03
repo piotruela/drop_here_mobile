@@ -82,11 +82,6 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
                   dropsNumber: state.clients[index].numberOfDropsMember,
                 );
               }),
-          // DhCard(
-          //   title: state.clients[0].name,
-          //   isActive: false,
-          //   dropsNumber: 7,
-          // ),
         ],
       ),
     );

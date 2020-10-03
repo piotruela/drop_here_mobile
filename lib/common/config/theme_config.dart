@@ -19,6 +19,8 @@ class TextStyleTheme {
   final TextStyle listTileTitle;
   final TextStyle cardSubtitle;
   final TextStyle popupMenu;
+  final TextStyle active;
+  final TextStyle blocked;
 
   TextStyleTheme({
     this.button,
@@ -32,6 +34,8 @@ class TextStyleTheme {
     this.listTileTitle,
     this.cardSubtitle,
     this.popupMenu,
+    this.active,
+    this.blocked,
   });
 }
 

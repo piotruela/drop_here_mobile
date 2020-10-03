@@ -34,6 +34,8 @@ class DHThemeConfig extends ThemeConfig {
       listTileTitle: _listTileTitleTextStyle,
       cardSubtitle: _cardSubtitleTextStyle,
       popupMenu: _popupMenuTextStyle,
+      active: _activeTextStyle,
+      blocked: _blockedTextStyle,
     );
   }
 
@@ -85,6 +87,11 @@ class DHThemeConfig extends ThemeConfig {
   static final TextStyle _popupMenuTextStyle =
       _baseTextStyle.copyWith(fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w400);
 
+  static final TextStyle _activeTextStyle =
+      _baseTextStyle.copyWith(fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w500, color: _activeColor);
+  static final TextStyle _blockedTextStyle =
+      _baseTextStyle.copyWith(fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w500, color: _blockedColor);
+
   static final Color _primaryColor1 = const Color(0xfff5550a);
   static final Color _primaryColor2 = const Color(0xfff99363);
 
@@ -102,4 +109,7 @@ class DHThemeConfig extends ThemeConfig {
   static final Color _listTileMenuColor = const Color(0xfff2f2f2);
   static final Color _listTileMenuIconColor = const Color(0xff828282);
   static final Color _listTileMenuTextColor = const Color(0xff8D8D8D);
+
+  static final Color _activeColor = const Color(0xff029519);
+  static final Color _blockedColor = const Color(0xffAA0E04);
 }
