@@ -8,7 +8,7 @@ abstract class LoginFormEvent extends Equatable {
 }
 
 class FormChanged extends LoginFormEvent {
-  final LoginCredentials form;
+  final LoginRequest form;
 
   FormChanged({this.form});
 
@@ -18,7 +18,7 @@ class FormChanged extends LoginFormEvent {
 
 class FormSubmitted extends LoginFormEvent {
   final bool isValid;
-  final LoginCredentials form;
+  final LoginRequest form;
 
   FormSubmitted({this.isValid, this.form});
 

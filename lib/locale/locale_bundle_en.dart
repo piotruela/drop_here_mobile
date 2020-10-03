@@ -141,4 +141,11 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get createAdminProfile => "Create admin profile";
+
+  @override
+  String get createProfile => "Create profile";
+
+  String get loginToYourProfile => "Login to your profile";
+
+  String get loginToAdminProfile => "Login to admin profile";
 }

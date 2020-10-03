@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:drop_here_mobile/accounts/model/company/company_register_details_api.dart';
-import 'package:drop_here_mobile/accounts/model/country.dart';
-import 'package:drop_here_mobile/accounts/services/implementation/dh_countries_service.dart';
-import 'package:drop_here_mobile/accounts/services/registration_service.dart';
+import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
+import 'package:drop_here_mobile/accounts/model/api/country_api.dart';
+import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
+import 'package:drop_here_mobile/accounts/services/countries_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 
@@ -13,7 +13,7 @@ part 'company_register_details_state.dart';
 
 class CompanyRegisterDetailsBloc
     extends Bloc<CompanyRegisterFormEvent, CompanyRegistrationDetailsFormState> {
-  final RegistrationService registrationService = RegistrationService();
+  final CompanyManagementService companyManagementService = CompanyManagementService();
   CompanyRegisterDetailsBloc() : super(CompanyRegistrationDetailsFormState());
 
   @override
@@ -22,15 +22,16 @@ class CompanyRegisterDetailsBloc
   ) async* {
     if (event is FormInitialized) {
       yield LoadingState();
-      final DHCountriesService dhCountriesService = Get.find<DHCountriesService>();
+      final CountriesService dhCountriesService = Get.find<CountriesService>();
       List<Country> countries = await dhCountriesService.getCountries();
-      yield state.copyWith(form: CompanyDetails(visibility: "VISIBLE"), countries: countries);
+      yield state.copyWith(
+          form: CompanyManagementRequest(visibility: "VISIBLE"), countries: countries);
     }
     if (event is FormChanged) {
-      CompanyDetails form = event.form;
+      CompanyManagementRequest form = event.form;
       yield state.copyWith(form: form);
     } else if (event is FormSubmitted) {
-      registrationService.updateCompanyDetails(event.form);
+      companyManagementService.updateCompanyDetails(event.form);
     }
   }
 }

@@ -1,8 +1,8 @@
-import 'package:drop_here_mobile/accounts/model/country.dart';
+import 'package:drop_here_mobile/accounts/model/api/country_api.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
 import 'package:get/get.dart';
 
-class DHCountriesService {
+class CountriesService {
   final DhHttpClient _httpClient = Get.find<DhHttpClient>();
 
   Future<List<Country>> getCountries() async {

@@ -15,7 +15,7 @@ class FormInitialized extends CompanyRegisterFormEvent {
 }
 
 class FormChanged extends CompanyRegisterFormEvent {
-  final CompanyDetails form;
+  final CompanyManagementRequest form;
 
   FormChanged({this.form});
 
@@ -25,7 +25,7 @@ class FormChanged extends CompanyRegisterFormEvent {
 
 class FormSubmitted extends CompanyRegisterFormEvent {
   final bool isValid;
-  final CompanyDetails form;
+  final CompanyManagementRequest form;
 
   FormSubmitted({this.isValid, this.form});
 

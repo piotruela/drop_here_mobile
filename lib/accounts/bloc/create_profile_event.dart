@@ -8,7 +8,7 @@ abstract class CreateProfileEvent extends Equatable {
 }
 
 class FormChanged extends CreateProfileEvent {
-  final CreateProfileForm form;
+  final AccountProfileCreationRequest form;
 
   FormChanged({this.form});
 
@@ -18,7 +18,7 @@ class FormChanged extends CreateProfileEvent {
 
 class FormSubmitted extends CreateProfileEvent {
   final bool isValid;
-  final CreateProfileForm form;
+  final AccountProfileCreationRequest form;
 
   FormSubmitted({this.isValid, this.form});
 

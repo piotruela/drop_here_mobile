@@ -1,12 +1,13 @@
 part of 'company_register_details_bloc.dart';
 
 class CompanyRegistrationDetailsFormState extends Equatable {
-  final CompanyDetails form;
+  final CompanyManagementRequest form;
   final List<Country> countries;
 
   CompanyRegistrationDetailsFormState({this.form, this.countries});
 
-  CompanyRegistrationDetailsFormState copyWith({CompanyDetails form, List<Country> countries}) {
+  CompanyRegistrationDetailsFormState copyWith(
+      {CompanyManagementRequest form, List<Country> countries}) {
     return CompanyRegistrationDetailsFormState(
         form: form ?? this.form, countries: countries ?? this.countries);
   }

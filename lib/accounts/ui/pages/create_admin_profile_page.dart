@@ -1,5 +1,6 @@
 import 'package:drop_here_mobile/accounts/bloc/create_profile_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
@@ -11,7 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-class CreateAdminProfilePage extends BlocWidget<CreateProfileBloc> {
+abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
@@ -28,7 +29,7 @@ class CreateAdminProfilePage extends BlocWidget<CreateProfileBloc> {
               listenWhen: (previous, current) => previous != current,
               listener: (context, state) {
                 if (state is SuccessState) {
-                  Get.to(CompanyDetailsRegistrationPage());
+                  Get.to(getNextPage());
                 } else if (state is ErrorState) {
                   Scaffold.of(context).showSnackBar(SnackBar(
                       content:
@@ -43,7 +44,7 @@ class CreateAdminProfilePage extends BlocWidget<CreateProfileBloc> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.only(top: 144.0, bottom: 22.0),
-                          child: Text(localeBundle.createAdminProfile,
+                          child: Text(getTitleText(context),
                               style: themeConfig.textStyles.secondaryTitle),
                         ),
                         DhTextFormField(
@@ -73,4 +74,24 @@ class CreateAdminProfilePage extends BlocWidget<CreateProfileBloc> {
               ),
             )));
   }
+
+  String getTitleText(BuildContext context);
+
+  Widget getNextPage();
+}
+
+class CreateAdminProfilePage extends CreateProfilePage {
+  @override
+  String getTitleText(BuildContext context) => Localization.of(context).bundle.createAdminProfile;
+
+  @override
+  Widget getNextPage() => CompanyDetailsRegistrationPage();
+}
+
+class CreateRegularProfilePage extends CreateProfilePage {
+  @override
+  String getTitleText(BuildContext context) => Localization.of(context).bundle.createProfile;
+
+  @override
+  Widget getNextPage() => ChooseProfilePage();
 }

@@ -36,6 +36,8 @@ class DhHttpClient {
     _httpHeaders.remove(name);
   }
 
+  String get token => _httpHeaders[HttpHeaders.authorizationHeader];
+
   @visibleForTesting
   Future initForTests() async {
     _baseClient = HttpClient();

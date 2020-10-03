@@ -1,5 +1,6 @@
 import 'package:drop_here_mobile/accounts/bloc/login_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/sandbox_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_button.dart';
@@ -7,7 +8,6 @@ import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
-import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,13 +26,21 @@ class LoginPage extends BlocWidget<LoginBloc> {
     return MainLayout(
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: Center(
-          child: ListView(
-            children: [
-              Form(
-                key: key,
-                child: BlocProvider<LoginBloc>(
-                  create: (context) => LoginBloc(),
+        body: BlocListener<LoginBloc, LoginFormState>(
+          bloc: bloc,
+          listenWhen: (previous, current) => previous != current && current is SuccessState,
+          listener: (context, state) {
+            if (state is SuccessState) {
+              Get.to(ChooseProfilePage());
+            } else {
+              Scaffold.of(context).showSnackBar(SnackBar(content: Text("Login error")));
+            }
+          },
+          child: Center(
+            child: ListView(
+              children: [
+                Form(
+                  key: key,
                   child: Column(
                     children: [
                       Padding(
@@ -68,8 +76,8 @@ class LoginPage extends BlocWidget<LoginBloc> {
                     ],
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
@@ -84,7 +92,6 @@ class LoginPage extends BlocWidget<LoginBloc> {
           ),
           elevation: 4.0,
         ),
-        bottomNavigationBar: DHBottomBar(selectedIndex: 1),
       ),
     );
   }
