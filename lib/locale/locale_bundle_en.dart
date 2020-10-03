@@ -182,13 +182,13 @@ class LocaleBundleEn extends LocaleBundle {
   String get search => 'Search';
 
   @override
-  String get active => 'active';
+  String get active => 'Active';
 
   @override
   String get block => 'block';
 
   @override
-  String get blocked => 'blocked';
+  String get blocked => 'Blocked';
 
   @override
   String get edit => 'edit';
@@ -201,4 +201,10 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get unblock => 'unblock';
+
+  @override
+  String get company => 'Company';
+
+  @override
+  String get filters => 'Filters';
 }

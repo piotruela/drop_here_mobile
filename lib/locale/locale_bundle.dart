@@ -130,4 +130,8 @@ abstract class LocaleBundle {
   String get unblock;
 
   String get edit;
+
+  String get company;
+
+  String get filters;
 }

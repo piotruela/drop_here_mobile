@@ -97,7 +97,7 @@ class DHThemeConfig extends ThemeConfig {
   static final Color _primaryColor1 = const Color(0xfff5550a);
   static final Color _primaryColor2 = const Color(0xfff99363);
 
-  static final Color _backgroundColor = const Color(0xffffffff);
+  static final Color _backgroundColor = const Color(0xfff9f9f9);
 
   static final Color _facebookColor = const Color(0xff3b5998);
   static final Color _textFieldHintColor = const Color(0xff8d8d8d);
