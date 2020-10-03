@@ -1,55 +1,27 @@
 part of 'registration_bloc.dart';
 
-abstract class RegistrationFormEvent extends Equatable {
-  const RegistrationFormEvent();
+abstract class RegisterEvent extends Equatable {
+  const RegisterEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class FormInitialized extends Equatable {
+class FormChanged extends RegisterEvent {
+  final AccountCreationRequest form;
+
+  FormChanged({this.form});
+
+  @override
+  List<Object> get props => [form];
+}
+
+class FormSubmitted extends RegisterEvent {
   final bool isValid;
-  final AccountType accountType;
+  final AccountCreationRequest form;
 
-  FormInitialized({this.isValid = false, this.accountType});
-
-  @override
-  List<Object> get props => [isValid];
-}
-
-class MailChanged extends RegistrationFormEvent{
-  final String mail;
-
-  MailChanged({this.mail});
+  FormSubmitted({this.isValid, this.form});
 
   @override
-  List<Object> get props => [mail];
-}
-
-class PasswordChanged extends RegistrationFormEvent{
-  final String password;
-
-  PasswordChanged({this.password});
-
-  @override
-  List<Object> get props => [password];
-}
-
-class PasswordRepeatChanged extends RegistrationFormEvent{
-  final String passwordRepeat;
-
-  PasswordRepeatChanged({this.passwordRepeat});
-
-  @override
-  List<Object> get props => [passwordRepeat];
-}
-
-class RegistrationFormSubmitted extends RegistrationFormEvent{
-  final bool isValid;
-  final AccountType accountType;
-
-  RegistrationFormSubmitted({this.isValid, this.accountType});
-
-  @override
-  List<Object> get props => [ isValid, accountType];
+  List<Object> get props => [form, isValid];
 }

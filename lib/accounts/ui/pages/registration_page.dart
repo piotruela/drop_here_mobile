@@ -1,6 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/registration_bloc.dart';
-import 'package:drop_here_mobile/accounts/model/credentials.dart';
-import 'package:drop_here_mobile/accounts/services/registration_service.dart';
+import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/buyer_details_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dart';
@@ -27,24 +26,17 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
     return MainLayout(
         child: Scaffold(
             backgroundColor: Colors.transparent,
-            body: BlocListener<RegistrationBloc, RegistrationFormState>(
+            body: BlocListener<RegistrationBloc, RegisterState>(
               bloc: bloc,
-              listenWhen: (previous, current) => previous.result != current.result,
+              listenWhen: (previous, current) => previous != current,
               listener: (context, state) {
-                if (state.result == RegistrationResult.account_created) {
-                  Widget page = bloc.state.accountType == AccountType.CUSTOMER
+                if (state.success == null) {
+                } else if (state.success) {
+                  Widget page = bloc.state.form.accountType == AccountType.CUSTOMER
                       ? BuyerDetailsRegistrationPage()
                       : CreateAdminProfilePage();
                   Get.to(page);
-                } else if (state.result == RegistrationResult.account_exists ||
-                    state.result == RegistrationResult.bad_credentials) {
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                      backgroundColor: themeConfig.colors.primary1,
-                      content: Text(localeBundle.registrationError +
-                          (state.result == RegistrationResult.account_exists
-                              ? localeBundle.accountAlreadyExists
-                              : localeBundle.badCredentials))));
-                } else if (state.result == RegistrationResult.error) {
+                } else if (!state.success) {
                   Scaffold.of(context).showSnackBar(SnackBar(
                       content:
                           Text(localeBundle.registrationError + localeBundle.unexpectedError)));
@@ -76,29 +68,27 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
   Widget mailField(RegistrationBloc bloc, LocaleBundle localeBundle) {
     return DhTextFormField(
         labelText: localeBundle.email,
-        onChanged: (val) => bloc.add(MailChanged(mail: val)),
+        onChanged: (val) => bloc.add(FormChanged(form: bloc.state.form.copyWith(mail: val))),
         validator: (mail) => mailValidator(mail, localeBundle));
   }
 
   Widget passwordField(RegistrationBloc bloc, LocaleBundle localeBundle) {
     return DhTextFormField(
         labelText: localeBundle.password,
-        onChanged: (val) => bloc.add(PasswordChanged(password: val)),
+        onChanged: (val) => bloc.add(FormChanged(form: bloc.state.form.copyWith(password: val))),
         validator: (password) => passwordValidator(password, localeBundle));
   }
 
   Widget repeatPasswordField(RegistrationBloc bloc, LocaleBundle localeBundle) {
     return DhTextFormField(
         labelText: localeBundle.repeatPassword,
-        onChanged: (val) => bloc.add(PasswordRepeatChanged(passwordRepeat: val)),
         validator: (repeatedPassword) =>
-            repeatPasswordValidator(bloc.state.password, repeatedPassword, localeBundle));
+            repeatPasswordValidator(bloc.state.form.password, repeatedPassword, localeBundle));
   }
 
   Widget signUpButton(RegistrationBloc bloc, LocaleBundle localeBundle) {
     return DhButton(
-        onPressed: () =>
-            bloc.add(RegistrationFormSubmitted(isValid: validate, accountType: accountType)),
+        onPressed: () => bloc.add(FormSubmitted(isValid: validate, form: bloc.state.form)),
         text: localeBundle.signUp,
         backgroundColor: themeConfig.colors.primary1);
   }

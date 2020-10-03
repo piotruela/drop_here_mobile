@@ -1,62 +1,74 @@
-import 'package:drop_here_mobile/accounts/model/profile.dart';
+import 'package:drop_here_mobile/accounts/bloc/choose_profile_bloc.dart';
+import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/log_on_profile_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-class ChooseProfilePage extends StatelessWidget {
-  final ThemeConfig themeConfig = Get.find<ThemeConfig>(); //TODO: Fetch profiles
-  final List<Profile> profiles = [
-    Profile.withName(firstName: "Jan", lastName: "Kowalski", profileType: ProfileType.MAIN),
-    Profile.withName(firstName: "Adam", lastName: "Kowalski"),
-    Profile.withName(firstName: "Jakub", lastName: "Kowalski"),
-    Profile.withName(firstName: "Piotr", lastName: "Kowalski"),
-    Profile.withName(firstName: "Jan", lastName: "Kowalski"),
-    Profile.withName(firstName: "Adam", lastName: "Kowalski"),
-    Profile.withName(firstName: "Jakub", lastName: "Kowalski"),
-    Profile.withName(firstName: "Piotr", lastName: "Kowalski"),
-    Profile.withName(firstName: "Jan", lastName: "Kowalski"),
-    Profile.withName(firstName: "Adam", lastName: "Kowalski"),
-    Profile.withName(firstName: "Jakub", lastName: "Kowalski"),
-    Profile.withName(firstName: "Piotr", lastName: "Kowalski")
-  ];
+class ChooseProfilePage extends BlocWidget<ChooseProfileBloc> {
+  final ThemeConfig themeConfig = Get.find<ThemeConfig>();
 
   ChooseProfilePage();
 
   @override
-  Widget build(BuildContext context) {
+  ChooseProfileBloc bloc() => ChooseProfileBloc()..add(FetchProfiles());
+
+  @override
+  Widget build(BuildContext context, ChooseProfileBloc bloc, _) {
     return Scaffold(
         backgroundColor: themeConfig.colors.background,
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 70.0),
-              child: Text("Choose your profile", style: themeConfig.textStyles.primaryTitle),
-            ),
-            Expanded(
-              child: GridView.builder(
-                itemCount: profiles.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2, childAspectRatio: 1.4),
-                itemBuilder: (BuildContext context, int index) {
-                  return Padding(
-                    padding: EdgeInsets.all(20),
-                    child: ProfileTile(
-                      isAdmin: profiles.elementAt(index).profileType == ProfileType.MAIN,
-                      profile: profiles.elementAt(index),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
-        ));
+        body: BlocBuilder<ChooseProfileBloc, ChooseProfileState>(
+            buildWhen: (previous, current) => previous != current,
+            builder: (context, state) {
+              if (state is LoadingState || state is ChooseProfileInitial) {
+                return CircularProgressIndicator();
+              } else if (state is ProfilesFetched) {
+                return _profilesList(state.profiles);
+              } else
+                return SizedBox.shrink();
+            }));
   }
+}
+
+Widget _profilesList(List<ProfileInfoResponse> profiles) {
+  final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+  return Column(
+    children: [
+      Padding(
+        padding: const EdgeInsets.only(top: 70.0),
+        child: Text("Choose your profile", style: themeConfig.textStyles.primaryTitle),
+      ),
+      RaisedButton(
+          color: themeConfig.colors.primary1,
+          child: Text("ADD PROFILE"),
+          onPressed: () => Get.to(CreateRegularProfilePage())),
+      Expanded(
+        child: GridView.builder(
+          itemCount: profiles.length,
+          gridDelegate:
+              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.4),
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: EdgeInsets.all(20),
+              child: ProfileTile(
+                isAdmin: profiles?.elementAt(index)?.profileType == ProfileType.MAIN,
+                profile: profiles?.elementAt(index),
+              ),
+            );
+          },
+        ),
+      ),
+    ],
+  );
 }
 
 class ProfileTile extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final bool isAdmin;
-  final Profile profile;
+  final ProfileInfoResponse profile;
 
   ProfileTile({this.isAdmin = false, @required this.profile});
 
@@ -66,7 +78,7 @@ class ProfileTile extends StatelessWidget {
       width: 180,
       height: 100,
       child: GestureDetector(
-        onTap: () => {}, //TODO: Get to loginToProfilePage
+        onTap: () => Get.to(LogOnProfilePage(profile: profile)),
         child: Container(
             decoration: BoxDecoration(
               border: isAdmin ? Border.all(color: themeConfig.colors.primary1, width: 3) : null,

@@ -1,11 +1,11 @@
 part of 'create_profile_bloc.dart';
 
 class CreateProfileState extends Equatable {
-  final CreateProfileForm form;
+  final AccountProfileCreationRequest form;
 
   CreateProfileState({this.form});
 
-  CreateProfileState copyWith({CreateProfileForm form}) {
+  CreateProfileState copyWith({AccountProfileCreationRequest form}) {
     return CreateProfileState(form: form ?? this.form);
   }
 

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:drop_here_mobile/accounts/model/credentials.dart';
+import 'package:drop_here_mobile/accounts/model/api/authentication_api.dart';
 import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:equatable/equatable.dart';
 
@@ -9,7 +9,7 @@ part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginFormEvent, LoginFormState> {
-  LoginBloc() : super(LoginFormState(form: LoginCredentials()));
+  LoginBloc() : super(LoginFormState(form: LoginRequest()));
   final AuthenticationService authenticationService = AuthenticationService();
 
   @override
@@ -22,8 +22,8 @@ class LoginBloc extends Bloc<LoginFormEvent, LoginFormState> {
     } else if (event is FormSubmitted) {
       yield LoginLoadingState();
       if (event.isValid) {
-        AuthenticationResult result = await authenticationService.authenticate(event.form);
-        if (result == AuthenticationResult.success) {
+        LoginResponse loginResponse = await authenticationService.authenticate(event.form);
+        if (loginResponse.token != "-1") {
           yield SuccessState();
         } else {
           yield ErrorState(); //TODO:Return form when result is error

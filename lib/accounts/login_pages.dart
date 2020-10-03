@@ -8,6 +8,7 @@ import 'package:drop_here_mobile/accounts/ui/pages/company_registration_page.dar
 import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/customer_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/home_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/log_on_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/login_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/sandbox_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/splash_page.dart';
@@ -30,5 +31,6 @@ class LoginPages {
     GetPage(name: '/sandbox', page: () => SandboxPage()),
     GetPage(name: '/homePage', page: () => Home()),
     GetPage(name: '/chooseProfile', page: () => ChooseProfilePage()),
+    GetPage(name: '/profileLoginPage', page: () => LogOnProfilePage()),
   ];
 }

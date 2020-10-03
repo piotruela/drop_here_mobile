@@ -1,12 +1,12 @@
 part of 'login_bloc.dart';
 
 class LoginFormState extends Equatable {
-  final LoginCredentials form;
+  final LoginRequest form;
   final bool success;
 
   const LoginFormState({this.form, this.success});
 
-  LoginFormState copyWith({LoginCredentials form}) {
+  LoginFormState copyWith({LoginRequest form}) {
     return LoginFormState(form: form ?? this.form, success: success ?? this.success);
   }
 
