@@ -1,41 +1,37 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:drop_here_mobile/accounts/model/credentials.dart';
-import 'package:drop_here_mobile/accounts/services/registration_service.dart';
+import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
+import 'package:drop_here_mobile/accounts/model/api/authentication_api.dart';
+import 'package:drop_here_mobile/accounts/services/account_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 part 'registration_event.dart';
 part 'registration_state.dart';
 
-class RegistrationBloc extends Bloc<RegistrationFormEvent, RegistrationFormState> {
-  final RegistrationService registrationService = RegistrationService();
-  RegistrationBloc({@required AccountType accountType}) : super(RegistrationFormState(mail: null, password: null, isValid: false, result: null, accountType: accountType));
-
+class RegistrationBloc extends Bloc<RegisterEvent, RegisterState> {
+  final AccountService accountService = Get.find<AccountService>();
+  RegistrationBloc({@required AccountType accountType})
+      : super(RegisterState(form: AccountCreationRequest(accountType: accountType), success: null));
 
   @override
-  Stream<RegistrationFormState> mapEventToState(
-      RegistrationFormEvent event,
+  Stream<RegisterState> mapEventToState(
+    RegisterEvent event,
   ) async* {
-    if(event is MailChanged){
-      final mail = event.mail;
-      yield state.copyWith(mail: mail);
-    }
-    else if (event is PasswordChanged){
-      final password = event.password;
-      yield state.copyWith(password: password);
-    }
-    else if (event is PasswordRepeatChanged){
-      final passwordRepeat = event.passwordRepeat;
-      yield state.copyWith(passwordRepeat: passwordRepeat);
-    }
-    else if (event is RegistrationFormSubmitted){
-      if(event.isValid){
-        yield state.copyWith(result: RegistrationResult.in_progress);
-          RegistrationResult result = await registrationService.register(RegistrationCredentials(mail: state.mail, password: state.password,
-              accountType: event.accountType));
-          yield state.copyWith(result: result);
+    if (event is FormChanged) {
+      final form = event.form;
+      yield state.copyWith(form: form, successNull: true);
+    } else if (event is FormSubmitted) {
+      RegisterLoadingState();
+      if (event.isValid) {
+        LoginResponse result = await accountService.register(event.form);
+        if (result.token != '-1') {
+          yield state.copyWith(success: true);
+        } else {
+          yield state.copyWith(success: false);
+        }
       }
     }
   }

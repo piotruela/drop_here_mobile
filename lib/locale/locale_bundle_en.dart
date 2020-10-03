@@ -207,4 +207,19 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get filters => 'Filters';
+
+  @override
+  String get pickACountry => "Pick a country";
+
+  @override
+  String get createAdminProfile => "Create admin profile";
+
+  @override
+  String get createProfile => "Create profile";
+
+  @override
+  String get loginToYourProfile => "Login to your profile";
+
+  @override
+  String get loginToAdminProfile => "Login to admin profile";
 }

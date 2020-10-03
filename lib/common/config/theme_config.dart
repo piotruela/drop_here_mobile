@@ -13,6 +13,7 @@ class TextStyleTheme {
   final TextStyle textFieldHint;
   final TextStyle button;
   final TextStyle clickableText;
+  final TextStyle filledTextField;
 
   final TextStyle dhButton;
   final TextStyle cardCaption;
@@ -25,6 +26,7 @@ class TextStyleTheme {
   TextStyleTheme({
     this.button,
     this.clickableText,
+    this.filledTextField,
     this.primaryTitle,
     this.secondaryTitle,
     this.contentTitle,

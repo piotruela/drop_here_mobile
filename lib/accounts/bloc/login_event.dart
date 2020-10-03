@@ -7,40 +7,21 @@ abstract class LoginFormEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class FormInitialized extends Equatable {
+class FormChanged extends LoginFormEvent {
+  final LoginRequest form;
+
+  FormChanged({this.form});
+
+  @override
+  List<Object> get props => [form];
+}
+
+class FormSubmitted extends LoginFormEvent {
   final bool isValid;
+  final LoginRequest form;
 
-  FormInitialized({this.isValid});
-
-  @override
-  List<Object> get props => [isValid];
-}
-
-class MailChanged extends LoginFormEvent{
-  final String mail;
-
-  MailChanged({this.mail});
+  FormSubmitted({this.isValid, this.form});
 
   @override
-  List<Object> get props => [mail];
-}
-
-class PasswordChanged extends LoginFormEvent{
-  final String password;
-
-  PasswordChanged({this.password});
-
-  @override
-  List<Object> get props => [password];
-}
-
-class LoginFormSubmitted extends LoginFormEvent{
-  final String mail;
-  final String password;
-  final bool isValid;
-
-  LoginFormSubmitted({this.mail, this.password, this.isValid});
-
-  @override
-  List<Object> get props => [mail, password, isValid];
+  List<Object> get props => [form, isValid];
 }

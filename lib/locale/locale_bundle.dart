@@ -134,4 +134,14 @@ abstract class LocaleBundle {
   String get company;
 
   String get filters;
+
+  String get pickACountry;
+
+  String get createAdminProfile;
+
+  String get createProfile;
+
+  String get loginToYourProfile;
+
+  String get loginToAdminProfile;
 }

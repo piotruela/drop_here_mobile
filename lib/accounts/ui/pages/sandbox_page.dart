@@ -1,11 +1,14 @@
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/buyer_details_registration_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_user_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/client_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/clients_list_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/seller_details_registration_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/company_details_registration_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/home_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/cupertino.dart';
@@ -34,7 +37,7 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                   child: Text("seller details registration"),
                   onPressed: () {
-                    Get.to(SellerDetailsRegistrationPage());
+                    Get.to(CompanyDetailsRegistrationPage());
                   },
                 ),
                 FlatButton(
@@ -62,9 +65,26 @@ class SandboxPage extends StatelessWidget {
                   },
                 ),
                 FlatButton(
-                  child: Text("clients list"),
+                    child: Text("clients list"),
+                    onPressed: () {
+                      Get.to(ClientsListPage());
+                    }),
+                FlatButton(
+                  child: Text("home page"),
                   onPressed: () {
-                    Get.to(ClientsListPage());
+                    Get.to(Home());
+                  },
+                ),
+                FlatButton(
+                  child: Text("choose profile page"),
+                  onPressed: () {
+                    Get.to(ChooseProfilePage());
+                  },
+                ),
+                FlatButton(
+                  child: Text("create admin profile"),
+                  onPressed: () {
+                    Get.to(CreateAdminProfilePage());
                   },
                 ),
               ],

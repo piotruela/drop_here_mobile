@@ -24,6 +24,7 @@ class DHThemeConfig extends ThemeConfig {
   void _initTextStyleTheme() {
     textStyles = TextStyleTheme(
       primaryTitle: _primaryTitleTextStyle,
+      filledTextField: _filledTextField,
       secondaryTitle: _secondaryTitleTextStyle,
       contentTitle: _contentTextStyle,
       textFieldHint: _textFieldHintTextStyle,
@@ -67,6 +68,7 @@ class DHThemeConfig extends ThemeConfig {
 
   static final TextStyle _baseTextStyle =
       TextStyle(fontFamily: 'Roboto', color: _black, letterSpacing: 0.0, fontWeight: FontWeight.normal);
+
   static final TextStyle _primaryTitleTextStyle =
       _baseTextStyle.copyWith(fontSize: 30.0, height: 35.0 / 30.0, fontWeight: FontWeight.bold);
   static final TextStyle _secondaryTitleTextStyle =
@@ -79,6 +81,9 @@ class DHThemeConfig extends ThemeConfig {
       fontSize: 18.0, color: _textFieldHintColor, height: 21.0 / 18.0, fontWeight: FontWeight.bold);
   static final TextStyle _cardCaptionTextStyle =
       _baseTextStyle.copyWith(fontSize: 20.0, color: _white, height: 23.0 / 20.0, fontWeight: FontWeight.bold);
+
+  static final TextStyle _filledTextField =
+      _secondaryTitleTextStyle.copyWith(color: _black, fontWeight: FontWeight.normal);
 
   static final TextStyle _listTileTitleTextStyle = _baseTextStyle.copyWith(
       fontSize: 20.0, color: _listTileMenuTextColor, height: 23.0 / 20.0, fontWeight: FontWeight.bold);
