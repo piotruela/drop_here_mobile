@@ -52,16 +52,32 @@ class DhCard extends StatelessWidget {
     );
   }
 
-  Text statusText(LocaleBundle locale, ThemeConfig themeConfig, bool isActive) {
+  Row statusText(LocaleBundle locale, ThemeConfig themeConfig, bool isActive) {
     if (isActive) {
-      return Text(
-        locale.active,
-        style: themeConfig.textStyles.active,
+      return Row(
+        children: [
+          Text(
+            locale.active,
+            style: themeConfig.textStyles.active,
+          ),
+          Icon(
+            Icons.check,
+            color: themeConfig.colors.active,
+          ),
+        ],
       );
     }
-    return Text(
-      locale.blocked,
-      style: themeConfig.textStyles.blocked,
+    return Row(
+      children: [
+        Text(
+          locale.blocked,
+          style: themeConfig.textStyles.blocked,
+        ),
+        Icon(
+          Icons.clear,
+          color: themeConfig.colors.blocked,
+        ),
+      ],
     );
   }
 }

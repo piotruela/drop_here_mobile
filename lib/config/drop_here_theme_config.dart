@@ -52,6 +52,8 @@ class DHThemeConfig extends ThemeConfig {
       listTileMenuIcon: _listTileMenuIconColor,
       listTileMenuText: _listTileMenuTextColor,
       addSthHere: _addSthHereColor,
+      active: _activeColor,
+      blocked: _blockedColor,
     );
   }
 
