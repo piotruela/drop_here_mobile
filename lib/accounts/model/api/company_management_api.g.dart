@@ -112,3 +112,53 @@ const _$OperationStatusEnumMap = {
   OperationStatus.DELETED: 'DELETED',
   OperationStatus.ERROR: 'ERROR',
 };
+
+CompanyCustomerResponse _$CompanyCustomerResponseFromJson(
+    Map<String, dynamic> json) {
+  return CompanyCustomerResponse()
+    ..customerId = json['customerId'] as int
+    ..firstName = json['firstName'] as String
+    ..lastName = json['lastName'] as String
+    ..relationshipStatus = _$enumDecodeNullable(
+        _$RelationshipStatusEnumMap, json['relationshipStatus']);
+}
+
+Map<String, dynamic> _$CompanyCustomerResponseToJson(
+        CompanyCustomerResponse instance) =>
+    <String, dynamic>{
+      'customerId': instance.customerId,
+      'firstName': instance.firstName,
+      'lastName': instance.lastName,
+      'relationshipStatus':
+          _$RelationshipStatusEnumMap[instance.relationshipStatus],
+    };
+
+const _$RelationshipStatusEnumMap = {
+  RelationshipStatus.ACTIVE: 'ACTIVE',
+  RelationshipStatus.BLOCKED: 'BLOCKED',
+};
+
+CompanyCustomerSpotMembershipResponse
+    _$CompanyCustomerSpotMembershipResponseFromJson(Map<String, dynamic> json) {
+  return CompanyCustomerSpotMembershipResponse()
+    ..membershipStatus = _$enumDecodeNullable(
+        _$MembershipStatusEnumMap, json['membershipStatus'])
+    ..spotId = json['spotId'] as int
+    ..spotName = json['spotName'] as String
+    ..spotUid = json['spotUid'] as String;
+}
+
+Map<String, dynamic> _$CompanyCustomerSpotMembershipResponseToJson(
+        CompanyCustomerSpotMembershipResponse instance) =>
+    <String, dynamic>{
+      'membershipStatus': _$MembershipStatusEnumMap[instance.membershipStatus],
+      'spotId': instance.spotId,
+      'spotName': instance.spotName,
+      'spotUid': instance.spotUid,
+    };
+
+const _$MembershipStatusEnumMap = {
+  MembershipStatus.ACTIVE: 'ACTIVE',
+  MembershipStatus.PENDING: 'PENDING',
+  MembershipStatus.BLOCKED: 'BLOCKED',
+};
