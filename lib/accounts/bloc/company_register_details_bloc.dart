@@ -4,10 +4,9 @@ import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/country_api.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
+import 'package:drop_here_mobile/accounts/services/countries_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
-
-import 'file:///E:/Piotr%20Maszota/inzynierka/drop_here_mobile/lib/accounts/services/countries_service.dart';
 
 part 'company_register_details_event.dart';
 part 'company_register_details_state.dart';

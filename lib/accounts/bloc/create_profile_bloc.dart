@@ -2,10 +2,9 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
+import 'package:drop_here_mobile/accounts/services/account_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
-
-import 'file:///E:/Piotr%20Maszota/inzynierka/drop_here_mobile/lib/accounts/services/account_service.dart';
 
 part 'create_profile_event.dart';
 part 'create_profile_state.dart';
