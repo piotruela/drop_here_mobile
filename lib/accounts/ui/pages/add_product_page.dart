@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:drop_here_mobile/accounts/bloc/add_product_bloc.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
@@ -20,13 +19,16 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
   Widget build(BuildContext context, AddProductBloc addProductBloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
-        floatingActionButton: BlocBuilder<AddProductBloc, AddProductFormState>(builder: (context, state) {
+        floatingActionButton:
+            BlocBuilder<AddProductBloc, AddProductFormState>(builder: (context, state) {
           return FloatingActionButton.extended(
             onPressed: () {},
             label: Text(
               locale.addProduct,
               style: TextStyle(
-                  color: addProductBloc.state.isFilled ? themeConfig.colors.primary1 : themeConfig.colors.addSthHere),
+                  color: addProductBloc.state.isFilled()
+                      ? themeConfig.colors.primary1
+                      : themeConfig.colors.addSthHere),
             ),
             backgroundColor: themeConfig.colors.white,
           );
@@ -53,7 +55,9 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                         DhPlainTextFormField(
                           hintText: locale.productNameExample,
                           onChanged: (String name) {
-                            addProductBloc.add(NameChosen(name: name));
+                            addProductBloc.add(FormChanged(
+                                productManagementRequest:
+                                    state.productManagementRequest.copyWith(name: name)));
                           },
                         ),
                         Text(
@@ -71,7 +75,8 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                             margin: const EdgeInsets.all(5.0),
                             padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
                             decoration: BoxDecoration(
-                                border: Border.all(), borderRadius: BorderRadius.all(Radius.circular(20.0))),
+                                border: Border.all(),
+                                borderRadius: BorderRadius.all(Radius.circular(20.0))),
                             child: Text(
                               'Fruits',
                             ),
@@ -81,21 +86,29 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           locale.description,
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
-                        DhTextArea(),
+                        DhTextArea(
+                          onChanged: (String description) {
+                            addProductBloc.add(FormChanged(
+                                productManagementRequest: state.productManagementRequest
+                                    .copyWith(description: description)));
+                          },
+                        ),
                         Text(
                           locale.unitTypeMandatory,
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
-                        DropdownButton<UnitType>(
+                        DropdownButton<String>(
                           isExpanded: true,
-                          onChanged: (UnitType unitType) => addProductBloc.add(UnitTypeChosen(unitType: unitType)),
-                          value: state.unitType,
+                          onChanged: (String unit) => addProductBloc.add(FormChanged(
+                              productManagementRequest:
+                                  state.productManagementRequest.copyWith(unit: unit))),
+                          value: state.productManagementRequest?.unit,
                           icon: Icon(Icons.arrow_drop_down),
-                          items: <UnitType>[UnitType.grams, UnitType.kilograms, UnitType.pieces, UnitType.liters]
-                              .map<DropdownMenuItem<UnitType>>((UnitType value) {
-                            return DropdownMenuItem<UnitType>(
+                          items: <String>['grams', 'kilograms', 'liters']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
                               value: value,
-                              child: Text(describeEnum(value)),
+                              child: Text(value),
                             );
                           }).toList(),
                         ),
@@ -107,7 +120,9 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           hintText: locale.pricePerUnitExample,
                           inputType: InputType.number,
                           onChanged: (String value) {
-                            addProductBloc.add(PricePerUnitChosen(pricePerUnit: double.parse(value)));
+                            addProductBloc.add(FormChanged(
+                                productManagementRequest: state.productManagementRequest
+                                    .copyWith(price: double.parse(value))));
                           },
                         ),
                         Text(
@@ -118,8 +133,9 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           hintText: locale.unitFractionExample,
                           inputType: InputType.number,
                           onChanged: (String value) {
-                            addProductBloc
-                                .add(UnitFractionChosen(unitFraction: value != "" ? double.parse(value) : null));
+                            addProductBloc.add(FormChanged(
+                                productManagementRequest: state.productManagementRequest.copyWith(
+                                    unitFraction: value != "" ? double.parse(value) : null)));
                           },
                         ),
                         SizedBox(
@@ -168,7 +184,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
   Future getImage(Bloc bloc) async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
     _image = File(pickedFile.path);
-    bloc.add(PhotoChosen(photo: _image));
+    bloc.add(FormChanged(photo: _image));
   }
 
   @override
@@ -207,14 +223,16 @@ enum InputType { text, number }
 
 class DhTextArea extends StatelessWidget {
   final String hintText;
-  DhTextArea({this.hintText});
+  final void Function(String) onChanged;
+  DhTextArea({this.hintText, this.onChanged});
   final _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 13.0),
       child: TextFormField(
-        controller: _controller,
+        onChanged: onChanged,
+        //controller: _controller,
         cursorColor: Colors.black,
         minLines: 1,
         maxLines: 4,

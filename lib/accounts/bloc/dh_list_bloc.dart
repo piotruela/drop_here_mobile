@@ -2,16 +2,17 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/accounts/model/client.dart';
-import 'package:drop_here_mobile/accounts/services/clients_list_service.dart';
+import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:equatable/equatable.dart';
+import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
 part 'dh_list_event.dart';
 part 'dh_list_state.dart';
 
 class DhListBloc extends Bloc<DhListEvent, DhListState> {
-  final ClientsListService clientsListService;
-  DhListBloc(this.clientsListService) : super(DhListInitial());
+  final CompanyManagementService companyManagementService = Get.find<CompanyManagementService>();
+  DhListBloc() : super(DhListInitial());
 
   @override
   Stream<DhListState> mapEventToState(
@@ -21,21 +22,23 @@ class DhListBloc extends Bloc<DhListEvent, DhListState> {
     if (event is FetchClients) {
       try {
         //TODO change service
-        final List<Client> clients = await clientsListService.fetchClientsList();
+        final List<Client> clients = await companyManagementService.fetchClientsList();
         yield ClientsFetched(clients);
       } catch (e) {
         yield FetchingError(e);
       }
     } else if (event is FilterClients) {
       try {
-        final List<Client> clients = await clientsListService.fetchClientsList(filter: event.filter);
+        final List<Client> clients =
+            await companyManagementService.fetchClientsList(filter: event.filter);
         yield ClientsFetched(clients);
       } catch (e) {
         yield FetchingError(e);
       }
     } else if (event is SearchClients) {
       try {
-        final List<Client> clients = await clientsListService.fetchClientsList(searchText: event.searchText);
+        final List<Client> clients =
+            await companyManagementService.fetchClientsList(searchText: event.searchText);
         yield ClientsFetched(clients);
       } catch (e) {
         yield FetchingError(e);

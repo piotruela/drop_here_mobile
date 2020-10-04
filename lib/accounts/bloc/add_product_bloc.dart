@@ -2,32 +2,24 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
+import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:equatable/equatable.dart';
 
 part 'add_product_event.dart';
 part 'add_product_state.dart';
 
 class AddProductBloc extends Bloc<AddProductEvent, AddProductFormState> {
-  AddProductBloc() : super(AddProductFormState(photo: null, unitType: null));
+  AddProductBloc()
+      : super(
+            AddProductFormState(photo: null, productManagementRequest: ProductManagementRequest()));
 
   @override
   Stream<AddProductFormState> mapEventToState(
     AddProductEvent event,
   ) async* {
-    if (event is PhotoChosen) {
-      yield state.copyWith(photo: event.photo);
-    } else if (event is UnitTypeChosen) {
-      yield state.copyWith(unitType: event.unitType);
-    } else if (event is NameChosen) {
-      yield state.copyWith(name: event.name);
-    } else if (event is CategoryChosen) {
-      yield state.copyWith(category: event.category);
-    } else if (event is DescriptionChosen) {
-      yield state.copyWith(description: event.description);
-    } else if (event is PricePerUnitChosen) {
-      yield state.copyWith(pricePerUnit: event.pricePerUnit);
-    } else if (event is UnitFractionChosen) {
-      yield state.copyWith(unitFraction: event.unitFraction);
+    if (event is FormChanged) {
+      ProductManagementRequest form = event.productManagementRequest;
+      yield state.copyWith(productManagementRequest: form, photo: event?.photo);
     } else if (event is FormSubmitted) {
       //TODO
     }

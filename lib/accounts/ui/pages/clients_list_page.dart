@@ -1,5 +1,4 @@
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
-import 'package:drop_here_mobile/accounts/services/clients_list_service.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_card.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -83,7 +82,8 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
         ));
   }
 
-  SafeArea buildColumnWithData(LocaleBundle locale, ClientsFetched state, BuildContext context, DhListBloc bloc) {
+  SafeArea buildColumnWithData(
+      LocaleBundle locale, ClientsFetched state, BuildContext context, DhListBloc bloc) {
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,5 +122,5 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
   }
 
   @override
-  DhListBloc bloc() => DhListBloc(FakeClientsListService());
+  DhListBloc bloc() => DhListBloc();
 }

@@ -1,55 +1,31 @@
 part of 'add_product_bloc.dart';
 
 class AddProductFormState extends Equatable {
+  final ProductManagementRequest productManagementRequest;
   final File photo;
-  final UnitType unitType;
-  final String name;
-  final String category;
-  final String description;
-  final double pricePerUnit;
-  final double unitFraction;
-  final bool isFilled;
   const AddProductFormState({
-    this.name,
-    this.description,
-    this.category,
-    this.pricePerUnit,
-    this.unitFraction,
+    this.productManagementRequest,
     this.photo,
-    this.unitType,
-    this.isFilled = false,
   });
 
   AddProductFormState copyWith({
+    final ProductManagementRequest productManagementRequest,
     final File photo,
-    final UnitType unitType,
-    final String name,
-    final String description,
-    final double pricePerUnit,
-    final double unitFraction,
-    final String category,
-    final bool isFilled,
   }) {
     return AddProductFormState(
       photo: photo ?? this.photo,
-      unitType: unitType ?? this.unitType,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      pricePerUnit: pricePerUnit ?? this.pricePerUnit,
-      unitFraction: unitFraction ?? this.unitFraction,
-      category: category ?? this.category,
-      //add category
-      isFilled: this.name != null && this.unitType != null && this.pricePerUnit != null && this.unitFraction != null,
+      productManagementRequest: productManagementRequest ?? this.productManagementRequest,
     );
   }
 
-  @override
-  List<Object> get props => [photo, unitType, name, description, pricePerUnit, unitFraction, category, isFilled];
-}
+  bool isFilled() {
+    return productManagementRequest?.name != null &&
+        productManagementRequest?.unit != null &&
+        productManagementRequest?.price != null &&
+        // productManagementRequest?.category != null &&
+        productManagementRequest?.unitFraction != null;
+  }
 
-enum UnitType {
-  grams,
-  kilograms,
-  pieces,
-  liters,
+  @override
+  List<Object> get props => [productManagementRequest, photo];
 }
