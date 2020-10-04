@@ -6,6 +6,7 @@ import 'package:drop_here_mobile/accounts/model/api/company_customers_request.da
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/page_api.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
+import 'package:flutter/material.dart' hide Page;
 import 'package:get/get.dart';
 
 class CompanyManagementService {
@@ -62,5 +63,13 @@ class CompanyManagementService {
     } catch (error) {
       return ResourceOperationResponse()..operationStatus = OperationStatus.ERROR;
     }
+  }
+
+  Future<NetworkImage> getCompanyPhoto() async {
+    String companyId = await getCompanyId();
+    NetworkImage img = NetworkImage("https://drop-here.herokuapp.com/companies/$companyId/images",
+        headers: {"authorization": "Bearer ${_httpClient.token}"});
+    print(img.headers.keys.first);
+    return img;
   }
 }

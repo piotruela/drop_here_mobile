@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/authentication_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
+import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_products_request.dart';
 import 'package:drop_here_mobile/accounts/services/account_service.dart';
 import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
@@ -9,7 +12,6 @@ import 'package:drop_here_mobile/accounts/services/product_management_service.da
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/buyer_details_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/choose_user_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/client_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_registration_page.dart';
@@ -20,6 +22,7 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SandboxPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -28,6 +31,8 @@ class SandboxPage extends StatelessWidget {
   final CompanyManagementService companyManagementService = Get.find<CompanyManagementService>();
   final AccountService accountService = Get.find<AccountService>();
   final ProductManagementService productManagementService = Get.find<ProductManagementService>();
+  final picker = ImagePicker();
+  NetworkImage img;
 
   @override
   Widget build(BuildContext context) {
@@ -49,12 +54,6 @@ class SandboxPage extends StatelessWidget {
                     child: Text("seller details registration"),
                     onPressed: () {
                       Get.to(CompanyDetailsRegistrationPage());
-                    },
-                  ),
-                  FlatButton(
-                    child: Text("choose user"),
-                    onPressed: () {
-                      Get.to(ChooseUserPage());
                     },
                   ),
                   FlatButton(
@@ -120,6 +119,23 @@ class SandboxPage extends StatelessWidget {
                       onPressed: () async {
                         productManagementService.getCompanyProducts(CompanyProductsRequest());
                       }),
+                  FlatButton(
+                    child: Text('upload photo'),
+                    onPressed: () async {
+                      File photo = await getImage();
+                      ResourceOperationResponse response =
+                          await companyManagementService.uploadCompanyPhoto(photo);
+                      print(response);
+                    },
+                  ),
+                  FutureBuilder(
+                      future: companyManagementService.getCompanyPhoto(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return CircleAvatar(backgroundImage: snapshot.data);
+                        } else
+                          return SizedBox.shrink();
+                      }),
                 ],
               ),
             ),
@@ -127,5 +143,10 @@ class SandboxPage extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<File> getImage() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    return File(pickedFile.path);
   }
 }

@@ -8,11 +8,12 @@ class ProductManagementService {
   final DhHttpClient _httpClient = Get.find<DhHttpClient>();
   final CompanyManagementService _companyManagementService = Get.find<CompanyManagementService>();
 
-  Future<dynamic> getCompanyProducts(CompanyProductsRequest companyProductsRequest) async {
-    Company companyInfo = await _companyManagementService.getCompanyInfo();
+  Future<dynamic> getCompanyProducts([CompanyProductsRequest companyProductsRequest]) async {
+    String companyId = await _companyManagementService.getCompanyId();
+    print("/companies/$companyId/products${companyProductsRequest?.toQueryParams() ?? ''}");
     dynamic response = await _httpClient.get(
         canRepeatRequest: true,
-        path: "/companies/${companyInfo.uid}/products?${companyProductsRequest.toQueryParams()}",
+        path: "/companies/$companyId/products${companyProductsRequest?.toQueryParams() ?? ''}",
         out: (dynamic json) => json);
     return response;
     //TODO: Map response to ProductApiModel

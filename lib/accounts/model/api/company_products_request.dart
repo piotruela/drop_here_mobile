@@ -12,7 +12,7 @@ class CompanyProductsRequest {
   CompanyProductsRequest();
 
   String toQueryParams() {
-    return "name=${name ?? ''}"
+    return "?name=${name ?? ''}"
         "${categoryToQueryParams()}"
         "&offset=${offset ?? ''}"
         "&pageNumber=${pageNumber ?? ''}"
