@@ -10,6 +10,7 @@ import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:drop_here_mobile/accounts/services/product_management_service.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/add_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/buyer_details_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/client_details_page.dart';
@@ -17,6 +18,7 @@ import 'package:drop_here_mobile/accounts/ui/pages/company_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/home_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/cupertino.dart';
@@ -68,6 +70,17 @@ class SandboxPage extends StatelessWidget {
                       Get.to(ClientDetailsPage());
                     },
                   ),
+                  FlatButton(
+                    child: Text("add product"),
+                    onPressed: () {
+                      Get.to(AddProductPage());
+                    },
+                  ),
+                  FlatButton(
+                      child: Text("clients list"),
+                      onPressed: () {
+                        Get.to(ManagementPage());
+                      }),
                   FlatButton(
                     child: Text("home page"),
                     onPressed: () {

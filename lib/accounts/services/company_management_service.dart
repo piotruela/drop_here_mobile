@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/page_api.dart';
+import 'package:drop_here_mobile/accounts/model/client.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
 import 'package:flutter/material.dart' hide Page;
 import 'package:get/get.dart';
@@ -71,5 +72,16 @@ class CompanyManagementService {
         headers: {"authorization": "Bearer ${_httpClient.token}"});
     print(img.headers.keys.first);
     return img;
+  }
+
+  Future<List<Client>> fetchClientsList({String filter, String searchText}) {
+    //TODO implement
+    List<Client> clients = [
+      Client(name: 'abc', isActive: true, numberOfDropsMember: 5),
+      Client(name: 'def', isActive: false, numberOfDropsMember: 3)
+    ];
+    return Future.delayed(Duration(seconds: 1), () {
+      return clients;
+    });
   }
 }
