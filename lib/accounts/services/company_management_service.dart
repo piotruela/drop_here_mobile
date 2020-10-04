@@ -2,7 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
+import 'package:drop_here_mobile/accounts/model/api/page_api.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
 import 'package:get/get.dart';
 
@@ -18,6 +20,13 @@ class CompanyManagementService {
     return Company.fromJson(response);
   }
 
+  Future<String> getCompanyId() async {
+    dynamic response = await _httpClient.get(
+        canRepeatRequest: true, path: "/management/companies", out: (dynamic json) => json);
+    Company companyInfo = Company.fromJson(response);
+    return companyInfo.uid;
+  }
+
   Future<int> updateCompanyDetails(CompanyManagementRequest companyDetails) async {
     try {
       dynamic response = await _httpClient.put(
@@ -31,6 +40,14 @@ class CompanyManagementService {
     } catch (error) {
       return -1;
     }
+  }
+
+  Future<Page> getCompanyCustomers(CompanyCustomersRequest companyCustomersRequest) async {
+    dynamic response = await _httpClient.get(
+        canRepeatRequest: true,
+        path: "/management/companies/customers?${companyCustomersRequest.toQueryParams()}",
+        out: (dynamic json) => json);
+    return Page.fromJson(response);
   }
 
   Future<ResourceOperationResponse> uploadCompanyPhoto(File file) async {

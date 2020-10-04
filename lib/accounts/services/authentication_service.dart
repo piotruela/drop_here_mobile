@@ -31,6 +31,11 @@ class AuthenticationService {
     }
   }
 
+  void deleteToken() {
+    _httpClient.clearHttpHeader("authorization");
+    return;
+  }
+
   Future<LoginResponse> loginToProfile(ProfileLoginRequest profileLoginRequest) async {
     try {
       Map<String, dynamic> response = await _httpClient.post(

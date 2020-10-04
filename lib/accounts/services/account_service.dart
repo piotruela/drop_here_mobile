@@ -37,7 +37,7 @@ class AccountService {
     return account.profiles;
   }
 
-  Future<LoginResponse> register(AccountCreationRequest accountCreationRequest) async {
+  Future<LoginResponse> createNewAccount(AccountCreationRequest accountCreationRequest) async {
     try {
       Map<String, dynamic> response = await _httpClient.post(
           canRepeatRequest: true,

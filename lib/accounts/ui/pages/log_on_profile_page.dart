@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:drop_here_mobile/accounts/bloc/login_profile_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
+import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
@@ -37,7 +38,12 @@ class LogOnProfilePage extends BlocWidget<LoginProfileBloc> {
                 return Center(child: CircularProgressIndicator());
               } else if (state.success) {
                 return Center(
-                  child: Column(
+                    child: RaisedButton(
+                  color: themeConfig.colors.primary1,
+                  child: Text("Fetch client details"),
+                  onPressed: () =>
+                      companyManagementService.getCompanyCustomers(CompanyCustomersRequest()),
+                ) /*Column(
                     children: [
                       FutureBuilder(
                           future: getImage(),
@@ -49,8 +55,8 @@ class LogOnProfilePage extends BlocWidget<LoginProfileBloc> {
                               return SizedBox.shrink();
                           }),
                     ],
-                  ),
-                );
+                  ),*/
+                    );
               } else
                 return _profileLoginForm(context, bloc, key);
             }));
