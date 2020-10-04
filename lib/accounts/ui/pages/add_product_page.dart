@@ -16,12 +16,16 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
   File _image;
 
   @override
+  AddProductBloc bloc() => AddProductBloc();
+
+  @override
   Widget build(BuildContext context, AddProductBloc addProductBloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
         floatingActionButton:
             BlocBuilder<AddProductBloc, AddProductFormState>(builder: (context, state) {
           return FloatingActionButton.extended(
+            //TODO add action
             onPressed: () {},
             label: Text(
               locale.addProduct,
@@ -186,9 +190,6 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
     _image = File(pickedFile.path);
     bloc.add(FormChanged(photo: _image));
   }
-
-  @override
-  AddProductBloc bloc() => AddProductBloc();
 }
 
 class DhPlainTextFormField extends StatelessWidget {
