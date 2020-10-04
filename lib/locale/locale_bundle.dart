@@ -71,6 +71,8 @@ abstract class LocaleBundle {
 
   String get country;
 
+  String get addProduct;
+
   String get isRequired;
 
   String get registrationError;
@@ -87,6 +89,52 @@ abstract class LocaleBundle {
 
   String get isNotTheSame;
 
+  String get nameMandatory;
+
+  String get productNameExample;
+
+  String get photo;
+
+  String get categoryMandatory;
+
+  String get description;
+
+  String get unitTypeMandatory;
+
+  String get pricePerUnitMandatory;
+
+  String get pricePerUnitExample;
+
+  String get unitFractionMandatory;
+
+  String get unitFractionExample;
+
+  String get persons;
+
+  String get clients;
+
+  String get sellers;
+
+  String get search;
+
+  String get blocked;
+
+  String get active;
+
+  String get memberOf;
+
+  String get spots;
+
+  String get block;
+
+  String get unblock;
+
+  String get edit;
+
+  String get company;
+
+  String get filters;
+
   String get pickACountry;
 
   String get createAdminProfile;
@@ -96,4 +144,6 @@ abstract class LocaleBundle {
   String get loginToYourProfile;
 
   String get loginToAdminProfile;
+
+  String get management;
 }

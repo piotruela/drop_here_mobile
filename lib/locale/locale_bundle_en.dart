@@ -113,6 +113,9 @@ class LocaleBundleEn extends LocaleBundle {
   String get country => "Country";
 
   @override
+  String get addProduct => "Add product";
+
+  @override
   String get isRequired => " is required";
 
   @override
@@ -137,6 +140,75 @@ class LocaleBundleEn extends LocaleBundle {
   String get isNotTheSame => " is not the same";
 
   @override
+  String get categoryMandatory => "Category*";
+
+  @override
+  String get description => "Description";
+
+  @override
+  String get nameMandatory => "Name*";
+
+  @override
+  String get photo => "Photo";
+
+  @override
+  String get pricePerUnitMandatory => "Price per unit* (PLN)";
+
+  @override
+  String get pricePerUnitExample => "e.g. 4.20";
+
+  @override
+  String get productNameExample => "e.g. strawberries";
+
+  @override
+  String get unitFractionMandatory => "Unit fraction*";
+
+  @override
+  String get unitFractionExample => "minimum value: 0.1";
+
+  @override
+  String get unitTypeMandatory => "Unit type*";
+
+  @override
+  String get clients => 'Clients';
+
+  @override
+  String get persons => 'Persons';
+
+  @override
+  String get sellers => 'Sellers';
+
+  @override
+  String get search => 'Search';
+
+  @override
+  String get active => 'Active';
+
+  @override
+  String get block => 'block';
+
+  @override
+  String get blocked => 'Blocked';
+
+  @override
+  String get edit => 'edit';
+
+  @override
+  String get memberOf => 'member of';
+
+  @override
+  String get spots => 'spots';
+
+  @override
+  String get unblock => 'unblock';
+
+  @override
+  String get company => 'Company';
+
+  @override
+  String get filters => 'Filters';
+
+  @override
   String get pickACountry => "Pick a country";
 
   @override
@@ -145,7 +217,12 @@ class LocaleBundleEn extends LocaleBundle {
   @override
   String get createProfile => "Create profile";
 
+  @override
   String get loginToYourProfile => "Login to your profile";
 
+  @override
   String get loginToAdminProfile => "Login to admin profile";
+
+  @override
+  String get management => "Management";
 }

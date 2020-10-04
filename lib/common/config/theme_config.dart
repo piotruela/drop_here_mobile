@@ -18,6 +18,10 @@ class TextStyleTheme {
   final TextStyle dhButton;
   final TextStyle cardCaption;
   final TextStyle listTileTitle;
+  final TextStyle cardSubtitle;
+  final TextStyle popupMenu;
+  final TextStyle active;
+  final TextStyle blocked;
 
   TextStyleTheme({
     this.button,
@@ -30,6 +34,10 @@ class TextStyleTheme {
     this.dhButton,
     this.cardCaption,
     this.listTileTitle,
+    this.cardSubtitle,
+    this.popupMenu,
+    this.active,
+    this.blocked,
   });
 }
 
@@ -49,6 +57,10 @@ class ColorTheme {
   final Color listTileMenuIcon;
   final Color listTileMenuText;
 
+  final Color addSthHere;
+  final Color active;
+  final Color blocked;
+
   ColorTheme({
     this.black,
     this.background,
@@ -61,5 +73,8 @@ class ColorTheme {
     this.listTileMenu,
     this.listTileMenuIcon,
     this.listTileMenuText,
+    this.addSthHere,
+    this.active,
+    this.blocked,
   });
 }
