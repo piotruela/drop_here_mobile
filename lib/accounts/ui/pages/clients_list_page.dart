@@ -11,78 +11,76 @@ import 'package:get/get.dart';
 
 class ClientsListPage extends BlocWidget<DhListBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+  final DhListBloc dhListBloc;
+
+  ClientsListPage({this.dhListBloc});
 
   @override
-  DhListBloc bloc() => DhListBloc()..add(FetchClients());
+  DhListBloc bloc() => dhListBloc;
 
   @override
   Widget build(BuildContext context, DhListBloc dhListBloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
-    return Scaffold(
-        backgroundColor: themeConfig.colors.background,
-        body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 25.0),
-                child: Text(
-                  locale.persons,
-                  style: themeConfig.textStyles.primaryTitle,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        DhSearchBar(dhListBloc),
+        Padding(
+          padding: const EdgeInsets.only(left: 25.0),
+          child: GestureDetector(
+            onTap: () => {dhListBloc.add(FilterClients())},
+            child: Container(
+              margin: const EdgeInsets.all(5.0),
+              padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+              decoration: BoxDecoration(
+                  border: Border.all(color: themeConfig.colors.addSthHere),
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(
-                    width: 10.0,
+                  Icon(Icons.filter_list),
+                  Text(
+                    locale.filters,
                   ),
-                  buildFlatButton(context, locale.clients, themeConfig),
-                  buildFlatButton(context, locale.sellers, themeConfig),
-                  buildFlatButton(context, locale.company, themeConfig),
                 ],
               ),
-              DhSearchBar(dhListBloc),
-              Padding(
-                padding: const EdgeInsets.only(left: 25.0),
-                child: GestureDetector(
-                  onTap: () => {dhListBloc.add(FilterClients())},
-                  child: Container(
-                    margin: const EdgeInsets.all(5.0),
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-                    decoration: BoxDecoration(
-                        border: Border.all(color: themeConfig.colors.addSthHere),
-                        borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.filter_list),
-                        Text(
-                          locale.filters,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              BlocBuilder<DhListBloc, DhListState>(
-                builder: (context, state) {
-                  if (state is DhListInitial) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (state is ListLoading) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (state is FetchingError) {
-                    return Container(child: Text(state.error));
-                  } else if (state is ClientsFetched) {
-                    return buildColumnWithData(locale, state, context, dhListBloc);
-                  }
-                  return Container();
-                },
-              ),
-            ],
+            ),
           ),
-        ));
+        ),
+        BlocBuilder<DhListBloc, DhListState>(
+          builder: (context, state) {
+            if (state is DhListInitial) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is ListLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is FetchingError) {
+              return Container(child: Text(state.error));
+            } else if (state is ClientsFetched) {
+              return buildColumnWithData(locale, state, context, dhListBloc);
+            }
+            return Container();
+          },
+        ),
+      ],
+    );
+  }
+
+  FlatButton buildFlatButton(BuildContext context, String text, ThemeConfig themeConfig) {
+    return FlatButton(
+      child: Container(
+        decoration: BoxDecoration(
+          color: themeConfig.colors.white,
+          borderRadius: BorderRadius.all(Radius.circular(8.0)),
+        ),
+        width: (MediaQuery.of(context).size.width - 130) / 3,
+        height: 40.0,
+        alignment: Alignment.center,
+        child: Text(
+          text,
+          style: themeConfig.textStyles.secondaryTitle,
+        ),
+      ),
+    );
   }
 
   SafeArea buildColumnWithData(
@@ -102,24 +100,6 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
                 );
               }),
         ],
-      ),
-    );
-  }
-
-  FlatButton buildFlatButton(BuildContext context, String text, ThemeConfig themeConfig) {
-    return FlatButton(
-      child: Container(
-        decoration: BoxDecoration(
-          color: themeConfig.colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        ),
-        width: (MediaQuery.of(context).size.width - 130) / 3,
-        height: 40.0,
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          style: themeConfig.textStyles.secondaryTitle,
-        ),
       ),
     );
   }

@@ -222,4 +222,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get loginToAdminProfile => "Login to admin profile";
+
+  @override
+  String get management => "Management";
 }

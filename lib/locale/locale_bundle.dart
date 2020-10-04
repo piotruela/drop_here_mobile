@@ -144,4 +144,6 @@ abstract class LocaleBundle {
   String get loginToYourProfile;
 
   String get loginToAdminProfile;
+
+  String get management;
 }
