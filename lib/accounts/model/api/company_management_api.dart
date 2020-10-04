@@ -2,6 +2,14 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'company_management_api.g.dart';
 
+enum VisibilityStatus { VISIBLE, HIDDEN }
+
+enum OperationStatus { CREATED, UPDATED, DELETED, ERROR }
+
+enum RelationshipStatus { ACTIVE, BLOCKED }
+
+enum MembershipStatus { ACTIVE, PENDING, BLOCKED }
+
 @JsonSerializable()
 class Company {
   String country;
@@ -66,6 +74,30 @@ class ResourceOperationResponse {
   Map<String, dynamic> toJson() => _$ResourceOperationResponseToJson(this);
 }
 
-enum VisibilityStatus { VISIBLE, HIDDEN }
+@JsonSerializable()
+class CompanyCustomerResponse {
+  int customerId;
+  String firstName;
+  String lastName;
+  RelationshipStatus relationshipStatus;
 
-enum OperationStatus { CREATED, UPDATED, DELETED, ERROR }
+  CompanyCustomerResponse();
+
+  factory CompanyCustomerResponse.fromJson(Map<String, dynamic> json) =>
+      _$CompanyCustomerResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$CompanyCustomerResponseToJson(this);
+}
+
+@JsonSerializable()
+class CompanyCustomerSpotMembershipResponse {
+  MembershipStatus membershipStatus;
+  int spotId;
+  String spotName;
+  String spotUid;
+
+  CompanyCustomerSpotMembershipResponse();
+
+  factory CompanyCustomerSpotMembershipResponse.fromJson(Map<String, dynamic> json) =>
+      _$CompanyCustomerSpotMembershipResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$CompanyCustomerSpotMembershipResponseToJson(this);
+}

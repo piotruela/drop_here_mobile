@@ -4,13 +4,15 @@ import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/authentication_api.dart';
 import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:equatable/equatable.dart';
+import 'package:get/get.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class LoginBloc extends Bloc<LoginFormEvent, LoginFormState> {
   LoginBloc() : super(LoginFormState(form: LoginRequest()));
-  final AuthenticationService authenticationService = AuthenticationService();
+  final AuthenticationService authenticationService = Get.find<AuthenticationService>()
+    ..deleteToken();
 
   @override
   Stream<LoginFormState> mapEventToState(
@@ -26,7 +28,7 @@ class LoginBloc extends Bloc<LoginFormEvent, LoginFormState> {
         if (loginResponse.token != "-1") {
           yield SuccessState();
         } else {
-          yield ErrorState(); //TODO:Return form when result is error
+          yield ErrorState();
         }
       }
     }

@@ -26,7 +26,7 @@ class RegistrationBloc extends Bloc<RegisterEvent, RegisterState> {
     } else if (event is FormSubmitted) {
       RegisterLoadingState();
       if (event.isValid) {
-        LoginResponse result = await accountService.register(event.form);
+        LoginResponse result = await accountService.createNewAccount(event.form);
         if (result.token != '-1') {
           yield state.copyWith(success: true);
         } else {

@@ -2,6 +2,7 @@ import 'package:drop_here_mobile/accounts/bloc/choose_profile_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/log_on_profile_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/login_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,10 @@ Widget _profilesList(List<ProfileInfoResponse> profiles) {
           color: themeConfig.colors.primary1,
           child: Text("ADD PROFILE"),
           onPressed: () => Get.to(CreateRegularProfilePage())),
+      RaisedButton(
+          color: themeConfig.colors.primary1,
+          child: Text("LOGOUT"),
+          onPressed: () => Get.to(LoginPage())),
       Expanded(
         child: GridView.builder(
           itemCount: profiles.length,
