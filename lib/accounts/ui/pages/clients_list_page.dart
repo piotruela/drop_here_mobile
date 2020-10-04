@@ -11,9 +11,12 @@ import 'package:get/get.dart';
 
 class ClientsListPage extends BlocWidget<DhListBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+
+  @override
+  DhListBloc bloc() => DhListBloc()..add(FetchClients());
+
   @override
   Widget build(BuildContext context, DhListBloc dhListBloc, _) {
-    dhListBloc.add(FetchClients());
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
         backgroundColor: themeConfig.colors.background,
@@ -120,7 +123,4 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
       ),
     );
   }
-
-  @override
-  DhListBloc bloc() => DhListBloc();
 }

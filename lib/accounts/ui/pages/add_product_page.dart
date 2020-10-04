@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:drop_here_mobile/accounts/bloc/add_product_bloc.dart';
+import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
@@ -14,6 +15,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final picker = ImagePicker();
   File _image;
+  List<GestureDetector> categoryChoiceWidgets = [];
 
   @override
   AddProductBloc bloc() => AddProductBloc();
@@ -21,22 +23,15 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
   @override
   Widget build(BuildContext context, AddProductBloc addProductBloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
+    final List categories = ['fruits', 'vege', 'other'];
+
+    categories.forEach((element) {
+      return categoryChoiceWidgets.add(categoryChoice(
+          text: element,
+          isChosen: addProductBloc.state.productManagementRequest.category == element));
+    });
     return Scaffold(
-        floatingActionButton:
-            BlocBuilder<AddProductBloc, AddProductFormState>(builder: (context, state) {
-          return FloatingActionButton.extended(
-            //TODO add action
-            onPressed: () {},
-            label: Text(
-              locale.addProduct,
-              style: TextStyle(
-                  color: addProductBloc.state.isFilled()
-                      ? themeConfig.colors.primary1
-                      : themeConfig.colors.addSthHere),
-            ),
-            backgroundColor: themeConfig.colors.white,
-          );
-        }),
+        floatingActionButton: floatingButton(locale, addProductBloc),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         appBar: AppBar(
           backgroundColor: themeConfig.colors.primary1,
@@ -73,19 +68,10 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           locale.categoryMandatory,
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
-                        GestureDetector(
-                          onTap: () => {},
-                          child: Container(
-                            margin: const EdgeInsets.all(5.0),
-                            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-                            decoration: BoxDecoration(
-                                border: Border.all(),
-                                borderRadius: BorderRadius.all(Radius.circular(20.0))),
-                            child: Text(
-                              'Fruits',
-                            ),
-                          ),
+                        Wrap(
+                          children: categoryChoiceWidgets,
                         ),
+
                         Text(
                           locale.description,
                           style: themeConfig.textStyles.secondaryTitle,
@@ -154,6 +140,48 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
             );
           },
         ));
+  }
+
+  GestureDetector categoryChoice({String text, bool isChosen = false}) {
+    return GestureDetector(
+      onTap: () {
+        isChosen = true;
+        bloc().add(FormChanged(productManagementRequest: ProductManagementRequest(category: text)));
+      },
+      child: Container(
+        margin: const EdgeInsets.all(5.0),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+        decoration: BoxDecoration(
+          border: Border.all(color: isChosen ? Colors.red : Colors.black),
+          borderRadius: BorderRadius.all(
+            Radius.circular(20.0),
+          ),
+        ),
+        child: Text(
+          text,
+        ),
+      ),
+    );
+  }
+
+  BlocBuilder<AddProductBloc, AddProductFormState> floatingButton(
+      LocaleBundle locale, AddProductBloc addProductBloc) {
+    return BlocBuilder<AddProductBloc, AddProductFormState>(
+        buildWhen: (previous, current) => current.isFilled(),
+        builder: (context, state) {
+          return FloatingActionButton.extended(
+            //TODO add action
+            onPressed: () {},
+            label: Text(
+              locale.addProduct,
+              style: TextStyle(
+                  color: addProductBloc.state.isFilled()
+                      ? themeConfig.colors.primary1
+                      : themeConfig.colors.addSthHere),
+            ),
+            backgroundColor: themeConfig.colors.white,
+          );
+        });
   }
 
   GestureDetector choosePhotoWidget(Bloc bloc) {
