@@ -26,10 +26,13 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         DhSearchBar(dhListBloc),
-        FiltersFlatButton(
-          themeConfig: themeConfig,
-          locale: locale,
-          bloc: dhListBloc,
+        Padding(
+          padding: const EdgeInsets.only(left: 25.0),
+          child: FiltersFlatButton(
+            themeConfig: themeConfig,
+            locale: locale,
+            bloc: dhListBloc,
+          ),
         ),
         BlocBuilder<DhListBloc, DhListState>(
           builder: (context, state) {

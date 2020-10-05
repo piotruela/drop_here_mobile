@@ -16,25 +16,22 @@ class FiltersFlatButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 25.0),
-      child: GestureDetector(
-        onTap: () => {bloc.add(FilterClients())},
-        child: Container(
-          margin: const EdgeInsets.all(5.0),
-          padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-          decoration: BoxDecoration(
-              border: Border.all(color: themeConfig.colors.addSthHere),
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.filter_list),
-              Text(
-                locale.filters,
-              ),
-            ],
-          ),
+    return GestureDetector(
+      onTap: () => {bloc.add(FilterClients())},
+      child: Container(
+        margin: const EdgeInsets.all(5.0),
+        padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+        decoration: BoxDecoration(
+            border: Border.all(color: themeConfig.colors.addSthHere),
+            borderRadius: BorderRadius.all(Radius.circular(20.0))),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.filter_list),
+            Text(
+              locale.filters,
+            ),
+          ],
         ),
       ),
     );

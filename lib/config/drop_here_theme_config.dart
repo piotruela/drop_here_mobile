@@ -37,6 +37,7 @@ class DHThemeConfig extends ThemeConfig {
       popupMenu: _popupMenuTextStyle,
       active: _activeTextStyle,
       blocked: _blockedTextStyle,
+      coloredFlatButton: _ColoredFlatButtonTextStyle,
     );
   }
 
@@ -66,8 +67,8 @@ class DHThemeConfig extends ThemeConfig {
       fontWeight: FontWeight.w600,
       decoration: TextDecoration.underline);
 
-  static final TextStyle _baseTextStyle =
-      TextStyle(fontFamily: 'Roboto', color: _black, letterSpacing: 0.0, fontWeight: FontWeight.normal);
+  static final TextStyle _baseTextStyle = TextStyle(
+      fontFamily: 'Roboto', color: _black, letterSpacing: 0.0, fontWeight: FontWeight.normal);
 
   static final TextStyle _primaryTitleTextStyle =
       _baseTextStyle.copyWith(fontSize: 30.0, height: 35.0 / 30.0, fontWeight: FontWeight.bold);
@@ -79,25 +80,33 @@ class DHThemeConfig extends ThemeConfig {
       _baseTextStyle.copyWith(fontSize: 14.0, height: 16.0 / 14.0, fontWeight: FontWeight.bold);
   static final TextStyle _textFieldHintTextStyle = _baseTextStyle.copyWith(
       fontSize: 18.0, color: _textFieldHintColor, height: 21.0 / 18.0, fontWeight: FontWeight.bold);
-  static final TextStyle _cardCaptionTextStyle =
-      _baseTextStyle.copyWith(fontSize: 20.0, color: _white, height: 23.0 / 20.0, fontWeight: FontWeight.bold);
+  static final TextStyle _cardCaptionTextStyle = _baseTextStyle.copyWith(
+      fontSize: 20.0, color: _white, height: 23.0 / 20.0, fontWeight: FontWeight.bold);
 
   static final TextStyle _filledTextField =
       _secondaryTitleTextStyle.copyWith(color: _black, fontWeight: FontWeight.normal);
 
   static final TextStyle _listTileTitleTextStyle = _baseTextStyle.copyWith(
-      fontSize: 20.0, color: _listTileMenuTextColor, height: 23.0 / 20.0, fontWeight: FontWeight.bold);
+      fontSize: 20.0,
+      color: _listTileMenuTextColor,
+      height: 23.0 / 20.0,
+      fontWeight: FontWeight.bold);
 
   static final TextStyle _cardSubtitleTextStyle = _baseTextStyle.copyWith(
-      fontSize: 12.0, color: _listTileMenuTextColor, height: 14.0 / 12.0, fontWeight: FontWeight.w300);
+      fontSize: 12.0,
+      color: _listTileMenuTextColor,
+      height: 14.0 / 12.0,
+      fontWeight: FontWeight.w300);
 
   static final TextStyle _popupMenuTextStyle =
       _baseTextStyle.copyWith(fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w400);
 
-  static final TextStyle _activeTextStyle =
-      _baseTextStyle.copyWith(fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w500, color: _activeColor);
-  static final TextStyle _blockedTextStyle =
-      _baseTextStyle.copyWith(fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w500, color: _blockedColor);
+  static final TextStyle _activeTextStyle = _baseTextStyle.copyWith(
+      fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w500, color: _activeColor);
+  static final TextStyle _blockedTextStyle = _baseTextStyle.copyWith(
+      fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w500, color: _blockedColor);
+  static final TextStyle _ColoredFlatButtonTextStyle =
+      _baseTextStyle.copyWith(fontSize: 14.0, height: 16.0 / 14.0, color: _primaryColor1);
 
   static final Color _primaryColor1 = const Color(0xfff5550a);
   static final Color _primaryColor2 = const Color(0xfff99363);
