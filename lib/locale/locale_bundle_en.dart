@@ -239,7 +239,7 @@ class LocaleBundleEn extends LocaleBundle {
   String get hidden => "Hidden";
 
   @override
-  String get no => "no";
+  String get no => "No";
 
   @override
   String get numberOfSellers => "No. of sellers";
@@ -254,5 +254,5 @@ class LocaleBundleEn extends LocaleBundle {
   String get visible => "Visible";
 
   @override
-  String get yes => "yes";
+  String get yes => "Yes";
 }
