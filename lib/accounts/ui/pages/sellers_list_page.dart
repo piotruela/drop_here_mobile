@@ -38,14 +38,6 @@ class SellersListPage extends BlocWidget<DhListBloc> {
             ),
             Padding(
               padding: const EdgeInsets.only(right: 25.0),
-              // child: OutlineButton(
-              //   onPressed: () {},
-              //   child: Text('abc'),
-              //   shape: StadiumBorder(
-              //       side: BorderSide(
-              //           color: themeConfig.colors.primary1, width: 5.0, style: BorderStyle.solid)),
-              //   //shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-              // ),
               child: FlatButton(
                 onPressed: () {},
                 child: Container(
@@ -56,7 +48,6 @@ class SellersListPage extends BlocWidget<DhListBloc> {
                       boxShadow: [
                         dhShadow(),
                       ],
-                      // border: Border.all(color: themeConfig.colors.addSthHere),
                       borderRadius: BorderRadius.all(Radius.circular(20.0))),
                   child: Text(
                     'Add seller+',
