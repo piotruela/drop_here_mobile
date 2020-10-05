@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/sellers_list_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
@@ -45,8 +46,8 @@ class ManagementPage extends BlocWidget<DhListBloc> {
               ClientsListPage(
                 dhListBloc: dhListBloc,
               ),
-              Container(
-                child: Icon(Icons.category),
+              SellersListPage(
+                dhListBloc: dhListBloc,
               ),
               Container(),
             ],
