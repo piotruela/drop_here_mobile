@@ -66,6 +66,10 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
                   title: state.clients[index].name,
                   isActive: state.clients[index].isActive,
                   dropsNumber: state.clients[index].numberOfDropsMember,
+                  popupOptions: [
+                    state.clients[index].isActive ? locale.block : locale.unblock,
+                    locale.edit
+                  ],
                 );
               }),
         ],

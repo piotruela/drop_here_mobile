@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/accounts/model/client.dart';
+import 'package:drop_here_mobile/accounts/model/seller.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
@@ -12,6 +13,7 @@ part 'dh_list_state.dart';
 
 class DhListBloc extends Bloc<DhListEvent, DhListState> {
   final CompanyManagementService companyManagementService = Get.find<CompanyManagementService>();
+
   DhListBloc() : super(DhListInitial());
 
   @override
@@ -40,6 +42,13 @@ class DhListBloc extends Bloc<DhListEvent, DhListState> {
         final List<Client> clients =
             await companyManagementService.fetchClientsList(searchText: event.searchText);
         yield ClientsFetched(clients);
+      } catch (e) {
+        yield FetchingError(e);
+      }
+    } else if (event is FetchSellers) {
+      try {
+        final List<Seller> sellers = await companyManagementService.fetchSellersList();
+        yield SellersFetched(sellers);
       } catch (e) {
         yield FetchingError(e);
       }

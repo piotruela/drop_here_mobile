@@ -225,4 +225,13 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get management => "Management";
+
+  @override
+  String get addSeller => "Add seller +";
+
+  @override
+  String get markAsActive => "Mark as active";
+
+  @override
+  String get markAsInactive => "Mak as inactive";
 }

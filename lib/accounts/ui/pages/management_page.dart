@@ -17,6 +17,7 @@ class ManagementPage extends BlocWidget<DhListBloc> {
 
   @override
   Widget build(BuildContext context, DhListBloc dhListBloc, _) {
+    DhListBloc dhListBlocSellers = DhListBloc();
     final LocaleBundle locale = Localization.of(context).bundle;
     return DefaultTabController(
       length: 3,
@@ -47,7 +48,7 @@ class ManagementPage extends BlocWidget<DhListBloc> {
                 dhListBloc: dhListBloc,
               ),
               SellersListPage(
-                dhListBloc: dhListBloc,
+                dhListBloc: dhListBlocSellers,
               ),
               Container(),
             ],
