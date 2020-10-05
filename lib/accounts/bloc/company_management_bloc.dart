@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
-import 'package:drop_here_mobile/accounts/model/company.dart' as localCompany;
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
@@ -24,7 +23,7 @@ class CompanyManagementBloc extends Bloc<CompanyManagementEvent, CompanyManageme
     if (event is FetchCompanyDetails) {
       try {
         //TODO change method
-        final localCompany.Company company = await companyManagementService.getFakeCompanyInfo();
+        final Company company = await companyManagementService.getCompanyInfo();
         yield CompanyManagementFetched(company);
       } catch (e) {
         yield CompanyManagementFetchingError(e.toString());

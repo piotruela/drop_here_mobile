@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/company_management_bloc.dart';
+import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
@@ -74,11 +75,16 @@ class CompanyPage extends BlocWidget<CompanyManagementBloc> {
           height: 20.0,
         ),
         companyInfoTile(state, locale.country, state.company.country),
-        companyInfoTile(state, locale.visibilityStatus,
-            state.company.isVisible ? locale.visible : locale.hidden),
         companyInfoTile(
-            state, locale.registered, state.company.isRegistered ? locale.yes : locale.no),
-        companyInfoTile(state, locale.numberOfSellers, state.company.numberOfSellers.toString()),
+            state,
+            locale.visibilityStatus,
+            state.company.visibilityStatus == VisibilityStatus.VISIBLE
+                ? locale.visible
+                : locale.hidden),
+        companyInfoTile(
+            state, locale.registered, state.company.registered ? locale.yes : locale.no),
+        //TODO change number of sellers
+        companyInfoTile(state, locale.numberOfSellers, '1'),
       ],
     );
   }

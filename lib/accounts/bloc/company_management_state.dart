@@ -19,7 +19,7 @@ class CompanyManagementLoading extends CompanyManagementState {
 }
 
 class CompanyManagementFetched extends CompanyManagementState {
-  final localCompany.Company company;
+  final Company company;
   const CompanyManagementFetched(this.company);
 
   @override
