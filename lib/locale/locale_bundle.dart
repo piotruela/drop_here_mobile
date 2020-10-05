@@ -146,4 +146,10 @@ abstract class LocaleBundle {
   String get loginToAdminProfile;
 
   String get management;
+
+  String get addSeller;
+
+  String get markAsActive;
+
+  String get markAsInactive;
 }

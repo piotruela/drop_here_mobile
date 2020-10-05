@@ -8,7 +8,8 @@ class DhCard extends StatelessWidget {
   final String title;
   final bool isActive;
   final int dropsNumber;
-  const DhCard({this.title, this.isActive, this.dropsNumber});
+  final List<String> popupOptions;
+  const DhCard({this.title, this.isActive, this.dropsNumber, this.popupOptions});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,9 @@ class DhCard extends StatelessWidget {
             children: [
               statusText(locale, themeConfig, isActive),
               Text(
-                locale.memberOf + ' ' + dropsNumber.toString() + ' ' + locale.spots,
+                dropsNumber != null
+                    ? locale.memberOf + ' ' + dropsNumber.toString() + ' ' + locale.spots
+                    : '',
                 style: themeConfig.textStyles.cardSubtitle,
               )
             ],
@@ -36,7 +39,7 @@ class DhCard extends StatelessWidget {
           trailing: PopupMenuButton<String>(
             onSelected: (_) {},
             itemBuilder: (BuildContext context) {
-              return {isActive ? locale.block : locale.unblock, locale.edit}.map((String choice) {
+              return popupOptions.map((String choice) {
                 return PopupMenuItem<String>(
                   value: choice,
                   child: Text(

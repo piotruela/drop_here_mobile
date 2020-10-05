@@ -6,6 +6,7 @@ import 'package:drop_here_mobile/accounts/model/api/company_customers_request.da
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/page_api.dart';
 import 'package:drop_here_mobile/accounts/model/client.dart';
+import 'package:drop_here_mobile/accounts/model/seller.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
 import 'package:get/get.dart';
 
@@ -73,6 +74,17 @@ class CompanyManagementService {
     ];
     return Future.delayed(Duration(seconds: 1), () {
       return clients;
+    });
+  }
+
+  Future<List<Seller>> fetchSellersList({String filter, String searchText}) {
+    //TODO implement
+    List<Seller> sellers = [
+      Seller(name: 'john', isActive: true, surname: 'snow'),
+      Seller(name: 'bart', isActive: false, surname: 'simpson')
+    ];
+    return Future.delayed(Duration(seconds: 1), () {
+      return sellers;
     });
   }
 }
