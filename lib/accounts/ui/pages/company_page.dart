@@ -83,8 +83,7 @@ class CompanyPage extends BlocWidget<CompanyManagementBloc> {
                 : locale.hidden),
         companyInfoTile(
             state, locale.registered, state.company.registered ? locale.yes : locale.no),
-        //TODO change number of sellers
-        companyInfoTile(state, locale.numberOfSellers, '1'),
+        companyInfoTile(state, locale.numberOfSellers, state.company.profilesCount.toString()),
       ],
     );
   }
