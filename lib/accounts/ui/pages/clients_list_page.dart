@@ -49,24 +49,6 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
     );
   }
 
-  FlatButton buildFlatButton(BuildContext context, String text, ThemeConfig themeConfig) {
-    return FlatButton(
-      child: Container(
-        decoration: BoxDecoration(
-          color: themeConfig.colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(8.0)),
-        ),
-        width: (MediaQuery.of(context).size.width - 130) / 3,
-        height: 40.0,
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          style: themeConfig.textStyles.secondaryTitle,
-        ),
-      ),
-    );
-  }
-
   SafeArea buildColumnWithData(
       LocaleBundle locale, ClientsFetched state, BuildContext context, DhListBloc bloc) {
     return SafeArea(
