@@ -255,4 +255,19 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get yes => "Yes";
+
+  @override
+  String get addNew => "Add new";
+
+  @override
+  String get product => "Product";
+
+  @override
+  String get profile => "Profile";
+
+  @override
+  String get route => "Route";
+
+  @override
+  String get spot => "Spot";
 }
