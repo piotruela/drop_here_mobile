@@ -17,6 +17,7 @@ import 'package:drop_here_mobile/accounts/ui/pages/client_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/create_new_item_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/home_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
@@ -39,123 +40,181 @@ class SandboxPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MainLayout(
-      child: Scaffold(
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 15.0),
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  FlatButton(
-                    child: Text("buyer details registration"),
-                    onPressed: () {
-                      Get.to(BuyerDetailsRegistrationPage());
-                    },
-                  ),
-                  FlatButton(
-                    child: Text("seller details registration"),
-                    onPressed: () {
-                      Get.to(CompanyDetailsRegistrationPage());
-                    },
-                  ),
-                  FlatButton(
-                    child: Text("company details"),
-                    onPressed: () {
-                      Get.to(CompanyDetailsPage());
-                    },
-                  ),
-                  FlatButton(
-                    child: Text("client details"),
-                    onPressed: () {
-                      Get.to(ClientDetailsPage());
-                    },
-                  ),
-                  FlatButton(
-                    child: Text("add product"),
-                    onPressed: () {
-                      Get.to(AddProductPage());
-                    },
-                  ),
-                  FlatButton(
-                      child: Text("clients list"),
-                      onPressed: () {
-                        Get.to(ManagementPage());
-                      }),
-                  FlatButton(
-                    child: Text("home page"),
-                    onPressed: () {
-                      Get.to(Home());
-                    },
-                  ),
-                  FlatButton(
-                    child: Text("choose profile page"),
-                    onPressed: () {
-                      Get.to(ChooseProfilePage());
-                    },
-                  ),
-                  FlatButton(
-                    child: Text("create admin profile"),
-                    onPressed: () {
-                      Get.to(CreateAdminProfilePage());
-                    },
-                  ),
-                  FlatButton(
-                      child: Text("Log in to account"),
-                      onPressed: () => authenticationService
-                          .authenticate(LoginRequest(mail: "test@g.pl", password: "test1234"))),
-                  FlatButton(
-                      child: Text("Log in to admin profile"),
-                      onPressed: () async {
-                        List<ProfileInfoResponse> profileInfoResponse =
-                            await accountService.fetchProfiles();
-                        authenticationService.loginToProfile(ProfileLoginRequest(
-                            profileUid: profileInfoResponse
-                                .firstWhere((element) => element.profileType == ProfileType.MAIN)
-                                .profileUid,
-                            password: "test1234"));
-                      }),
-                  FlatButton(
-                      child: Text("log out from account"),
-                      onPressed: () => authenticationService.deleteToken()),
-                  FlatButton(
-                    child: Text("fetch clients"),
-                    onPressed: () {
-                      companyManagementService
-                          .getCompanyCustomers(CompanyCustomersRequest()..blocked = true);
-                    },
-                  ),
-                  FlatButton(
-                      child: Text("get account details"),
-                      onPressed: () => companyManagementService.getCompanyInfo()),
-                  FlatButton(
-                      child: Text("fetch products"),
-                      onPressed: () async {
-                        productManagementService.getCompanyProducts(CompanyProductsRequest());
-                      }),
-                  FlatButton(
-                    child: Text('upload photo'),
+        child: Scaffold(
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 15.0),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                FlatButton(
+                  child: Text("buyer details registration"),
+                  onPressed: () {
+                    Get.to(BuyerDetailsRegistrationPage());
+                  },
+                ),
+                FlatButton(
+                  child: Text("seller details registration"),
+                  onPressed: () {
+                    Get.to(CompanyDetailsRegistrationPage());
+                  },
+                ),
+                FlatButton(
+                  child: Text("company details"),
+                  onPressed: () {
+                    Get.to(CompanyDetailsPage());
+                  },
+                ),
+                FlatButton(
+                  child: Text("client details"),
+                  onPressed: () {
+                    Get.to(ClientDetailsPage());
+                  },
+                ),
+                FlatButton(
+                  child: Text("add product"),
+                  onPressed: () {
+                    Get.to(AddProductPage());
+                  },
+                ),
+                FlatButton(child: Text("clients list"), onPressed: () => Get.to(ManagementPage())),
+                FlatButton(
+                  child: Text("home page"),
+                  onPressed: () {
+                    Get.to(Home());
+                  },
+                ),
+                FlatButton(
+                  child: Text("choose profile page"),
+                  onPressed: () {
+                    Get.to(ChooseProfilePage());
+                  },
+                ),
+                FlatButton(
+                  child: Text("create admin profile"),
+                  onPressed: () {
+                    Get.to(CreateAdminProfilePage());
+                  },
+                ),
+                FlatButton(
+                    child: Text("Log in to account"),
+                    onPressed: () => authenticationService
+                        .authenticate(LoginRequest(mail: "test@g.pl", password: "test1234"))),
+                FlatButton(
+                    child: Text("Log in to admin profile"),
                     onPressed: () async {
-                      File photo = await getImage();
-                      ResourceOperationResponse response =
-                          await companyManagementService.uploadCompanyPhoto(photo);
-                      print(response);
-                    },
-                  ),
-                  FutureBuilder(
-                      future: companyManagementService.getCompanyPhoto(),
-                      builder: (context, snapshot) {
-                        if (snapshot.hasData) {
-                          return CircleAvatar(backgroundImage: snapshot.data);
-                        } else
-                          return SizedBox.shrink();
-                      }),
-                ],
-              ),
+                      List<ProfileInfoResponse> profileInfoResponse =
+                          await accountService.fetchProfiles();
+                      authenticationService.loginToProfile(ProfileLoginRequest(
+                          profileUid: profileInfoResponse
+                              .firstWhere((element) => element.profileType == ProfileType.MAIN)
+                              .profileUid,
+                          password: "test1234"));
+                    }),
+                FlatButton(
+                    child: Text("log out from account"),
+                    onPressed: () => authenticationService.deleteToken()),
+                FlatButton(
+                  child: Text("fetch clients"),
+                  onPressed: () {
+                    companyManagementService
+                        .getCompanyCustomers(CompanyCustomersRequest()..blocked = true);
+                  },
+                ),
+                FlatButton(
+                    child: Text("get account details"),
+                    onPressed: () => companyManagementService.getCompanyInfo()),
+                FlatButton(
+                    child: Text("fetch products"),
+                    onPressed: () async {
+                      productManagementService.getCompanyProducts(CompanyProductsRequest());
+                    }),
+                FlatButton(
+                  child: Text('upload photo'),
+                  onPressed: () async {
+                    File photo = await getImage();
+                    ResourceOperationResponse response =
+                        await companyManagementService.uploadCompanyPhoto(photo);
+                    print(response);
+                  },
+                ),
+                FutureBuilder(
+                    future: companyManagementService.getCompanyPhoto(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return CircleAvatar(backgroundImage: snapshot.data);
+                      } else
+                        return SizedBox.shrink();
+                    }),
+                FlatButton(child: Text("add product"), onPressed: () => AddProductPage()),
+                FlatButton(
+                    child: Text("clients list"),
+                    onPressed: () {
+                      Get.to(ManagementPage());
+                    }),
+                FlatButton(
+                  child: Text("home page"),
+                  onPressed: () {
+                    Get.to(Home());
+                  },
+                ),
+                FlatButton(
+                  child: Text("create new item page"),
+                  onPressed: () {
+                    Get.to(CreateNewItemPage());
+                  },
+                ),
+                FlatButton(
+                  child: Text("choose profile page"),
+                  onPressed: () {
+                    Get.to(ChooseProfilePage());
+                  },
+                ),
+                FlatButton(
+                  child: Text("create admin profile"),
+                  onPressed: () {
+                    Get.to(CreateAdminProfilePage());
+                  },
+                ),
+                FlatButton(
+                    child: Text("Log in to account"),
+                    onPressed: () => authenticationService
+                        .authenticate(LoginRequest(mail: "test@g.pl", password: "test1234"))),
+                FlatButton(
+                    child: Text("Log in to admin profile"),
+                    onPressed: () async {
+                      List<ProfileInfoResponse> profileInfoResponse =
+                          await accountService.fetchProfiles();
+                      authenticationService.loginToProfile(ProfileLoginRequest(
+                          profileUid: profileInfoResponse
+                              .firstWhere((element) => element.profileType == ProfileType.MAIN)
+                              .profileUid,
+                          password: "test1234"));
+                    }),
+                FlatButton(
+                    child: Text("log out from account"),
+                    onPressed: () => authenticationService.deleteToken()),
+                FlatButton(
+                  child: Text("fetch clients"),
+                  onPressed: () {
+                    companyManagementService
+                        .getCompanyCustomers(CompanyCustomersRequest()..blocked = true);
+                  },
+                ),
+                FlatButton(
+                    child: Text("get account details"),
+                    onPressed: () => companyManagementService.getCompanyInfo()),
+                FlatButton(
+                    child: Text("fetch products"),
+                    onPressed: () async {
+                      productManagementService.getCompanyProducts(CompanyProductsRequest());
+                    }),
+              ],
             ),
           ),
         ),
       ),
-    );
+    ));
   }
 
   Future<File> getImage() async {

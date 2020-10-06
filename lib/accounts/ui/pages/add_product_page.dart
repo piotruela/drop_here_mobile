@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:drop_here_mobile/accounts/bloc/add_product_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
@@ -200,12 +201,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
           color: themeConfig.colors.addSthHere,
           borderRadius: BorderRadius.circular(8.0),
           boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.25),
-              spreadRadius: 0,
-              blurRadius: 5,
-              offset: Offset(2, 3),
-            )
+            dhShadow(),
           ],
         ),
       ),

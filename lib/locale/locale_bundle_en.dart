@@ -225,4 +225,49 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get management => "Management";
+
+  @override
+  String get addSeller => "Add seller +";
+
+  @override
+  String get markAsActive => "Mark as active";
+
+  @override
+  String get markAsInactive => "Mak as inactive";
+
+  @override
+  String get hidden => "Hidden";
+
+  @override
+  String get no => "No";
+
+  @override
+  String get numberOfSellers => "No. of sellers";
+
+  @override
+  String get registered => "Registered";
+
+  @override
+  String get visibilityStatus => "Visibility status";
+
+  @override
+  String get visible => "Visible";
+
+  @override
+  String get yes => "Yes";
+
+  @override
+  String get addNew => "Add new";
+
+  @override
+  String get product => "Product";
+
+  @override
+  String get profile => "Profile";
+
+  @override
+  String get route => "Route";
+
+  @override
+  String get spot => "Spot";
 }

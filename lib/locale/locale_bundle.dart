@@ -146,4 +146,34 @@ abstract class LocaleBundle {
   String get loginToAdminProfile;
 
   String get management;
+
+  String get addSeller;
+
+  String get markAsActive;
+
+  String get markAsInactive;
+
+  String get visibilityStatus;
+
+  String get visible;
+
+  String get hidden;
+
+  String get registered;
+
+  String get yes;
+
+  String get no;
+
+  String get numberOfSellers;
+
+  String get addNew;
+
+  String get product;
+
+  String get spot;
+
+  String get route;
+
+  String get profile;
 }

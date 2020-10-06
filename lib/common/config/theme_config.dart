@@ -22,6 +22,8 @@ class TextStyleTheme {
   final TextStyle popupMenu;
   final TextStyle active;
   final TextStyle blocked;
+  final TextStyle coloredFlatButton;
+  final TextStyle managementListTile;
 
   TextStyleTheme({
     this.button,
@@ -38,6 +40,8 @@ class TextStyleTheme {
     this.popupMenu,
     this.active,
     this.blocked,
+    this.coloredFlatButton,
+    this.managementListTile,
   });
 }
 

@@ -14,6 +14,7 @@ enum MembershipStatus { ACTIVE, PENDING, BLOCKED }
 class Company {
   String country;
   String name;
+  int profilesCount;
   bool registered;
   String uid;
   VisibilityStatus visibilityStatus;

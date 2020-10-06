@@ -10,6 +10,7 @@ Company _$CompanyFromJson(Map<String, dynamic> json) {
   return Company()
     ..country = json['country'] as String
     ..name = json['name'] as String
+    ..profilesCount = json['profilesCount'] as int
     ..registered = json['registered'] as bool
     ..uid = json['uid'] as String
     ..visibilityStatus = _$enumDecodeNullable(
@@ -19,6 +20,7 @@ Company _$CompanyFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$CompanyToJson(Company instance) => <String, dynamic>{
       'country': instance.country,
       'name': instance.name,
+      'profilesCount': instance.profilesCount,
       'registered': instance.registered,
       'uid': instance.uid,
       'visibilityStatus': _$VisibilityStatusEnumMap[instance.visibilityStatus],
