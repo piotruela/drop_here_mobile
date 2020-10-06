@@ -89,3 +89,15 @@ class AccountProfileCreationRequest {
         password: password ?? this.password);
   }
 }
+
+@JsonSerializable()
+class AccountProfileUpdateRequest {
+  final String firstName;
+  final String lastName;
+
+  AccountProfileUpdateRequest(this.firstName, this.lastName);
+
+  factory AccountProfileUpdateRequest.fromJson(Map<String, dynamic> json) =>
+      _$AccountProfileUpdateRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$AccountProfileUpdateRequestToJson(this);
+}

@@ -6,6 +6,44 @@ part of 'page_api.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+ProductsPage _$ProductsPageFromJson(Map<String, dynamic> json) {
+  return ProductsPage()
+    ..content = (json['content'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ProductResponse.fromJson(e as Map<String, dynamic>))
+        ?.toList()
+    ..empty = json['empty'] as bool
+    ..first = json['first'] as bool
+    ..last = json['last'] as bool
+    ..number = json['number'] as int
+    ..numberOfElements = json['numberOfElements'] as int
+    ..pageable = json['pageable'] == null
+        ? null
+        : Pageable.fromJson(json['pageable'] as Map<String, dynamic>)
+    ..size = json['size'] as int
+    ..sort = json['sort'] == null
+        ? null
+        : Sort.fromJson(json['sort'] as Map<String, dynamic>)
+    ..totalElements = json['totalElements'] as int
+    ..totalPages = json['totalPages'] as int;
+}
+
+Map<String, dynamic> _$ProductsPageToJson(ProductsPage instance) =>
+    <String, dynamic>{
+      'content': instance.content,
+      'empty': instance.empty,
+      'first': instance.first,
+      'last': instance.last,
+      'number': instance.number,
+      'numberOfElements': instance.numberOfElements,
+      'pageable': instance.pageable,
+      'size': instance.size,
+      'sort': instance.sort,
+      'totalElements': instance.totalElements,
+      'totalPages': instance.totalPages,
+    };
+
 Page _$PageFromJson(Map<String, dynamic> json) {
   return Page()
     ..content = (json['content'] as List)
