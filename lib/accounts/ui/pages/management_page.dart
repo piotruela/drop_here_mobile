@@ -1,3 +1,4 @@
+import 'package:drop_here_mobile/accounts/bloc/company_management_bloc.dart';
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/sellers_list_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -8,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'clients_list_page.dart';
+import 'company_page.dart';
 
 class ManagementPage extends BlocWidget<DhListBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -18,6 +20,7 @@ class ManagementPage extends BlocWidget<DhListBloc> {
   @override
   Widget build(BuildContext context, DhListBloc dhListBloc, _) {
     DhListBloc dhListBlocSellers = DhListBloc();
+    CompanyManagementBloc companyManagementBloc = CompanyManagementBloc();
     final LocaleBundle locale = Localization.of(context).bundle;
     return DefaultTabController(
       length: 3,
@@ -50,7 +53,9 @@ class ManagementPage extends BlocWidget<DhListBloc> {
               SellersListPage(
                 dhListBloc: dhListBlocSellers,
               ),
-              Container(),
+              CompanyPage(
+                companyManagementBloc: companyManagementBloc,
+              ),
             ],
           )),
     );

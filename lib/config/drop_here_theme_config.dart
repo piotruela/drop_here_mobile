@@ -37,7 +37,8 @@ class DHThemeConfig extends ThemeConfig {
       popupMenu: _popupMenuTextStyle,
       active: _activeTextStyle,
       blocked: _blockedTextStyle,
-      coloredFlatButton: _ColoredFlatButtonTextStyle,
+      coloredFlatButton: _coloredFlatButtonTextStyle,
+      managementListTile: _managementListTileTextStyle,
     );
   }
 
@@ -105,8 +106,10 @@ class DHThemeConfig extends ThemeConfig {
       fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w500, color: _activeColor);
   static final TextStyle _blockedTextStyle = _baseTextStyle.copyWith(
       fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w500, color: _blockedColor);
-  static final TextStyle _ColoredFlatButtonTextStyle =
+  static final TextStyle _coloredFlatButtonTextStyle =
       _baseTextStyle.copyWith(fontSize: 14.0, height: 16.0 / 14.0, color: _primaryColor1);
+  static final TextStyle _managementListTileTextStyle =
+      _baseTextStyle.copyWith(fontSize: 18.0, height: 21.0 / 18.0, color: _listTileMenuIconColor);
 
   static final Color _primaryColor1 = const Color(0xfff5550a);
   static final Color _primaryColor2 = const Color(0xfff99363);

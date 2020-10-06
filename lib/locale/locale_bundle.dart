@@ -152,4 +152,18 @@ abstract class LocaleBundle {
   String get markAsActive;
 
   String get markAsInactive;
+
+  String get visibilityStatus;
+
+  String get visible;
+
+  String get hidden;
+
+  String get registered;
+
+  String get yes;
+
+  String get no;
+
+  String get numberOfSellers;
 }

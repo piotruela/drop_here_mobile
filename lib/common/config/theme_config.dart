@@ -23,6 +23,7 @@ class TextStyleTheme {
   final TextStyle active;
   final TextStyle blocked;
   final TextStyle coloredFlatButton;
+  final TextStyle managementListTile;
 
   TextStyleTheme({
     this.button,
@@ -40,6 +41,7 @@ class TextStyleTheme {
     this.active,
     this.blocked,
     this.coloredFlatButton,
+    this.managementListTile,
   });
 }
 

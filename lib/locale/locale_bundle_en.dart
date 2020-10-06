@@ -234,4 +234,25 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get markAsInactive => "Mak as inactive";
+
+  @override
+  String get hidden => "Hidden";
+
+  @override
+  String get no => "No";
+
+  @override
+  String get numberOfSellers => "No. of sellers";
+
+  @override
+  String get registered => "Registered";
+
+  @override
+  String get visibilityStatus => "Visibility status";
+
+  @override
+  String get visible => "Visible";
+
+  @override
+  String get yes => "Yes";
 }
