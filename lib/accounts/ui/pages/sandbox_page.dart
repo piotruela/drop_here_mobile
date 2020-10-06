@@ -15,6 +15,7 @@ import 'package:drop_here_mobile/accounts/ui/pages/client_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/create_new_item_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/home_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
@@ -87,6 +88,12 @@ class SandboxPage extends StatelessWidget {
                       child: Text("home page"),
                       onPressed: () {
                         Get.to(Home());
+                      },
+                    ),
+                    FlatButton(
+                      child: Text("create new item page"),
+                      onPressed: () {
+                        Get.to(CreateNewItemPage());
                       },
                     ),
                     FlatButton(

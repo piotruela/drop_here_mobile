@@ -166,4 +166,14 @@ abstract class LocaleBundle {
   String get no;
 
   String get numberOfSellers;
+
+  String get addNew;
+
+  String get product;
+
+  String get spot;
+
+  String get route;
+
+  String get profile;
 }
