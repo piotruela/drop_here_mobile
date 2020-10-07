@@ -14,6 +14,7 @@ import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dar
 import 'package:drop_here_mobile/accounts/ui/pages/create_new_item_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/home_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/map_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/cupertino.dart';
@@ -103,6 +104,7 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                     child: Text("get account details"),
                     onPressed: () => companyManagementService.getCompanyInfo()),
+                FlatButton(child: Text("map page"), onPressed: () => Get.to(MapPage())),
                 FlatButton(
                     child: Text("fetch profiles"),
                     onPressed: () async {
