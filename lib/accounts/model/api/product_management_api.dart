@@ -79,3 +79,54 @@ class ProductCustomizationRequest {
     return ProductCustomizationRequest(price: price ?? this.price, value: value ?? this.value);
   }
 }
+
+@JsonSerializable()
+class Product {
+  String category;
+  List<ProductCustomizationWrapperResponse> customizationsWrappers;
+  String description;
+  int id;
+  String name;
+  double price;
+  String unit;
+  double unitFraction;
+
+  Product();
+
+  factory Product.fromJson(Map<String, dynamic> json) => _$ProductFromJson(json);
+  Map<String, dynamic> toJson() => _$ProductToJson(this);
+}
+
+@JsonSerializable()
+class ProductCustomizationWrapperResponse {
+  final List<ProductCustomizationResponse> customizations;
+  final String heading;
+  final String type;
+  ProductCustomizationWrapperResponse({this.customizations, this.heading, this.type});
+  factory ProductCustomizationWrapperResponse.fromJson(Map<String, dynamic> json) =>
+      _$ProductCustomizationWrapperResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$ProductCustomizationWrapperResponseToJson(this);
+
+  ProductCustomizationWrapperResponse copyWith(
+      {List<ProductCustomizationWrapperResponse> customizations, String heading, String type}) {
+    return ProductCustomizationWrapperResponse(
+        customizations: customizations ?? this.customizations,
+        heading: heading ?? this.heading,
+        type: type ?? this.type);
+  }
+}
+
+@JsonSerializable()
+class ProductCustomizationResponse {
+  final double price;
+  final String value;
+
+  ProductCustomizationResponse({this.price, this.value});
+  factory ProductCustomizationResponse.fromJson(Map<String, dynamic> json) =>
+      _$ProductCustomizationResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$ProductCustomizationResponseToJson(this);
+
+  ProductCustomizationResponse copyWith({double price, String value}) {
+    return ProductCustomizationResponse(price: price ?? this.price, value: value ?? this.value);
+  }
+}

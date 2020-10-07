@@ -270,4 +270,16 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get spot => "Spot";
+
+  @override
+  String get pricePerUnit => "Price per unit (PLN)";
+
+  @override
+  String get unitFraction => "Unit fraction";
+
+  @override
+  String get unitType => "Unit type";
+
+  @override
+  String get availableInDrops => "Available in drops";
 }

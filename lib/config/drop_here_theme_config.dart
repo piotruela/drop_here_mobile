@@ -39,6 +39,12 @@ class DHThemeConfig extends ThemeConfig {
       blocked: _blockedTextStyle,
       coloredFlatButton: _coloredFlatButtonTextStyle,
       managementListTile: _managementListTileTextStyle,
+      category: _categoryTextStyle,
+      dataAnnotation: _dataAnnotationTextStyle,
+      data: _dataTextStyle,
+      title2: _title2TextStyle,
+      title3: _title3TextStyle,
+      title3Annotation: _title3AnnotationTextStyle,
     );
   }
 
@@ -83,6 +89,8 @@ class DHThemeConfig extends ThemeConfig {
       fontSize: 18.0, color: _textFieldHintColor, height: 21.0 / 18.0, fontWeight: FontWeight.bold);
   static final TextStyle _cardCaptionTextStyle = _baseTextStyle.copyWith(
       fontSize: 20.0, color: _white, height: 23.0 / 20.0, fontWeight: FontWeight.bold);
+  static final TextStyle _title2TextStyle = _baseTextStyle.copyWith(
+      fontSize: 20.0, color: _black, height: 23.0 / 20.0, fontWeight: FontWeight.bold);
 
   static final TextStyle _filledTextField =
       _secondaryTitleTextStyle.copyWith(color: _black, fontWeight: FontWeight.normal);
@@ -110,6 +118,24 @@ class DHThemeConfig extends ThemeConfig {
       _baseTextStyle.copyWith(fontSize: 14.0, height: 16.0 / 14.0, color: _primaryColor1);
   static final TextStyle _managementListTileTextStyle =
       _baseTextStyle.copyWith(fontSize: 18.0, height: 21.0 / 18.0, color: _listTileMenuIconColor);
+
+  static final TextStyle _title3TextStyle = _baseTextStyle.copyWith(
+      fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w700, color: _black);
+
+  static final TextStyle _categoryTextStyle = _baseTextStyle.copyWith(
+      fontSize: 20.0, height: 23.0 / 20.0, color: _textFieldHintColor, fontWeight: FontWeight.w300);
+
+  static final TextStyle _dataAnnotationTextStyle = _baseTextStyle.copyWith(
+      fontSize: 14.0,
+      height: 16.0 / 14.0,
+      color: _listTileMenuIconColor,
+      fontWeight: FontWeight.w300);
+
+  static final TextStyle _dataTextStyle = _baseTextStyle.copyWith(
+      fontSize: 16.0, height: 18.0 / 16.0, color: _black, fontWeight: FontWeight.w400);
+
+  static final TextStyle _title3AnnotationTextStyle = _baseTextStyle.copyWith(
+      fontSize: 9.0, height: 11.0 / 9.0, color: _textFieldHintColor, fontWeight: FontWeight.w300);
 
   static final Color _primaryColor1 = const Color(0xfff5550a);
   static final Color _primaryColor2 = const Color(0xfff99363);

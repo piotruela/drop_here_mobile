@@ -18,6 +18,7 @@ import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dar
 import 'package:drop_here_mobile/accounts/ui/pages/create_new_item_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/home_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/product_details_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/cupertino.dart';
@@ -94,6 +95,12 @@ class SandboxPage extends StatelessWidget {
                       child: Text("create new item page"),
                       onPressed: () {
                         Get.to(CreateNewItemPage());
+                      },
+                    ),
+                    FlatButton(
+                      child: Text("product details page"),
+                      onPressed: () {
+                        Get.to(ProductDetailsPage());
                       },
                     ),
                     FlatButton(
