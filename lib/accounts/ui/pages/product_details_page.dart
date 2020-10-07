@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drop_here_mobile/accounts/bloc/product_details_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -77,12 +78,14 @@ class ProductDetailsPage extends BlocWidget<ProductDetailsBloc> {
                     style: themeConfig.textStyles.title2,
                   ),
                 ),
-                Row(
-                  children: [
-                    mapCard(),
-                    mapCard(),
-                  ],
-                ),
+                CarouselSlider(
+                    options: CarouselOptions(
+                      aspectRatio: 16 / 7.4,
+                      enableInfiniteScroll: false,
+                      viewportFraction: 0.5,
+                      initialPage: 0,
+                    ),
+                    items: [mapCard(), mapCard(), mapCard()]),
                 SizedBox(
                   height: 50,
                 )
@@ -96,7 +99,7 @@ class ProductDetailsPage extends BlocWidget<ProductDetailsBloc> {
 
   Widget mapCard() {
     return Padding(
-      padding: const EdgeInsets.only(right: 22.0),
+      padding: const EdgeInsets.only(right: 22.0, bottom: 6.0),
       child: Container(
         decoration: BoxDecoration(
           color: themeConfig.colors.white,
@@ -139,7 +142,7 @@ class ProductDetailsPage extends BlocWidget<ProductDetailsBloc> {
                     'Available: 30kg',
                     style: themeConfig.textStyles.title3Annotation,
                   ),
-                  SizedBox(height: 10.0)
+                  //SizedBox(height: 5.0)
                 ],
               ),
             ),
