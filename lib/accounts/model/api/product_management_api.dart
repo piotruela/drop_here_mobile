@@ -3,6 +3,31 @@ import 'package:json_annotation/json_annotation.dart';
 part 'product_management_api.g.dart';
 
 @JsonSerializable()
+class ProductResponse extends ProductManagementRequest {
+  final int id;
+  final String category;
+  final String description;
+  final String name;
+  final double price;
+  final List<ProductCustomizationWrapperRequest> productCustomizationWrappers;
+  final String unit;
+  final double unitFraction;
+
+  ProductResponse(
+      {this.id,
+      this.category,
+      this.description,
+      this.name,
+      this.price,
+      this.productCustomizationWrappers,
+      this.unit,
+      this.unitFraction});
+
+  factory ProductResponse.fromJson(Map<String, dynamic> json) => _$ProductResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$ProductResponseToJson(this);
+}
+
+@JsonSerializable()
 class ProductManagementRequest {
   final String category;
   final String description;
@@ -122,11 +147,36 @@ class ProductCustomizationResponse {
   final String value;
 
   ProductCustomizationResponse({this.price, this.value});
+
   factory ProductCustomizationResponse.fromJson(Map<String, dynamic> json) =>
       _$ProductCustomizationResponseFromJson(json);
+
   Map<String, dynamic> toJson() => _$ProductCustomizationResponseToJson(this);
 
   ProductCustomizationResponse copyWith({double price, String value}) {
     return ProductCustomizationResponse(price: price ?? this.price, value: value ?? this.value);
   }
+}
+
+@JsonSerializable()
+class ProductCategoryResponse {
+  final String name;
+
+  ProductCategoryResponse({this.name});
+
+  factory ProductCategoryResponse.fromJson(Map<String, dynamic> json) =>
+      _$ProductCategoryResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$ProductCategoryResponseToJson(this);
+}
+
+@JsonSerializable()
+class ProductUnitResponse {
+  final String name;
+  final bool fractionable;
+
+  ProductUnitResponse({this.name, this.fractionable});
+
+  factory ProductUnitResponse.fromJson(Map<String, dynamic> json) =>
+      _$ProductUnitResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$ProductUnitResponseToJson(this);
 }

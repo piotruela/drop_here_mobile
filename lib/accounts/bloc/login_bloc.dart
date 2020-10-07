@@ -12,7 +12,7 @@ part 'login_state.dart';
 class LoginBloc extends Bloc<LoginFormEvent, LoginFormState> {
   LoginBloc() : super(LoginFormState(form: LoginRequest()));
   final AuthenticationService authenticationService = Get.find<AuthenticationService>()
-    ..deleteToken();
+    ..logOutFromAccount();
 
   @override
   Stream<LoginFormState> mapEventToState(
