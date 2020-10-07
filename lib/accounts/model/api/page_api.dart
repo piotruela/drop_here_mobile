@@ -1,7 +1,28 @@
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
+import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'page_api.g.dart';
+
+@JsonSerializable()
+class ProductsPage {
+  List<ProductResponse> content;
+  bool empty;
+  bool first;
+  bool last;
+  int number;
+  int numberOfElements;
+  Pageable pageable;
+  int size;
+  Sort sort;
+  int totalElements;
+  int totalPages;
+
+  ProductsPage();
+
+  factory ProductsPage.fromJson(Map<String, dynamic> json) => _$ProductsPageFromJson(json);
+  Map<String, dynamic> toJson() => _$ProductsPageToJson(this);
+}
 
 @JsonSerializable()
 class Page {

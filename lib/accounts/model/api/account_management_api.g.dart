@@ -145,3 +145,18 @@ Map<String, dynamic> _$AccountProfileCreationRequestToJson(
       'lastName': instance.lastName,
       'password': instance.password,
     };
+
+AccountProfileUpdateRequest _$AccountProfileUpdateRequestFromJson(
+    Map<String, dynamic> json) {
+  return AccountProfileUpdateRequest(
+    json['firstName'] as String,
+    json['lastName'] as String,
+  );
+}
+
+Map<String, dynamic> _$AccountProfileUpdateRequestToJson(
+        AccountProfileUpdateRequest instance) =>
+    <String, dynamic>{
+      'firstName': instance.firstName,
+      'lastName': instance.lastName,
+    };

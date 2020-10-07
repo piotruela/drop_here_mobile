@@ -31,9 +31,21 @@ class AuthenticationService {
     }
   }
 
-  void deleteToken() {
+  void logOutFromAccount() {
     _httpClient.clearHttpHeader("authorization");
     return;
+  }
+
+  Future<LoginResponse> logOutFromProfile() async {
+    try {
+      Map<String, dynamic> response = await _httpClient.delete(
+          canRepeatRequest: true, path: '/authentication/profile', out: (dynamic json) => (json));
+      print(response['token']);
+      _httpClient.setHttpHeader(HttpHeaders.authorizationHeader, "Bearer ${response['token']}");
+      return LoginResponse.fromJson(response);
+    } catch (error) {
+      return LoginResponse()..token = '-1';
+    }
   }
 
   Future<LoginResponse> loginToProfile(ProfileLoginRequest profileLoginRequest) async {
