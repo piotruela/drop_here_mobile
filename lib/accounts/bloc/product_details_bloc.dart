@@ -20,7 +20,7 @@ class ProductDetailsBloc extends Bloc<ProductDetailsEvent, ProductDetailsState> 
   ) async* {
     if (event is FetchProductDetails) {
       final Product product = Product();
-      product.name = 'Strawberry';
+      product.name = 'Apple';
       product.category = 'Fruits';
       product.description = 'descdkfldsfk sdjflskd jfl;skdfj ';
       product.unit = 'kilograms';
