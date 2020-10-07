@@ -19,7 +19,9 @@ class DhCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
       child: Card(
         child: ListTile(
-          leading: CircleAvatar(),
+          leading: CircleAvatar(
+            radius: 30,
+          ),
           title: Text(
             title,
             style: themeConfig.textStyles.secondaryTitle,
