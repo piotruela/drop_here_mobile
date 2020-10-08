@@ -42,29 +42,12 @@ class HomeState extends State<Home> {
             ),
           ),
           //this is the code for the widget container that comes from behind the floating action button (FAB)
-          Align(
-            alignment: FractionalOffset.bottomCenter,
-            child: AnimatedContainer(
-              duration: Duration(milliseconds: 250),
-              //if clickedCentreFAB == true, the first parameter is used. If it's false, the second.
-              height: clickedCentreFAB ? MediaQuery.of(context).size.height - 150 : 10.0,
-              width: clickedCentreFAB ? MediaQuery.of(context).size.height : 10.0,
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(clickedCentreFAB ? 0.0 : 300.0),
-                  color: Colors.blue),
-            ),
-          )
         ],
       ),
       floatingActionButtonLocation:
           FloatingActionButtonLocation.centerDocked, //specify the location of the FAB
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            clickedCentreFAB = !clickedCentreFAB; //to update the animated container
-          });
-        },
-        tooltip: "Centre FAB",
+        onPressed: () => {},
         child: Container(
           margin: EdgeInsets.all(15.0),
           child: Icon(Icons.add),
