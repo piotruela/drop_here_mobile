@@ -17,7 +17,7 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
   ClientsListPage({this.dhListBloc});
 
   @override
-  DhListBloc bloc() => dhListBloc;
+  DhListBloc bloc() => dhListBloc..add(FetchProducts());
 
   @override
   Widget build(BuildContext context, DhListBloc dhListBloc, _) {

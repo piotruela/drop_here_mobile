@@ -184,4 +184,8 @@ abstract class LocaleBundle {
   String get unitFraction;
 
   String get availableInDrops;
+
+  String get products;
+
+  String get delete;
 }

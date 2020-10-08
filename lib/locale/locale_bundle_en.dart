@@ -282,4 +282,10 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get availableInDrops => "Available in drops";
+
+  @override
+  String get products => "Products";
+
+  @override
+  String get delete => "Delete";
 }

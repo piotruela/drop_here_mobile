@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/client.dart';
 import 'package:drop_here_mobile/accounts/model/seller.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
