@@ -1,76 +1,41 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:drop_here_mobile/accounts/bloc/product_details_bloc.dart';
+import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-class ProductDetailsPage extends BlocWidget<ProductDetailsBloc> {
+class ProductDetailsPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+  final Product product;
+
+  ProductDetailsPage({this.product});
 
   @override
-  bloc() => ProductDetailsBloc()..add(FetchProductDetails());
-
-  @override
-  Widget build(BuildContext context, ProductDetailsBloc bloc, _) {
+  Widget build(BuildContext context) {
     final LocaleBundle locale = Localization.of(context).bundle;
-    return Scaffold(
-        body: BlocBuilder<ProductDetailsBloc, ProductDetailsState>(builder: (context, state) {
-      if (state is ProductDetailsInitial) {
-        return CircularProgressIndicator();
-      } else if (state is ProductDetailsFetched) {
-        return buildColumnWithData(state, locale, context);
-      }
-      return Container();
-    }));
+    return Scaffold(body: buildColumnWithData(locale, context));
   }
 
-  SafeArea buildColumnWithData(
-      ProductDetailsFetched state, LocaleBundle locale, BuildContext context) {
+  SafeArea buildColumnWithData(LocaleBundle locale, BuildContext context) {
     return SafeArea(
       child: ListView(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 19.0, top: 10.0),
-            child: Text(
-              state.product.name,
-              style: themeConfig.textStyles.primaryTitle,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 19.0, top: 2.0),
-            child: Text(
-              state.product.category,
-              style: themeConfig.textStyles.category,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5.0),
-            child: Container(
-              alignment: Alignment.centerLeft,
-              child: Image.network(
-                //TODO change image
-                'https://picsum.photos/850?image=9',
-                width: MediaQuery.of(context).size.width,
-              ),
-            ),
-          ),
+          productTitle(),
+          productSubtitle(),
+          produtPhoto(context),
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                descriptionAndData(locale, state, locale.description, state.product.description),
-                descriptionAndData(locale, state, locale.unitType, state.product.unit),
-                descriptionAndData(
-                    locale, state, locale.pricePerUnit, state.product.price.toString()),
-                descriptionAndData(
-                    locale, state, locale.unitFraction, state.product.unitFraction.toString()),
+                descriptionAndData(locale, locale.description, product.description),
+                descriptionAndData(locale, locale.unitType, product.unit),
+                descriptionAndData(locale, locale.pricePerUnit, product.price.toString()),
+                descriptionAndData(locale, locale.unitFraction, product.unitFraction.toString()),
                 Padding(
                   padding: const EdgeInsets.only(top: 10.0, bottom: 12.0),
                   child: Text(
@@ -78,14 +43,7 @@ class ProductDetailsPage extends BlocWidget<ProductDetailsBloc> {
                     style: themeConfig.textStyles.title2,
                   ),
                 ),
-                CarouselSlider(
-                    options: CarouselOptions(
-                      aspectRatio: 16 / 7.4,
-                      enableInfiniteScroll: false,
-                      viewportFraction: 0.5,
-                      initialPage: 0,
-                    ),
-                    items: [mapCard(), mapCard(), mapCard()]),
+                carousel(),
                 SizedBox(
                   height: 50,
                 )
@@ -93,6 +51,51 @@ class ProductDetailsPage extends BlocWidget<ProductDetailsBloc> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  CarouselSlider carousel() {
+    return CarouselSlider(
+        options: CarouselOptions(
+          aspectRatio: 16 / 7.4,
+          enableInfiniteScroll: false,
+          viewportFraction: 0.5,
+          initialPage: 0,
+        ),
+        items: [mapCard(), mapCard(), mapCard()]);
+  }
+
+  Padding productSubtitle() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 19.0, top: 2.0),
+      child: Text(
+        product.category,
+        style: themeConfig.textStyles.category,
+      ),
+    );
+  }
+
+  Padding productTitle() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 19.0, top: 10.0),
+      child: Text(
+        product.name,
+        style: themeConfig.textStyles.primaryTitle,
+      ),
+    );
+  }
+
+  Padding produtPhoto(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0),
+      child: Container(
+        alignment: Alignment.centerLeft,
+        child: Image.network(
+          //TODO change image
+          'https://picsum.photos/850?image=9',
+          width: MediaQuery.of(context).size.width,
+        ),
       ),
     );
   }
@@ -152,8 +155,7 @@ class ProductDetailsPage extends BlocWidget<ProductDetailsBloc> {
     );
   }
 
-  Column descriptionAndData(
-      LocaleBundle locale, ProductDetailsFetched state, String description, String data) {
+  Column descriptionAndData(LocaleBundle locale, String description, String data) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
