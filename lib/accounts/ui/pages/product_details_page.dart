@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
@@ -10,12 +12,23 @@ import 'package:get/get.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-  final Product product;
+  //TODO add final
+  Product product;
+  final File photo;
 
-  ProductDetailsPage({this.product});
+  ProductDetailsPage({this.product, this.photo});
 
   @override
   Widget build(BuildContext context) {
+    //TODO delete product
+    product = Product();
+    product.name = 'abc';
+    product.unitFraction = 0.5;
+    product.unit = "kilogram";
+    product.description = "description";
+    product.price = 5;
+    product.category = "fruits";
+
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(body: buildColumnWithData(locale, context));
   }
@@ -91,9 +104,8 @@ class ProductDetailsPage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Container(
         alignment: Alignment.centerLeft,
-        child: Image.network(
-          //TODO change image
-          'https://picsum.photos/850?image=9',
+        child: Image.file(
+          photo,
           width: MediaQuery.of(context).size.width,
         ),
       ),
@@ -120,8 +132,8 @@ class ProductDetailsPage extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-                child: Image.network(
-                  'https://picsum.photos/250?image=9',
+                child: Image.file(
+                  photo,
                   fit: BoxFit.cover,
                 ),
               ),

@@ -42,7 +42,11 @@ class SandboxPage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                FlatButton(child: Text("add product"), onPressed: () => AddProductPage()),
+                FlatButton(
+                    child: Text("add product"),
+                    onPressed: () {
+                      Get.to(AddProductPage());
+                    }),
                 FlatButton(
                     child: Text("clients list"),
                     onPressed: () {
@@ -63,7 +67,11 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                   child: Text("product details page"),
                   onPressed: () {
-                    Get.to(ProductDetailsPage());
+                    Get.to(ProductDetailsPage(
+                      photo: File(
+                          //TODO change this file
+                          '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'),
+                    ));
                   },
                 ),
                 FlatButton(
