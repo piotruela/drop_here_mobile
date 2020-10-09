@@ -7,8 +7,12 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="drop_here_mobile"
-        android:icon="@mipmap/ic_launcher">
+        android:label="drop.here"
+        android:icon="@mipmap/app_logo">
+
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAIXlbOX2W1TEKdG8M8zyvZc882lEApzLE"/>
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
