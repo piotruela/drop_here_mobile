@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/client.dart';
 import 'package:drop_here_mobile/accounts/model/seller.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
@@ -49,6 +50,13 @@ class DhListBloc extends Bloc<DhListEvent, DhListState> {
       try {
         final List<Seller> sellers = await companyManagementService.fetchSellersList();
         yield SellersFetched(sellers);
+      } catch (e) {
+        yield FetchingError(e);
+      }
+    } else if (event is FetchProducts) {
+      try {
+        final List<Product> products = await companyManagementService.fetchProductsList();
+        yield ProductsFetched(products);
       } catch (e) {
         yield FetchingError(e);
       }

@@ -24,6 +24,12 @@ class TextStyleTheme {
   final TextStyle blocked;
   final TextStyle coloredFlatButton;
   final TextStyle managementListTile;
+  final TextStyle category;
+  final TextStyle dataAnnotation;
+  final TextStyle data;
+  final TextStyle title2;
+  final TextStyle title3;
+  final TextStyle title3Annotation;
 
   TextStyleTheme({
     this.button,
@@ -42,6 +48,12 @@ class TextStyleTheme {
     this.blocked,
     this.coloredFlatButton,
     this.managementListTile,
+    this.category,
+    this.dataAnnotation,
+    this.data,
+    this.title2,
+    this.title3,
+    this.title3Annotation,
   });
 }
 

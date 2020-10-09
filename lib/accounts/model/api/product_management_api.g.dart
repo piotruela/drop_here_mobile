@@ -102,6 +102,70 @@ Map<String, dynamic> _$ProductCustomizationRequestToJson(
       'value': instance.value,
     };
 
+Product _$ProductFromJson(Map<String, dynamic> json) {
+  return Product()
+    ..category = json['category'] as String
+    ..customizationsWrappers = (json['customizationsWrappers'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ProductCustomizationWrapperResponse.fromJson(
+                e as Map<String, dynamic>))
+        ?.toList()
+    ..description = json['description'] as String
+    ..id = json['id'] as int
+    ..name = json['name'] as String
+    ..price = (json['price'] as num)?.toDouble()
+    ..unit = json['unit'] as String
+    ..unitFraction = (json['unitFraction'] as num)?.toDouble();
+}
+
+Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
+      'category': instance.category,
+      'customizationsWrappers': instance.customizationsWrappers,
+      'description': instance.description,
+      'id': instance.id,
+      'name': instance.name,
+      'price': instance.price,
+      'unit': instance.unit,
+      'unitFraction': instance.unitFraction,
+    };
+
+ProductCustomizationWrapperResponse
+    _$ProductCustomizationWrapperResponseFromJson(Map<String, dynamic> json) {
+  return ProductCustomizationWrapperResponse(
+    customizations: (json['customizations'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ProductCustomizationResponse.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    heading: json['heading'] as String,
+    type: json['type'] as String,
+  );
+}
+
+Map<String, dynamic> _$ProductCustomizationWrapperResponseToJson(
+        ProductCustomizationWrapperResponse instance) =>
+    <String, dynamic>{
+      'customizations': instance.customizations,
+      'heading': instance.heading,
+      'type': instance.type,
+    };
+
+ProductCustomizationResponse _$ProductCustomizationResponseFromJson(
+    Map<String, dynamic> json) {
+  return ProductCustomizationResponse(
+    price: (json['price'] as num)?.toDouble(),
+    value: json['value'] as String,
+  );
+}
+
+Map<String, dynamic> _$ProductCustomizationResponseToJson(
+        ProductCustomizationResponse instance) =>
+    <String, dynamic>{
+      'price': instance.price,
+      'value': instance.value,
+    };
+
 ProductCategoryResponse _$ProductCategoryResponseFromJson(
     Map<String, dynamic> json) {
   return ProductCategoryResponse(

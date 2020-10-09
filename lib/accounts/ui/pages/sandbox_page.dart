@@ -15,6 +15,8 @@ import 'package:drop_here_mobile/accounts/ui/pages/create_new_item_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/home_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/map_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/product_details_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,7 +44,11 @@ class SandboxPage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                FlatButton(child: Text("add product"), onPressed: () => AddProductPage()),
+                FlatButton(
+                    child: Text("add product"),
+                    onPressed: () {
+                      Get.to(AddProductPage());
+                    }),
                 FlatButton(
                     child: Text("clients list"),
                     onPressed: () {
@@ -61,9 +67,25 @@ class SandboxPage extends StatelessWidget {
                   },
                 ),
                 FlatButton(
+                  child: Text("product details page"),
+                  onPressed: () {
+                    Get.to(ProductDetailsPage(
+                      photo: File(
+                          //TODO change this file
+                          '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'),
+                    ));
+                  },
+                ),
+                FlatButton(
                   child: Text("choose profile page"),
                   onPressed: () {
                     Get.to(ChooseProfilePage());
+                  },
+                ),
+                FlatButton(
+                  child: Text("products list page"),
+                  onPressed: () {
+                    Get.to(ProductsListPage());
                   },
                 ),
                 FlatButton(

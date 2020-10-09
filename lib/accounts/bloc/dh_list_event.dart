@@ -50,3 +50,26 @@ class SearchSellers extends DhListEvent {
   @override
   List<Object> get props => [searchText];
 }
+
+class FetchProducts extends DhListEvent {
+  FetchProducts();
+
+  @override
+  List<Object> get props => [];
+}
+
+class FilterProducts extends DhListEvent {
+  final String filter;
+  FilterProducts({this.filter});
+
+  @override
+  List<Object> get props => [filter];
+}
+
+class SearchProducts extends DhListEvent {
+  final String searchText;
+  SearchProducts({this.searchText});
+
+  @override
+  List<Object> get props => [searchText];
+}

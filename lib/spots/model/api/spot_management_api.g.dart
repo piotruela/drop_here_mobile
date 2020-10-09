@@ -117,7 +117,8 @@ SpotCompanyMembershipResponse _$SpotCompanyMembershipResponseFromJson(
     customerId: json['customerId'] as int,
     firstName: json['firstName'] as String,
     lastName: json['lastName'] as String,
-    membershipStatus: json['membershipStatus'],
+    membershipStatus: _$enumDecodeNullable(
+        _$MembershipStatusEnumMap, json['membershipStatus']),
   );
 }
 
@@ -127,19 +128,58 @@ Map<String, dynamic> _$SpotCompanyMembershipResponseToJson(
       'customerId': instance.customerId,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
-      'membershipStatus': instance.membershipStatus,
+      'membershipStatus': _$MembershipStatusEnumMap[instance.membershipStatus],
     };
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$MembershipStatusEnumMap = {
+  MembershipStatus.ACTIVE: 'ACTIVE',
+  MembershipStatus.PENDING: 'PENDING',
+  MembershipStatus.BLOCKED: 'BLOCKED',
+};
 
 SpotCompanyMembershipManagementRequest
     _$SpotCompanyMembershipManagementRequestFromJson(
         Map<String, dynamic> json) {
   return SpotCompanyMembershipManagementRequest(
-    membershipStatus: json['membershipStatus'],
+    membershipStatus: _$enumDecodeNullable(
+        _$MembershipStatusEnumMap, json['membershipStatus']),
   );
 }
 
 Map<String, dynamic> _$SpotCompanyMembershipManagementRequestToJson(
         SpotCompanyMembershipManagementRequest instance) =>
     <String, dynamic>{
-      'membershipStatus': instance.membershipStatus,
+      'membershipStatus': _$MembershipStatusEnumMap[instance.membershipStatus],
     };

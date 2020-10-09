@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/page_api.dart';
+import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/client.dart';
 import 'package:drop_here_mobile/accounts/model/company.dart' as localCompany;
 import 'package:drop_here_mobile/accounts/model/seller.dart';
@@ -101,11 +102,26 @@ class CompanyManagementService {
   Future<List<Seller>> fetchSellersList({String filter, String searchText}) {
     //TODO implement
     List<Seller> sellers = [
-      Seller(name: 'john', isActive: true, surname: 'snow'),
+      Seller(name: 'jon', isActive: true, surname: 'snow'),
       Seller(name: 'bart', isActive: false, surname: 'simpson')
     ];
     return Future.delayed(Duration(seconds: 1), () {
       return sellers;
+    });
+  }
+
+  Future<List<Product>> fetchProductsList({String filter, String searchText}) {
+    //TODO implement
+    Product product = Product();
+    product.name = 'Apple';
+    product.category = 'Fruits';
+    product.description = 'descdkfldsfk sdjflskd jfl;skdfj ';
+    product.unit = 'kilograms';
+    product.price = 6;
+    product.unitFraction = 0.5;
+    List<Product> products = [product];
+    return Future.delayed(Duration(seconds: 1), () {
+      return products;
     });
   }
 }

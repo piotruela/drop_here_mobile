@@ -25,8 +25,10 @@ class DhSearchBar extends StatelessWidget {
           hintStyle: themeConfig.textStyles.textFieldHint,
           filled: true,
           fillColor: themeConfig.colors.addSthHere,
-          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey, width: 0.0)),
-          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey, width: 0.0)),
+          enabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: themeConfig.colors.addSthHere, width: 0.0)),
+          focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: themeConfig.colors.addSthHere, width: 0.0)),
         ),
       ),
     );

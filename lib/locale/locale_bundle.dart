@@ -176,4 +176,22 @@ abstract class LocaleBundle {
   String get route;
 
   String get profile;
+
+  String get unitType;
+
+  String get pricePerUnit;
+
+  String get unitFraction;
+
+  String get availableInDrops;
+
+  String get products;
+
+  String get delete;
+
+  String get category;
+
+  String get price;
+
+  String get currency;
 }
