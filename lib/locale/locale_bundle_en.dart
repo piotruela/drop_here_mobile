@@ -191,7 +191,7 @@ class LocaleBundleEn extends LocaleBundle {
   String get blocked => 'Blocked';
 
   @override
-  String get edit => 'edit';
+  String get edit => 'Edit';
 
   @override
   String get memberOf => 'member of';
@@ -282,4 +282,19 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get availableInDrops => "Available in drops";
+
+  @override
+  String get products => "Products";
+
+  @override
+  String get delete => "Delete";
+
+  @override
+  String get category => "Category";
+
+  @override
+  String get price => "Price";
+
+  @override
+  String get currency => "zł";
 }
