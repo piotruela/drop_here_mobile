@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_card.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/product_card.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
@@ -14,7 +16,7 @@ class ProductsListPage extends BlocWidget<DhListBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final DhListBloc dhListBloc = DhListBloc();
   @override
-  DhListBloc bloc() => dhListBloc;
+  DhListBloc bloc() => dhListBloc..add(FetchProducts());
 
   @override
   Widget build(BuildContext context, DhListBloc bloc, _) {
@@ -70,12 +72,15 @@ class ProductsListPage extends BlocWidget<DhListBloc> {
               shrinkWrap: true,
               itemCount: state.products.length,
               itemBuilder: (BuildContext context, int index) {
-                return DhCard(
-                  title: state.products[index].name,
-                  isActive: state.products[index].category,
-                  dropsNumber: state.products[index].numberOfDropsMember,
-                  popupOptions: [locale.delete, locale.edit],
-                );
+                return ProductCard(
+                    title: state.products[index].name,
+                    category: state.products[index].category,
+                    price: state.products[index].price,
+                    unit: state.products[index].unit,
+                    popupOptions: [locale.delete, locale.edit],
+                    photo: File(
+                        //TODO change this file
+                        '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'));
               }),
         ],
       ),

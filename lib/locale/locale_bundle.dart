@@ -188,4 +188,10 @@ abstract class LocaleBundle {
   String get products;
 
   String get delete;
+
+  String get category;
+
+  String get price;
+
+  String get currency;
 }

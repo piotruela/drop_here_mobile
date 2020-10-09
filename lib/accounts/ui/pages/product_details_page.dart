@@ -39,7 +39,7 @@ class ProductDetailsPage extends StatelessWidget {
         children: [
           productTitle(),
           productSubtitle(),
-          produtPhoto(context),
+          productPhoto(context),
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: Column(
@@ -99,7 +99,7 @@ class ProductDetailsPage extends StatelessWidget {
     );
   }
 
-  Padding produtPhoto(BuildContext context) {
+  Padding productPhoto(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 5.0),
       child: Container(

@@ -53,6 +53,13 @@ class DhListBloc extends Bloc<DhListEvent, DhListState> {
       } catch (e) {
         yield FetchingError(e);
       }
+    } else if (event is FetchProducts) {
+      try {
+        final List<Product> products = await companyManagementService.fetchProductsList();
+        yield ProductsFetched(products);
+      } catch (e) {
+        yield FetchingError(e);
+      }
     }
   }
 }
