@@ -38,17 +38,16 @@ class ProductCard extends StatelessWidget {
                 height: 5.0,
               ),
               Text(
-                locale.category + ': ' + category,
+                '${locale.category}: $category',
                 style: themeConfig.textStyles.cardSubtitle,
               ),
               SizedBox(
                 height: 6.0,
               ),
               Text(
-                locale.price + ': ' + price.toString() + locale.currency + '/' + unit,
+                '${locale.price}: ${price.toString()}${locale.currency}/$unit',
                 style: themeConfig.textStyles.cardSubtitle,
               ),
-              //Text(locale.price + ':' + price.toString() + '' + unit),
             ],
           ),
           trailing: PopupMenuButton<String>(
