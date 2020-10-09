@@ -4,6 +4,8 @@ import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'dh_shadow.dart';
+
 class DhCard extends StatelessWidget {
   final String title;
   final bool isActive;
@@ -17,9 +19,11 @@ class DhCard extends StatelessWidget {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
-      child: Card(
+      child: Container(
         child: ListTile(
-          leading: CircleAvatar(),
+          leading: CircleAvatar(
+            radius: 30,
+          ),
           title: Text(
             title,
             style: themeConfig.textStyles.secondaryTitle,
@@ -37,6 +41,11 @@ class DhCard extends StatelessWidget {
             ],
           ),
           trailing: PopupMenuButton<String>(
+            icon: Icon(
+              Icons.more_vert,
+              color: themeConfig.colors.black,
+              size: 30.0,
+            ),
             onSelected: (_) {},
             itemBuilder: (BuildContext context) {
               return popupOptions.map((String choice) {
@@ -50,6 +59,13 @@ class DhCard extends StatelessWidget {
               }).toList();
             },
           ),
+        ),
+        decoration: BoxDecoration(
+          color: themeConfig.colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: [
+            dhShadow(),
+          ],
         ),
       ),
     );
