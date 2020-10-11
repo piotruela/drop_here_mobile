@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:drop_here_mobile/accounts/bloc/edit_product_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
@@ -83,6 +84,7 @@ class EditProductPage extends BlocWidget<EditProductBloc> {
                                 productManagementRequest: state.productManagementRequest
                                     .copyWith(description: description)));
                           },
+                          value: state.productManagementRequest.description,
                         ),
                         Text(
                           locale.unitTypeMandatory,
@@ -245,33 +247,3 @@ class DhPlainTextFormField extends StatelessWidget {
 }
 
 enum InputType { text, number }
-
-class DhTextArea extends StatelessWidget {
-  final String hintText;
-  final void Function(String) onChanged;
-  DhTextArea({this.hintText, this.onChanged});
-  final _controller = TextEditingController();
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 13.0),
-      child: TextFormField(
-        onChanged: onChanged,
-        //controller: _controller,
-        cursorColor: Colors.black,
-        minLines: 1,
-        maxLines: 4,
-        decoration: InputDecoration(
-          suffixIcon: IconButton(onPressed: () => _controller.clear(), icon: Icon(Icons.clear)),
-          hintText: hintText,
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-          ),
-        ),
-      ),
-    );
-  }
-}
