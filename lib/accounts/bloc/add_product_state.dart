@@ -22,6 +22,7 @@ class AddProductFormState extends Equatable {
     return productManagementRequest?.name != null &&
         productManagementRequest?.unit != null &&
         productManagementRequest?.price != null &&
+        //TODO add category
         // productManagementRequest?.category != null &&
         productManagementRequest?.unitFraction != null;
   }

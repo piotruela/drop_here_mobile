@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:drop_here_mobile/accounts/bloc/add_product_bloc.dart';
 import 'package:drop_here_mobile/accounts/bloc/edit_product_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
@@ -39,7 +38,7 @@ class EditProductPage extends BlocWidget<EditProductBloc> {
           backgroundColor: themeConfig.colors.primary1,
           title: Text(Localization.of(context).bundle.editProduct),
         ),
-        body: BlocBuilder<AddProductBloc, AddProductFormState>(
+        body: BlocBuilder<EditProductBloc, EditProductFormState>(
           builder: (context, state) {
             return ListView(
               children: [
@@ -167,7 +166,7 @@ class EditProductPage extends BlocWidget<EditProductBloc> {
   }
 
   BlocBuilder<EditProductBloc, EditProductFormState> floatingButton(
-      LocaleBundle locale, EditProductBloc editProductBlocBloc) {
+      LocaleBundle locale, EditProductBloc editProductBloc) {
     return BlocBuilder<EditProductBloc, EditProductFormState>(
         buildWhen: (previous, current) => current.isFilled(),
         builder: (context, state) {
@@ -177,7 +176,7 @@ class EditProductPage extends BlocWidget<EditProductBloc> {
             label: Text(
               locale.submit,
               style: TextStyle(
-                  color: addProductBloc.state.isFilled()
+                  color: editProductBloc.state.isFilled()
                       ? themeConfig.colors.primary1
                       : themeConfig.colors.addSthHere),
             ),
