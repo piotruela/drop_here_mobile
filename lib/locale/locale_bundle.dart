@@ -194,4 +194,8 @@ abstract class LocaleBundle {
   String get price;
 
   String get currency;
+
+  String get editProduct;
+
+  String get submit;
 }
