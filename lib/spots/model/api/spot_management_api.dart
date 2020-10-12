@@ -30,6 +30,30 @@ class SpotManagementRequest {
   factory SpotManagementRequest.fromJson(Map<String, dynamic> json) =>
       _$SpotManagementRequestFromJson(json);
   Map<String, dynamic> toJson() => _$SpotManagementRequestToJson(this);
+
+  SpotManagementRequest copyWith({
+    String description,
+    int estimatedRadiusMaters,
+    bool hidden,
+    String name,
+    String password,
+    bool requiredAccept,
+    bool requiredPassword,
+    double xcoordinate,
+    double ycoordinate,
+  }) {
+    return SpotManagementRequest(
+      description: description ?? this.description,
+      estimatedRadiusMaters: estimatedRadiusMaters ?? this.estimatedRadiusMaters,
+      hidden: hidden ?? this.hidden,
+      name: name ?? this.name,
+      password: password ?? this.password,
+      requiredAccept: requiredAccept ?? this.requiredAccept,
+      requiredPassword: requiredPassword ?? this.requiredPassword,
+      xcoordinate: xcoordinate ?? this.xcoordinate,
+      ycoordinate: ycoordinate ?? this.ycoordinate,
+    );
+  }
 }
 
 @JsonSerializable()
