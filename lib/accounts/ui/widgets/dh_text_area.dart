@@ -11,6 +11,7 @@ class DhTextArea extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 13.0),
       child: TextFormField(
+        //TODO add controller
         onChanged: onChanged,
         cursorColor: Colors.black,
         minLines: 1,
