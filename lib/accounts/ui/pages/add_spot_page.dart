@@ -107,6 +107,7 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
           secondaryTitle(text),
           DhSwitch(
             initialPosition: false,
+            //TODO add onSwitch
             onSwitch: (_) {},
           ),
         ],

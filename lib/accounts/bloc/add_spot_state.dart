@@ -2,14 +2,18 @@ part of 'add_spot_bloc.dart';
 
 class AddSpotFormState extends Equatable {
   final SpotManagementRequest spotManagementRequest;
+  final File locationMap;
   const AddSpotFormState({
+    this.locationMap,
     this.spotManagementRequest,
   });
 
   AddSpotFormState copyWith({
     final SpotManagementRequest spotManagementRequest,
+    final File locationMap,
   }) {
     return AddSpotFormState(
+      locationMap: locationMap ?? this.locationMap,
       spotManagementRequest: spotManagementRequest ?? this.spotManagementRequest,
     );
   }
@@ -29,5 +33,5 @@ class AddSpotFormState extends Equatable {
   }
 
   @override
-  List<Object> get props => [spotManagementRequest];
+  List<Object> get props => [spotManagementRequest, locationMap];
 }
