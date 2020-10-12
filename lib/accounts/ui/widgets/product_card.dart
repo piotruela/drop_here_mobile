@@ -6,6 +6,8 @@ import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import 'dh_shadow.dart';
+
 class ProductCard extends StatelessWidget {
   final String title;
   final String category;
@@ -24,7 +26,7 @@ class ProductCard extends StatelessWidget {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
-      child: Card(
+      child: Container(
         child: ListTile(
           leading: productPhoto(context),
           title: Text(
@@ -51,6 +53,11 @@ class ProductCard extends StatelessWidget {
             ],
           ),
           trailing: PopupMenuButton<String>(
+            icon: Icon(
+              Icons.more_vert,
+              color: themeConfig.colors.black,
+              size: 30.0,
+            ),
             onSelected: (_) {},
             itemBuilder: (BuildContext context) {
               return popupOptions.map((String choice) {
@@ -64,6 +71,13 @@ class ProductCard extends StatelessWidget {
               }).toList();
             },
           ),
+        ),
+        decoration: BoxDecoration(
+          color: themeConfig.colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: [
+            dhShadow(),
+          ],
         ),
       ),
     );

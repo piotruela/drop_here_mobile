@@ -1,18 +1,18 @@
-part of 'add_product_bloc.dart';
+part of 'edit_product_bloc.dart';
 
-class AddProductFormState extends Equatable {
+class EditProductFormState extends Equatable {
   final ProductManagementRequest productManagementRequest;
   final File photo;
-  const AddProductFormState({
+  const EditProductFormState({
     this.productManagementRequest,
     this.photo,
   });
 
-  AddProductFormState copyWith({
+  EditProductFormState copyWith({
     final ProductManagementRequest productManagementRequest,
     final File photo,
   }) {
-    return AddProductFormState(
+    return EditProductFormState(
       photo: photo ?? this.photo,
       productManagementRequest: productManagementRequest ?? this.productManagementRequest,
     );
