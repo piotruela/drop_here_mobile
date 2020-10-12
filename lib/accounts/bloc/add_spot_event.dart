@@ -21,3 +21,21 @@ class FormSubmitted extends AddSpotEvent {
   @override
   List<Object> get props => [spotManagementRequest];
 }
+
+class AddLocation extends AddSpotEvent {
+  const AddLocation();
+  @override
+  List<Object> get props => [];
+}
+
+class AddRoute extends AddSpotEvent {
+  const AddRoute();
+  @override
+  List<Object> get props => [];
+}
+
+class AddMember extends AddSpotEvent {
+  const AddMember();
+  @override
+  List<Object> get props => [];
+}

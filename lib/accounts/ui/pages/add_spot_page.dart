@@ -2,6 +2,7 @@ import 'package:drop_here_mobile/accounts/bloc/add_spot_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_floating_action_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_switch.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
@@ -98,12 +99,16 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
 
   Padding rowTextAndSlider(String text) {
     return Padding(
-      padding: const EdgeInsets.only(top: 5.0, bottom: 9.0),
+      padding: const EdgeInsets.only(),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisSize: MainAxisSize.max,
         children: [
           secondaryTitle(text),
-          //TODO add suwak
+          DhSwitch(
+            initialPosition: false,
+            onSwitch: (_) {},
+          ),
         ],
       ),
     );
@@ -120,7 +125,7 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
     return BlocBuilder<AddSpotBloc, AddSpotFormState>(
         buildWhen: (previous, current) => current.isFilled(),
         builder: (context, state) {
-          return dhFloatingButton(text: locale.addProduct, enabled: state.isFilled());
+          return dhFloatingButton(text: locale.addSpot, enabled: state.isFilled());
         });
   }
 }
