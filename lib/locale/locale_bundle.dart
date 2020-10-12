@@ -220,4 +220,8 @@ abstract class LocaleBundle {
   String get members;
 
   String get addMemberButton;
+
+  String get editProduct;
+
+  String get submit;
 }

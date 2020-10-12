@@ -25,6 +25,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'add_spot_page.dart';
+import 'edit_product_page.dart';
 
 class SandboxPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -55,6 +56,11 @@ class SandboxPage extends StatelessWidget {
                     child: Text("add spot"),
                     onPressed: () {
                       Get.to(AddSpotPage());
+                    }),
+                FlatButton(
+                    child: Text("edit product"),
+                    onPressed: () {
+                      Get.to(EditProductPage());
                     }),
                 FlatButton(
                     child: Text("clients list"),

@@ -336,4 +336,10 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get plannedRoutes => "Planned routes";
+
+  @override
+  String get editProduct => "Edit product";
+
+  @override
+  String get submit => "Submit";
 }

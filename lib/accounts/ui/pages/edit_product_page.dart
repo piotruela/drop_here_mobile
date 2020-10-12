@@ -1,9 +1,7 @@
 import 'dart:io';
 
-import 'package:drop_here_mobile/accounts/bloc/add_product_bloc.dart';
+import 'package:drop_here_mobile/accounts/bloc/edit_product_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_floating_action_button.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -16,39 +14,41 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class AddProductPage extends BlocWidget<AddProductBloc> {
+class EditProductPage extends BlocWidget<EditProductBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final picker = ImagePicker();
   File _image;
   List<GestureDetector> categoryChoiceWidgets = [];
 
   @override
-  AddProductBloc bloc() => AddProductBloc();
+  EditProductBloc bloc() => EditProductBloc();
 
   @override
-  Widget build(BuildContext context, AddProductBloc addProductBloc, _) {
+  Widget build(BuildContext context, EditProductBloc editProductBloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
     final List categories = ['fruits', 'vege', 'other'];
 
     categories.forEach((element) {
       return categoryChoiceWidgets.add(categoryChoice(
           text: element,
-          isChosen: addProductBloc.state.productManagementRequest.category == element));
+          isChosen: editProductBloc.state.productManagementRequest.category == element));
     });
     return Scaffold(
-        floatingActionButton: floatingButton(locale.addProduct, addProductBloc, locale),
+        floatingActionButton: floatingButton(locale, editProductBloc),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: SlidingUpPanel(
-          body: Center(child: Text('background')),
+          body: Center(
+            child: Text('background'),
+          ),
           panel: SafeArea(
-            child: BlocBuilder<AddProductBloc, AddProductFormState>(
+            child: BlocBuilder<EditProductBloc, EditProductFormState>(
               builder: (context, state) {
                 return ListView(
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(left: 25.0),
                       child: Text(
-                        Localization.of(context).bundle.addProduct,
+                        Localization.of(context).bundle.editProduct,
                         style: themeConfig.textStyles.primaryTitle,
                       ),
                     ),
@@ -65,7 +65,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                             DhPlainTextFormField(
                               hintText: locale.productNameExample,
                               onChanged: (String name) {
-                                addProductBloc.add(FormChanged(
+                                editProductBloc.add(FormChanged(
                                     productManagementRequest:
                                         state.productManagementRequest.copyWith(name: name)));
                               },
@@ -74,7 +74,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                               locale.photo,
                               style: themeConfig.textStyles.secondaryTitle,
                             ),
-                            choosePhotoWidget(addProductBloc),
+                            choosePhotoWidget(editProductBloc),
                             Text(
                               locale.categoryMandatory,
                               style: themeConfig.textStyles.secondaryTitle,
@@ -89,7 +89,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                             ),
                             DhTextArea(
                               onChanged: (String description) {
-                                addProductBloc.add(FormChanged(
+                                editProductBloc.add(FormChanged(
                                     productManagementRequest: state.productManagementRequest
                                         .copyWith(description: description)));
                               },
@@ -101,7 +101,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                             ),
                             DropdownButton<String>(
                               isExpanded: true,
-                              onChanged: (String unit) => addProductBloc.add(FormChanged(
+                              onChanged: (String unit) => editProductBloc.add(FormChanged(
                                   productManagementRequest:
                                       state.productManagementRequest.copyWith(unit: unit))),
                               value: state.productManagementRequest?.unit,
@@ -122,7 +122,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                               hintText: locale.pricePerUnitExample,
                               inputType: InputType.number,
                               onChanged: (String value) {
-                                addProductBloc.add(FormChanged(
+                                editProductBloc.add(FormChanged(
                                     productManagementRequest: state.productManagementRequest
                                         .copyWith(price: double.parse(value))));
                               },
@@ -135,7 +135,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                               hintText: locale.unitFractionExample,
                               inputType: InputType.number,
                               onChanged: (String value) {
-                                addProductBloc.add(FormChanged(
+                                editProductBloc.add(FormChanged(
                                     productManagementRequest: state.productManagementRequest
                                         .copyWith(
                                             unitFraction:
@@ -180,12 +180,23 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
     );
   }
 
-  BlocBuilder<AddProductBloc, AddProductFormState> floatingButton(
-      String text, AddProductBloc addProductBloc, LocaleBundle locale) {
-    return BlocBuilder<AddProductBloc, AddProductFormState>(
+  BlocBuilder<EditProductBloc, EditProductFormState> floatingButton(
+      LocaleBundle locale, EditProductBloc editProductBloc) {
+    return BlocBuilder<EditProductBloc, EditProductFormState>(
         buildWhen: (previous, current) => current.isFilled(),
         builder: (context, state) {
-          return dhFloatingButton(text: locale.addProduct, enabled: state.isFilled());
+          return FloatingActionButton.extended(
+            //TODO add action
+            onPressed: () {},
+            label: Text(
+              locale.submit,
+              style: TextStyle(
+                  color: editProductBloc.state.isFilled()
+                      ? themeConfig.colors.primary1
+                      : themeConfig.colors.addSthHere),
+            ),
+            backgroundColor: themeConfig.colors.white,
+          );
         });
   }
 
@@ -219,3 +230,33 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
     bloc.add(FormChanged(photo: _image));
   }
 }
+
+class DhPlainTextFormField extends StatelessWidget {
+  final String hintText;
+  final InputType inputType;
+  final void Function(String) onChanged;
+  const DhPlainTextFormField({this.hintText, this.inputType, this.onChanged});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 13.0),
+      child: TextFormField(
+        onChanged: onChanged,
+        keyboardType: inputType == InputType.number ? TextInputType.number : null,
+        cursorColor: Colors.black,
+        decoration: InputDecoration(
+          hintText: hintText,
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.grey),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+enum InputType { text, number }
