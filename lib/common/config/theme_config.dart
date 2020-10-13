@@ -30,6 +30,7 @@ class TextStyleTheme {
   final TextStyle title2;
   final TextStyle title3;
   final TextStyle title3Annotation;
+  final TextStyle flatButtonOff;
 
   TextStyleTheme({
     this.button,
@@ -54,6 +55,7 @@ class TextStyleTheme {
     this.title2,
     this.title3,
     this.title3Annotation,
+    this.flatButtonOff,
   });
 }
 

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:drop_here_mobile/accounts/bloc/spot_details_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/authentication_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
@@ -71,7 +72,9 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                   child: Text("spot details page"),
                   onPressed: () {
-                    Get.to(SpotDetailsPage());
+                    Get.to(SpotDetailsPage(
+                      spotDetailsBloc: SpotDetailsBloc(),
+                    ));
                   },
                 ),
                 FlatButton(

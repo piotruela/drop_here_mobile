@@ -303,4 +303,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get submit => "Submit";
+
+  @override
+  String get passwordRequired => "Password required";
 }

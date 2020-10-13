@@ -45,6 +45,7 @@ class DHThemeConfig extends ThemeConfig {
       title2: _title2TextStyle,
       title3: _title3TextStyle,
       title3Annotation: _title3AnnotationTextStyle,
+      flatButtonOff: _flatButtonOffTextStyle,
     );
   }
 
@@ -106,6 +107,12 @@ class DHThemeConfig extends ThemeConfig {
       color: _listTileMenuTextColor,
       height: 14.0 / 12.0,
       fontWeight: FontWeight.w300);
+
+  static final TextStyle _flatButtonOffTextStyle = _baseTextStyle.copyWith(
+      fontSize: 14.0,
+      color: _listTileMenuTextColor,
+      height: 16.0 / 14.0,
+      fontWeight: FontWeight.w400);
 
   static final TextStyle _popupMenuTextStyle =
       _baseTextStyle.copyWith(fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w400);
