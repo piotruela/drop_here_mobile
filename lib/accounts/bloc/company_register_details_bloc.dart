@@ -31,7 +31,13 @@ class CompanyRegisterDetailsBloc
       CompanyManagementRequest form = event.form;
       yield state.copyWith(form: form);
     } else if (event is FormSubmitted) {
-      companyManagementService.updateCompanyDetails(event.form);
+      yield LoadingState();
+      try {
+        companyManagementService.updateCompanyDetails(event.form);
+        yield SuccessState();
+      } on Exception catch (e) {
+        yield ErrorState();
+      }
     }
   }
 }

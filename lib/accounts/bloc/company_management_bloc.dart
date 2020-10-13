@@ -22,7 +22,6 @@ class CompanyManagementBloc extends Bloc<CompanyManagementEvent, CompanyManageme
     yield CompanyManagementLoading();
     if (event is FetchCompanyDetails) {
       try {
-        //TODO change method
         final Company company = await companyManagementService.getCompanyInfo();
         yield CompanyManagementFetched(company);
       } catch (e) {

@@ -22,12 +22,12 @@ class AuthenticationService {
           canRepeatRequest: true,
           body: json.encode(loginRequest.toJson()),
           path: '/authentication',
-          out: (_) => (_));
+          out: (dynamic json) => (json));
       print(response['token']);
       _httpClient.setHttpHeader(HttpHeaders.authorizationHeader, "Bearer ${response['token']}");
       return LoginResponse.fromJson(response);
     } catch (error) {
-      return LoginResponse()..token = '-1';
+      throw Exception();
     }
   }
 
