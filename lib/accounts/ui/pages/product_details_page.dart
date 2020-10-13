@@ -9,6 +9,7 @@ import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -30,7 +31,12 @@ class ProductDetailsPage extends StatelessWidget {
     product.category = "fruits";
 
     final LocaleBundle locale = Localization.of(context).bundle;
-    return Scaffold(body: buildColumnWithData(locale, context));
+    return Scaffold(
+        body: SlidingUpPanel(
+      panel: buildColumnWithData(locale, context),
+      //TODO change body
+      body: Center(child: Text('background')),
+    ));
   }
 
   SafeArea buildColumnWithData(LocaleBundle locale, BuildContext context) {
