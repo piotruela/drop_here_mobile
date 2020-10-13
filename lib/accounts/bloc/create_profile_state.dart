@@ -13,7 +13,7 @@ class CreateProfileState extends Equatable {
   List<Object> get props => [form];
 }
 
-class CreateProfileLoadingState extends CreateProfileState {}
+class LoadingState extends CreateProfileState {}
 
 class ErrorState extends CreateProfileState {}
 

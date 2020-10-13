@@ -24,9 +24,9 @@ abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
     return MainLayout(
         child: Scaffold(
             backgroundColor: Colors.transparent,
-            body: BlocListener<CreateProfileBloc, CreateProfileState>(
+            body: BlocConsumer<CreateProfileBloc, CreateProfileState>(
               bloc: bloc,
-              listenWhen: (previous, current) => previous != current,
+              listenWhen: (previous, current) => previous.runtimeType != current.runtimeType,
               listener: (context, state) {
                 if (state is SuccessState) {
                   Get.to(getNextPage());
@@ -36,43 +36,53 @@ abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
                           Text(localeBundle.registrationError + localeBundle.unexpectedError)));
                 }
               },
-              child: Form(
-                key: formKey,
-                child: ListView(
-                  children: [
-                    Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 144.0, bottom: 22.0),
-                          child: Text(getTitleText(context),
-                              style: themeConfig.textStyles.secondaryTitle),
-                        ),
-                        DhTextFormField(
-                            onChanged: (value) => bloc
-                                .add(FormChanged(form: bloc.state.form.copyWith(firstName: value))),
-                            labelText: Localization.of(context).bundle.firstName,
-                            padding: EdgeInsets.only(left: 40, right: 40.0)),
-                        DhTextFormField(
-                            onChanged: (value) => bloc
-                                .add(FormChanged(form: bloc.state.form.copyWith(lastName: value))),
-                            labelText: Localization.of(context).bundle.lastName,
-                            padding: EdgeInsets.only(left: 40, right: 40.0)),
-                        DhTextFormField(
-                            onChanged: (value) => bloc
-                                .add(FormChanged(form: bloc.state.form.copyWith(password: value))),
-                            labelText: Localization.of(context).bundle.password,
-                            padding: EdgeInsets.only(left: 40, right: 40.0, bottom: 20.0)),
-                        DhButton(
-                          onPressed: () => bloc.add(FormSubmitted(form: bloc.state.form)),
-                          text: "Create",
-                          backgroundColor: themeConfig.colors.primary1,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              buildWhen: (previous, current) => previous.runtimeType != current.runtimeType,
+              builder: (context, state) {
+                if (state is LoadingState || state is SuccessState) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  return _pageBody(context, bloc);
+                }
+              },
             )));
+  }
+
+  Widget _pageBody(BuildContext context, CreateProfileBloc bloc) {
+    return Form(
+      key: formKey,
+      child: ListView(
+        children: [
+          Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 144.0, bottom: 22.0),
+                child: Text(getTitleText(context), style: themeConfig.textStyles.secondaryTitle),
+              ),
+              DhTextFormField(
+                  onChanged: (value) =>
+                      bloc.add(FormChanged(form: bloc.state.form.copyWith(firstName: value))),
+                  labelText: Localization.of(context).bundle.firstName,
+                  padding: EdgeInsets.only(left: 40, right: 40.0)),
+              DhTextFormField(
+                  onChanged: (value) =>
+                      bloc.add(FormChanged(form: bloc.state.form.copyWith(lastName: value))),
+                  labelText: Localization.of(context).bundle.lastName,
+                  padding: EdgeInsets.only(left: 40, right: 40.0)),
+              DhTextFormField(
+                  onChanged: (value) =>
+                      bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value))),
+                  labelText: Localization.of(context).bundle.password,
+                  padding: EdgeInsets.only(left: 40, right: 40.0, bottom: 20.0)),
+              DhButton(
+                onPressed: () => bloc.add(FormSubmitted(form: bloc.state.form)),
+                text: "Create",
+                backgroundColor: themeConfig.colors.primary1,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
   }
 
   String getTitleText(BuildContext context);
