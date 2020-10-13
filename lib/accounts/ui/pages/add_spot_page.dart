@@ -11,6 +11,7 @@ import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class AddSpotPage extends BlocWidget<AddSpotBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -24,75 +25,77 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
     return Scaffold(
       floatingActionButton: floatingButton(locale.addSpot, locale),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: SafeArea(
-        child: BlocBuilder<AddSpotBloc, AddSpotFormState>(builder: (context, state) {
-          return ListView(
-            children: [
-              Form(
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(
-                      locale.addSpot,
-                      style: themeConfig.textStyles.primaryTitle,
-                    ),
-                    SizedBox(
-                      height: 25.0,
-                    ),
-                    secondaryTitle(locale.nameMandatory),
-                    DhPlainTextFormField(
-                      inputType: InputType.text,
-                      hintText: locale.addSpotNameHint,
-                      onChanged: (String name) {
-                        addSpotBloc.add(FormChanged(
-                            spotManagementRequest:
-                                state.spotManagementRequest.copyWith(name: name)));
-                      },
-                    ),
-                    rowTextAndSlider(locale.passwordRequired),
-                    secondaryTitle(locale.passwordMandatory),
-                    DhPlainTextFormField(
-                      inputType: InputType.text,
-                      hintText: locale.passwordHintText,
-                      onChanged: (String password) {
-                        addSpotBloc.add(FormChanged(
-                            spotManagementRequest:
-                                state.spotManagementRequest.copyWith(password: password)));
-                      },
-                    ),
-                    rowTextAndSlider(locale.acceptRequired),
-                    rowTextAndSlider(locale.spotHidden),
-                    secondaryTitle(locale.locationMandatory),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6.0),
-                      child: ColoredRoundedFlatButton(
-                        text: locale.addLocationButton,
+      body: SlidingUpPanel(
+        body: Center(
+          child: Text('background'),
+        ),
+        panel: SafeArea(
+          child: BlocBuilder<AddSpotBloc, AddSpotFormState>(builder: (context, state) {
+            return ListView(
+              children: [
+                Form(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+                    child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                      Text(
+                        locale.addSpot,
+                        style: themeConfig.textStyles.primaryTitle,
                       ),
-                    ),
-                    secondaryTitle(locale.description),
-                    DhTextArea(
-                        //TODO add onChanged
+                      SizedBox(
+                        height: 25.0,
+                      ),
+                      secondaryTitle(locale.nameMandatory),
+                      DhPlainTextFormField(
+                          inputType: InputType.text,
+                          hintText: locale.addSpotNameHint,
+                          onChanged: (String name) => addSpotBloc.add(FormChanged(
+                              spotManagementRequest:
+                                  state.spotManagementRequest.copyWith(name: name)))),
+                      rowTextAndSlider(locale.passwordRequired),
+                      secondaryTitle(locale.passwordMandatory),
+                      DhPlainTextFormField(
+                          inputType: InputType.text,
+                          hintText: locale.passwordHintText,
+                          onChanged: (String password) => addSpotBloc.add(FormChanged(
+                              spotManagementRequest:
+                                  state.spotManagementRequest.copyWith(password: password)))),
+                      rowTextAndSlider(locale.acceptRequired),
+                      rowTextAndSlider(locale.spotHidden),
+                      secondaryTitle(locale.locationMandatory),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 6.0),
+                        child: ColoredRoundedFlatButton(
+                          text: locale.addLocationButton,
                         ),
-                    secondaryTitle(locale.plannedRoutes),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6.0),
-                      child: ColoredRoundedFlatButton(
-                        text: locale.addRouteButton,
                       ),
-                    ),
-                    secondaryTitle(locale.members),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 6.0),
-                      child: ColoredRoundedFlatButton(
-                        text: locale.addMemberButton,
+                      secondaryTitle(locale.description),
+                      DhTextArea(
+                          //TODO add onChanged
+                          ),
+                      secondaryTitle(locale.plannedRoutes),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 6.0),
+                        child: ColoredRoundedFlatButton(
+                          text: locale.addRouteButton,
+                        ),
                       ),
-                    ),
-                  ]),
+                      secondaryTitle(locale.members),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 6.0),
+                        child: ColoredRoundedFlatButton(
+                          text: locale.addMemberButton,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 15.0,
+                      )
+                    ]),
+                  ),
                 ),
-              ),
-            ],
-          );
-        }),
+              ],
+            );
+          }),
+        ),
       ),
     );
   }
