@@ -195,6 +195,32 @@ abstract class LocaleBundle {
 
   String get currency;
 
+  String get addSpot;
+
+  String get addSpotNameHint;
+
+  String get passwordRequired;
+
+  String get passwordMandatory;
+
+  String get passwordHintText;
+
+  String get acceptRequired;
+
+  String get spotHidden;
+
+  String get locationMandatory;
+
+  String get addLocationButton;
+
+  String get plannedRoutes;
+
+  String get addRouteButton;
+
+  String get members;
+
+  String get addMemberButton;
+
   String get editProduct;
 
   String get submit;

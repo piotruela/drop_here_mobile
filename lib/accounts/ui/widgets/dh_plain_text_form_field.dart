@@ -1,32 +1,20 @@
 import 'package:flutter/material.dart';
 
-class DhTextArea extends StatelessWidget {
+class DhPlainTextFormField extends StatelessWidget {
   final String hintText;
+  final InputType inputType;
   final void Function(String) onChanged;
-  final String value;
-  DhTextArea({this.hintText, this.onChanged, this.value});
+  const DhPlainTextFormField({this.hintText, this.inputType, this.onChanged});
 
-  final _controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 13.0),
       child: TextFormField(
-        //controller: _controller,
-        //TODO add controller
         onChanged: onChanged,
+        keyboardType: inputType == InputType.number ? TextInputType.number : null,
         cursorColor: Colors.black,
-        minLines: 1,
-        maxLines: 4,
         decoration: InputDecoration(
-          suffixIcon: value != null && value != ''
-              ? IconButton(
-                  onPressed: () => _controller.clear(),
-                  icon: Icon(
-                    Icons.clear,
-                    color: Colors.black,
-                  ))
-              : null,
           hintText: hintText,
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.grey),
@@ -39,3 +27,5 @@ class DhTextArea extends StatelessWidget {
     );
   }
 }
+
+enum InputType { text, number }
