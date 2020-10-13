@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'add_spot_page.dart';
 import 'edit_product_page.dart';
 
 class SandboxPage extends StatelessWidget {
@@ -50,6 +51,11 @@ class SandboxPage extends StatelessWidget {
                     child: Text("add product"),
                     onPressed: () {
                       Get.to(AddProductPage());
+                    }),
+                FlatButton(
+                    child: Text("add spot"),
+                    onPressed: () {
+                      Get.to(AddSpotPage());
                     }),
                 FlatButton(
                     child: Text("edit product"),

@@ -299,6 +299,45 @@ class LocaleBundleEn extends LocaleBundle {
   String get currency => "zł";
 
   @override
+  String get addSpot => "Add spot";
+
+  @override
+  String get addSpotNameHint => "e.g. Next to Jubilat";
+
+  @override
+  String get passwordRequired => "Password required";
+
+  @override
+  String get passwordMandatory => "Password*";
+
+  @override
+  String get passwordHintText => "e.g. Aezakmi*";
+
+  @override
+  String get acceptRequired => "Accept required";
+
+  @override
+  String get spotHidden => "Spot hidden";
+
+  @override
+  String get locationMandatory => "Location*";
+
+  @override
+  String get addLocationButton => "Add location +";
+
+  @override
+  String get addMemberButton => "Add member +";
+
+  @override
+  String get addRouteButton => "Add route +";
+
+  @override
+  String get members => "Members";
+
+  @override
+  String get plannedRoutes => "Planned routes";
+
+  @override
   String get editProduct => "Edit product";
 
   @override

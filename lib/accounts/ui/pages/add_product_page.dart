@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:drop_here_mobile/accounts/bloc/add_product_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_floating_action_button.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -34,7 +36,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
           isChosen: addProductBloc.state.productManagementRequest.category == element));
     });
     return Scaffold(
-        floatingActionButton: floatingButton(locale, addProductBloc),
+        floatingActionButton: floatingButton(locale.addProduct, addProductBloc, locale),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: SlidingUpPanel(
           body: Center(child: Text('background')),
@@ -179,22 +181,11 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
   }
 
   BlocBuilder<AddProductBloc, AddProductFormState> floatingButton(
-      LocaleBundle locale, AddProductBloc addProductBloc) {
+      String text, AddProductBloc addProductBloc, LocaleBundle locale) {
     return BlocBuilder<AddProductBloc, AddProductFormState>(
         buildWhen: (previous, current) => current.isFilled(),
         builder: (context, state) {
-          return FloatingActionButton.extended(
-            //TODO add action
-            onPressed: () {},
-            label: Text(
-              locale.addProduct,
-              style: TextStyle(
-                  color: addProductBloc.state.isFilled()
-                      ? themeConfig.colors.primary1
-                      : themeConfig.colors.addSthHere),
-            ),
-            backgroundColor: themeConfig.colors.white,
-          );
+          return dhFloatingButton(text: locale.addProduct, enabled: state.isFilled());
         });
   }
 
@@ -228,33 +219,3 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
     bloc.add(FormChanged(photo: _image));
   }
 }
-
-class DhPlainTextFormField extends StatelessWidget {
-  final String hintText;
-  final InputType inputType;
-  final void Function(String) onChanged;
-  const DhPlainTextFormField({this.hintText, this.inputType, this.onChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 13.0),
-      child: TextFormField(
-        onChanged: onChanged,
-        keyboardType: inputType == InputType.number ? TextInputType.number : null,
-        cursorColor: Colors.black,
-        decoration: InputDecoration(
-          hintText: hintText,
-          enabledBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.grey),
-          ),
-          focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.black),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-enum InputType { text, number }
