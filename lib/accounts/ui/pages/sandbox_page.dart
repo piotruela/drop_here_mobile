@@ -11,8 +11,8 @@ import 'package:drop_here_mobile/accounts/services/product_management_service.da
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_new_item_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/create_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/home_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/map_page.dart';

@@ -7,7 +7,7 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 
 import 'clients_list_page.dart';
-import 'company_page.dart';
+import 'company_details_page.dart';
 
 class ManagementPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -48,7 +48,7 @@ class ManagementPage extends StatelessWidget {
                   children: [
                     ClientsListPage(),
                     SellersListPage(),
-                    CompanyPage(),
+                    CompanyDetailsPage(),
                   ],
                 ),
               )

@@ -1,10 +1,10 @@
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/create_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_card.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/common/subscription.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
@@ -14,26 +14,17 @@ import 'package:get/get.dart';
 
 class SellersListPage extends BlocWidget<DhListBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-  final DhListBloc dhListBloc;
-
-  SellersListPage({this.dhListBloc});
 
   @override
-  DhListBloc bloc() => dhListBloc;
+  DhListBloc bloc() => DhListBloc()..add(FetchSellers());
 
   @override
-  void init(BuildContext context, Bloc bloc, SubscriptionManager subscriptionManager) {
-    super.init(context, bloc, subscriptionManager);
-    dhListBloc.add(FetchSellers());
-  }
-
-  @override
-  Widget build(BuildContext context, DhListBloc dhListBloc, _) {
+  Widget build(BuildContext context, DhListBloc bloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        DhSearchBar(dhListBloc),
+        DhSearchBar(bloc),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -42,7 +33,7 @@ class SellersListPage extends BlocWidget<DhListBloc> {
               child: FiltersFlatButton(
                 themeConfig: themeConfig,
                 locale: locale,
-                bloc: dhListBloc,
+                bloc: bloc,
               ),
             ),
             Padding(
@@ -60,7 +51,7 @@ class SellersListPage extends BlocWidget<DhListBloc> {
             } else if (state is FetchingError) {
               return Container(child: Text(state.error));
             } else if (state is SellersFetched) {
-              return buildColumnWithData(locale, state, context, dhListBloc);
+              return buildColumnWithData(locale, state, context, bloc);
             }
             return Container();
           },
@@ -83,10 +74,9 @@ class SellersListPage extends BlocWidget<DhListBloc> {
             ],
             borderRadius: BorderRadius.all(Radius.circular(20.0))),
         child: Center(
-          child: Text(
-            locale.addSeller,
-            style: themeConfig.textStyles.coloredFlatButton,
-          ),
+          child: RaisedButton(
+              child: Text(locale.addSeller, style: themeConfig.textStyles.coloredFlatButton),
+              onPressed: () => Get.to(CreateRegularProfilePage())),
         ),
       ),
     );

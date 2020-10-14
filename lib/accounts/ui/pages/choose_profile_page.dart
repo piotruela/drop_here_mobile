@@ -1,6 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/choose_profile_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/log_on_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/login_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -42,10 +41,6 @@ Widget _profilesList(List<ProfileInfoResponse> profiles) {
         padding: const EdgeInsets.only(top: 70.0),
         child: Text("Choose your profile", style: themeConfig.textStyles.primaryTitle),
       ),
-      RaisedButton(
-          color: themeConfig.colors.primary1,
-          child: Text("ADD PROFILE"),
-          onPressed: () => Get.to(CreateRegularProfilePage())),
       RaisedButton(
           color: themeConfig.colors.primary1,
           child: Text("LOGOUT"),

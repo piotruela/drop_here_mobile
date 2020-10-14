@@ -2,7 +2,7 @@ import 'package:drop_here_mobile/accounts/bloc/registration_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/client_details_registration_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/create_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';

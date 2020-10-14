@@ -1,3 +1,4 @@
+import 'package:drop_here_mobile/accounts/model/seller.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'account_management_api.g.dart';
@@ -36,6 +37,9 @@ class ProfileInfoResponse {
   AccountStatus status;
 
   ProfileInfoResponse();
+
+  Seller convertFromApiModel() => Seller(
+      name: this.firstName, surname: this.lastName, isActive: this.status == AccountStatus.ACTIVE);
 
   ProfileInfoResponse.withName({String firstName, String lastName, ProfileType profileType}) {
     this.firstName = firstName;

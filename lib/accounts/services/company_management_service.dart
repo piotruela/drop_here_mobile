@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/page_api.dart';
@@ -53,6 +54,13 @@ class CompanyManagementService {
     return Page.fromJson(response);
   }
 
+  Future<List<ProfileInfoResponse>> fetchCompanySellers() async {
+    dynamic response = await _httpClient.get(
+        canRepeatRequest: true, path: "/accounts", out: (dynamic json) => json);
+    AccountInfoResponse account = AccountInfoResponse.fromJson(response);
+    return account.profiles;
+  }
+
   Future<ResourceOperationResponse> uploadCompanyPhoto(File file) async {
     try {
       Dio dio = new Dio();
@@ -67,12 +75,13 @@ class CompanyManagementService {
     }
   }
 
-  Future<NetworkImage> getCompanyPhoto() async {
+  Future<Image> getCompanyPhoto() async {
     String companyId = await getCompanyId();
-    NetworkImage img = NetworkImage("https://drop-here.herokuapp.com/companies/$companyId/images",
-        headers: {"authorization": "Bearer ${_httpClient.token}"});
-    print(img.headers.keys.first);
-    return img;
+    return Image.network(
+      "https://drop-here.herokuapp.com/companies/$companyId/images",
+      headers: {"authorization": "${_httpClient.token}"},
+      errorBuilder: (context, url, error) => FittedBox(child: Icon(Icons.person)),
+    );
   }
 
   Future<List<Seller>> fetchSellersList({String filter, String searchText}) {

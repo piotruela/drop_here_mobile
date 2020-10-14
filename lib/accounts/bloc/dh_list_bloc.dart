@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
 import 'package:drop_here_mobile/accounts/model/api/page_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
@@ -28,7 +29,9 @@ class DhListBloc extends Bloc<DhListEvent, DhListState> {
       try {
         final Page clientsPage = await companyManagementService
             .getCompanyCustomers(CompanyCustomersRequest()..blocked = false);
-        yield ClientsFetched(clientsPage.content.map((client) => client.convertFromApiModel()).toList());
+        print(clientsPage.size);
+        yield ClientsFetched(
+            clientsPage.content.map((client) => client.convertFromApiModel()).toList());
       } catch (e) {
         yield FetchingError(e);
       }
@@ -52,8 +55,9 @@ class DhListBloc extends Bloc<DhListEvent, DhListState> {
       }
     } else if (event is FetchSellers) {
       try {
-        final List<Seller> sellers = await companyManagementService.fetchSellersList();
-        yield SellersFetched(sellers);
+        final List<ProfileInfoResponse> apiSellers =
+            await companyManagementService.fetchCompanySellers();
+        yield SellersFetched(apiSellers.map((seller) => seller.convertFromApiModel()).toList());
       } catch (e) {
         yield FetchingError(e);
       }
