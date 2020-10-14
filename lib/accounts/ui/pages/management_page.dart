@@ -1,8 +1,5 @@
-import 'package:drop_here_mobile/accounts/bloc/company_management_bloc.dart';
-import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/sellers_list_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
@@ -12,16 +9,11 @@ import 'package:get/get.dart';
 import 'clients_list_page.dart';
 import 'company_page.dart';
 
-class ManagementPage extends BlocWidget<DhListBloc> {
+class ManagementPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
 
   @override
-  DhListBloc bloc() => DhListBloc()..add(FetchClients());
-
-  @override
-  Widget build(BuildContext context, DhListBloc dhListBloc, _) {
-    DhListBloc dhListBlocSellers = DhListBloc();
-    CompanyManagementBloc companyManagementBloc = CompanyManagementBloc();
+  Widget build(BuildContext context) {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
       body: SafeArea(
@@ -54,15 +46,9 @@ class ManagementPage extends BlocWidget<DhListBloc> {
                 flex: 1,
                 child: TabBarView(
                   children: [
-                    ClientsListPage(
-                      dhListBloc: dhListBloc,
-                    ),
-                    SellersListPage(
-                      dhListBloc: dhListBlocSellers,
-                    ),
-                    CompanyPage(
-                      companyManagementBloc: companyManagementBloc,
-                    ),
+                    ClientsListPage(),
+                    SellersListPage(),
+                    CompanyPage(),
                   ],
                 ),
               )

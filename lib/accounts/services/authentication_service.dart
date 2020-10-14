@@ -59,7 +59,7 @@ class AuthenticationService {
       _httpClient.setHttpHeader(HttpHeaders.authorizationHeader, "Bearer ${response['token']}");
       return LoginResponse.fromJson(response);
     } catch (Error) {
-      return LoginResponse()..token = '-1';
+      throw Exception();
     }
   }
 }

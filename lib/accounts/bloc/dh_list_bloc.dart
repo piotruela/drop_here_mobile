@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
+import 'package:drop_here_mobile/accounts/model/api/page_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/client.dart';
 import 'package:drop_here_mobile/accounts/model/seller.dart';
@@ -24,25 +26,27 @@ class DhListBloc extends Bloc<DhListEvent, DhListState> {
     yield ListLoading();
     if (event is FetchClients) {
       try {
-        //TODO change service
-        final List<Client> clients = await companyManagementService.fetchClientsList();
-        yield ClientsFetched(clients);
+        final Page clientsPage = await companyManagementService
+            .getCompanyCustomers(CompanyCustomersRequest()..blocked = false);
+        yield ClientsFetched(clientsPage.content.map((client) => client.convertFromApiModel()).toList());
       } catch (e) {
         yield FetchingError(e);
       }
     } else if (event is FilterClients) {
       try {
-        final List<Client> clients =
+        //TODO: Add fetching with filters
+        /*final List<Client> clients =
             await companyManagementService.fetchClientsList(filter: event.filter);
-        yield ClientsFetched(clients);
+        yield ClientsFetched(clients);*/
       } catch (e) {
         yield FetchingError(e);
       }
     } else if (event is SearchClients) {
       try {
-        final List<Client> clients =
+        //TODO: Add fetching using search
+        /*final List<Client> clients =
             await companyManagementService.fetchClientsList(searchText: event.searchText);
-        yield ClientsFetched(clients);
+        yield ClientsFetched(clients);*/
       } catch (e) {
         yield FetchingError(e);
       }

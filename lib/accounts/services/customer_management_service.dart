@@ -7,7 +7,7 @@ import 'package:drop_here_mobile/accounts/model/api/customer_management_api.dart
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
 import 'package:get/get.dart';
 
-class CustomerManagementApi {
+class CustomerManagementService {
   final DhHttpClient _httpClient = Get.find<DhHttpClient>();
 
   Future<CustomerInfoResponse> getCustomerInfo() async {

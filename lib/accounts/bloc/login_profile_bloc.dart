@@ -13,7 +13,7 @@ part 'login_profile_state.dart';
 class LoginProfileBloc extends Bloc<LoginProfileEvent, LoginProfileState> {
   final AuthenticationService authenticationService = Get.find<AuthenticationService>();
   LoginProfileBloc({@required String profileUid})
-      : super(LoginProfileState(form: ProfileLoginRequest(profileUid: profileUid), success: false));
+      : super(LoginProfileState(form: ProfileLoginRequest(profileUid: profileUid)));
 
   @override
   Stream<LoginProfileState> mapEventToState(
@@ -25,12 +25,14 @@ class LoginProfileBloc extends Bloc<LoginProfileEvent, LoginProfileState> {
     } else if (event is FormSubmitted) {
       yield LoginLoadingState();
       if (event.isValid) {
-        LoginResponse result = await authenticationService.loginToProfile(event.form);
-        if (result.token != '-1') {
-          yield LoginProfileState(form: event.form, success: true);
-        } else {
-          yield LoginProfileState(form: event.form, success: false);
+        try {
+          await authenticationService.loginToProfile(event.form);
+          yield LoginSucceeded();
+        } on Exception catch (e) {
+          yield LoginFailure(form: event.form);
         }
+      } else {
+        yield LoginFailure(form: event.form);
       }
     }
   }
