@@ -1,32 +1,29 @@
 part of 'edit_spot_bloc.dart';
 
-class EditSpotState extends Equatable {
-  final ProductManagementRequest productManagementRequest;
+class EditSpotFormState extends Equatable {
+  final SpotManagementRequest spotManagementRequest;
   final File photo;
-  const EditProductFormState({
-    this.productManagementRequest,
+  const EditSpotFormState({
+    this.spotManagementRequest,
     this.photo,
   });
 
-  EditProductFormState copyWith({
-    final ProductManagementRequest productManagementRequest,
+  EditSpotFormState copyWith({
+    final SpotManagementRequest spotManagementRequest,
     final File photo,
   }) {
-    return EditProductFormState(
+    return EditSpotFormState(
       photo: photo ?? this.photo,
-      productManagementRequest: productManagementRequest ?? this.productManagementRequest,
+      spotManagementRequest: spotManagementRequest ?? this.spotManagementRequest,
     );
   }
 
   bool isFilled() {
-    return productManagementRequest?.name != null &&
-        productManagementRequest?.unit != null &&
-        productManagementRequest?.price != null &&
-        //TODO add category
-        // productManagementRequest?.category != null &&
-        productManagementRequest?.unitFraction != null;
+    return spotManagementRequest?.name != null &&
+        spotManagementRequest?.xcoordinate != null &&
+        spotManagementRequest?.ycoordinate != null;
   }
 
   @override
-  List<Object> get props => [productManagementRequest, photo];
+  List<Object> get props => [spotManagementRequest, photo];
 }

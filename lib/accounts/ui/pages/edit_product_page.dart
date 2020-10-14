@@ -48,7 +48,7 @@ class EditProductPage extends BlocWidget<EditProductBloc> {
                     Padding(
                       padding: const EdgeInsets.only(left: 25.0),
                       child: Text(
-                        Localization.of(context).bundle.editProduct,
+                        locale.editProduct,
                         style: themeConfig.textStyles.primaryTitle,
                       ),
                     ),
