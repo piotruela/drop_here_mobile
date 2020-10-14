@@ -18,12 +18,12 @@ class AccountService {
           canRepeatRequest: true,
           body: json.encode(accountCreationRequest.toJson()),
           path: "/accounts",
-          out: (_) => (_));
+          out: (dynamic json) => json);
       print(response['token']);
       _httpClient.setHttpHeader(HttpHeaders.authorizationHeader, "Bearer ${response['token']}");
       return LoginResponse.fromJson(response);
     } catch (error) {
-      return LoginResponse()..token = '-1';
+      throw Exception();
     }
   }
 

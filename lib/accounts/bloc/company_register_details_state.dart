@@ -13,7 +13,11 @@ class CompanyRegistrationDetailsFormState extends Equatable {
   }
 
   @override
-  List<Object> get props => [form];
+  List<Object> get props => [form, countries];
 }
 
 class LoadingState extends CompanyRegistrationDetailsFormState {}
+
+class ErrorState extends CompanyRegistrationDetailsFormState {}
+
+class SuccessState extends CompanyRegistrationDetailsFormState {}

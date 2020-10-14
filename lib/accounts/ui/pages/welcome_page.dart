@@ -3,7 +3,6 @@ import 'package:drop_here_mobile/accounts/ui/pages/company_registration_page.dar
 import 'package:drop_here_mobile/accounts/ui/pages/customer_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/login_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_button.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
@@ -48,10 +47,11 @@ class WelcomePage extends StatelessWidget {
                       }, Localization.of(context).bundle.imABuyer, assetsConfig.buyerImage)
                     ],
                   ),
-                  DhTextButton(
-                    text: Localization.of(context).bundle.haveAnAccountQuestion,
-                    onTap: () => Get.to(LoginPage()),
-                    padding: EdgeInsets.only(top: 100.0),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 100.0),
+                    child: Text(
+                      Localization.of(context).bundle.haveAnAccountQuestion,
+                    ),
                   ),
                   DhButton(
                     onPressed: () {

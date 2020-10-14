@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
-import 'package:drop_here_mobile/accounts/model/api/authentication_api.dart';
 import 'package:drop_here_mobile/accounts/services/account_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -24,13 +23,13 @@ class RegistrationBloc extends Bloc<RegisterEvent, RegisterState> {
       final form = event.form;
       yield state.copyWith(form: form, successNull: true);
     } else if (event is FormSubmitted) {
-      RegisterLoadingState();
       if (event.isValid) {
-        LoginResponse result = await accountService.createNewAccount(event.form);
-        if (result.token != '-1') {
-          yield state.copyWith(success: true);
-        } else {
-          yield state.copyWith(success: false);
+        yield RegisterLoadingState();
+        try {
+          await accountService.createNewAccount(event.form);
+          yield SuccessState(accountType: event.form.accountType);
+        } on Exception catch (e) {
+          yield ErrorState(form: event.form);
         }
       }
     }
