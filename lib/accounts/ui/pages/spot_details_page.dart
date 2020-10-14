@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/spot_details_bloc.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/rounded_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
@@ -83,8 +84,42 @@ class SpotDetailsPage extends BlocWidget<SpotDetailsBloc> {
                   Icon(Icons.more_horiz),
                 ],
               ),
-              Text('ab')
+              //TODO add onTap
+              ColoredRoundedFlatButton(
+                text: locale.showPassword,
+              )
             ],
+          ),
+          textAndFlatButton(
+              locale.acceptRequired, state.spot.requiredAccept ? locale.yes : locale.no),
+          textAndFlatButton(locale.hidden, state.spot.hidden ? locale.yes : locale.no),
+          Text(
+            locale.description,
+            style: themeConfig.textStyles.dataAnnotation,
+          ),
+          SizedBox(
+            height: 4.0,
+          ),
+          Text(
+            state.spot.description,
+            style: themeConfig.textStyles.data,
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Text(
+            locale.plannedDrops,
+            style: themeConfig.textStyles.dataAnnotation,
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          Text(
+            locale.members,
+            style: themeConfig.textStyles.dataAnnotation,
+          ),
+          SizedBox(
+            height: 8.0,
           ),
         ],
       ),

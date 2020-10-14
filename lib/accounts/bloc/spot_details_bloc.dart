@@ -21,7 +21,7 @@ class SpotDetailsBloc extends Bloc<SpotDetailsEvent, SpotDetailsState> {
     yield SpotDetailsLoading();
     if (event is FetchSpotDetails) {
       try {
-        final SpotCompanyResponse spot = await spotService.fetchSpotDetails();
+        final SpotCompanyResponse spot = await spotService.fetchSpotDetails("RyneczoKygZWqfLg6");
         yield SpotDetailsFetched(spot);
       } catch (e) {
         yield SpotDetailsFetchingError(e.toString());

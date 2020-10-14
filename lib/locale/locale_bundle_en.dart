@@ -344,5 +344,8 @@ class LocaleBundleEn extends LocaleBundle {
   String get submit => "Submit";
 
   @override
-  String get passwordRequired => "Password required";
+  String get showPassword => "Show Password";
+
+  @override
+  String get plannedDrops => "Planned drops";
 }
