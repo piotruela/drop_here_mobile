@@ -2,18 +2,18 @@ part of 'edit_spot_bloc.dart';
 
 class EditSpotFormState extends Equatable {
   final SpotManagementRequest spotManagementRequest;
-  final File photo;
+  final File locationMap;
   const EditSpotFormState({
     this.spotManagementRequest,
-    this.photo,
+    this.locationMap,
   });
 
   EditSpotFormState copyWith({
     final SpotManagementRequest spotManagementRequest,
-    final File photo,
+    final File locationMap,
   }) {
     return EditSpotFormState(
-      photo: photo ?? this.photo,
+      locationMap: locationMap ?? this.locationMap,
       spotManagementRequest: spotManagementRequest ?? this.spotManagementRequest,
     );
   }
@@ -25,5 +25,5 @@ class EditSpotFormState extends Equatable {
   }
 
   @override
-  List<Object> get props => [spotManagementRequest, photo];
+  List<Object> get props => [spotManagementRequest, locationMap];
 }

@@ -10,7 +10,7 @@ part 'edit_spot_state.dart';
 
 class EditSpotBloc extends Bloc<EditSpotEvent, EditSpotFormState> {
   EditSpotBloc()
-      : super(EditSpotFormState(photo: null, spotManagementRequest: SpotManagementRequest()));
+      : super(EditSpotFormState(locationMap: null, spotManagementRequest: SpotManagementRequest()));
 
   @override
   Stream<EditSpotFormState> mapEventToState(
@@ -18,7 +18,7 @@ class EditSpotBloc extends Bloc<EditSpotEvent, EditSpotFormState> {
   ) async* {
     if (event is FormChanged) {
       SpotManagementRequest form = event.spot;
-      yield state.copyWith(spotManagementRequest: form, photo: event?.photo);
+      yield state.copyWith(spotManagementRequest: form, locationMap: event?.locationMap);
     } else if (event is FormSubmitted) {
       //TODO
     }
