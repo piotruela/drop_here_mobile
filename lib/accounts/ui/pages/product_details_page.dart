@@ -2,7 +2,9 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/edit_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/edit_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/full_width_photo.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
@@ -98,9 +100,19 @@ class ProductDetailsPage extends StatelessWidget {
   Padding productTitle() {
     return Padding(
       padding: const EdgeInsets.only(left: 19.0, top: 10.0),
-      child: Text(
-        product.name,
-        style: themeConfig.textStyles.primaryTitle,
+      child: Row(
+        children: [
+          Text(
+            product.name,
+            style: themeConfig.textStyles.primaryTitle,
+          ),
+          SizedBox(
+            width: 10.0,
+          ),
+          editButton(onPressed: () {
+            Get.to(EditProductPage());
+          }),
+        ],
       ),
     );
   }
