@@ -3,7 +3,7 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-Padding rowTextAndSlider({String text, Function onToggle}) {
+Padding rowTextAndSlider({String text, bool initialPosition}) {
   return Padding(
     padding: const EdgeInsets.only(),
     child: Row(
@@ -12,8 +12,8 @@ Padding rowTextAndSlider({String text, Function onToggle}) {
       children: [
         secondaryTitle(text),
         DhSwitch(
-          initialPosition: false,
-          onSwitch: onToggle,
+          initialPosition: initialPosition ?? false,
+          onSwitch: (_) {},
         ),
       ],
     ),

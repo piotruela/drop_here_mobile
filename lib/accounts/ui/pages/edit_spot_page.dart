@@ -1,5 +1,6 @@
 import 'package:drop_here_mobile/accounts/bloc/edit_spot_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/row_text_and_slider.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
@@ -22,13 +23,14 @@ class EditSpotPage extends BlocWidget<EditSpotBloc> {
       body: SafeArea(
         child: BlocBuilder<EditSpotBloc, EditSpotFormState>(builder: (context, state) {
           return Padding(
-              padding: EdgeInsets.only(left: 23.0),
+              padding: EdgeInsets.only(left: 23.0, right: 23.0),
               child: ListView(
                 children: [
                   Text(
                     locale.editSpot,
                     style: themeConfig.textStyles.primaryTitle,
                   ),
+                  SizedBox(height: 23.0),
                   Text(
                     locale.nameMandatory,
                     style: themeConfig.textStyles.secondaryTitle,
@@ -38,8 +40,30 @@ class EditSpotPage extends BlocWidget<EditSpotBloc> {
                       editSpotBloc
                           .add(FormChanged(spot: state.spotManagementRequest.copyWith(name: name)));
                     },
+                    initialValue: state.spotManagementRequest.name,
                   ),
-                  rowTextAndSlider(text: locale.passwordRequired),
+                  rowTextAndSlider(
+                      text: locale.passwordRequired,
+                      initialPosition: state.spotManagementRequest.requiredPassword),
+                  secondaryTitle(locale.passwordMandatory),
+                  DhPlainTextFormField(
+                    onChanged: (String password) {
+                      editSpotBloc.add(FormChanged(
+                          spot: state.spotManagementRequest.copyWith(password: password)));
+                    },
+                  ),
+                  rowTextAndSlider(
+                      text: locale.acceptRequired,
+                      initialPosition: state.spotManagementRequest.requiredAccept),
+                  rowTextAndSlider(
+                      text: locale.spotHidden, initialPosition: state.spotManagementRequest.hidden),
+                  secondaryTitle(locale.locationMandatory),
+                  SizedBox(height: 8.0),
+                  secondaryTitle(locale.description),
+                  DhTextArea(
+                      //TODO add onChanged
+                      //value: state.spotManagementRequest.description,
+                      ),
                 ],
               ));
         }),
