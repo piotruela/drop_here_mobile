@@ -348,4 +348,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get plannedDrops => "Planned drops";
+
+  @override
+  String get editSpot => "Edit spot";
 }

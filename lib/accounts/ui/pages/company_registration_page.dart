@@ -12,26 +12,29 @@ class CompanyRegistrationPage extends RegistrationPage {
   AccountType get accountType => AccountType.COMPANY;
 
   @override
-  List<Widget> formElements(RegistrationBloc bloc, LocaleBundle localeBundle) => [
-        titleText(localeBundle.createASellerAccountHeader),
-        mailField(bloc, localeBundle),
-        passwordField(bloc, localeBundle),
-        repeatPasswordField(bloc, localeBundle),
-        signUpButton(bloc, localeBundle),
-      ];
+  List<Widget> formElements(RegistrationBloc bloc, BuildContext context) {
+    LocaleBundle localeBundle = Localization.of(context).bundle;
+    return [
+      titleText(localeBundle.createASellerAccountHeader),
+      mailField(bloc, localeBundle),
+      passwordField(bloc, localeBundle),
+      repeatPasswordField(bloc, localeBundle),
+      signUpButton(bloc, localeBundle),
+    ];
+  }
 
   @override
   String formTitle(BuildContext context) =>
       Localization.of(context).bundle.createASellerAccountHeader;
 
   @override
-  Widget registrationForm(RegistrationBloc bloc, BuildContext context, LocaleBundle localeBundle) {
+  Widget registrationForm(RegistrationBloc bloc, BuildContext context) {
     return Form(
       key: formKey,
       child: ListView(
         children: [
           Column(
-            children: formElements(bloc, localeBundle),
+            children: formElements(bloc, context),
           ),
         ],
       ),

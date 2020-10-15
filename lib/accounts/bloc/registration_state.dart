@@ -16,3 +16,16 @@ class RegisterState extends Equatable {
 }
 
 class RegisterLoadingState extends RegisterState {}
+
+class SuccessState extends RegisterState {
+  final AccountType accountType;
+
+  SuccessState({this.accountType});
+}
+
+class ErrorState extends RegisterState {
+  final AccountCreationRequest form;
+  final String error;
+
+  ErrorState({this.form, this.error});
+}

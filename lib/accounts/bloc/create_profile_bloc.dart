@@ -21,7 +21,7 @@ class CreateProfileBloc extends Bloc<CreateProfileEvent, CreateProfileState> {
       AccountProfileCreationRequest form = event.form;
       yield state.copyWith(form: form);
     } else if (event is FormSubmitted) {
-      yield CreateProfileLoadingState();
+      yield LoadingState();
       int result = await accountsService.createProfile(event.form);
       if (result == 1) {
         yield SuccessState();

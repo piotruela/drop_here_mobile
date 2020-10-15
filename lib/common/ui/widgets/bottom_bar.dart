@@ -1,7 +1,7 @@
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_registration_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/company_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/login_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,6 +16,7 @@ class DHBottomBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    FocusNode().dispose();
     ThemeConfig themeConfig = Get.find<ThemeConfig>();
     return SizedBox(
       height: 50,
@@ -68,7 +69,9 @@ class DHBottomBar extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () => Get.to(CompanyRegistrationPage()),
+              onPressed: () {
+                Get.to(ManagementPage());
+              },
               iconSize: 35.0,
               icon: Icon(
                 Icons.person,

@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/create_new_item_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
@@ -36,7 +37,7 @@ class MapPage extends BlocWidget<DhListBloc> {
           ),
           SlidingUpPanel(
             controller: pc1,
-            panel: Container(), //TODO: Add AddNewPage
+            panel: CreateNewItemPage(),
             minHeight: 10,
             maxHeight: 630,
             header: panelHeader(context, pc1),

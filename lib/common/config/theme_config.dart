@@ -31,6 +31,8 @@ class TextStyleTheme {
   final TextStyle title3;
   final TextStyle title3Annotation;
   final TextStyle flatButtonOff;
+  final TextStyle bigColoredButtonActiveTextStyle;
+  final TextStyle bigColoredButtonNotActiveTextStyle;
 
   TextStyleTheme({
     this.button,
@@ -56,6 +58,8 @@ class TextStyleTheme {
     this.title3,
     this.title3Annotation,
     this.flatButtonOff,
+    this.bigColoredButtonActiveTextStyle,
+    this.bigColoredButtonNotActiveTextStyle,
   });
 }
 
