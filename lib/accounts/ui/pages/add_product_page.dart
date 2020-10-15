@@ -11,6 +11,7 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -185,7 +186,6 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
       {String text, bool isChosen = false, AddProductBloc addProductBloc}) {
     return GestureDetector(
       onTap: () {
-        isChosen = true;
         addProductBloc
             .add(FormChanged(productManagementRequest: ProductManagementRequest(category: text)));
       },
@@ -193,7 +193,10 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
         margin: const EdgeInsets.all(5.0),
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
         decoration: BoxDecoration(
-          border: Border.all(color: isChosen ? Colors.red : Colors.black),
+          border: Border.all(
+              color: addProductBloc.state.productManagementRequest.category == text
+                  ? Colors.red
+                  : Colors.black),
           borderRadius: BorderRadius.all(
             Radius.circular(20.0),
           ),
