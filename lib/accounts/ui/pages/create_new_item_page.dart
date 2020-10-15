@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/create_new_item_bloc.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
@@ -72,7 +73,6 @@ class CreateNewItemPage extends BlocWidget<CreateNewItemBloc> {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-            child: Card(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -87,7 +87,16 @@ class CreateNewItemPage extends BlocWidget<CreateNewItemBloc> {
               )
             ],
           ),
-        )),
+          decoration: BoxDecoration(
+            color: themeConfig.colors.white,
+            borderRadius: BorderRadius.all(
+              Radius.circular(10.0),
+            ),
+            boxShadow: [
+              dhShadow(),
+            ],
+          ),
+        ),
       ),
     );
   }

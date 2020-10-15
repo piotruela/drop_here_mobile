@@ -342,4 +342,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get submit => "Submit";
+
+  @override
+  String get editSpot => "Edit spot";
 }
