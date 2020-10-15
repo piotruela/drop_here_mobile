@@ -224,4 +224,6 @@ abstract class LocaleBundle {
   String get editProduct;
 
   String get submit;
+
+  String get editSpot;
 }
