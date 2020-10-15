@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/add_spot_bloc.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_floating_action_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
@@ -23,8 +24,6 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
   Widget build(BuildContext context, AddSpotBloc addSpotBloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
-      floatingActionButton: floatingButton(locale.addSpot, locale),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SlidingUpPanel(
         body: Center(
           child: Text('background'),
@@ -85,6 +84,15 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
                         child: ColoredRoundedFlatButton(
                           text: locale.addMemberButton,
                         ),
+                      ),
+                      Center(
+                        child: BigColoredRoundedFlatButton(
+                            text: locale.addSpot,
+                            isActive: state.isFilled(),
+                            //TODO check this function
+                            onTap: () {
+                              addSpotBloc.add(FormSubmitted());
+                            }),
                       ),
                       SizedBox(
                         height: 15.0,

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:drop_here_mobile/accounts/bloc/edit_product_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -34,128 +35,136 @@ class EditProductPage extends BlocWidget<EditProductBloc> {
           isChosen: editProductBloc.state.productManagementRequest.category == element));
     });
     return Scaffold(
-        floatingActionButton: floatingButton(locale, editProductBloc),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         body: SlidingUpPanel(
-          body: Center(
-            child: Text('background'),
-          ),
-          panel: SafeArea(
-            child: BlocBuilder<EditProductBloc, EditProductFormState>(
-              builder: (context, state) {
-                return ListView(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 25.0),
-                      child: Text(
-                        locale.editProduct,
-                        style: themeConfig.textStyles.primaryTitle,
-                      ),
-                    ),
-                    Form(
-                      child: Padding(
-                        padding: const EdgeInsets.all(25.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              locale.nameMandatory,
-                              style: themeConfig.textStyles.secondaryTitle,
-                            ),
-                            DhPlainTextFormField(
-                              hintText: locale.productNameExample,
-                              onChanged: (String name) {
-                                editProductBloc.add(FormChanged(
-                                    productManagementRequest:
-                                        state.productManagementRequest.copyWith(name: name)));
-                              },
-                            ),
-                            Text(
-                              locale.photo,
-                              style: themeConfig.textStyles.secondaryTitle,
-                            ),
-                            choosePhotoWidget(editProductBloc),
-                            Text(
-                              locale.categoryMandatory,
-                              style: themeConfig.textStyles.secondaryTitle,
-                            ),
-                            Wrap(
-                              children: categoryChoiceWidgets,
-                            ),
-
-                            Text(
-                              locale.description,
-                              style: themeConfig.textStyles.secondaryTitle,
-                            ),
-                            DhTextArea(
-                              onChanged: (String description) {
-                                editProductBloc.add(FormChanged(
-                                    productManagementRequest: state.productManagementRequest
-                                        .copyWith(description: description)));
-                              },
-                              value: state.productManagementRequest.description,
-                            ),
-                            Text(
-                              locale.unitTypeMandatory,
-                              style: themeConfig.textStyles.secondaryTitle,
-                            ),
-                            DropdownButton<String>(
-                              isExpanded: true,
-                              onChanged: (String unit) => editProductBloc.add(FormChanged(
-                                  productManagementRequest:
-                                      state.productManagementRequest.copyWith(unit: unit))),
-                              value: state.productManagementRequest?.unit,
-                              icon: Icon(Icons.arrow_drop_down),
-                              items: <String>['grams', 'kilograms', 'liters']
-                                  .map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            ),
-                            Text(
-                              locale.pricePerUnitMandatory,
-                              style: themeConfig.textStyles.secondaryTitle,
-                            ),
-                            DhPlainTextFormField(
-                              hintText: locale.pricePerUnitExample,
-                              inputType: InputType.number,
-                              onChanged: (String value) {
-                                editProductBloc.add(FormChanged(
-                                    productManagementRequest: state.productManagementRequest
-                                        .copyWith(price: double.parse(value))));
-                              },
-                            ),
-                            Text(
-                              locale.unitFractionMandatory,
-                              style: themeConfig.textStyles.secondaryTitle,
-                            ),
-                            DhPlainTextFormField(
-                              hintText: locale.unitFractionExample,
-                              inputType: InputType.number,
-                              onChanged: (String value) {
-                                editProductBloc.add(FormChanged(
-                                    productManagementRequest: state.productManagementRequest
-                                        .copyWith(
-                                            unitFraction:
-                                                value != "" ? double.parse(value) : null)));
-                              },
-                            ),
-                            SizedBox(
-                              height: 50.0,
-                            )
-                            //dhTextFormField(),
-                          ],
+      body: Center(
+        child: Text('background'),
+      ),
+      panel: SafeArea(
+        child: BlocBuilder<EditProductBloc, EditProductFormState>(
+          builder: (context, state) {
+            return ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 25.0),
+                  child: Text(
+                    locale.editProduct,
+                    style: themeConfig.textStyles.primaryTitle,
+                  ),
+                ),
+                Form(
+                  child: Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          locale.nameMandatory,
+                          style: themeConfig.textStyles.secondaryTitle,
                         ),
-                      ),
+                        DhPlainTextFormField(
+                          hintText: locale.productNameExample,
+                          onChanged: (String name) {
+                            editProductBloc.add(FormChanged(
+                                productManagementRequest:
+                                    state.productManagementRequest.copyWith(name: name)));
+                          },
+                        ),
+                        Text(
+                          locale.photo,
+                          style: themeConfig.textStyles.secondaryTitle,
+                        ),
+                        choosePhotoWidget(editProductBloc),
+                        SizedBox(
+                          height: 8.0,
+                        ),
+                        Text(
+                          locale.categoryMandatory,
+                          style: themeConfig.textStyles.secondaryTitle,
+                        ),
+                        Wrap(
+                          children: categoryChoiceWidgets,
+                        ),
+
+                        Text(
+                          locale.description,
+                          style: themeConfig.textStyles.secondaryTitle,
+                        ),
+                        DhTextArea(
+                          onChanged: (String description) {
+                            editProductBloc.add(FormChanged(
+                                productManagementRequest: state.productManagementRequest
+                                    .copyWith(description: description)));
+                          },
+                          value: state.productManagementRequest.description,
+                        ),
+                        Text(
+                          locale.unitTypeMandatory,
+                          style: themeConfig.textStyles.secondaryTitle,
+                        ),
+                        DropdownButton<String>(
+                          isExpanded: true,
+                          onChanged: (String unit) => editProductBloc.add(FormChanged(
+                              productManagementRequest:
+                                  state.productManagementRequest.copyWith(unit: unit))),
+                          value: state.productManagementRequest?.unit,
+                          icon: Icon(Icons.arrow_drop_down),
+                          items: <String>['grams', 'kilograms', 'liters']
+                              .map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                        Text(
+                          locale.pricePerUnitMandatory,
+                          style: themeConfig.textStyles.secondaryTitle,
+                        ),
+                        DhPlainTextFormField(
+                          hintText: locale.pricePerUnitExample,
+                          inputType: InputType.number,
+                          onChanged: (String value) {
+                            editProductBloc.add(FormChanged(
+                                productManagementRequest: state.productManagementRequest
+                                    .copyWith(price: double.parse(value))));
+                          },
+                        ),
+                        Text(
+                          locale.unitFractionMandatory,
+                          style: themeConfig.textStyles.secondaryTitle,
+                        ),
+                        DhPlainTextFormField(
+                          hintText: locale.unitFractionExample,
+                          inputType: InputType.number,
+                          onChanged: (String value) {
+                            editProductBloc.add(FormChanged(
+                                productManagementRequest: state.productManagementRequest.copyWith(
+                                    unitFraction: value != "" ? double.parse(value) : null)));
+                          },
+                        ),
+                        Center(
+                          child: BigColoredRoundedFlatButton(
+                              text: locale.submit,
+                              isActive: state.isFilled(),
+                              //TODO check this function
+                              onTap: () {
+                                editProductBloc.add(FormSubmitted());
+                              }),
+                        ),
+                        SizedBox(
+                          height: 50.0,
+                        )
+                        //dhTextFormField(),
+                      ],
                     ),
-                  ],
-                );
-              },
-            ),
-          ),
-        ));
+                  ),
+                ),
+              ],
+            );
+          },
+        ),
+      ),
+    ));
   }
 
   GestureDetector categoryChoice({String text, bool isChosen = false}) {

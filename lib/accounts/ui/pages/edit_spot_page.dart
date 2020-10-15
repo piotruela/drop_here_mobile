@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/edit_spot_bloc.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/row_text_and_slider.dart';
@@ -64,6 +65,15 @@ class EditSpotPage extends BlocWidget<EditSpotBloc> {
                       //TODO add onChanged
                       //value: state.spotManagementRequest.description,
                       ),
+                  Center(
+                    child: BigColoredRoundedFlatButton(
+                        text: locale.submit,
+                        isActive: state.isFilled(),
+                        //TODO check this function
+                        onTap: () {
+                          editSpotBloc.add(FormSubmitted());
+                        }),
+                  ),
                 ],
               ));
         }),
