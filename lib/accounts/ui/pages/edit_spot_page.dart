@@ -12,6 +12,7 @@ import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class EditSpotPage extends BlocWidget<EditSpotBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -23,7 +24,9 @@ class EditSpotPage extends BlocWidget<EditSpotBloc> {
   Widget build(BuildContext context, EditSpotBloc editSpotBloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
-      body: SafeArea(
+        body: SlidingUpPanel(
+      body: Center(child: Text('background')),
+      panel: SafeArea(
         child: BlocBuilder<EditSpotBloc, EditSpotFormState>(builder: (context, state) {
           return Padding(
               padding: EdgeInsets.only(left: 23.0, right: 23.0),
@@ -112,10 +115,13 @@ class EditSpotPage extends BlocWidget<EditSpotBloc> {
                           editSpotBloc.add(FormSubmitted());
                         }),
                   ),
+                  SizedBox(
+                    height: 50.0,
+                  ),
                 ],
               ));
         }),
       ),
-    );
+    ));
   }
 }
