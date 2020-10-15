@@ -45,6 +45,8 @@ class DHThemeConfig extends ThemeConfig {
       title2: _title2TextStyle,
       title3: _title3TextStyle,
       title3Annotation: _title3AnnotationTextStyle,
+      bigColoredButtonActiveTextStyle: _bigColoredButtonActiveTextStyle,
+      bigColoredButtonNotActiveTextStyle: _bigColoredButtonNotActiveTextStyle,
     );
   }
 
@@ -136,6 +138,12 @@ class DHThemeConfig extends ThemeConfig {
 
   static final TextStyle _title3AnnotationTextStyle = _baseTextStyle.copyWith(
       fontSize: 9.0, height: 11.0 / 9.0, color: _textFieldHintColor, fontWeight: FontWeight.w300);
+
+  static final TextStyle _bigColoredButtonActiveTextStyle = _baseTextStyle.copyWith(
+      fontSize: 24.0, height: 28.0 / 24.0, color: _primaryColor1, fontWeight: FontWeight.w400);
+
+  static final TextStyle _bigColoredButtonNotActiveTextStyle =
+      _bigColoredButtonActiveTextStyle.copyWith(color: _addSthHereColor);
 
   static final Color _primaryColor1 = const Color(0xfff5550a);
   static final Color _primaryColor2 = const Color(0xfff99363);
