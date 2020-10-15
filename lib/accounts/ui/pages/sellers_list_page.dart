@@ -62,7 +62,7 @@ class SellersListPage extends BlocWidget<DhListBloc> {
 
   FlatButton addSellerButton(LocaleBundle locale) {
     return FlatButton(
-      onPressed: () {},
+      onPressed: () => Get.to(CreateRegularProfilePage()),
       child: Container(
         height: 30.0,
         margin: const EdgeInsets.all(5.0),
@@ -74,9 +74,7 @@ class SellersListPage extends BlocWidget<DhListBloc> {
             ],
             borderRadius: BorderRadius.all(Radius.circular(20.0))),
         child: Center(
-          child: RaisedButton(
-              child: Text(locale.addSeller, style: themeConfig.textStyles.coloredFlatButton),
-              onPressed: () => Get.to(CreateRegularProfilePage())),
+          child: Text(locale.addSeller, style: themeConfig.textStyles.coloredFlatButton),
         ),
       ),
     );

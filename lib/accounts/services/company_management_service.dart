@@ -61,17 +61,17 @@ class CompanyManagementService {
     return account.profiles;
   }
 
-  Future<ResourceOperationResponse> uploadCompanyPhoto(File file) async {
+  void uploadCompanyPhoto(Future<File> file) async {
     try {
+      File loadedFile = await file;
       Dio dio = new Dio();
       dio.options.headers[HttpHeaders.authorizationHeader] = _httpClient.token;
-      MultipartFile multipartFile = await MultipartFile.fromFile(file.path);
+      MultipartFile multipartFile = await MultipartFile.fromFile(loadedFile.path);
       FormData formData = FormData.fromMap({"image": multipartFile});
-      Response response = await dio
-          .post("https://drop-here.herokuapp.com/management/companies/images", data: formData);
-      return ResourceOperationResponse.fromJson(response.data);
+      await dio.post("https://drop-here.herokuapp.com/management/companies/images", data: formData);
+      return;
     } catch (error) {
-      return ResourceOperationResponse()..operationStatus = OperationStatus.ERROR;
+      return;
     }
   }
 
@@ -80,7 +80,9 @@ class CompanyManagementService {
     return Image.network(
       "https://drop-here.herokuapp.com/companies/$companyId/images",
       headers: {"authorization": "${_httpClient.token}"},
-      errorBuilder: (context, url, error) => FittedBox(child: Icon(Icons.person)),
+      errorBuilder: (context, _, __) => FittedBox(
+          child: CircleAvatar(
+              backgroundColor: Colors.white, child: Icon(Icons.person, color: Colors.black))),
     );
   }
 

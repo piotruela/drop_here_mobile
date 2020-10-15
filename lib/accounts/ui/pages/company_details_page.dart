@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:drop_here_mobile/accounts/bloc/company_management_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
@@ -8,6 +10,7 @@ import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -31,7 +34,7 @@ class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
                 }
                 if (state is CompanyDetailsFetched) {
                   image = state.image;
-                  return SizedBox(width: 100, height: 100, child: image);
+                  return SizedBox(width: 150, height: 150, child: image);
                 } else {
                   return SizedBox.shrink();
                 }
@@ -76,7 +79,7 @@ class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
                     Icons.edit,
                   ),
                   shape: CircleBorder(),
-                  onPressed: () => {}, //TODO:Navigate to EditCompanyInfoPage,
+                  onPressed: () => companyManagementService.uploadCompanyPhoto(getImage()),
                 ),
               )),
             ],
@@ -126,15 +129,10 @@ class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
       ),
     );
   }
-}
 
-/*CircleAvatar(
-                backgroundColor: Colors.red,
-                radius: 65,
-                backgroundImage: AssetImage('assets/bottombar/loading.gif'),
-                child: CircleAvatar(
-                  radius: 65,
-                  backgroundColor: Colors.transparent,
-                  backgroundImage: NetworkImage(_url),
-                ),
-              ),*/
+  Future<File> getImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    return File(pickedFile.path);
+  }
+}
