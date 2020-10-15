@@ -4,9 +4,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/full_width_photo.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -45,7 +45,7 @@ class ProductDetailsPage extends StatelessWidget {
         children: [
           productTitle(),
           productSubtitle(),
-          productPhoto(context),
+          fullWidthPhoto(context, photo),
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: Column(
@@ -101,19 +101,6 @@ class ProductDetailsPage extends StatelessWidget {
       child: Text(
         product.name,
         style: themeConfig.textStyles.primaryTitle,
-      ),
-    );
-  }
-
-  Padding productPhoto(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 5.0),
-      child: Container(
-        alignment: Alignment.centerLeft,
-        child: Image.file(
-          photo,
-          width: MediaQuery.of(context).size.width,
-        ),
       ),
     );
   }
