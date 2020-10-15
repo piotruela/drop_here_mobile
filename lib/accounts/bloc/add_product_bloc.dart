@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/accounts/services/product_management_service.dart';
 import 'package:equatable/equatable.dart';
 
 part 'add_product_event.dart';
@@ -22,6 +23,9 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductFormState> {
       yield state.copyWith(productManagementRequest: form, photo: event?.photo);
     } else if (event is FormSubmitted) {
       //TODO
+    } else if (event is FetchCategories) {
+      Future<List<ProductCategoryResponse>> categories = ProductManagementService().getCategories();
+      yield state.copyWith(categories: categories);
     }
   }
 }

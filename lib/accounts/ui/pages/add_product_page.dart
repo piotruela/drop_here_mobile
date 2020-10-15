@@ -23,7 +23,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
   List<GestureDetector> categoryChoiceWidgets = [];
 
   @override
-  AddProductBloc bloc() => AddProductBloc();
+  AddProductBloc bloc() => AddProductBloc()..add(FetchCategories());
 
   @override
   Widget build(BuildContext context, AddProductBloc addProductBloc, _) {
