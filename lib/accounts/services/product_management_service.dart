@@ -29,6 +29,7 @@ class ProductManagementService {
         canRepeatRequest: true,
         path: "/companies/$companyId/categories",
         out: (dynamic json) => json);
+    print("companyId: " + companyId);
     List<ProductCategoryResponse> categories = [];
     for (dynamic element in response) {
       categories.add(ProductCategoryResponse.fromJson(element));

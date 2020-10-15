@@ -116,7 +116,7 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                     child: Text("Log in to company account"),
                     onPressed: () => authenticationService
-                        .authenticate(LoginRequest(mail: "test@g.pl", password: "test1234"))),
+                        .authenticate(LoginRequest(mail: "zrobilem@g.pl", password: "12345678"))),
                 FlatButton(
                     child: Text("Log in to admin profile"),
                     onPressed: () async {
@@ -126,7 +126,7 @@ class SandboxPage extends StatelessWidget {
                           profileUid: profileInfoResponse
                               .firstWhere((element) => element.profileType == ProfileType.MAIN)
                               .profileUid,
-                          password: "test1234"));
+                          password: "12345678"));
                     }),
                 FlatButton(
                     child: Text("Log in to customer account"),

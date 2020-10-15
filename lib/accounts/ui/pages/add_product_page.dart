@@ -29,13 +29,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
   @override
   Widget build(BuildContext context, AddProductBloc addProductBloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
-    final List categories = ['fruits', 'vege', 'other'];
 
-    categories.forEach((element) {
-      return categoryChoiceWidgets.add(categoryChoice(
-          text: element,
-          isChosen: addProductBloc.state.productManagementRequest.category == element));
-    });
     return Scaffold(
         body: SlidingUpPanel(
       body: Center(child: Text('background')),
@@ -43,6 +37,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
         child: BlocBuilder<AddProductBloc, AddProductFormState>(
           builder: (context, state) {
             return ListView(
+              shrinkWrap: true,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(left: 25.0),
@@ -55,6 +50,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                   child: Padding(
                     padding: const EdgeInsets.all(25.0),
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -81,8 +77,25 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           locale.categoryMandatory,
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
-                        Wrap(
-                          children: categoryChoiceWidgets,
+                        FutureBuilder(
+                          future: addProductBloc.state.categories,
+                          initialData: List<ProductCategoryResponse>(0),
+                          builder:
+                              (context, AsyncSnapshot<List<ProductCategoryResponse>> snapshot) {
+                            List<ProductCategoryResponse> categories = snapshot.data ?? [];
+                            return Wrap(
+                              children: [
+                                Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    for (ProductCategoryResponse item in categories)
+                                      categoryChoice(
+                                          text: item.name, addProductBloc: addProductBloc)
+                                  ],
+                                ),
+                              ],
+                            );
+                          },
                         ),
                         Text(
                           locale.description,
@@ -168,11 +181,13 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
     ));
   }
 
-  GestureDetector categoryChoice({String text, bool isChosen = false}) {
+  GestureDetector categoryChoice(
+      {String text, bool isChosen = false, AddProductBloc addProductBloc}) {
     return GestureDetector(
       onTap: () {
         isChosen = true;
-        bloc().add(FormChanged(productManagementRequest: ProductManagementRequest(category: text)));
+        addProductBloc
+            .add(FormChanged(productManagementRequest: ProductManagementRequest(category: text)));
       },
       child: Container(
         margin: const EdgeInsets.all(5.0),
