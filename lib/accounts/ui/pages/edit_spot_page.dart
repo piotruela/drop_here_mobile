@@ -6,14 +6,13 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/full_width_photo.dart';
 import 'package:drop_here_mobile/common/get_address_from_coordinates.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/common/ui/widgets/labeled_switch.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-
-import 'file:///E:/Piotr%20Maszota/inzynierka/drop_here_mobile/lib/common/ui/widgets/labeled_switch.dart';
 
 class EditSpotPage extends BlocWidget<EditSpotBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
