@@ -20,6 +20,11 @@ class MapPage extends BlocWidget<DhListBloc> {
       body: Stack(
         children: [
           GoogleMap(
+            markers: {
+              Marker(
+                GeoCoord(54.397498, 18.589627),
+              )
+            },
             initialPosition: GeoCoord(54.397498, 18.589627),
           ),
           SlidingUpPanel(

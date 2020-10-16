@@ -143,7 +143,7 @@ class EditProductPage extends BlocWidget<EditProductBloc> {
                           },
                         ),
                         Center(
-                          child: BigColoredRoundedFlatButton(
+                          child: SubmitFormButton(
                               text: locale.submit,
                               isActive: state.isFilled(),
                               //TODO check this function
