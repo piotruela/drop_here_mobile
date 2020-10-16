@@ -12,26 +12,23 @@ import 'package:get/get.dart';
 
 class ClientsListPage extends BlocWidget<DhListBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-  final DhListBloc dhListBloc;
-
-  ClientsListPage({this.dhListBloc});
 
   @override
-  DhListBloc bloc() => dhListBloc..add(FetchProducts());
+  DhListBloc bloc() => DhListBloc()..add(FetchClients());
 
   @override
-  Widget build(BuildContext context, DhListBloc dhListBloc, _) {
+  Widget build(BuildContext context, DhListBloc bloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        DhSearchBar(dhListBloc),
+        DhSearchBar(bloc),
         Padding(
           padding: const EdgeInsets.only(left: 25.0),
           child: FiltersFlatButton(
             themeConfig: themeConfig,
             locale: locale,
-            bloc: dhListBloc,
+            bloc: bloc,
           ),
         ),
         BlocBuilder<DhListBloc, DhListState>(
@@ -41,9 +38,15 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
             } else if (state is ListLoading) {
               return Center(child: CircularProgressIndicator());
             } else if (state is FetchingError) {
-              return Container(child: Text(state.error));
+              return Container(
+                  child: Column(
+                children: [
+                  Text(state.error),
+                  RaisedButton(onPressed: () => bloc.add(FetchClients()))
+                ],
+              ));
             } else if (state is ClientsFetched) {
-              return buildColumnWithData(locale, state, context, dhListBloc);
+              return buildColumnWithData(locale, state, context, bloc);
             }
             return Container();
           },

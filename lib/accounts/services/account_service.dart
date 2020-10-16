@@ -33,7 +33,7 @@ class AccountService {
     return AccountInfoResponse.fromJson(response);
   }
 
-  Future<int> createProfile(AccountProfileCreationRequest form) async {
+  Future<int> createAdminProfile(AccountProfileCreationRequest form) async {
     try {
       dynamic response = await _httpClient.post(
           canRepeatRequest: true,
@@ -42,6 +42,19 @@ class AccountService {
           out: (dynamic json) => json);
       print(response['token']);
       _httpClient.setHttpHeader(HttpHeaders.authorizationHeader, "Bearer ${response['token']}");
+      return 1;
+    } catch (Error) {
+      return -1;
+    }
+  }
+
+  Future<int> createBasicProfile(AccountProfileCreationRequest form) async {
+    try {
+      await _httpClient.post(
+          canRepeatRequest: true,
+          body: json.encode(form.toJson()),
+          path: "/accounts/profiles",
+          out: (dynamic json) => json);
       return 1;
     } catch (Error) {
       return -1;

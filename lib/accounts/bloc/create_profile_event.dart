@@ -19,9 +19,12 @@ class FormChanged extends CreateProfileEvent {
 class FormSubmitted extends CreateProfileEvent {
   final bool isValid;
   final AccountProfileCreationRequest form;
+  final ProfileRole profileRole;
 
-  FormSubmitted({this.isValid, this.form});
+  FormSubmitted({this.isValid, this.form, this.profileRole});
 
   @override
   List<Object> get props => [form, isValid];
 }
+
+enum ProfileRole { ADMIN, BASIC }

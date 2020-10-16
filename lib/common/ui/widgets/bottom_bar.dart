@@ -1,5 +1,5 @@
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_registration_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/create_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/login_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';

@@ -2,17 +2,23 @@ part of 'login_profile_bloc.dart';
 
 class LoginProfileState extends Equatable {
   final ProfileLoginRequest form;
-  final bool success;
 
-  const LoginProfileState({this.form, this.success});
+  const LoginProfileState({this.form});
 
-  LoginProfileState copyWith({ProfileLoginRequest form, bool success, bool successNull = false}) {
-    return LoginProfileState(
-        form: form ?? this.form, success: successNull ? null : success ?? this.success);
+  LoginProfileState copyWith({ProfileLoginRequest form}) {
+    return LoginProfileState(form: form ?? this.form);
   }
 
   @override
-  List<Object> get props => [form, success];
+  List<Object> get props => [form];
 }
 
 class LoginLoadingState extends LoginProfileState {}
+
+class LoginSucceeded extends LoginProfileState {}
+
+class LoginFailure extends LoginProfileState {
+  final ProfileLoginRequest form;
+
+  LoginFailure({this.form});
+}

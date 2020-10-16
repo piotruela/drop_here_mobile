@@ -33,6 +33,8 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
 
     return Scaffold(
         body: SlidingUpPanel(
+      maxHeight: 550,
+      defaultPanelState: PanelState.OPEN,
       body: Center(child: Text('background')),
       panel: SafeArea(
         child: BlocBuilder<AddProductBloc, AddProductFormState>(

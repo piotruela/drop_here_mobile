@@ -2,11 +2,11 @@ import 'package:drop_here_mobile/accounts/bloc/edit_spot_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/row_text_and_slider.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/full_width_photo.dart';
 import 'package:drop_here_mobile/common/get_address_from_coordinates.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/common/ui/widgets/labeled_switch.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
@@ -48,7 +48,7 @@ class EditSpotPage extends BlocWidget<EditSpotBloc> {
                     },
                     initialValue: state.spotManagementRequest.name,
                   ),
-                  rowTextAndSlider(
+                  labeledSwitch(
                       text: locale.passwordRequired,
                       initialPosition: state.spotManagementRequest.requiredPassword),
                   secondaryTitle(locale.passwordMandatory),
@@ -58,10 +58,10 @@ class EditSpotPage extends BlocWidget<EditSpotBloc> {
                           spot: state.spotManagementRequest.copyWith(password: password)));
                     },
                   ),
-                  rowTextAndSlider(
+                  labeledSwitch(
                       text: locale.acceptRequired,
                       initialPosition: state.spotManagementRequest.requiredAccept),
-                  rowTextAndSlider(
+                  labeledSwitch(
                       text: locale.spotHidden, initialPosition: state.spotManagementRequest.hidden),
                   secondaryTitle(locale.locationMandatory),
                   Row(

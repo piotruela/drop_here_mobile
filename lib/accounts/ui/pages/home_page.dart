@@ -1,6 +1,6 @@
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_registration_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/create_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

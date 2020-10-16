@@ -35,7 +35,7 @@ class CompanyRegisterDetailsBloc
       try {
         companyManagementService.updateCompanyDetails(event.form);
         yield SuccessState();
-      } on Exception catch (e) {
+      } on Exception {
         yield ErrorState();
       }
     }

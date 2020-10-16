@@ -22,11 +22,20 @@ class CreateProfileBloc extends Bloc<CreateProfileEvent, CreateProfileState> {
       yield state.copyWith(form: form);
     } else if (event is FormSubmitted) {
       yield LoadingState();
-      int result = await accountsService.createProfile(event.form);
-      if (result == 1) {
-        yield SuccessState();
+      if (event.profileRole == ProfileRole.ADMIN) {
+        try {
+          await accountsService.createAdminProfile(event.form);
+          yield SuccessState();
+        } on Exception {
+          yield ErrorState(form: event.form);
+        }
       } else {
-        yield ErrorState();
+        try {
+          await accountsService.createBasicProfile(event.form);
+          yield SuccessState();
+        } on Exception {
+          yield ErrorState(form: event.form);
+        }
       }
     }
   }

@@ -1,3 +1,4 @@
+import 'package:drop_here_mobile/accounts/model/client.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'company_management_api.g.dart';
@@ -83,6 +84,12 @@ class CompanyCustomerResponse {
   RelationshipStatus relationshipStatus;
 
   CompanyCustomerResponse();
+
+  Client convertFromApiModel(){
+    return Client(
+        isActive: this.relationshipStatus == RelationshipStatus.ACTIVE,
+        name: "${this.firstName} ${this.lastName}");
+  }
 
   factory CompanyCustomerResponse.fromJson(Map<String, dynamic> json) =>
       _$CompanyCustomerResponseFromJson(json);
