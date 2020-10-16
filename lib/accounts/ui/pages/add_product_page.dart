@@ -62,8 +62,8 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           hintText: locale.productNameExample,
                           onChanged: (String name) {
                             addProductBloc.add(FormChanged(
-                                productManagementRequest:
-                                    state.productManagementRequest.copyWith(name: name)));
+                                productManagementRequest: state.productManagementRequest
+                                    .copyWith(name: name, productCustomizationWrappers: [])));
                           },
                         ),
                         Text(
@@ -171,7 +171,10 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                               isActive: state.isFilled(),
                               //TODO check this function
                               onTap: () {
-                                addProductBloc.add(FormSubmitted());
+                                if (state.isFilled()) {
+                                  addProductBloc.add(FormSubmitted());
+                                  print("tap");
+                                }
                               }),
                         ),
                         SizedBox(
