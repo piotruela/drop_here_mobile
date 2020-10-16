@@ -27,7 +27,7 @@ class LoginBloc extends Bloc<LoginFormEvent, LoginFormState> {
         try {
           await authenticationService.authenticate(event.form);
           yield SuccessState();
-        } on Exception catch (e) {
+        } on Exception {
           yield ErrorState(form: event.form);
         }
       } else {

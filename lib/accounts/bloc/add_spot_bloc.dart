@@ -10,7 +10,10 @@ part 'add_spot_state.dart';
 
 class AddSpotBloc extends Bloc<AddSpotEvent, AddSpotFormState> {
   AddSpotBloc()
-      : super(AddSpotFormState(locationMap: null, spotManagementRequest: SpotManagementRequest()));
+      : super(AddSpotFormState(
+            locationMap: null,
+            spotManagementRequest: SpotManagementRequest(
+                requiredPassword: false, hidden: false, requiredAccept: false)));
 
   @override
   Stream<AddSpotFormState> mapEventToState(

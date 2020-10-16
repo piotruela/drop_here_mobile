@@ -7,12 +7,13 @@ import 'package:drop_here_mobile/accounts/model/api/company_customers_request.da
 import 'package:drop_here_mobile/accounts/services/account_service.dart';
 import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
+import 'package:drop_here_mobile/accounts/services/customer_management_service.dart';
 import 'package:drop_here_mobile/accounts/services/product_management_service.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/create_admin_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_new_item_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/create_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/home_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/map_page.dart';
@@ -35,6 +36,7 @@ class SandboxPage extends StatelessWidget {
   final AssetsConfig assetsConfig = Get.find<AssetsConfig>();
   final AuthenticationService authenticationService = Get.find<AuthenticationService>();
   final CompanyManagementService companyManagementService = Get.find<CompanyManagementService>();
+  final CustomerManagementService customerManagementService = Get.find<CustomerManagementService>();
   final AccountService accountService = Get.find<AccountService>();
   final ProductManagementService productManagementService = Get.find<ProductManagementService>();
   final picker = ImagePicker();
@@ -141,7 +143,7 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                     child: Text("Log in to customer account"),
                     onPressed: () => authenticationService
-                        .authenticate(LoginRequest(mail: "jaja@g.pl", password: "jaja1234"))),
+                        .authenticate(LoginRequest(mail: "klient@g.pl", password: "12345678"))),
                 FlatButton(
                     child: Text("log out from account"),
                     onPressed: () => authenticationService.logOutFromAccount()),
@@ -153,8 +155,11 @@ class SandboxPage extends StatelessWidget {
                   },
                 ),
                 FlatButton(
-                    child: Text("get account details"),
+                    child: Text("get comapny details"),
                     onPressed: () => companyManagementService.getCompanyInfo()),
+                FlatButton(
+                    child: Text("get customer details"),
+                    onPressed: () => customerManagementService.getCustomerInfo()),
                 FlatButton(child: Text("map page"), onPressed: () => Get.to(MapPage())),
                 FlatButton(
                     child: Text("fetch profiles"),

@@ -2,11 +2,11 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/page_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
-import 'package:drop_here_mobile/accounts/model/client.dart';
 import 'package:drop_here_mobile/accounts/model/seller.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
 import 'package:flutter/material.dart' hide Page;
@@ -54,37 +54,36 @@ class CompanyManagementService {
     return Page.fromJson(response);
   }
 
-  Future<ResourceOperationResponse> uploadCompanyPhoto(File file) async {
+  Future<List<ProfileInfoResponse>> fetchCompanySellers() async {
+    dynamic response = await _httpClient.get(
+        canRepeatRequest: true, path: "/accounts", out: (dynamic json) => json);
+    AccountInfoResponse account = AccountInfoResponse.fromJson(response);
+    return account.profiles;
+  }
+
+  void uploadCompanyPhoto(Future<File> file) async {
     try {
+      File loadedFile = await file;
       Dio dio = new Dio();
       dio.options.headers[HttpHeaders.authorizationHeader] = _httpClient.token;
-      MultipartFile multipartFile = await MultipartFile.fromFile(file.path);
+      MultipartFile multipartFile = await MultipartFile.fromFile(loadedFile.path);
       FormData formData = FormData.fromMap({"image": multipartFile});
-      Response response = await dio
-          .post("https://drop-here.herokuapp.com/management/companies/images", data: formData);
-      return ResourceOperationResponse.fromJson(response.data);
+      await dio.post("https://drop-here.herokuapp.com/management/companies/images", data: formData);
+      return;
     } catch (error) {
-      return ResourceOperationResponse()..operationStatus = OperationStatus.ERROR;
+      return;
     }
   }
 
-  Future<NetworkImage> getCompanyPhoto() async {
+  Future<Image> getCompanyPhoto() async {
     String companyId = await getCompanyId();
-    NetworkImage img = NetworkImage("https://drop-here.herokuapp.com/companies/$companyId/images",
-        headers: {"authorization": "Bearer ${_httpClient.token}"});
-    print(img.headers.keys.first);
-    return img;
-  }
-
-  Future<List<Client>> fetchClientsList({String filter, String searchText}) {
-    //TODO implement
-    List<Client> clients = [
-      Client(name: 'abc', isActive: true, numberOfDropsMember: 5),
-      Client(name: 'def', isActive: false, numberOfDropsMember: 3)
-    ];
-    return Future.delayed(Duration(seconds: 1), () {
-      return clients;
-    });
+    return Image.network(
+      "https://drop-here.herokuapp.com/companies/$companyId/images",
+      headers: {"authorization": "${_httpClient.token}"},
+      errorBuilder: (context, _, __) => FittedBox(
+          child: CircleAvatar(
+              backgroundColor: Colors.white, child: Icon(Icons.person, color: Colors.black))),
+    );
   }
 
   Future<List<Seller>> fetchSellersList({String filter, String searchText}) {

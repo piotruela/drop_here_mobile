@@ -15,6 +15,10 @@ class CreateProfileState extends Equatable {
 
 class LoadingState extends CreateProfileState {}
 
-class ErrorState extends CreateProfileState {}
+class ErrorState extends CreateProfileState {
+  final AccountProfileCreationRequest form;
+
+  ErrorState({this.form});
+}
 
 class SuccessState extends CreateProfileState {}

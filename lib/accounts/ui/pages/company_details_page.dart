@@ -1,183 +1,138 @@
+import 'dart:io';
+
+import 'package:drop_here_mobile/accounts/bloc/company_management_bloc.dart';
+import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
+import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/common/ui/widgets/dh_list_tile.dart';
+import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
-class CompanyDetailsPage extends StatelessWidget {
+class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+  final CompanyManagementService companyManagementService = Get.find<CompanyManagementService>();
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: themeConfig.colors.primary1,
-      ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 14.0),
-            child: Text(
-              Localization.of(context).bundle.companyDetails,
-              style: themeConfig.textStyles.secondaryTitle,
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: 200,
-            color: themeConfig.colors.primary1,
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 27.0),
-                  child: Stack(
-                    children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          boxShadow: [BoxShadow(blurRadius: 4, color: Colors.grey.withOpacity(0.25), spreadRadius: 5)],
-                        ),
-                        child: CircleAvatar(
-                          radius: 64.0,
-                          child: ClipOval(
-                            child: CircleAvatar(
-                              backgroundColor: themeConfig.colors.white,
-                              radius: 64.0,
-                              child: Icon(
-                                Icons.person,
-                                color: themeConfig.colors.primary1,
-                                size: 110.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 0.0,
-                        right: 0.0,
-                        child: InkWell(
-                          child: CircleAvatar(
-                            radius: 20.0,
-                            backgroundColor: themeConfig.colors.secondary,
-                            child: CircleAvatar(
-                              backgroundColor: themeConfig.colors.white,
-                              radius: 18.0,
-                              child: Icon(
-                                Icons.edit,
-                                color: Colors.black,
-                                size: 20.0,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          DhListTile(
-            themeConfig: themeConfig,
-            icon: Icons.person,
-            title: Localization.of(context).bundle.name,
-            trailing: "drop.here",
-          ),
-          DhListTile(
-            themeConfig: themeConfig,
-            icon: Icons.map,
-            title: Localization.of(context).bundle.country,
-            trailing: "Poland",
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: sellers.length,
-              itemBuilder: (context, i) {
-                return Theme(
-                  data: ThemeData(
-                    accentColor: Colors.black,
-                  ),
-                  child: ExpansionTile(
-                    leading: Icon(
-                      Icons.people,
-                      color: themeConfig.colors.textFieldHint,
-                    ),
-                    title: Text(
-                      sellers[i].title,
-                      style: themeConfig.textStyles.textFieldHint,
-                    ),
-                    children: <Widget>[
-                      Column(
-                        children: _buildExpandableContent(sellers[i]),
-                      ),
-                    ],
-                  ),
-                );
+  CompanyManagementBloc bloc() => CompanyManagementBloc()..add(FetchCompanyDetails());
+
+  @override
+  Widget build(BuildContext context, CompanyManagementBloc bloc, _) {
+    final LocaleBundle locale = Localization.of(context).bundle;
+    return Column(
+      children: [
+        Padding(
+            padding: const EdgeInsets.only(top: 54.0),
+            child: BlocBuilder<CompanyManagementBloc, CompanyManagementState>(
+              buildWhen: (previous, current) => previous.runtimeType != current.runtimeType,
+              builder: (context, state) {
+                Image image;
+                if (state is CompanyDetailsFetchingInProgress) {
+                  return CircularProgressIndicator();
+                }
+                if (state is CompanyDetailsFetched) {
+                  image = state.image;
+                  return SizedBox(width: 150, height: 150, child: image);
+                } else {
+                  return SizedBox.shrink();
+                }
               },
-            ),
+            )),
+        BlocBuilder<CompanyManagementBloc, CompanyManagementState>(
+          builder: (context, state) {
+            if (state is CompanyManagementInitial) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is CompanyDetailsFetchingInProgress) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is CompanyManagementFetchingError) {
+              return Container();
+            } else if (state is CompanyDetailsFetched) {
+              return buildColumnWithData(locale, state, context, bloc);
+            }
+            return Container();
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget buildColumnWithData(LocaleBundle locale, CompanyDetailsFetched state, BuildContext context,
+      CompanyManagementBloc companyManagementBloc) {
+    return Column(
+      children: [
+        Center(
+          child: Row(
+            children: <Widget>[
+              const Expanded(child: SizedBox()),
+              Text(
+                state.company.name,
+                style: themeConfig.textStyles.primaryTitle,
+              ),
+              Expanded(
+                  child: Align(
+                alignment: Alignment.centerLeft,
+                child: RawMaterialButton(
+                  fillColor: Colors.white,
+                  child: Icon(
+                    Icons.edit,
+                  ),
+                  shape: CircleBorder(),
+                  onPressed: () => companyManagementService.uploadCompanyPhoto(getImage()),
+                ),
+              )),
+            ],
           ),
-        ],
+        ),
+        SizedBox(
+          height: 20.0,
+        ),
+        companyInfoTile(state, locale.country, state.company.country),
+        companyInfoTile(
+            state,
+            locale.visibilityStatus,
+            state.company.visibilityStatus == VisibilityStatus.VISIBLE
+                ? locale.visible
+                : locale.hidden),
+        companyInfoTile(
+            state, locale.registered, state.company.registered ? locale.yes : locale.no),
+        companyInfoTile(state, locale.numberOfSellers, state.company.profilesCount.toString()),
+      ],
+    );
+  }
+
+  Padding companyInfoTile(CompanyDetailsFetched state, String leading, String trailing) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 10.0),
+      child: Container(
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 10.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                leading,
+                style: themeConfig.textStyles.managementListTile,
+              ),
+              Text(
+                trailing,
+                style: themeConfig.textStyles.filledTextField,
+              )
+            ],
+          ),
+        ),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(
+                    width: 1.0, color: themeConfig.colors.white, style: BorderStyle.solid))),
       ),
     );
   }
 
-  _buildExpandableContent(Seller vehicle) {
-    List<Widget> columnContent = [];
-
-    for (String content in vehicle.contents)
-      columnContent.add(
-        ListTile(
-          trailing: Text(
-            content,
-            style: themeConfig.textStyles.secondaryTitle,
-          ),
-          title: Text(
-            'Name',
-            style: themeConfig.textStyles.textFieldHint,
-          ),
-          leading: CircleAvatar(
-            backgroundColor: themeConfig.colors.primary1,
-            child: Text(
-              getInitials(content).toUpperCase(),
-              style: themeConfig.textStyles.cardCaption,
-            ),
-          ),
-        ),
-      );
-
-    return columnContent;
-  }
-
-  String getInitials(name) {
-    List<String> names = name.split(" ");
-    String initials = "";
-    int numWords = 2;
-
-    if (numWords > names.length) {
-      numWords = names.length;
-    }
-    for (int i = 0; i < numWords; i++) {
-      initials += '${names[i][0]}';
-    }
-    return initials;
+  Future<File> getImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    return File(pickedFile.path);
   }
 }
-
-class Seller {
-  final String title;
-  List<String> contents = [];
-
-  Seller(this.title, this.contents);
-}
-
-List<Seller> sellers = [
-  new Seller(
-    'Sellers',
-    ['Seller no. 1', 'Seller no. 2', 'Seller no. 7', 'Seller no. 10', 'Seller no. 12'],
-  ),
-  // new Seller(
-  //   'Cars',
-  //   ['Seller no. 3', 'Seller no. 4', 'Seller no. 6'],
-  //   Icons.directions_car,
-  // ),
-];

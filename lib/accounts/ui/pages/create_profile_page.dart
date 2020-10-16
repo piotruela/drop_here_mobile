@@ -1,7 +1,7 @@
 import 'package:drop_here_mobile/accounts/bloc/create_profile_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_registration_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -74,7 +74,8 @@ abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
                   labelText: Localization.of(context).bundle.password,
                   padding: EdgeInsets.only(left: 40, right: 40.0, bottom: 20.0)),
               DhButton(
-                onPressed: () => bloc.add(FormSubmitted(form: bloc.state.form)),
+                onPressed: () =>
+                    bloc.add(FormSubmitted(form: bloc.state.form, profileRole: profileRole)),
                 text: "Create",
                 backgroundColor: themeConfig.colors.primary1,
               ),
@@ -88,6 +89,8 @@ abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
   String getTitleText(BuildContext context);
 
   Widget getNextPage();
+
+  ProfileRole get profileRole;
 }
 
 class CreateAdminProfilePage extends CreateProfilePage {
@@ -96,6 +99,9 @@ class CreateAdminProfilePage extends CreateProfilePage {
 
   @override
   Widget getNextPage() => CompanyDetailsRegistrationPage();
+
+  @override
+  ProfileRole get profileRole => ProfileRole.ADMIN;
 }
 
 class CreateRegularProfilePage extends CreateProfilePage {
@@ -103,5 +109,8 @@ class CreateRegularProfilePage extends CreateProfilePage {
   String getTitleText(BuildContext context) => Localization.of(context).bundle.createProfile;
 
   @override
-  Widget getNextPage() => ChooseProfilePage();
+  Widget getNextPage() => ManagementPage();
+
+  @override
+  ProfileRole get profileRole => ProfileRole.BASIC;
 }

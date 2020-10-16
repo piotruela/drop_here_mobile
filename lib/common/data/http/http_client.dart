@@ -17,7 +17,9 @@ class DhHttpClient {
   Future<dynamic> initialized;
   final _Session session;
   String _baseUrl = "https://drop-here.herokuapp.com";
-  final Map<String, String> _httpHeaders = {HttpHeaders.contentTypeHeader: "application/json"};
+  final Map<String, String> _httpHeaders = {
+    HttpHeaders.contentTypeHeader: "application/json;charset=UTF-8"
+  };
 
   DhHttpClient({bool useSession = true, bool withTrustedRoots = false})
       : session = useSession ? _Session() : _DummySession(),

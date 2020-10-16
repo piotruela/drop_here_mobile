@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:drop_here_mobile/accounts/bloc/login_profile_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
-import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/map_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -31,32 +31,20 @@ class LogOnProfilePage extends BlocWidget<LoginProfileBloc> {
     final GlobalKey<FormState> key = GlobalKey<FormState>();
     return Scaffold(
         backgroundColor: themeConfig.colors.background,
-        body: BlocBuilder<LoginProfileBloc, LoginProfileState>(
-            buildWhen: (previous, current) => previous.success != current.success,
+        body: BlocConsumer<LoginProfileBloc, LoginProfileState>(
+            listenWhen: (previous, current) => previous.runtimeType != current.runtimeType,
+            listener: (context, state) {
+              if (state is LoginSucceeded) {
+                Get.to(MapPage());
+              }
+              if (state is LoginFailure) {
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text("Login error")));
+              }
+            },
+            buildWhen: (previous, current) => previous.runtimeType != current.runtimeType,
             builder: (context, state) {
-              if (state is LoginLoadingState) {
+              if (state is LoginLoadingState || state is LoginSucceeded) {
                 return Center(child: CircularProgressIndicator());
-              } else if (state.success) {
-                return Center(
-                    child: RaisedButton(
-                  color: themeConfig.colors.primary1,
-                  child: Text("Fetch client details"),
-                  onPressed: () =>
-                      companyManagementService.getCompanyCustomers(CompanyCustomersRequest()),
-                ) /*Column(
-                    children: [
-                      FutureBuilder(
-                          future: getImage(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              companyManagementService.uploadCompanyPhoto(snapshot.data);
-                              return Container();
-                            } else
-                              return SizedBox.shrink();
-                          }),
-                    ],
-                  ),*/
-                    );
               } else
                 return _profileLoginForm(context, bloc, key);
             }));

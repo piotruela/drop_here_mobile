@@ -11,25 +11,25 @@ class CompanyManagementInitial extends CompanyManagementState {
   List<Object> get props => [];
 }
 
-class CompanyManagementLoading extends CompanyManagementState {
-  const CompanyManagementLoading();
+class CompanyDetailsFetchingInProgress extends CompanyManagementState {
+  const CompanyDetailsFetchingInProgress();
 
   @override
   List<Object> get props => [];
 }
 
-class CompanyManagementFetched extends CompanyManagementState {
+class CompanyDetailsFetched extends CompanyManagementState {
   final Company company;
-  const CompanyManagementFetched(this.company);
+  final Image image;
+  const CompanyDetailsFetched(this.company, this.image);
 
   @override
-  List<Object> get props => [company];
+  List<Object> get props => [company, image];
 }
 
 class CompanyManagementFetchingError extends CompanyManagementState {
-  final String error;
-  const CompanyManagementFetchingError(this.error);
+  const CompanyManagementFetchingError();
 
   @override
-  List<Object> get props => [error];
+  List<Object> get props => [];
 }

@@ -3,7 +3,7 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-Padding rowTextAndSlider({String text, bool initialPosition}) {
+Widget labeledSwitch({String text, bool initialPosition, Function(bool) onSwitch}) {
   return Padding(
     padding: const EdgeInsets.only(),
     child: Row(
@@ -13,7 +13,7 @@ Padding rowTextAndSlider({String text, bool initialPosition}) {
         secondaryTitle(text),
         DhSwitch(
           initialPosition: initialPosition ?? false,
-          onSwitch: (_) {},
+          onSwitch: onSwitch,
         ),
       ],
     ),

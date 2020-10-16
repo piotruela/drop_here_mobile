@@ -28,7 +28,7 @@ class RegistrationBloc extends Bloc<RegisterEvent, RegisterState> {
         try {
           await accountService.createNewAccount(event.form);
           yield SuccessState(accountType: event.form.accountType);
-        } on Exception catch (e) {
+        } on Exception {
           yield ErrorState(form: event.form);
         }
       }
