@@ -26,6 +26,9 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductFormState> {
     } else if (event is FetchCategories) {
       Future<List<ProductCategoryResponse>> categories = ProductManagementService().getCategories();
       yield state.copyWith(categories: categories);
+    } else if (event is FetchUnits) {
+      Future<List<ProductUnitResponse>> units = ProductManagementService().getUnits();
+      yield state.copyWith(units: units);
     }
   }
 }

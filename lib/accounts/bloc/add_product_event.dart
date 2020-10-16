@@ -32,3 +32,12 @@ class FetchCategories extends AddProductEvent {
   @override
   List<Object> get props => [categories];
 }
+
+class FetchUnits extends AddProductEvent {
+  final List<String> units;
+
+  FetchUnits({this.units});
+
+  @override
+  List<Object> get props => [units];
+}

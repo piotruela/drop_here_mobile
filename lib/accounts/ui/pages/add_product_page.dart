@@ -25,7 +25,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
   List<GestureDetector> categoryChoiceWidgets = [];
 
   @override
-  AddProductBloc bloc() => AddProductBloc()..add(FetchCategories());
+  AddProductBloc bloc() => AddProductBloc()..add(FetchCategories())..add(FetchUnits());
 
   @override
   Widget build(BuildContext context, AddProductBloc addProductBloc, _) {
@@ -114,20 +114,27 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           locale.unitTypeMandatory,
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
-                        DropdownButton<String>(
-                          isExpanded: true,
-                          onChanged: (String unit) => addProductBloc.add(FormChanged(
-                              productManagementRequest:
-                                  state.productManagementRequest.copyWith(unit: unit))),
-                          value: state.productManagementRequest?.unit,
-                          icon: Icon(Icons.arrow_drop_down),
-                          items: <String>['grams', 'kilograms', 'liters']
-                              .map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
+                        FutureBuilder(
+                          future: addProductBloc.state.units,
+                          initialData: List<ProductUnitResponse>(0),
+                          builder: (context, AsyncSnapshot<List<ProductUnitResponse>> snapshot) {
+                            List<ProductUnitResponse> units = snapshot.data ?? [];
+                            List<String> textUnits = units.map((e) => e.name).toList();
+                            return DropdownButton<String>(
+                              isExpanded: true,
+                              onChanged: (String unit) => addProductBloc.add(FormChanged(
+                                  productManagementRequest:
+                                      state.productManagementRequest.copyWith(unit: unit))),
+                              value: state.productManagementRequest?.unit,
+                              icon: Icon(Icons.arrow_drop_down),
+                              items: textUnits.map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
                             );
-                          }).toList(),
+                          },
                         ),
                         Text(
                           locale.pricePerUnitMandatory,
