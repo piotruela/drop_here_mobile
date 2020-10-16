@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:drop_here_mobile/accounts/bloc/spot_details_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/authentication_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
@@ -17,6 +18,7 @@ import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/map_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/product_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/spot_details_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/cupertino.dart';
@@ -80,6 +82,14 @@ class SandboxPage extends StatelessWidget {
                   },
                 ),
                 FlatButton(
+                  child: Text("spot details page"),
+                  onPressed: () {
+                    Get.to(SpotDetailsPage(
+                      spotDetailsBloc: SpotDetailsBloc(),
+                    ));
+                  },
+                ),
+                FlatButton(
                   child: Text("create new item page"),
                   onPressed: () {
                     Get.to(CreateNewItemPage());
@@ -116,7 +126,7 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                     child: Text("Log in to company account"),
                     onPressed: () => authenticationService
-                        .authenticate(LoginRequest(mail: "test@g.pl", password: "test1234"))),
+                        .authenticate(LoginRequest(mail: "zrobilem@g.pl", password: "12345678"))),
                 FlatButton(
                     child: Text("Log in to admin profile"),
                     onPressed: () async {
@@ -126,7 +136,7 @@ class SandboxPage extends StatelessWidget {
                           profileUid: profileInfoResponse
                               .firstWhere((element) => element.profileType == ProfileType.MAIN)
                               .profileUid,
-                          password: "test1234"));
+                          password: "12345678"));
                     }),
                 FlatButton(
                     child: Text("Log in to customer account"),

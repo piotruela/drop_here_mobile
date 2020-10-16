@@ -225,5 +225,9 @@ abstract class LocaleBundle {
 
   String get submit;
 
+  String get showPassword;
+
+  String get plannedDrops;
+
   String get editSpot;
 }
