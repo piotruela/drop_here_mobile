@@ -26,14 +26,14 @@ class CreateProfileBloc extends Bloc<CreateProfileEvent, CreateProfileState> {
         try {
           await accountsService.createAdminProfile(event.form);
           yield SuccessState();
-        } on Exception catch (e) {
+        } on Exception {
           yield ErrorState(form: event.form);
         }
       } else {
         try {
           await accountsService.createBasicProfile(event.form);
           yield SuccessState();
-        } on Exception catch (e) {
+        } on Exception {
           yield ErrorState(form: event.form);
         }
       }

@@ -28,7 +28,7 @@ class LoginProfileBloc extends Bloc<LoginProfileEvent, LoginProfileState> {
         try {
           await authenticationService.loginToProfile(event.form);
           yield LoginSucceeded();
-        } on Exception catch (e) {
+        } on Exception {
           yield LoginFailure(form: event.form);
         }
       } else {

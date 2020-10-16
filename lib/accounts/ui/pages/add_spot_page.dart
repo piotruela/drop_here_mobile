@@ -4,15 +4,17 @@ import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_floating_action_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/row_text_and_slider.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+
+import 'file:///E:/Piotr%20Maszota/inzynierka/drop_here_mobile/lib/common/ui/widgets/labeled_switch.dart';
 
 class AddSpotPage extends BlocWidget<AddSpotBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -25,6 +27,8 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
       body: SlidingUpPanel(
+        defaultPanelState: PanelState.OPEN,
+        maxHeight: 550,
         body: Center(
           child: Text('background'),
         ),
@@ -43,23 +47,23 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
                       SizedBox(
                         height: 25.0,
                       ),
-                      secondaryTitle(locale.nameMandatory),
-                      DhPlainTextFormField(
-                          inputType: InputType.text,
-                          hintText: locale.addSpotNameHint,
-                          onChanged: (String name) => addSpotBloc.add(FormChanged(
+                      _spotNameField(locale, addSpotBloc),
+                      labeledSwitch(
+                          text: locale.passwordRequired,
+                          onSwitch: (bool) => addSpotBloc.add(FormChanged(
                               spotManagementRequest:
-                                  state.spotManagementRequest.copyWith(name: name)))),
-                      rowTextAndSlider(text: locale.passwordRequired),
-                      secondaryTitle(locale.passwordMandatory),
-                      DhPlainTextFormField(
-                          inputType: InputType.text,
-                          hintText: locale.passwordHintText,
-                          onChanged: (String password) => addSpotBloc.add(FormChanged(
+                                  state.spotManagementRequest.copyWith(requiredPassword: bool)))),
+                      _passwordFieldView(locale, addSpotBloc),
+                      labeledSwitch(
+                          text: locale.acceptRequired,
+                          onSwitch: (bool) => addSpotBloc.add(FormChanged(
                               spotManagementRequest:
-                                  state.spotManagementRequest.copyWith(password: password)))),
-                      rowTextAndSlider(text: locale.acceptRequired),
-                      rowTextAndSlider(text: locale.spotHidden),
+                                  state.spotManagementRequest.copyWith(requiredAccept: bool)))),
+                      labeledSwitch(
+                          text: locale.spotHidden,
+                          onSwitch: (bool) => addSpotBloc.add(FormChanged(
+                              spotManagementRequest:
+                                  state.spotManagementRequest.copyWith(hidden: bool)))),
                       secondaryTitle(locale.locationMandatory),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 6.0),
@@ -114,5 +118,47 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
         builder: (context, state) {
           return dhFloatingButton(text: locale.addSpot, enabled: state.isFilled());
         });
+  }
+
+  Widget _spotNameField(LocaleBundle locale, AddSpotBloc bloc) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        secondaryTitle(locale.nameMandatory),
+        DhPlainTextFormField(
+            inputType: InputType.text,
+            hintText: locale.addSpotNameHint,
+            onChanged: (String name) => bloc.add(FormChanged(
+                spotManagementRequest: bloc.state.spotManagementRequest.copyWith(name: name)))),
+      ],
+    );
+  }
+
+  Widget _passwordFieldView(LocaleBundle locale, AddSpotBloc bloc) {
+    return BlocBuilder<AddSpotBloc, AddSpotFormState>(
+      buildWhen: (previous, current) =>
+          previous.spotManagementRequest.requiredPassword !=
+          current.spotManagementRequest.requiredPassword,
+      builder: (context, state) => Conditional.single(
+          context: context,
+          conditionBuilder: (_) => state.spotManagementRequest.requiredPassword,
+          widgetBuilder: (_) => _spotPasswordField(locale, bloc),
+          fallbackBuilder: (_) => SizedBox.shrink()),
+    );
+  }
+
+  Widget _spotPasswordField(LocaleBundle locale, AddSpotBloc bloc) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        secondaryTitle(locale.passwordMandatory),
+        DhPlainTextFormField(
+            inputType: InputType.text,
+            hintText: locale.passwordHintText,
+            onChanged: (String password) => bloc.add(FormChanged(
+                spotManagementRequest:
+                    bloc.state.spotManagementRequest.copyWith(password: password)))),
+      ],
+    );
   }
 }

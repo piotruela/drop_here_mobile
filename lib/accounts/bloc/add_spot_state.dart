@@ -25,7 +25,7 @@ class AddSpotFormState extends Equatable {
   bool isPasswordFilled() {
     if (spotManagementRequest != null) {
       //throws error because requiredPassword is not implemented yet
-      if (spotManagementRequest.requiredPassword) {
+      if (spotManagementRequest.requiredPassword ?? false) {
         return spotManagementRequest?.password != null && spotManagementRequest?.password != '';
       }
     }

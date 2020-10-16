@@ -38,6 +38,8 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
     });
     return Scaffold(
         body: SlidingUpPanel(
+      maxHeight: 550,
+      defaultPanelState: PanelState.OPEN,
       body: Center(child: Text('background')),
       panel: SafeArea(
         child: BlocBuilder<AddProductBloc, AddProductFormState>(
@@ -102,9 +104,12 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                         ),
                         DropdownButton<String>(
                           isExpanded: true,
-                          onChanged: (String unit) => addProductBloc.add(FormChanged(
-                              productManagementRequest:
-                                  state.productManagementRequest.copyWith(unit: unit))),
+                          onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+                          onChanged: (String unit) {
+                            addProductBloc.add(FormChanged(
+                                productManagementRequest:
+                                    state.productManagementRequest.copyWith(unit: unit)));
+                          },
                           value: state.productManagementRequest?.unit,
                           icon: Icon(Icons.arrow_drop_down),
                           items: <String>['grams', 'kilograms', 'liters']
