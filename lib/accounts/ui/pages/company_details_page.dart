@@ -28,13 +28,11 @@ class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
             child: BlocBuilder<CompanyManagementBloc, CompanyManagementState>(
               buildWhen: (previous, current) => previous.runtimeType != current.runtimeType,
               builder: (context, state) {
-                Image image;
                 if (state is CompanyDetailsFetchingInProgress) {
                   return CircularProgressIndicator();
                 }
                 if (state is CompanyDetailsFetched) {
-                  image = state.image;
-                  return SizedBox(width: 150, height: 150, child: image);
+                  return SizedBox(width: 150, height: 150, child: state.image);
                 } else {
                   return SizedBox.shrink();
                 }
