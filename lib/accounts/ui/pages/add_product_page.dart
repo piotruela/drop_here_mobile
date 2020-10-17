@@ -170,7 +170,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           height: 4.0,
                         ),
                         Center(
-                          child: BigColoredRoundedFlatButton(
+                          child: SubmitFormButton(
                               text: locale.addProduct,
                               isActive: state.isFilled(),
                               //TODO check this function
