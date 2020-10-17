@@ -3,20 +3,24 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
+import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
 import 'package:equatable/equatable.dart';
+import 'package:get/get.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';
 
 part 'add_spot_event.dart';
 part 'add_spot_state.dart';
 
 class AddSpotBloc extends Bloc<AddSpotEvent, AddSpotFormState> {
+  SpotManagementService spotManagementService = Get.find<SpotManagementService>();
+
   AddSpotBloc()
       : super(AddSpotFormState(
             spotManagementRequest: SpotManagementRequest(
-                requiredPassword: false,
+                requiresPassword: false,
                 hidden: false,
-                requiredAccept: false,
-                estimatedRadiusMaters: 20)));
+                requiresAccept: false,
+                estimatedRadiusMeters: 20)));
 
   @override
   Stream<AddSpotFormState> mapEventToState(
@@ -31,7 +35,7 @@ class AddSpotBloc extends Bloc<AddSpotEvent, AddSpotFormState> {
               xcoordinate: event.locationResult.latLng.latitude,
               ycoordinate: event.locationResult.latLng.longitude));
     } else if (event is FormSubmitted) {
-      print("No klikłem");
+      spotManagementService.addSpot(event.spotManagementRequest);
     }
   }
 }

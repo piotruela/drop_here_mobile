@@ -70,7 +70,7 @@ class SpotDetailsPage extends BlocWidget<SpotDetailsBloc> {
             ],
           ),
           textAndFlatButton(
-              locale.passwordRequired, state.spot.requiredPassword ? locale.yes : locale.no),
+              locale.passwordRequired, state.spot.requiresPassword ? locale.yes : locale.no),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -91,7 +91,7 @@ class SpotDetailsPage extends BlocWidget<SpotDetailsBloc> {
             ],
           ),
           textAndFlatButton(
-              locale.acceptRequired, state.spot.requiredAccept ? locale.yes : locale.no),
+              locale.acceptRequired, state.spot.requiresAccept ? locale.yes : locale.no),
           textAndFlatButton(locale.hidden, state.spot.hidden ? locale.yes : locale.no),
           Text(
             locale.description,

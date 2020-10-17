@@ -50,7 +50,7 @@ class EditSpotPage extends BlocWidget<EditSpotBloc> {
                   ),
                   labeledSwitch(
                       text: locale.passwordRequired,
-                      initialPosition: state.spotManagementRequest.requiredPassword),
+                      initialPosition: state.spotManagementRequest.requiresPassword),
                   secondaryTitle(locale.passwordMandatory),
                   DhPlainTextFormField(
                     onChanged: (String password) {
@@ -60,7 +60,7 @@ class EditSpotPage extends BlocWidget<EditSpotBloc> {
                   ),
                   labeledSwitch(
                       text: locale.acceptRequired,
-                      initialPosition: state.spotManagementRequest.requiredAccept),
+                      initialPosition: state.spotManagementRequest.requiresAccept),
                   labeledSwitch(
                       text: locale.spotHidden, initialPosition: state.spotManagementRequest.hidden),
                   secondaryTitle(locale.locationMandatory),

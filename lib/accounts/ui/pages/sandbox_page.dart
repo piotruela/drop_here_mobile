@@ -22,6 +22,8 @@ import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/spot_details_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
+import 'package:drop_here_mobile/spots/ui/pages/spots_map_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -39,6 +41,8 @@ class SandboxPage extends StatelessWidget {
   final CustomerManagementService customerManagementService = Get.find<CustomerManagementService>();
   final AccountService accountService = Get.find<AccountService>();
   final ProductManagementService productManagementService = Get.find<ProductManagementService>();
+  final SpotManagementService spotManagementService = Get.find<SpotManagementService>();
+
   final picker = ImagePicker();
   NetworkImage img;
 
@@ -166,6 +170,12 @@ class SandboxPage extends StatelessWidget {
                     onPressed: () async {
                       accountService.fetchProfiles();
                     }),
+                FlatButton(
+                    child: Text("fetch spots"),
+                    onPressed: () async {
+                      spotManagementService.fetchCompanySpots();
+                    }),
+                FlatButton(child: Text("spots map page"), onPressed: () => Get.to(SpotsMapPage())),
               ],
             ),
           ),
