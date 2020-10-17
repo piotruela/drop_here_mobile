@@ -8,6 +8,7 @@ import 'package:drop_here_mobile/accounts/model/api/page_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ProductManagementService {
@@ -84,5 +85,25 @@ class ProductManagementService {
     } catch (error) {
       return ResourceOperationResponse()..operationStatus = OperationStatus.ERROR;
     }
+  }
+
+  // Future<ResourceOperationResponse> getProductPhoto(File file, String id) async {
+  //   try {
+  //     String companyId = await _companyManagementService.getCompanyId();
+  //     Dio dio = new Dio();
+  //     dio.options.headers[HttpHeaders.authorizationHeader] = _httpClient.token;
+  //     Response response = await dio.get(
+  //       "https://drop-here.herokuapp.com/companies/$companyId/products/$id/images",
+  //     );
+  //     return ResourceOperationResponse.fromJson(response.data);
+  //   } catch (error) {
+  //     return ResourceOperationResponse()..operationStatus = OperationStatus.ERROR;
+  //   }
+  // }
+  Future<NetworkImage> getProductPhoto(String productId) async {
+    String companyId = await _companyManagementService.getCompanyId();
+    NetworkImage img = NetworkImage(
+        "https://drop-here.herokuapp.com/companies/$companyId/products/$productId/images");
+    return img;
   }
 }

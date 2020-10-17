@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
@@ -14,7 +12,7 @@ class ProductCard extends StatelessWidget {
   final double price;
   final String unit;
   final List<String> popupOptions;
-  final File photo;
+  final NetworkImage photo;
 
   const ProductCard(
       {this.title, this.category, this.price, this.unit, this.popupOptions, this.photo});
@@ -93,6 +91,11 @@ class ProductCard extends StatelessWidget {
         ),
         child: ClipRRect(
             borderRadius: BorderRadius.circular(10.0),
-            child: Image.file(photo, fit: BoxFit.cover)));
+            child: photo?.url != null
+                ? Image.network(photo.url, fit: BoxFit.cover)
+                : Container(
+                    child: Text('no photo'),
+                  )));
+    //child: Image.network(photo.url, fit: BoxFit.cover)));
   }
 }

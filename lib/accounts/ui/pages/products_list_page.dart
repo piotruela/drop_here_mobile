@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
@@ -70,17 +68,19 @@ class ProductsListPage extends BlocWidget<DhListBloc> {
         children: [
           ListView.builder(
               shrinkWrap: true,
-              itemCount: state.products.numberOfElements,
+              itemCount: state.products.length,
               itemBuilder: (BuildContext context, int index) {
                 return ProductCard(
-                    title: state.products.content[index].name,
-                    category: state.products.content[index].category,
-                    price: state.products.content[index].price,
-                    unit: state.products.content[index].unit,
-                    popupOptions: [locale.delete, locale.edit],
-                    photo: File(
-                        //TODO change this file
-                        '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'));
+                  title: state.products[index].name,
+                  category: state.products[index].category,
+                  price: state.products[index].price,
+                  unit: state.products[index].unit,
+                  popupOptions: [locale.delete, locale.edit],
+                  photo: state.products[index].photo,
+                  // photo: File(
+                  //     //TODO change this file
+                  //     '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg')
+                );
               }),
         ],
       ),
