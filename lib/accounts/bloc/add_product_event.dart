@@ -23,3 +23,12 @@ class FormSubmitted extends AddProductEvent {
   @override
   List<Object> get props => [photo, productManagementRequest];
 }
+
+class FetchData extends AddProductEvent {
+  final List<String> categories;
+
+  FetchData({this.categories});
+
+  @override
+  List<Object> get props => [categories];
+}
