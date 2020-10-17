@@ -12,7 +12,7 @@ class ProductCard extends StatelessWidget {
   final double price;
   final String unit;
   final List<String> popupOptions;
-  final NetworkImage photo;
+  final Image photo;
 
   const ProductCard(
       {this.title, this.category, this.price, this.unit, this.popupOptions, this.photo});
@@ -83,19 +83,13 @@ class ProductCard extends StatelessWidget {
 
   Widget productPhoto(BuildContext context) {
     return ConstrainedBox(
-        constraints: BoxConstraints(
-          minWidth: 44,
-          minHeight: 44,
-          maxWidth: 84,
-          maxHeight: 84,
-        ),
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: photo?.url != null
-                ? Image.network(photo.url, fit: BoxFit.cover)
-                : Container(
-                    child: Text('no photo'),
-                  )));
-    //child: Image.network(photo.url, fit: BoxFit.cover)));
+      constraints: BoxConstraints(
+        minWidth: 44,
+        minHeight: 44,
+        maxWidth: 84,
+        maxHeight: 84,
+      ),
+      child: ClipRRect(borderRadius: BorderRadius.circular(10.0), child: photo),
+    );
   }
 }

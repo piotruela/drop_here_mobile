@@ -10,7 +10,7 @@ import 'package:drop_here_mobile/accounts/model/seller.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:drop_here_mobile/accounts/services/product_management_service.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart' show NetworkImage;
+import 'package:flutter/material.dart' show Image;
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
 
@@ -69,8 +69,7 @@ class DhListBloc extends Bloc<DhListEvent, DhListState> {
         final ProductsPage products = await productManagementService.getCompanyProducts();
         final List<ProductWithPhoto> productsWithPhoto = [];
         for (var product in products.content) {
-          NetworkImage photo =
-              await productManagementService.getProductPhoto(product.id.toString());
+          Image photo = await productManagementService.getProductPhoto(product.id.toString());
           ProductWithPhoto productWithPhoto = ProductWithPhoto(
             category: product.category,
             productCustomizationWrappers: product.productCustomizationWrappers,

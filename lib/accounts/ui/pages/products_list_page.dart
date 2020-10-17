@@ -77,9 +77,6 @@ class ProductsListPage extends BlocWidget<DhListBloc> {
                   unit: state.products[index].unit,
                   popupOptions: [locale.delete, locale.edit],
                   photo: state.products[index].photo,
-                  // photo: File(
-                  //     //TODO change this file
-                  //     '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg')
                 );
               }),
         ],

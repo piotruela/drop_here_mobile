@@ -87,23 +87,18 @@ class ProductManagementService {
     }
   }
 
-  // Future<ResourceOperationResponse> getProductPhoto(File file, String id) async {
-  //   try {
-  //     String companyId = await _companyManagementService.getCompanyId();
-  //     Dio dio = new Dio();
-  //     dio.options.headers[HttpHeaders.authorizationHeader] = _httpClient.token;
-  //     Response response = await dio.get(
-  //       "https://drop-here.herokuapp.com/companies/$companyId/products/$id/images",
-  //     );
-  //     return ResourceOperationResponse.fromJson(response.data);
-  //   } catch (error) {
-  //     return ResourceOperationResponse()..operationStatus = OperationStatus.ERROR;
-  //   }
-  // }
-  Future<NetworkImage> getProductPhoto(String productId) async {
+  Future<Image> getProductPhoto(String productId) async {
     String companyId = await _companyManagementService.getCompanyId();
-    NetworkImage img = NetworkImage(
-        "https://drop-here.herokuapp.com/companies/$companyId/products/$productId/images");
-    return img;
+    return Image.network(
+        "https://drop-here.herokuapp.com/companies/$companyId/products/$productId/images",
+        errorBuilder: (context, _, __) => FittedBox(
+              child: CircleAvatar(
+                backgroundColor: Colors.white,
+                child: Icon(
+                  Icons.broken_image,
+                  color: Colors.grey,
+                ),
+              ),
+            ));
   }
 }

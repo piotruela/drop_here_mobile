@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'api/product_management_api.dart';
 
 class ProductWithPhoto extends ProductResponse {
-  final NetworkImage photo;
+  final Image photo;
 
   ProductWithPhoto(
       {this.photo,
