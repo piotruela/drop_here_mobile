@@ -5,7 +5,9 @@ abstract class SpotDetailsEvent extends Equatable {
 }
 
 class FetchSpotDetails extends SpotDetailsEvent {
-  const FetchSpotDetails();
+  final SpotCompanyResponse spot;
+
+  const FetchSpotDetails({this.spot});
 
   @override
   List<Object> get props => [];

@@ -351,4 +351,10 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get editSpot => "Edit spot";
+
+  @override
+  String get hidePassword => "Hide password";
+
+  @override
+  String get noContent => "No content";
 }

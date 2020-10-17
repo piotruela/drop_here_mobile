@@ -51,13 +51,13 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
                       text: locale.passwordRequired,
                       onSwitch: (bool) => bloc.add(FormChanged(
                           spotManagementRequest:
-                              bloc.state.spotManagementRequest.copyWith(requiredPassword: bool)))),
+                              bloc.state.spotManagementRequest.copyWith(requiresPassword: bool)))),
                   _passwordFieldView(locale, bloc),
                   labeledSwitch(
                       text: locale.acceptRequired,
                       onSwitch: (bool) => bloc.add(FormChanged(
                           spotManagementRequest:
-                              bloc.state.spotManagementRequest.copyWith(requiredAccept: bool)))),
+                              bloc.state.spotManagementRequest.copyWith(requiresAccept: bool)))),
                   labeledSwitch(
                       text: locale.spotHidden,
                       onSwitch: (bool) => bloc.add(FormChanged(
@@ -151,8 +151,8 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
         ),
         BlocBuilder<AddSpotBloc, AddSpotFormState>(
             buildWhen: (previous, current) =>
-                previous.spotManagementRequest.estimatedRadiusMaters !=
-                current.spotManagementRequest.estimatedRadiusMaters,
+                previous.spotManagementRequest.estimatedRadiusMeters !=
+                current.spotManagementRequest.estimatedRadiusMeters,
             builder: (context, state) => SizedBox.shrink())
       ],
     );
@@ -178,11 +178,11 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
   Widget _passwordFieldView(LocaleBundle locale, AddSpotBloc bloc) {
     return BlocBuilder<AddSpotBloc, AddSpotFormState>(
       buildWhen: (previous, current) =>
-          previous.spotManagementRequest.requiredPassword !=
-          current.spotManagementRequest.requiredPassword,
+          previous.spotManagementRequest.requiresPassword !=
+          current.spotManagementRequest.requiresPassword,
       builder: (context, state) => Conditional.single(
           context: context,
-          conditionBuilder: (_) => state.spotManagementRequest.requiredPassword,
+          conditionBuilder: (_) => state.spotManagementRequest.requiresPassword,
           widgetBuilder: (_) => _spotPasswordField(locale, bloc),
           fallbackBuilder: (_) => SizedBox.shrink()),
     );
