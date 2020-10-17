@@ -41,17 +41,19 @@ class SpotManagementRequest {
     bool requiredPassword,
     double xcoordinate,
     double ycoordinate,
+    bool nameNull = false,
+    bool coordsNull = false,
   }) {
     return SpotManagementRequest(
       description: description ?? this.description,
       estimatedRadiusMaters: estimatedRadiusMaters ?? this.estimatedRadiusMaters,
       hidden: hidden ?? this.hidden,
-      name: name ?? this.name,
+      name: nameNull ? null : name ?? this.name,
       password: password ?? this.password,
       requiredAccept: requiredAccept ?? this.requiredAccept,
       requiredPassword: requiredPassword ?? this.requiredPassword,
-      xcoordinate: xcoordinate ?? this.xcoordinate,
-      ycoordinate: ycoordinate ?? this.ycoordinate,
+      xcoordinate: coordsNull ? null : xcoordinate ?? this.xcoordinate,
+      ycoordinate: coordsNull ? null : ycoordinate ?? this.ycoordinate,
     );
   }
 }

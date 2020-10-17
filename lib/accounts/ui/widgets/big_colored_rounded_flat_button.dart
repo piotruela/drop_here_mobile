@@ -3,18 +3,18 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class BigColoredRoundedFlatButton extends StatelessWidget {
+class SubmitFormButton extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final String text;
   final Function onTap;
   final bool isActive;
 
-  BigColoredRoundedFlatButton({this.text, this.onTap, @required this.isActive});
+  SubmitFormButton({this.text, this.onTap, @required this.isActive});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: isActive ? onTap : null,
       child: Container(
         margin: const EdgeInsets.all(5.0),
         padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 15.0),

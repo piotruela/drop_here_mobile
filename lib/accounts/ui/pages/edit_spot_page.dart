@@ -107,7 +107,7 @@ class EditSpotPage extends BlocWidget<EditSpotBloc> {
                       //value: state.spotManagementRequest.description,
                       ),
                   Center(
-                    child: BigColoredRoundedFlatButton(
+                    child: SubmitFormButton(
                         text: locale.submit,
                         isActive: state.isFilled(),
                         //TODO check this function
