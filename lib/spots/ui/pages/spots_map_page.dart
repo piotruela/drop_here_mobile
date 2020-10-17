@@ -15,12 +15,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class SpotsMapPage extends BlocWidget<SpotsMapBloc> {
+  final PanelController pc1 = PanelController();
+  final PanelController pc2 = PanelController();
+
   @override
   SpotsMapBloc bloc() => SpotsMapBloc()..add(FetchSpots());
   @override
   Widget build(BuildContext context, SpotsMapBloc bloc, _) {
-    PanelController pc1 = PanelController();
-    PanelController pc2 = PanelController();
     return Scaffold(
       body: Stack(
         children: [
