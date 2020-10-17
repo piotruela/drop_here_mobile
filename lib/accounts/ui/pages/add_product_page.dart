@@ -200,8 +200,9 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
       {String text, bool isChosen = false, AddProductBloc addProductBloc}) {
     return GestureDetector(
       onTap: () {
-        addProductBloc
-            .add(FormChanged(productManagementRequest: ProductManagementRequest(category: text)));
+        addProductBloc.add(FormChanged(
+            productManagementRequest:
+                addProductBloc.state.productManagementRequest.copyWith(category: text)));
       },
       child: addProductBloc.state.productManagementRequest.category == text
           ? ChosenRoundedFlatButton(
@@ -210,22 +211,6 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
           : RoundedFlatButton(
               text: text,
             ),
-      // Container(
-      //   margin: const EdgeInsets.all(5.0),
-      //   padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-      //   decoration: BoxDecoration(
-      //     border: Border.all(
-      //         color: addProductBloc.state.productManagementRequest.category == text
-      //             ? Colors.red
-      //             : Colors.black),
-      //     borderRadius: BorderRadius.all(
-      //       Radius.circular(20.0),
-      //     ),
-      //   ),
-      //   child: Text(
-      //     text,
-      //   ),
-      // ),
     );
   }
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:dio/dio.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_products_request.dart';
 import 'package:drop_here_mobile/accounts/model/api/page_api.dart';
@@ -67,5 +68,21 @@ class ProductManagementService {
         path: "/companies/$companyId/products/$productId",
         out: (dynamic json) => json);
     return ResourceOperationResponse.fromJson(response);
+  }
+
+  Future<ResourceOperationResponse> uploadProductPhoto(File file, String id) async {
+    try {
+      String companyId = await _companyManagementService.getCompanyId();
+      Dio dio = new Dio();
+      dio.options.headers[HttpHeaders.authorizationHeader] = _httpClient.token;
+      MultipartFile multipartFile = await MultipartFile.fromFile(file.path);
+      FormData formData = FormData.fromMap({"image": multipartFile});
+      Response response = await dio.post(
+          "https://drop-here.herokuapp.com/companies/$companyId/products/$id/images",
+          data: formData);
+      return ResourceOperationResponse.fromJson(response.data);
+    } catch (error) {
+      return ResourceOperationResponse()..operationStatus = OperationStatus.ERROR;
+    }
   }
 }
