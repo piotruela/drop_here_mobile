@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:drop_here_mobile/accounts/bloc/add_product_bloc.dart';
+import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/chosen_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_floating_action_button.dart';
@@ -81,26 +82,20 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           locale.categoryMandatory,
                           style: themeConfig.textStyles.secondaryTitle,
                         ),
-                        // FutureBuilder(
-                        //   future: addProductBloc.state.categories,
-                        //   initialData: List<ProductCategoryResponse>(0),
-                        //   builder:
-                        //       (context, AsyncSnapshot<List<ProductCategoryResponse>> snapshot) {
-                        //     List<ProductCategoryResponse> categories = snapshot.data ?? [];
-                        //     return Wrap(
-                        //       children: [
-                        //         Row(
-                        //           mainAxisSize: MainAxisSize.min,
-                        //           children: [
-                        //             for (ProductCategoryResponse item in categories)
-                        //               categoryChoice(
-                        //                   text: item.name, addProductBloc: addProductBloc)
-                        //           ],
-                        //         ),
-                        //       ],
-                        //     );
-                        //   },
-                        // ),
+                        Wrap(
+                          children: [
+                            Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                if (state.categories != null)
+                                  for (ProductCategoryResponse item in state.categories)
+                                    categoryChoice(text: item.name, addProductBloc: addProductBloc)
+                                else
+                                  CircularProgressIndicator(),
+                              ],
+                            ),
+                          ],
+                        ),
                         Text(
                           locale.description,
                           style: themeConfig.textStyles.secondaryTitle,
@@ -134,7 +129,6 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                             );
                           })?.toList(),
                         ),
-
                         Text(
                           locale.pricePerUnitMandatory,
                           style: themeConfig.textStyles.secondaryTitle,
