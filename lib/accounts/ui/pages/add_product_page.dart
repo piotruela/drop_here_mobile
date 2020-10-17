@@ -39,147 +39,153 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
       defaultPanelState: PanelState.OPEN,
       body: Center(child: Text('background')),
       panel: SafeArea(
-        child: BlocBuilder<AddProductBloc, AddProductFormState>(
-          builder: (context, state) {
-            return ListView(
-              shrinkWrap: true,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 25.0),
-                  child: Text(
-                    Localization.of(context).bundle.addProduct,
-                    style: themeConfig.textStyles.primaryTitle,
-                  ),
-                ),
-                Form(
-                  child: Padding(
-                    padding: const EdgeInsets.all(25.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          locale.nameMandatory,
-                          style: themeConfig.textStyles.secondaryTitle,
-                        ),
-                        DhPlainTextFormField(
-                          hintText: locale.productNameExample,
-                          onChanged: (String name) {
-                            addProductBloc.add(FormChanged(
-                                productManagementRequest: state.productManagementRequest
-                                    .copyWith(name: name, productCustomizationWrappers: [])));
-                          },
-                        ),
-                        Text(
-                          locale.photo,
-                          style: themeConfig.textStyles.secondaryTitle,
-                        ),
-                        choosePhotoWidget(addProductBloc),
-                        SizedBox(
-                          height: 8.0,
-                        ),
-                        Text(
-                          locale.categoryMandatory,
-                          style: themeConfig.textStyles.secondaryTitle,
-                        ),
-                        Wrap(
-                          children: [
-                            Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                if (state.categories != null)
-                                  for (ProductCategoryResponse item in state.categories)
-                                    categoryChoice(text: item.name, addProductBloc: addProductBloc)
-                                else
-                                  CircularProgressIndicator(),
-                              ],
-                            ),
-                          ],
-                        ),
-                        Text(
-                          locale.description,
-                          style: themeConfig.textStyles.secondaryTitle,
-                        ),
-                        DhTextArea(
-                          onChanged: (String description) {
-                            addProductBloc.add(FormChanged(
-                                productManagementRequest: state.productManagementRequest
-                                    .copyWith(description: description)));
-                          },
-                          value: state.productManagementRequest.description,
-                        ),
-                        Text(
-                          locale.unitTypeMandatory,
-                          style: themeConfig.textStyles.secondaryTitle,
-                        ),
-                        DropdownButton<String>(
-                          isExpanded: true,
-                          onChanged: (String unit) => addProductBloc.add(FormChanged(
-                              productManagementRequest:
-                                  state.productManagementRequest.copyWith(unit: unit))),
-                          value: state.productManagementRequest?.unit,
-                          icon: Icon(Icons.arrow_drop_down),
-                          items: addProductBloc.state?.units
-                              ?.map((e) => e.name)
-                              ?.toList()
-                              ?.map<DropdownMenuItem<String>>((String value) {
-                            return DropdownMenuItem<String>(
-                              value: value,
-                              child: Text(value),
-                            );
-                          })?.toList(),
-                        ),
-                        Text(
-                          locale.pricePerUnitMandatory,
-                          style: themeConfig.textStyles.secondaryTitle,
-                        ),
-                        DhPlainTextFormField(
-                          hintText: locale.pricePerUnitExample,
-                          inputType: InputType.number,
-                          onChanged: (String value) {
-                            addProductBloc.add(FormChanged(
-                                productManagementRequest: state.productManagementRequest
-                                    .copyWith(price: double.parse(value))));
-                          },
-                        ),
-                        Text(
-                          locale.unitFractionMandatory,
-                          style: themeConfig.textStyles.secondaryTitle,
-                        ),
-                        DhPlainTextFormField(
-                          hintText: locale.unitFractionExample,
-                          inputType: InputType.number,
-                          onChanged: (String value) {
-                            addProductBloc.add(FormChanged(
-                                productManagementRequest: state.productManagementRequest.copyWith(
-                                    unitFraction: value != "" ? double.parse(value) : null)));
-                          },
-                        ),
-                        SizedBox(
-                          height: 4.0,
-                        ),
-                        Center(
-                          child: SubmitFormButton(
-                              text: locale.addProduct,
-                              isActive: state.isFilled(),
-                              //TODO check this function
-                              onTap: () {
-                                if (state.isFilled()) {
-                                  addProductBloc.add(FormSubmitted());
-                                  print("tap");
-                                }
-                              }),
-                        ),
-                        SizedBox(
-                          height: 50.0,
-                        )
-                      ],
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: Text(
+                Localization.of(context).bundle.addProduct,
+                style: themeConfig.textStyles.primaryTitle,
+              ),
+            ),
+            Form(
+              child: Padding(
+                padding: const EdgeInsets.all(25.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      locale.nameMandatory,
+                      style: themeConfig.textStyles.secondaryTitle,
                     ),
-                  ),
+                    DhPlainTextFormField(
+                      hintText: locale.productNameExample,
+                      onChanged: (String name) {
+                        addProductBloc.add(FormChanged(
+                            productManagementRequest: addProductBloc.state.productManagementRequest
+                                .copyWith(name: name, productCustomizationWrappers: [])));
+                      },
+                    ),
+                    Text(
+                      locale.photo,
+                      style: themeConfig.textStyles.secondaryTitle,
+                    ),
+                    choosePhotoWidget(addProductBloc),
+                    SizedBox(
+                      height: 8.0,
+                    ),
+                    Text(
+                      locale.categoryMandatory,
+                      style: themeConfig.textStyles.secondaryTitle,
+                    ),
+                    BlocBuilder<AddProductBloc, AddProductFormState>(
+                      buildWhen: (previous, current) =>
+                          previous.productManagementRequest.category !=
+                              current.productManagementRequest.category ||
+                          previous.categories != current.categories,
+                      builder: (context, state) => Wrap(
+                        children: [
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              if (state.categories != null)
+                                for (ProductCategoryResponse item in state.categories)
+                                  categoryChoice(text: item.name, addProductBloc: addProductBloc)
+                              else
+                                CircularProgressIndicator(),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Text(
+                      locale.description,
+                      style: themeConfig.textStyles.secondaryTitle,
+                    ),
+                    DhTextArea(
+                      onChanged: (String description) {
+                        addProductBloc.add(FormChanged(
+                            productManagementRequest: addProductBloc.state.productManagementRequest
+                                .copyWith(description: description)));
+                      },
+                      value: addProductBloc.state.productManagementRequest.description,
+                    ),
+                    Text(
+                      locale.unitTypeMandatory,
+                      style: themeConfig.textStyles.secondaryTitle,
+                    ),
+                    BlocBuilder<AddProductBloc, AddProductFormState>(
+                      builder: (context, state) => DropdownButton<String>(
+                        isExpanded: true,
+                        onChanged: (String unit) => addProductBloc.add(FormChanged(
+                            productManagementRequest:
+                                state.productManagementRequest.copyWith(unit: unit))),
+                        value: state.productManagementRequest?.unit,
+                        icon: Icon(Icons.arrow_drop_down),
+                        items: addProductBloc.state?.units
+                            ?.map((e) => e.name)
+                            ?.toList()
+                            ?.map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        })?.toList(),
+                      ),
+                    ),
+                    Text(
+                      locale.pricePerUnitMandatory,
+                      style: themeConfig.textStyles.secondaryTitle,
+                    ),
+                    DhPlainTextFormField(
+                      hintText: locale.pricePerUnitExample,
+                      inputType: InputType.number,
+                      onChanged: (String value) {
+                        addProductBloc.add(FormChanged(
+                            productManagementRequest: addProductBloc.state.productManagementRequest
+                                .copyWith(price: double.parse(value))));
+                      },
+                    ),
+                    Text(
+                      locale.unitFractionMandatory,
+                      style: themeConfig.textStyles.secondaryTitle,
+                    ),
+                    DhPlainTextFormField(
+                      hintText: locale.unitFractionExample,
+                      inputType: InputType.number,
+                      onChanged: (String value) {
+                        addProductBloc.add(FormChanged(
+                            productManagementRequest: addProductBloc.state.productManagementRequest
+                                .copyWith(unitFraction: value != "" ? double.parse(value) : null)));
+                      },
+                    ),
+                    SizedBox(
+                      height: 4.0,
+                    ),
+                    BlocBuilder<AddProductBloc, AddProductFormState>(
+                      builder: (context, state) => Center(
+                        child: SubmitFormButton(
+                            text: locale.addProduct,
+                            isActive: state.isFilled(),
+                            //TODO check this function
+                            onTap: () {
+                              if (state.isFilled()) {
+                                addProductBloc.add(FormSubmitted());
+                                print("tap");
+                              }
+                            }),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 50.0,
+                    )
+                  ],
                 ),
-              ],
-            );
-          },
+              ),
+            ),
+          ],
         ),
       ),
     ));
@@ -212,27 +218,29 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
         });
   }
 
-  GestureDetector choosePhotoWidget(Bloc bloc) {
-    return GestureDetector(
-      child: Container(
-        child: bloc.state.photo != null
-            ? Image.file(bloc.state.photo)
-            : Icon(
-                Icons.add,
-                color: Colors.white,
-                size: 46.0,
-              ),
-        width: 80.0,
-        height: 80.0,
-        decoration: BoxDecoration(
-          color: themeConfig.colors.addSthHere,
-          borderRadius: BorderRadius.circular(8.0),
-          boxShadow: [
-            dhShadow(),
-          ],
+  Widget choosePhotoWidget(AddProductBloc bloc) {
+    return BlocBuilder<AddProductBloc, AddProductFormState>(
+      builder: (context, state) => GestureDetector(
+        child: Container(
+          child: bloc.state.photo != null
+              ? Image.file(bloc.state.photo)
+              : Icon(
+                  Icons.add,
+                  color: Colors.white,
+                  size: 46.0,
+                ),
+          width: 80.0,
+          height: 80.0,
+          decoration: BoxDecoration(
+            color: themeConfig.colors.addSthHere,
+            borderRadius: BorderRadius.circular(8.0),
+            boxShadow: [
+              dhShadow(),
+            ],
+          ),
         ),
+        onTap: () => getImage(bloc),
       ),
-      onTap: () => getImage(bloc),
     );
   }
 
