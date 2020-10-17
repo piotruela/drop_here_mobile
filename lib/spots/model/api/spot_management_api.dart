@@ -1,5 +1,6 @@
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/page_api.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'spot_management_api.g.dart';
@@ -72,6 +73,8 @@ class SpotCompanyResponse {
   final bool requiresPassword;
   final double xcoordinate;
   final double ycoordinate;
+
+  LatLng get coords => LatLng(xcoordinate, ycoordinate);
 
   SpotCompanyResponse(
       {this.createdAt,

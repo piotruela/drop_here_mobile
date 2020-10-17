@@ -2,21 +2,23 @@ import 'package:drop_here_mobile/accounts/bloc/spot_details_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/rounded_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/get_address_from_coordinates.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
 class SpotDetailsPage extends BlocWidget<SpotDetailsBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-  final SpotDetailsBloc spotDetailsBloc;
+  final SpotCompanyResponse spot;
 
-  SpotDetailsPage({this.spotDetailsBloc});
+  SpotDetailsPage({this.spot});
 
   @override
-  SpotDetailsBloc bloc() => spotDetailsBloc..add(FetchSpotDetails());
+  SpotDetailsBloc bloc() => SpotDetailsBloc()..add(FetchSpotDetails(spot: spot));
 
   @override
   Widget build(BuildContext context, SpotDetailsBloc bloc, _) {
@@ -46,101 +48,148 @@ class SpotDetailsPage extends BlocWidget<SpotDetailsBloc> {
       padding: const EdgeInsets.only(left: 23.0, right: 23.0),
       child: ListView(
         children: [
-          Text(
-            state.spot.name,
-            style: themeConfig.textStyles.primaryTitle,
-          ),
           SizedBox(
-            height: 8.0,
-          ),
-          Row(
-            children: [
-              Icon(
-                Icons.pin_drop,
-                color: themeConfig.colors.black,
-              ),
-              Text(
-                //TODO change to name of localization
-                'x: ' +
-                    state.spot.xcoordinate.toString() +
-                    ', y: ' +
-                    state.spot.ycoordinate.toString(),
-                style: themeConfig.textStyles.filledTextField,
-              )
-            ],
-          ),
+            height: 200.0,
+          ), //TODO: Delete, only for debug
+          _buildSpotTitle(),
+          _buildLocationInfo(),
           textAndFlatButton(
               locale.passwordRequired, state.spot.requiresPassword ? locale.yes : locale.no),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(
-                    locale.password,
-                    style: themeConfig.textStyles.dataAnnotation,
-                  ),
-                  Icon(Icons.more_horiz),
-                ],
-              ),
-              //TODO add onTap
-              ColoredRoundedFlatButton(
-                text: locale.showPassword,
-              )
-            ],
-          ),
+          spot.requiresPassword ? _PasswordInfo(password: spot.password) : SizedBox.shrink(),
+          Divider(),
           textAndFlatButton(
               locale.acceptRequired, state.spot.requiresAccept ? locale.yes : locale.no),
+          Divider(),
           textAndFlatButton(locale.hidden, state.spot.hidden ? locale.yes : locale.no),
-          Text(
-            locale.description,
-            style: themeConfig.textStyles.dataAnnotation,
-          ),
-          SizedBox(
-            height: 4.0,
-          ),
-          Text(
-            state.spot.description,
-            style: themeConfig.textStyles.data,
-          ),
-          SizedBox(
-            height: 8.0,
-          ),
+          Divider(),
+          _buildInfoWithLabel(locale, locale.description, null),
+          Divider(),
           Text(
             locale.plannedDrops,
             style: themeConfig.textStyles.dataAnnotation,
           ),
-          SizedBox(
-            height: 8.0,
-          ),
+          Divider(),
           Text(
             locale.members,
             style: themeConfig.textStyles.dataAnnotation,
-          ),
-          SizedBox(
-            height: 8.0,
           ),
         ],
       ),
     );
   }
 
-  Padding textAndFlatButton(String text, String flatButtonText) {
+  Widget _buildSpotTitle() {
     return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            text,
-            style: themeConfig.textStyles.dataAnnotation,
-          ),
-          RoundedFlatButton(
-            text: flatButtonText,
-          ),
-        ],
+      padding: const EdgeInsets.only(bottom: 8.0),
+      child: Text(
+        spot.name,
+        style: themeConfig.textStyles.primaryTitle,
       ),
+    );
+  }
+
+  Widget _buildLocationInfo() {
+    return Row(
+      children: [
+        Icon(
+          Icons.pin_drop,
+          color: themeConfig.colors.black,
+        ),
+        FutureBuilder(
+            future: getAddressFromCoordinates(spot.xcoordinate, spot.ycoordinate),
+            initialData: "Loading location...",
+            builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+              return Text(
+                snapshot.data ?? "",
+                style: themeConfig.textStyles.filledTextField,
+              );
+            })
+      ],
+    );
+  }
+
+  Widget _buildInfoWithLabel(LocaleBundle locale, String label, String content) {
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: Text(
+          label,
+          style: themeConfig.textStyles.dataAnnotation,
+        ),
+      ),
+      Text(
+        content ?? locale.noContent,
+        style: themeConfig.textStyles.data,
+      )
+    ]);
+  }
+
+  Widget textAndFlatButton(String text, String flatButtonText) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          text,
+          style: themeConfig.textStyles.dataAnnotation,
+        ),
+        RoundedFlatButton(
+          text: flatButtonText,
+        ),
+      ],
+    );
+  }
+}
+
+class _PasswordInfo extends StatefulWidget {
+  final String password;
+
+  _PasswordInfo({this.password});
+
+  @override
+  _PasswordInfoState createState() => _PasswordInfoState(show: true);
+}
+
+class _PasswordInfoState extends State<_PasswordInfo> {
+  bool show;
+
+  _PasswordInfoState({this.show});
+
+  @override
+  void initState() {
+    super.initState();
+    show = show;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ThemeConfig themeConfig = Get.find<ThemeConfig>();
+    LocaleBundle localeBundle = Localization.of(context).bundle;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text(
+              localeBundle.password,
+              style: themeConfig.textStyles.dataAnnotation,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Text(
+                show
+                    ? widget.password
+                    : List.generate(widget.password.length, (index) => "*").join(),
+                style: themeConfig.textStyles.data,
+              ),
+            ),
+          ],
+        ),
+        ColoredRoundedFlatButton(
+          text: show ? localeBundle.hidePassword : localeBundle.showPassword,
+          onTap: () => setState(() => show = !show),
+        )
+      ],
     );
   }
 }

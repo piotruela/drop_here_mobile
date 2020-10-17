@@ -9,13 +9,13 @@ import 'package:get/get.dart';
 part 'spots_list_event.dart';
 part 'spots_list_state.dart';
 
-class SpotsListBloc extends Bloc<SpotsListEvent, SpotsListState> {
+class SpotsMapBloc extends Bloc<SpotsMapEvent, SpotsMapState> {
   final SpotManagementService spotManagementService = Get.find<SpotManagementService>();
-  SpotsListBloc() : super(SpotsListInitial());
+  SpotsMapBloc() : super(SpotsMapState());
 
   @override
-  Stream<SpotsListState> mapEventToState(
-    SpotsListEvent event,
+  Stream<SpotsMapState> mapEventToState(
+    SpotsMapEvent event,
   ) async* {
     if (event is FetchSpots) {
       List<SpotCompanyResponse> spots = await spotManagementService.fetchCompanySpots();

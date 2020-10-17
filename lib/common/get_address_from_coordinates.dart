@@ -7,5 +7,5 @@ Future<String> getAddressFromCoordinates(double y, double x) async {
   final coordinates = Coordinates(y, x);
   List<Address> addresses = await Geocoder.local.findAddressesFromCoordinates(coordinates);
   Address first = addresses.first;
-  return "${first.locality}, ${first.thoroughfare} ${first.featureName}";
+  return "${first.locality}, ${first.thoroughfare}";
 }

@@ -1,10 +1,12 @@
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_new_item_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/spot_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
 import 'package:drop_here_mobile/spots/bloc/spots_list_bloc.dart';
+import 'package:drop_here_mobile/spots/ui/widgets/spot_card.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -12,17 +14,17 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class SpotsMapPage extends BlocWidget<SpotsListBloc> {
+class SpotsMapPage extends BlocWidget<SpotsMapBloc> {
   @override
-  SpotsListBloc bloc() => SpotsListBloc()..add(FetchSpots());
+  SpotsMapBloc bloc() => SpotsMapBloc()..add(FetchSpots());
   @override
-  Widget build(BuildContext context, SpotsListBloc bloc, _) {
+  Widget build(BuildContext context, SpotsMapBloc bloc, _) {
     PanelController pc1 = PanelController();
     PanelController pc2 = PanelController();
     return Scaffold(
       body: Stack(
         children: [
-          BlocBuilder<SpotsListBloc, SpotsListState>(
+          BlocBuilder<SpotsMapBloc, SpotsMapState>(
             buildWhen: (previous, current) => previous != current,
             builder: (context, state) {
               Set<Marker> spotMarkers = {};
@@ -38,8 +40,11 @@ class SpotsMapPage extends BlocWidget<SpotsListBloc> {
                   initialCameraPosition:
                       CameraPosition(zoom: 15, target: LatLng(54.397498, 18.589627)),
                 );
+              } else {
+                return Container(
+                  child: Center(child: CircularProgressIndicator()),
+                );
               }
-              return Text("Not yet");
             },
           ),
           SlidingUpPanel(
@@ -48,35 +53,21 @@ class SpotsMapPage extends BlocWidget<SpotsListBloc> {
               children: [
                 panelHeader(context, pc2),
                 DhSearchBar(DhListBloc()),
-                BlocBuilder<SpotsListBloc, SpotsListState>(
+                BlocBuilder<SpotsMapBloc, SpotsMapState>(
                   buildWhen: (previous, current) => previous != current,
                   builder: (context, state) {
                     if (state is SpotsFetched) {
                       return ListView.builder(
                           shrinkWrap: true,
                           itemCount: state.spots.length,
-                          itemBuilder: (BuildContext context, int index) =>
-                              Text(state.spots[index].name));
+                          itemBuilder: (BuildContext context, int index) => SpotCard(
+                                spot: state.spots[index],
+                                onTap: () => Get.to(SpotDetailsPage(spot: state.spots[index])),
+                              ));
                     } else {
                       return SizedBox.shrink();
                     }
-                  } /*ConditionalSwitch.single<Type>(
-                      context: context,
-                      valueBuilder: (_) => state.runtimeType,
-                      caseBuilders: {
-                        SpotsFetched: (_) => state.,
-                        SpotsListInitial: (_) => Text("B")
-                      },
-                      fallbackBuilder:(_) => SizedBox.shrink())*/ /*Conditional.single(
-                      context: context,
-                      conditionBuilder: (_) => state is SpotsFetched,
-                      widgetBuilder: (_) => ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: 3,
-                      itemBuilder: (BuildContext context, int index) {}),
-                      fallbackBuilder: (_) => SizedBox.shrink(),
-                      )*/
-                  ,
+                  },
                 )
               ],
             ),
