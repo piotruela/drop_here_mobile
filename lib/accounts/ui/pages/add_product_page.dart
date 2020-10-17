@@ -23,8 +23,6 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 class AddProductPage extends BlocWidget<AddProductBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final picker = ImagePicker();
-  File _image;
-  List<GestureDetector> categoryChoiceWidgets = [];
 
   @override
   AddProductBloc bloc() => AddProductBloc()..add(FetchData());
@@ -117,11 +115,15 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                       style: themeConfig.textStyles.secondaryTitle,
                     ),
                     BlocBuilder<AddProductBloc, AddProductFormState>(
+                      buildWhen: (previous, current) =>
+                          previous.productManagementRequest.unit !=
+                              current.productManagementRequest.unit ||
+                          previous.units != current.units,
                       builder: (context, state) => DropdownButton<String>(
                         isExpanded: true,
                         onChanged: (String unit) => addProductBloc.add(FormChanged(
-                            productManagementRequest:
-                                state.productManagementRequest.copyWith(unit: unit))),
+                            productManagementRequest: addProductBloc.state.productManagementRequest
+                                .copyWith(unit: unit))),
                         value: state.productManagementRequest?.unit,
                         icon: Icon(Icons.arrow_drop_down),
                         items: addProductBloc.state?.units
@@ -165,6 +167,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                       height: 4.0,
                     ),
                     BlocBuilder<AddProductBloc, AddProductFormState>(
+                      buildWhen: (previous, current) => previous.isFilled() != current.isFilled(),
                       builder: (context, state) => Center(
                         child: SubmitFormButton(
                             text: locale.addProduct,
@@ -173,7 +176,6 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                             onTap: () {
                               if (state.isFilled()) {
                                 addProductBloc.add(FormSubmitted());
-                                print("tap");
                               }
                             }),
                       ),
@@ -246,7 +248,6 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
 
   Future getImage(Bloc bloc) async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    _image = File(pickedFile.path);
-    bloc.add(FormChanged(photo: _image));
+    bloc.add(FormChanged(photo: File(pickedFile.path)));
   }
 }
