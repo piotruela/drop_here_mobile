@@ -28,12 +28,10 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductFormState> {
       ResourceOperationResponse response =
           await productManagementService.addProduct(state.productManagementRequest);
       productManagementService.uploadProductPhoto(state.photo, response.id.toString());
-    } else if (event is FetchCategories) {
-      Future<List<ProductCategoryResponse>> categories = productManagementService.getCategories();
-      yield state.copyWith(categories: categories);
-    } else if (event is FetchUnits) {
-      Future<List<ProductUnitResponse>> units = productManagementService.getUnits();
-      yield state.copyWith(units: units);
+    } else if (event is FetchData) {
+      List<ProductCategoryResponse> categories = await productManagementService.getCategories();
+      List<ProductUnitResponse> units = await productManagementService.getUnits();
+      yield state.copyWith(categories: categories, units: units);
     }
   }
 }
