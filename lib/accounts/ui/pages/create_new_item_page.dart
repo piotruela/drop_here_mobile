@@ -1,22 +1,18 @@
-import 'package:drop_here_mobile/accounts/bloc/create_new_item_bloc.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/add_product_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/add_spot_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/create_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CreateNewItemPage extends BlocWidget<CreateNewItemBloc> {
+class CreateNewItemPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-  // ignore: close_sinks
-  final CreateNewItemBloc createNewItemBloc = CreateNewItemBloc();
 
   @override
-  bloc() => createNewItemBloc;
-
-  @override
-  Widget build(BuildContext context, CreateNewItemBloc bloc, _) {
+  Widget build(BuildContext context) {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
       body: SafeArea(
@@ -38,12 +34,8 @@ class CreateNewItemPage extends BlocWidget<CreateNewItemBloc> {
                 crossAxisCount: 2,
               ),
               children: [
-                cardButton(() {
-                  bloc.add(CreateNewProduct());
-                }, locale.product, Icons.shopping_basket),
-                cardButton(() {
-                  bloc.add(CreateNewSpot());
-                }, locale.spot, Icons.store),
+                cardButton(() => Get.to(AddProductPage()), locale.product, Icons.shopping_basket),
+                cardButton(() => Get.to(AddSpotPage()), locale.spot, Icons.store),
               ],
             ),
             GridView(
@@ -53,12 +45,8 @@ class CreateNewItemPage extends BlocWidget<CreateNewItemBloc> {
                 crossAxisCount: 2,
               ),
               children: [
-                cardButton(() {
-                  bloc.add(CreateNewRoute());
-                }, locale.route, Icons.map),
-                cardButton(() {
-                  bloc.add(CreateNewProfile());
-                }, locale.profile, Icons.person),
+                cardButton(() => {}, locale.route, Icons.map),
+                cardButton(() => Get.to(CreateRegularProfilePage()), locale.profile, Icons.person),
               ],
             ),
           ],
@@ -67,7 +55,7 @@ class CreateNewItemPage extends BlocWidget<CreateNewItemBloc> {
     );
   }
 
-  Padding cardButton(Function onTap, String text, IconData icon) {
+  Padding cardButton(VoidCallback onTap, String text, IconData icon) {
     return Padding(
       padding: const EdgeInsets.all(12.0),
       child: GestureDetector(

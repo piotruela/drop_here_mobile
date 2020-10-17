@@ -10,12 +10,12 @@ SpotManagementRequest _$SpotManagementRequestFromJson(
     Map<String, dynamic> json) {
   return SpotManagementRequest(
     description: json['description'] as String,
-    estimatedRadiusMaters: json['estimatedRadiusMaters'] as int,
+    estimatedRadiusMeters: json['estimatedRadiusMeters'] as int,
     hidden: json['hidden'] as bool,
     name: json['name'] as String,
     password: json['password'] as String,
-    requiredAccept: json['requiredAccept'] as bool,
-    requiredPassword: json['requiredPassword'] as bool,
+    requiresAccept: json['requiresAccept'] as bool,
+    requiresPassword: json['requiresPassword'] as bool,
     xcoordinate: (json['xcoordinate'] as num)?.toDouble(),
     ycoordinate: (json['ycoordinate'] as num)?.toDouble(),
   );
@@ -25,12 +25,12 @@ Map<String, dynamic> _$SpotManagementRequestToJson(
         SpotManagementRequest instance) =>
     <String, dynamic>{
       'description': instance.description,
-      'estimatedRadiusMaters': instance.estimatedRadiusMaters,
+      'estimatedRadiusMeters': instance.estimatedRadiusMeters,
       'hidden': instance.hidden,
       'name': instance.name,
       'password': instance.password,
-      'requiredAccept': instance.requiredAccept,
-      'requiredPassword': instance.requiredPassword,
+      'requiresAccept': instance.requiresAccept,
+      'requiresPassword': instance.requiresPassword,
       'xcoordinate': instance.xcoordinate,
       'ycoordinate': instance.ycoordinate,
     };
@@ -45,12 +45,12 @@ SpotCompanyResponse _$SpotCompanyResponseFromJson(Map<String, dynamic> json) {
         ? null
         : DateTime.parse(json['lastUpdatedAt'] as String),
     description: json['description'] as String,
-    estimatedRadiusMaters: json['estimatedRadiusMaters'] as int,
+    estimatedRadiusMeters: json['estimatedRadiusMeters'] as int,
     hidden: json['hidden'] as bool,
     name: json['name'] as String,
     password: json['password'] as String,
-    requiredAccept: json['requiredAccept'] as bool,
-    requiredPassword: json['requiredPassword'] as bool,
+    requiresAccept: json['requiresAccept'] as bool,
+    requiresPassword: json['requiresPassword'] as bool,
     xcoordinate: (json['xcoordinate'] as num)?.toDouble(),
     ycoordinate: (json['ycoordinate'] as num)?.toDouble(),
   );
@@ -61,14 +61,14 @@ Map<String, dynamic> _$SpotCompanyResponseToJson(
     <String, dynamic>{
       'createdAt': instance.createdAt?.toIso8601String(),
       'description': instance.description,
-      'estimatedRadiusMaters': instance.estimatedRadiusMaters,
+      'estimatedRadiusMeters': instance.estimatedRadiusMeters,
       'hidden': instance.hidden,
       'id': instance.id,
       'lastUpdatedAt': instance.lastUpdatedAt?.toIso8601String(),
       'name': instance.name,
       'password': instance.password,
-      'requiredAccept': instance.requiredAccept,
-      'requiredPassword': instance.requiredPassword,
+      'requiresAccept': instance.requiresAccept,
+      'requiresPassword': instance.requiresPassword,
       'xcoordinate': instance.xcoordinate,
       'ycoordinate': instance.ycoordinate,
     };

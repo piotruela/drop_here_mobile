@@ -230,4 +230,8 @@ abstract class LocaleBundle {
   String get plannedDrops;
 
   String get editSpot;
+
+  String get hidePassword;
+
+  String get noContent;
 }

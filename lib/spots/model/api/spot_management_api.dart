@@ -1,5 +1,6 @@
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/page_api.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'spot_management_api.g.dart';
@@ -7,23 +8,23 @@ part 'spot_management_api.g.dart';
 @JsonSerializable()
 class SpotManagementRequest {
   final String description;
-  final int estimatedRadiusMaters;
+  final int estimatedRadiusMeters;
   final bool hidden;
   final String name;
   final String password;
-  final bool requiredAccept;
-  final bool requiredPassword;
+  final bool requiresAccept;
+  final bool requiresPassword;
   final double xcoordinate;
   final double ycoordinate;
 
   SpotManagementRequest(
       {this.description,
-      this.estimatedRadiusMaters,
+      this.estimatedRadiusMeters,
       this.hidden,
       this.name,
       this.password,
-      this.requiredAccept,
-      this.requiredPassword,
+      this.requiresAccept,
+      this.requiresPassword,
       this.xcoordinate,
       this.ycoordinate});
 
@@ -33,12 +34,12 @@ class SpotManagementRequest {
 
   SpotManagementRequest copyWith({
     String description,
-    int estimatedRadiusMaters,
+    int estimatedRadiusMeters,
     bool hidden,
     String name,
     String password,
-    bool requiredAccept,
-    bool requiredPassword,
+    bool requiresAccept,
+    bool requiresPassword,
     double xcoordinate,
     double ycoordinate,
     bool nameNull = false,
@@ -46,12 +47,12 @@ class SpotManagementRequest {
   }) {
     return SpotManagementRequest(
       description: description ?? this.description,
-      estimatedRadiusMaters: estimatedRadiusMaters ?? this.estimatedRadiusMaters,
+      estimatedRadiusMeters: estimatedRadiusMeters ?? this.estimatedRadiusMeters,
       hidden: hidden ?? this.hidden,
       name: nameNull ? null : name ?? this.name,
       password: password ?? this.password,
-      requiredAccept: requiredAccept ?? this.requiredAccept,
-      requiredPassword: requiredPassword ?? this.requiredPassword,
+      requiresAccept: requiresAccept ?? this.requiresAccept,
+      requiresPassword: requiresPassword ?? this.requiresPassword,
       xcoordinate: coordsNull ? null : xcoordinate ?? this.xcoordinate,
       ycoordinate: coordsNull ? null : ycoordinate ?? this.ycoordinate,
     );
@@ -62,28 +63,30 @@ class SpotManagementRequest {
 class SpotCompanyResponse {
   final DateTime createdAt;
   final String description;
-  final int estimatedRadiusMaters;
+  final int estimatedRadiusMeters;
   final bool hidden;
   final int id;
   final DateTime lastUpdatedAt;
   final String name;
   final String password;
-  final bool requiredAccept;
-  final bool requiredPassword;
+  final bool requiresAccept;
+  final bool requiresPassword;
   final double xcoordinate;
   final double ycoordinate;
+
+  LatLng get coords => LatLng(xcoordinate, ycoordinate);
 
   SpotCompanyResponse(
       {this.createdAt,
       this.id,
       this.lastUpdatedAt,
       this.description,
-      this.estimatedRadiusMaters,
+      this.estimatedRadiusMeters,
       this.hidden,
       this.name,
       this.password,
-      this.requiredAccept,
-      this.requiredPassword,
+      this.requiresAccept,
+      this.requiresPassword,
       this.xcoordinate,
       this.ycoordinate});
 

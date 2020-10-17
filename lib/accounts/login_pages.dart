@@ -13,6 +13,7 @@ import 'package:drop_here_mobile/accounts/ui/pages/map_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/sandbox_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/splash_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/welcome_page.dart';
+import 'package:drop_here_mobile/spots/ui/pages/spots_map_page.dart';
 import 'package:get/get.dart';
 
 class LoginPages {
@@ -32,5 +33,6 @@ class LoginPages {
     GetPage(name: '/chooseProfile', page: () => ChooseProfilePage()),
     GetPage(name: '/profileLoginPage', page: () => LogOnProfilePage()),
     GetPage(name: '/mapPage', page: () => MapPage()),
+    GetPage(name: '/spotsMapPage', page: () => SpotsMapPage()),
   ];
 }
