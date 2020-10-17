@@ -117,6 +117,10 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                       style: themeConfig.textStyles.secondaryTitle,
                     ),
                     BlocBuilder<AddProductBloc, AddProductFormState>(
+                      buildWhen: (previous, current) =>
+                          previous.productManagementRequest.unit !=
+                              current.productManagementRequest.unit ||
+                          previous.units != current.units,
                       builder: (context, state) => DropdownButton<String>(
                         isExpanded: true,
                         onChanged: (String unit) => addProductBloc.add(FormChanged(
@@ -165,6 +169,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                       height: 4.0,
                     ),
                     BlocBuilder<AddProductBloc, AddProductFormState>(
+                      buildWhen: (previous, current) => previous.isFilled() != current.isFilled(),
                       builder: (context, state) => Center(
                         child: SubmitFormButton(
                             text: locale.addProduct,
