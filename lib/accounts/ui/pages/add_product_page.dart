@@ -178,7 +178,6 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                             onTap: () {
                               if (state.isFilled()) {
                                 addProductBloc.add(FormSubmitted());
-                                print("tap");
                               }
                             }),
                       ),
