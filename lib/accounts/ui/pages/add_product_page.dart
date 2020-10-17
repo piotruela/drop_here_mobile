@@ -23,8 +23,6 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 class AddProductPage extends BlocWidget<AddProductBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final picker = ImagePicker();
-  File _image;
-  List<GestureDetector> categoryChoiceWidgets = [];
 
   @override
   AddProductBloc bloc() => AddProductBloc()..add(FetchData());
@@ -124,8 +122,8 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                       builder: (context, state) => DropdownButton<String>(
                         isExpanded: true,
                         onChanged: (String unit) => addProductBloc.add(FormChanged(
-                            productManagementRequest:
-                                state.productManagementRequest.copyWith(unit: unit))),
+                            productManagementRequest: addProductBloc.state.productManagementRequest
+                                .copyWith(unit: unit))),
                         value: state.productManagementRequest?.unit,
                         icon: Icon(Icons.arrow_drop_down),
                         items: addProductBloc.state?.units
@@ -250,7 +248,6 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
 
   Future getImage(Bloc bloc) async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    _image = File(pickedFile.path);
-    bloc.add(FormChanged(photo: _image));
+    bloc.add(FormChanged(photo: File(pickedFile.path)));
   }
 }
