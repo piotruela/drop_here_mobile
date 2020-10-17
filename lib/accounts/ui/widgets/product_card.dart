@@ -30,6 +30,8 @@ class ProductCard extends StatelessWidget {
           title: Text(
             title,
             style: themeConfig.textStyles.secondaryTitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,6 +42,8 @@ class ProductCard extends StatelessWidget {
               Text(
                 '${locale.category}: $category',
                 style: themeConfig.textStyles.cardSubtitle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               SizedBox(
                 height: 6.0,
@@ -47,6 +51,8 @@ class ProductCard extends StatelessWidget {
               Text(
                 '${locale.price}: ${price.toString()}${locale.currency}/$unit',
                 style: themeConfig.textStyles.cardSubtitle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
@@ -82,14 +88,17 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget productPhoto(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        minWidth: 44,
-        minHeight: 44,
-        maxWidth: 84,
-        maxHeight: 84,
+    return Container(
+      width: 74.0,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minWidth: 44,
+          minHeight: 44,
+          maxWidth: 74,
+          maxHeight: 84,
+        ),
+        child: ClipRRect(borderRadius: BorderRadius.circular(10.0), child: photo),
       ),
-      child: ClipRRect(borderRadius: BorderRadius.circular(10.0), child: photo),
     );
   }
 }
