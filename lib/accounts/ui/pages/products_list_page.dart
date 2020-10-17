@@ -70,13 +70,13 @@ class ProductsListPage extends BlocWidget<DhListBloc> {
         children: [
           ListView.builder(
               shrinkWrap: true,
-              itemCount: state.products.length,
+              itemCount: state.products.numberOfElements,
               itemBuilder: (BuildContext context, int index) {
                 return ProductCard(
-                    title: state.products[index].name,
-                    category: state.products[index].category,
-                    price: state.products[index].price,
-                    unit: state.products[index].unit,
+                    title: state.products.content[index].name,
+                    category: state.products.content[index].category,
+                    price: state.products.content[index].price,
+                    unit: state.products.content[index].unit,
                     popupOptions: [locale.delete, locale.edit],
                     photo: File(
                         //TODO change this file

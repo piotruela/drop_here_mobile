@@ -4,10 +4,10 @@ import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
 import 'package:drop_here_mobile/accounts/model/api/page_api.dart';
-import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/client.dart';
 import 'package:drop_here_mobile/accounts/model/seller.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
+import 'package:drop_here_mobile/accounts/services/product_management_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
@@ -63,7 +63,8 @@ class DhListBloc extends Bloc<DhListEvent, DhListState> {
       }
     } else if (event is FetchProducts) {
       try {
-        final List<Product> products = await companyManagementService.fetchProductsList();
+        final ProductsPage products =
+            await Get.find<ProductManagementService>().getCompanyProducts();
         yield ProductsFetched(products);
       } catch (e) {
         yield FetchingError(e);

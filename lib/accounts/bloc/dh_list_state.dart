@@ -36,7 +36,7 @@ class SellersFetched extends DhListState {
 }
 
 class ProductsFetched extends DhListState {
-  final List<Product> products;
+  final ProductsPage products;
   const ProductsFetched(this.products);
 
   @override
