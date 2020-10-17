@@ -146,7 +146,7 @@ class _PasswordInfo extends StatefulWidget {
   _PasswordInfo({this.password});
 
   @override
-  _PasswordInfoState createState() => _PasswordInfoState(show: true);
+  _PasswordInfoState createState() => _PasswordInfoState(show: false);
 }
 
 class _PasswordInfoState extends State<_PasswordInfo> {

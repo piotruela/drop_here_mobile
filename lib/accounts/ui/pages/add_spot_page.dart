@@ -4,6 +4,7 @@ import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_floating_action_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/get_address_from_coordinates.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/labeled_switch.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
@@ -29,11 +30,7 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
       body: SlidingUpPanel(
         defaultPanelState: PanelState.OPEN,
         maxHeight: 550,
-        body: Center(
-          child: Text('background'),
-        ),
-        panel: SafeArea(
-            child: ListView(
+        panel: ListView(
           children: [
             Form(
               child: Padding(
@@ -72,38 +69,25 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
                       return Conditional.single(
                           context: context,
                           conditionBuilder: (_) => state.spotManagementRequest?.xcoordinate == null,
-                          widgetBuilder: (_) => Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 6.0),
-                                child: ColoredRoundedFlatButton(
-                                    text: locale.addLocationButton,
-                                    onTap: () async {
-                                      FocusScope.of(context).requestFocus(FocusNode());
-                                      bloc.add(LocationChanged(
-                                          spotManagementRequest: state.spotManagementRequest,
-                                          locationResult: await showLocationPicker(
-                                              context, "AIzaSyAIXlbOX2W1TEKdG8M8zyvZc882lEApzLE",
-                                              automaticallyAnimateToCurrentLocation: false,
-                                              initialCenter: LatLng(54.397498, 18.589627))));
-                                    }),
-                              ),
+                          widgetBuilder: (_) => _buildLocationPickerButton(context, locale, bloc),
                           fallbackBuilder: (_) => _buildPickedLocationView(bloc));
                     },
                   ),
                   _buildDescriptionField(locale, bloc),
-                  /*secondaryTitle(locale.plannedRoutes),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6.0),
-                        child: ColoredRoundedFlatButton(
-                          text: locale.addRouteButton,
-                        ),
-                      ),
-                      secondaryTitle(locale.members),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 6.0),
-                        child: ColoredRoundedFlatButton(
-                          text: locale.addMemberButton,
-                        ),
-                      ),*/
+                  /*secondaryTitle(locale.plannedRoutes), //TODO:Uncomment when able to add those parameters
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6.0),
+                    child: ColoredRoundedFlatButton(
+                      text: locale.addRouteButton,
+                    ),
+                  ),
+                  secondaryTitle(locale.members),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 6.0),
+                    child: ColoredRoundedFlatButton(
+                      text: locale.addMemberButton,
+                    ),
+                  ),*/
                   BlocBuilder<AddSpotBloc, AddSpotFormState>(
                     buildWhen: (previous, current) => previous.isFilled != current.isFilled,
                     builder: (context, state) => Center(
@@ -115,13 +99,13 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
                     ),
                   ),
                   SizedBox(
-                    height: 15.0,
+                    height: 150.0,
                   )
                 ]),
               ),
             ),
           ],
-        )),
+        ),
       ),
     );
   }
@@ -134,14 +118,43 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
         });
   }
 
+  Widget _buildLocationPickerButton(
+      BuildContext context, LocaleBundle localeBundle, AddSpotBloc bloc) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: ColoredRoundedFlatButton(
+          text: localeBundle.addLocationButton,
+          onTap: () async {
+            FocusScope.of(context).requestFocus(FocusNode());
+            bloc.add(LocationChanged(
+                spotManagementRequest: bloc.state.spotManagementRequest,
+                locationResult: await showLocationPicker(
+                    context, "AIzaSyAIXlbOX2W1TEKdG8M8zyvZc882lEApzLE",
+                    automaticallyAnimateToCurrentLocation: false,
+                    initialCenter: LatLng(54.397498, 18.589627))));
+          }),
+    );
+  }
+
   Widget _buildPickedLocationView(AddSpotBloc bloc) {
     return Column(
       children: [
         Row(
           children: [
-            Text(bloc.state.spotManagementRequest.xcoordinate.toString()),
-            SizedBox(width: 10),
-            Text(bloc.state.spotManagementRequest.ycoordinate.toString()),
+            Icon(
+              Icons.pin_drop,
+              color: themeConfig.colors.black,
+            ),
+            FutureBuilder(
+                future: getAddressFromCoordinates(bloc.state.spotManagementRequest.xcoordinate,
+                    bloc.state.spotManagementRequest.ycoordinate),
+                initialData: "Loading location...",
+                builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  return Text(
+                    snapshot.data ?? "",
+                    style: themeConfig.textStyles.filledTextField,
+                  );
+                }),
             IconButton(
                 icon: Icon(Icons.close),
                 onPressed: () => bloc.add(FormChanged(

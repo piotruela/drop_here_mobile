@@ -15,7 +15,9 @@ class AddSpotFormState extends Equatable {
   }
 
   bool get isFilled =>
-      spotManagementRequest?.name != '' && spotManagementRequest.xcoordinate != null;
+      spotManagementRequest.xcoordinate != null &&
+      spotManagementRequest.name != null &&
+      spotManagementRequest.name != "";
 
   @override
   List<Object> get props => [spotManagementRequest, isFilled];
