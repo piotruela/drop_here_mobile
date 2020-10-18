@@ -1,7 +1,6 @@
 import 'package:drop_here_mobile/accounts/bloc/add_spot_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_floating_action_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/get_address_from_coordinates.dart';
@@ -89,7 +88,7 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
                     ),
                   ),*/
                   BlocBuilder<AddSpotBloc, AddSpotFormState>(
-                    buildWhen: (previous, current) => previous.isFilled != current.isFilled,
+                    buildWhen: (previous, current) => previous != current,
                     builder: (context, state) => Center(
                       child: SubmitFormButton(
                           text: locale.addSpot,
@@ -108,14 +107,6 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
         ),
       ),
     );
-  }
-
-  BlocBuilder<AddSpotBloc, AddSpotFormState> floatingButton(String text, LocaleBundle locale) {
-    return BlocBuilder<AddSpotBloc, AddSpotFormState>(
-        buildWhen: (previous, current) => current.isFilled,
-        builder: (context, state) {
-          return dhFloatingButton(text: locale.addSpot, enabled: state.isFilled);
-        });
   }
 
   Widget _buildLocationPickerButton(

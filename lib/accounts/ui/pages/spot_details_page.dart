@@ -1,5 +1,7 @@
 import 'package:drop_here_mobile/accounts/bloc/spot_details_bloc.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/edit_spot_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/edit_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/rounded_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/get_address_from_coordinates.dart';
@@ -81,9 +83,14 @@ class SpotDetailsPage extends BlocWidget<SpotDetailsBloc> {
   Widget _buildSpotTitle() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
-      child: Text(
-        spot.name,
-        style: themeConfig.textStyles.primaryTitle,
+      child: Row(
+        children: [
+          Text(
+            spot.name,
+            style: themeConfig.textStyles.primaryTitle,
+          ),
+          editButton(onPressed: () => Get.to(EditSpotPage(spot: spot)))
+        ],
       ),
     );
   }
