@@ -27,6 +27,28 @@ class SpotManagementService {
     return ResourceOperationResponse.fromJson(response);
   }
 
+  Future<ResourceOperationResponse> updateSpot(
+      SpotManagementRequest spotManagementRequest, int spotId) async {
+    String companyId = await _companyManagementService.getCompanyId();
+    dynamic response = await _httpClient.put(
+        body: json.encode(spotManagementRequest.toJson()),
+        canRepeatRequest: true,
+        path: "/companies/$companyId/spots/$spotId",
+        out: (dynamic json) => json);
+
+    return ResourceOperationResponse.fromJson(response);
+  }
+
+  Future<ResourceOperationResponse> deleteSpot(int spotId) async {
+    String companyId = await _companyManagementService.getCompanyId();
+    dynamic response = await _httpClient.delete(
+        canRepeatRequest: true,
+        path: "/companies/$companyId/spots/$spotId",
+        out: (dynamic json) => json);
+
+    return ResourceOperationResponse.fromJson(response);
+  }
+
   Future<List<SpotCompanyResponse>> fetchCompanySpots() async {
     String companyId = await _companyManagementService.getCompanyId();
     List<dynamic> response = await _httpClient.get(

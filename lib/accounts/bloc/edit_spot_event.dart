@@ -5,21 +5,29 @@ abstract class EditSpotEvent extends Equatable {
 }
 
 class FormChanged extends EditSpotEvent {
-  final File locationMap;
   final SpotManagementRequest spot;
 
-  FormChanged({this.locationMap, this.spot});
+  FormChanged({this.spot});
 
   @override
-  List<Object> get props => [locationMap, spot];
+  List<Object> get props => [spot];
+}
+
+class LocationChanged extends EditSpotEvent {
+  final SpotManagementRequest spot;
+  final LocationResult locationResult;
+
+  LocationChanged({this.spot, this.locationResult});
+
+  @override
+  List<Object> get props => [spot, locationResult];
 }
 
 class FormSubmitted extends EditSpotEvent {
-  final File locationMap;
-  final SpotManagementRequest spotManagementRequest;
+  final SpotManagementRequest spot;
 
-  FormSubmitted({this.locationMap, this.spotManagementRequest});
+  FormSubmitted({this.spot});
 
   @override
-  List<Object> get props => [locationMap, spotManagementRequest];
+  List<Object> get props => [spot];
 }

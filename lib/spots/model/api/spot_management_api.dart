@@ -42,6 +42,7 @@ class SpotManagementRequest {
     bool requiresPassword,
     double xcoordinate,
     double ycoordinate,
+    bool passwordNull = false,
     bool nameNull = false,
     bool coordsNull = false,
   }) {
@@ -50,7 +51,7 @@ class SpotManagementRequest {
       estimatedRadiusMeters: estimatedRadiusMeters ?? this.estimatedRadiusMeters,
       hidden: hidden ?? this.hidden,
       name: nameNull ? null : name ?? this.name,
-      password: password ?? this.password,
+      password: passwordNull ? null : password ?? this.password,
       requiresAccept: requiresAccept ?? this.requiresAccept,
       requiresPassword: requiresPassword ?? this.requiresPassword,
       xcoordinate: coordsNull ? null : xcoordinate ?? this.xcoordinate,
@@ -75,6 +76,17 @@ class SpotCompanyResponse {
   final double ycoordinate;
 
   LatLng get coords => LatLng(xcoordinate, ycoordinate);
+
+  SpotManagementRequest get toRequest => SpotManagementRequest(
+      name: this.name,
+      description: this.description,
+      estimatedRadiusMeters: this.estimatedRadiusMeters,
+      hidden: this.hidden,
+      requiresPassword: this.requiresPassword,
+      requiresAccept: this.requiresAccept,
+      password: this.password,
+      xcoordinate: this.xcoordinate,
+      ycoordinate: this.ycoordinate);
 
   SpotCompanyResponse(
       {this.createdAt,

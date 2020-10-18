@@ -64,6 +64,8 @@ class SpotsMapPage extends BlocWidget<SpotsMapBloc> {
                           itemBuilder: (BuildContext context, int index) => SpotCard(
                                 spot: state.spots[index],
                                 onTap: () => Get.to(SpotDetailsPage(spot: state.spots[index])),
+                                onSelectedItem: (value) =>
+                                    bloc.add(DeleteSpot(spotId: int.parse(value))),
                               ));
                     } else {
                       return SizedBox.shrink();

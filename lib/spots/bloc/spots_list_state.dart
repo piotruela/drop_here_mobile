@@ -12,3 +12,9 @@ class SpotsFetched extends SpotsMapState {
 
   SpotsFetched({this.spots});
 }
+
+class SpotDeleted extends SpotsMapState {
+  final List<SpotCompanyResponse> spots;
+
+  SpotDeleted({this.spots});
+}

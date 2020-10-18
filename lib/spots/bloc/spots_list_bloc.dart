@@ -20,6 +20,10 @@ class SpotsMapBloc extends Bloc<SpotsMapEvent, SpotsMapState> {
     if (event is FetchSpots) {
       List<SpotCompanyResponse> spots = await spotManagementService.fetchCompanySpots();
       yield SpotsFetched(spots: spots);
+    } else if (event is DeleteSpot) {
+      await spotManagementService.deleteSpot(event.spotId);
+      List<SpotCompanyResponse> spots = await spotManagementService.fetchCompanySpots();
+      yield SpotsFetched(spots: spots);
     }
   }
 }
