@@ -311,7 +311,7 @@ class LocaleBundleEn extends LocaleBundle {
   String get passwordMandatory => "Password*";
 
   @override
-  String get passwordHintText => "e.g. Aezakmi*";
+  String get passwordHintText => "e.g. Aezakmi";
 
   @override
   String get acceptRequired => "Accept required";
