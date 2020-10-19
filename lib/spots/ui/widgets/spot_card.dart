@@ -1,5 +1,6 @@
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
 import 'package:drop_here_mobile/common/get_address_from_coordinates.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
@@ -22,17 +23,10 @@ class SpotCard extends StatelessWidget {
         onTap: onTap,
         child: Container(
           child: ListTile(
-            leading: CircleAvatar(
-                backgroundColor: themeConfig.colors.black,
-                radius: 25,
-                child: CircleAvatar(
-                    backgroundColor: themeConfig.colors.white,
-                    radius: 23,
-                    child: Icon(
-                      Icons.store,
-                      size: 30,
-                      color: themeConfig.colors.primary1,
-                    ))),
+            leading: IconInCircle(
+              themeConfig: themeConfig,
+              icon: Icons.store,
+            ),
             title: Text(
               spot.name,
               style: themeConfig.textStyles.secondaryTitle,

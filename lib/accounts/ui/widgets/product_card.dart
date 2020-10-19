@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
@@ -14,7 +12,7 @@ class ProductCard extends StatelessWidget {
   final double price;
   final String unit;
   final List<String> popupOptions;
-  final File photo;
+  final Image photo;
 
   const ProductCard(
       {this.title, this.category, this.price, this.unit, this.popupOptions, this.photo});
@@ -32,6 +30,8 @@ class ProductCard extends StatelessWidget {
           title: Text(
             title,
             style: themeConfig.textStyles.secondaryTitle,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,6 +42,8 @@ class ProductCard extends StatelessWidget {
               Text(
                 '${locale.category}: $category',
                 style: themeConfig.textStyles.cardSubtitle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
               SizedBox(
                 height: 6.0,
@@ -49,6 +51,8 @@ class ProductCard extends StatelessWidget {
               Text(
                 '${locale.price}: ${price.toString()}${locale.currency}/$unit',
                 style: themeConfig.textStyles.cardSubtitle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
@@ -84,15 +88,17 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget productPhoto(BuildContext context) {
-    return ConstrainedBox(
+    return Container(
+      width: 74.0,
+      child: ConstrainedBox(
         constraints: BoxConstraints(
           minWidth: 44,
           minHeight: 44,
-          maxWidth: 84,
+          maxWidth: 74,
           maxHeight: 84,
         ),
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: Image.file(photo, fit: BoxFit.cover)));
+        child: ClipRRect(borderRadius: BorderRadius.circular(10.0), child: photo),
+      ),
+    );
   }
 }
