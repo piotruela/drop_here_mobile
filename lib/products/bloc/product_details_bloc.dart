@@ -1,10 +1,11 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
-import 'package:drop_here_mobile/accounts/services/product_management_service.dart';
+import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
+
+import 'file:///E:/Piotr%20Maszota/inzynierka/drop_here_mobile/lib/products/services/product_management_service.dart';
 
 part 'product_details_event.dart';
 part 'product_details_state.dart';

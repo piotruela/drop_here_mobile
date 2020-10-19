@@ -1,4 +1,3 @@
-import 'package:drop_here_mobile/accounts/bloc/spot_details_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/edit_spot_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/edit_button.dart';
@@ -8,6 +7,7 @@ import 'package:drop_here_mobile/common/get_address_from_coordinates.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/spots/bloc/spot_details_bloc.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:bloc/bloc.dart';
-import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:equatable/equatable.dart';
 
 part 'edit_product_event.dart';

@@ -5,10 +5,10 @@ import 'package:dio/dio.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
-import 'package:drop_here_mobile/accounts/model/api/page_api.dart';
-import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/seller.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
+import 'package:drop_here_mobile/products/model/api/page_api.dart';
+import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:flutter/material.dart' hide Page;
 import 'package:get/get.dart';
 
