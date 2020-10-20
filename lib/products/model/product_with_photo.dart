@@ -1,6 +1,5 @@
+import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:flutter/material.dart';
-
-import 'api/product_management_api.dart';
 
 class ProductWithPhoto extends ProductResponse {
   final Image photo;

@@ -1,7 +1,5 @@
 import 'dart:io';
 
-import 'package:drop_here_mobile/accounts/bloc/add_product_bloc.dart';
-import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/chosen_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_floating_action_button.dart';
@@ -13,6 +11,8 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/products/bloc/add_product_bloc.dart';
+import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

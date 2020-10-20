@@ -1,5 +1,5 @@
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
-import 'package:drop_here_mobile/accounts/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'page_api.g.dart';
