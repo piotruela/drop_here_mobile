@@ -7,12 +7,11 @@ import 'package:drop_here_mobile/accounts/services/company_management_service.da
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
 import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
+import 'package:drop_here_mobile/products/model/api/company_products_request.dart';
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import 'file:///E:/Piotr%20Maszota/inzynierka/drop_here_mobile/lib/products/model/api/company_products_request.dart';
 
 class ProductManagementService {
   final DhHttpClient _httpClient = Get.find<DhHttpClient>();
