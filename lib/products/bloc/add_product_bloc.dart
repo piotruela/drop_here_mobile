@@ -4,10 +4,9 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/products/services/product_management_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
-
-import 'file:///E:/Piotr%20Maszota/inzynierka/drop_here_mobile/lib/products/services/product_management_service.dart';
 
 part 'add_product_event.dart';
 part 'add_product_state.dart';
