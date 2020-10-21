@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
@@ -64,8 +65,9 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                                 },
                               ))),
                   secondaryTitle(locale.dropsMandatory),
-                  dropCard(locale),
+                  carousel(locale),
                   secondaryTitle(locale.assignedSeller),
+                  secondaryTitle(locale.description),
                 ],
               ),
             ),
@@ -103,7 +105,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     );
   }
 
-  Widget dropCard(LocaleBundle locale) {
+  Widget dropCard({LocaleBundle locale}) {
     return Padding(
       padding: const EdgeInsets.only(right: 22.0, bottom: 6.0),
       child: Container(
@@ -195,5 +197,24 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
         ),
       ),
     );
+  }
+
+  CarouselSlider carousel(LocaleBundle locale) {
+    return CarouselSlider(
+        options: CarouselOptions(
+          aspectRatio: 16 / 7.4,
+          enableInfiniteScroll: false,
+          viewportFraction: 0.38,
+          initialPage: 0,
+        ),
+        items: [
+          // dropCard(locale: locale),
+          // dropCard(locale: locale),
+          // dropCard(locale: locale),
+          IconInCircle(
+            themeConfig: themeConfig,
+            icon: Icons.add,
+          )
+        ]);
   }
 }
