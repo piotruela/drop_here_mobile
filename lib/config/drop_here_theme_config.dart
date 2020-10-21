@@ -48,6 +48,7 @@ class DHThemeConfig extends ThemeConfig {
       flatButtonOff: _flatButtonOffTextStyle,
       bigColoredButtonActiveTextStyle: _bigColoredButtonActiveTextStyle,
       bigColoredButtonNotActiveTextStyle: _bigColoredButtonNotActiveTextStyle,
+      valueChosenFlatButtonTextStyle: _valueChosenFlatButtonTextStyle,
     );
   }
 
@@ -127,6 +128,9 @@ class DHThemeConfig extends ThemeConfig {
       _baseTextStyle.copyWith(fontSize: 14.0, height: 16.0 / 14.0, color: _primaryColor1);
   static final TextStyle _managementListTileTextStyle =
       _baseTextStyle.copyWith(fontSize: 18.0, height: 21.0 / 18.0, color: _listTileMenuIconColor);
+
+  static final TextStyle _valueChosenFlatButtonTextStyle =
+      _baseTextStyle.copyWith(fontSize: 14.0, height: 16.0 / 14.0, color: _black);
 
   static final TextStyle _title3TextStyle = _baseTextStyle.copyWith(
       fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w700, color: _black);

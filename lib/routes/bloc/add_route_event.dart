@@ -29,3 +29,9 @@ class AddDate extends AddRouteEvent {
   @override
   List<Object> get props => [routeRequest, pickedDate];
 }
+
+class DeleteDate extends AddRouteEvent {
+  const DeleteDate();
+  @override
+  List<Object> get props => [];
+}

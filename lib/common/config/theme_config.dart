@@ -34,6 +34,8 @@ class TextStyleTheme {
   final TextStyle bigColoredButtonActiveTextStyle;
   final TextStyle bigColoredButtonNotActiveTextStyle;
 
+  final TextStyle valueChosenFlatButtonTextStyle;
+
   TextStyleTheme({
     this.button,
     this.clickableText,
@@ -60,6 +62,7 @@ class TextStyleTheme {
     this.flatButtonOff,
     this.bigColoredButtonActiveTextStyle,
     this.bigColoredButtonNotActiveTextStyle,
+    this.valueChosenFlatButtonTextStyle,
   });
 }
 

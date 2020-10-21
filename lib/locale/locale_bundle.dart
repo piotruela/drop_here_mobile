@@ -242,4 +242,8 @@ abstract class LocaleBundle {
   String get dateMandatory;
 
   String get pickADate;
+
+  String get dropsMandatory;
+
+  String get assignedSeller;
 }

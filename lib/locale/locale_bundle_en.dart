@@ -369,4 +369,10 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get pickADate => "Date +";
+
+  @override
+  String get assignedSeller => "Assigned seller";
+
+  @override
+  String get dropsMandatory => "Drops*";
 }
