@@ -18,6 +18,24 @@ class UnpreparedRouteRequest {
   factory UnpreparedRouteRequest.fromJson(Map<String, dynamic> json) =>
       _$UnpreparedRouteRequestFromJson(json);
   Map<String, dynamic> toJson() => _$UnpreparedRouteRequestToJson(this);
+
+  UnpreparedRouteRequest copyWith({
+    DateTime date,
+    String description,
+    String name,
+    String profileUid,
+    List<RouteProductRequest> products,
+    List<RouteDropRequest> drops,
+  }) {
+    return UnpreparedRouteRequest(
+      date: date ?? this.date,
+      description: description ?? this.description,
+      name: name ?? this.name,
+      profileUid: profileUid ?? this.profileUid,
+      products: products ?? this.products,
+      drops: drops ?? this.drops,
+    );
+  }
 }
 
 @JsonSerializable()

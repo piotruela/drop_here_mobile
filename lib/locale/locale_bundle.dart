@@ -234,4 +234,12 @@ abstract class LocaleBundle {
   String get hidePassword;
 
   String get noContent;
+
+  String get planRoute;
+
+  String get routeNameExample;
+
+  String get dateMandatory;
+
+  String get pickADate;
 }

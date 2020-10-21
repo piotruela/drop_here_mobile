@@ -357,4 +357,16 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get noContent => "No content";
+
+  @override
+  String get planRoute => "Plan route";
+
+  @override
+  String get routeNameExample => "e.g. Route 66";
+
+  @override
+  String get dateMandatory => "Date*";
+
+  @override
+  String get pickADate => "Date +";
 }
