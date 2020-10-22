@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_floating_action_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
@@ -49,9 +49,8 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   DhPlainTextFormField(
                     hintText: locale.routeNameExample,
                     onChanged: (String name) {
-                      // addProductBloc.add(FormChanged(
-                      //     productManagementRequest: addProductBloc.state.productManagementRequest
-                      //         .copyWith(name: name, productCustomizationWrappers: [])));
+                      addRouteBloc.add(FormChanged(
+                          routeRequest: addRouteBloc.state.routeRequest.copyWith(name: name)));
                     },
                   ),
                   secondaryTitle(locale.dateMandatory),
@@ -71,12 +70,15 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                               ))),
                   secondaryTitle(locale.dropsMandatory),
                   carousel(locale),
+                  SizedBox(height: 6.0),
                   secondaryTitle(locale.assignedSeller),
+                  SizedBox(height: 6.0),
                   SellerCard(
                     title: 'piotr',
                     //TODO add popupOptions
                     popupOptions: ['todo'],
                   ),
+                  SizedBox(height: 6.0),
                   secondaryTitle(locale.description),
                   DhTextArea(
                     onChanged: (String description) {
@@ -86,13 +88,26 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                     },
                     value: addRouteBloc.state.routeRequest.description,
                   ),
+                  SizedBox(height: 6.0),
                   secondaryTitle(locale.productsMandatory),
+                  SizedBox(height: 6.0),
                   productsCarousel(locale),
                   SizedBox(
                     height: 40.0,
                   ),
-                  Center(
-                    child: dhFloatingButton(enabled: false, text: locale.addRoute),
+                  BlocBuilder<AddRouteBloc, AddRouteFormState>(
+                    buildWhen: (previous, current) => previous.isFilled != current.isFilled,
+                    builder: (context, state) => Center(
+                      child: SubmitFormButton(
+                          text: locale.addRoute,
+                          isActive: state.isFilled,
+                          //TODO check this function
+                          onTap: () {
+                            if (state.isFilled) {
+                              addRouteBloc.add(FormSubmitted());
+                            }
+                          }),
+                    ),
                   ),
                 ],
               ),
