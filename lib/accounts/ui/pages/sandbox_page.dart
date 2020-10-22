@@ -30,6 +30,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'add_drop_to_route_page.dart';
 import 'add_spot_page.dart';
 import 'edit_product_page.dart';
 import 'edit_spot_page.dart';
@@ -66,6 +67,13 @@ class SandboxPage extends StatelessWidget {
                     child: Text("add route"),
                     onPressed: () {
                       Get.to(AddRoutePage());
+                    }),
+                FlatButton(
+                    child: Text("add drop to route"),
+                    onPressed: () {
+                      Get.to(AddDropToRoutePage(
+                        addDrop: () {},
+                      ));
                     }),
                 FlatButton(
                     child: Text("add spot"),

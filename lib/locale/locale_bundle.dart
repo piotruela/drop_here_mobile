@@ -250,4 +250,16 @@ abstract class LocaleBundle {
   String get productsMandatory;
 
   String get addRoute;
+
+  String get addDropToRoute;
+
+  String get timeMandatory;
+
+  String get dropNameExample;
+
+  String get spotMandatory;
+
+  String get pickTime;
+
+  String get addSpotButton;
 }

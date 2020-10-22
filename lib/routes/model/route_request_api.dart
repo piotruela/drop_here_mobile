@@ -50,6 +50,20 @@ class RouteProductRequest {
   factory RouteProductRequest.fromJson(Map<String, dynamic> json) =>
       _$RouteProductRequestFromJson(json);
   Map<String, dynamic> toJson() => _$RouteProductRequestToJson(this);
+
+  RouteProductRequest copyWith({
+    double amount,
+    bool limitedAmount,
+    double price,
+    int productUid,
+  }) {
+    return RouteProductRequest(
+      amount: amount ?? this.amount,
+      limitedAmount: limitedAmount ?? this.limitedAmount,
+      price: price ?? this.price,
+      productUid: productUid ?? this.productUid,
+    );
+  }
 }
 
 @JsonSerializable()
@@ -64,6 +78,21 @@ class RouteDropRequest {
 
   factory RouteDropRequest.fromJson(Map<String, dynamic> json) => _$RouteDropRequestFromJson(json);
   Map<String, dynamic> toJson() => _$RouteDropRequestToJson(this);
+
+  RouteDropRequest copyWith({
+    String description,
+    DateTime endTime,
+    String name,
+    int spotId,
+    String startTime,
+  }) {
+    return RouteDropRequest(
+        description: description ?? this.description,
+        endTime: endTime ?? this.endTime,
+        name: name ?? this.name,
+        spotId: spotId ?? this.spotId,
+        startTime: startTime ?? this.startTime);
+  }
 }
 
 @JsonSerializable()
