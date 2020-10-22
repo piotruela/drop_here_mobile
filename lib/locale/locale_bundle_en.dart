@@ -375,4 +375,10 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get dropsMandatory => "Drops*";
+
+  @override
+  String get productsMandatory => "Products*";
+
+  @override
+  String get addRoute => "Add route";
 }

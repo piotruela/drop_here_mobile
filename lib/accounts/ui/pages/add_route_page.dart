@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_floating_action_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
@@ -82,6 +85,14 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                               addRouteBloc.state.routeRequest.copyWith(description: description)));
                     },
                     value: addRouteBloc.state.routeRequest.description,
+                  ),
+                  secondaryTitle(locale.productsMandatory),
+                  productsCarousel(locale),
+                  SizedBox(
+                    height: 40.0,
+                  ),
+                  Center(
+                    child: dhFloatingButton(enabled: false, text: locale.addRoute),
                   ),
                 ],
               ),
@@ -203,7 +214,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   ),
                   SizedBox(
                     height: 4.0,
-                  )
+                  ),
                   //SizedBox(height: 5.0)
                 ],
               ),
@@ -231,5 +242,90 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
             icon: Icons.add,
           )
         ]);
+  }
+
+  CarouselSlider productsCarousel(LocaleBundle locale) {
+    return CarouselSlider(
+        options: CarouselOptions(
+          aspectRatio: 16 / 7.4,
+          enableInfiniteScroll: false,
+          viewportFraction: 0.38,
+          initialPage: 0,
+        ),
+        items: [
+          productCard(
+            photo: File(
+                //TODO change this file
+                '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'),
+          ),
+          productCard(
+            photo: File(
+                //TODO change this file
+                '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'),
+          ),
+          productCard(
+            photo: File(
+                //TODO change this file
+                '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'),
+          ),
+          IconInCircle(
+            themeConfig: themeConfig,
+            icon: Icons.add,
+          )
+        ]);
+  }
+
+  Widget productCard({File photo}) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 22.0, bottom: 6.0),
+      child: Container(
+        decoration: BoxDecoration(
+          color: themeConfig.colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: [
+            dhShadow(),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              width: 154,
+              height: 96,
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                child: Image.file(
+                  photo,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(4.0),
+              child: Column(
+                children: [
+                  Text(
+                    'Strawberries',
+                    style: themeConfig.textStyles.title3,
+                  ),
+                  SizedBox(height: 4.0),
+                  Text(
+                    '20zł/kg',
+                    style: themeConfig.textStyles.title3Annotation,
+                  ),
+                  SizedBox(height: 6.0),
+                  Text(
+                    '57kg',
+                    style: themeConfig.textStyles.title3Annotation,
+                  ),
+                  //SizedBox(height: 5.0)
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

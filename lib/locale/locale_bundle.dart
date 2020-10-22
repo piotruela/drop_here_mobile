@@ -246,4 +246,8 @@ abstract class LocaleBundle {
   String get dropsMandatory;
 
   String get assignedSeller;
+
+  String get productsMandatory;
+
+  String get addRoute;
 }
