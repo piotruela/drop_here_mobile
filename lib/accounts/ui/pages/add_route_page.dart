@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/seller_card.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/value_picked_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
@@ -9,7 +11,6 @@ import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/routes/bloc/add_route_bloc.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
@@ -24,6 +25,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
   Widget build(BuildContext context, AddRouteBloc addRouteBloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
+      backgroundColor: themeConfig.colors.white,
       body: SafeArea(
         child: ListView(shrinkWrap: true, children: [
           Padding(
@@ -67,7 +69,20 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   secondaryTitle(locale.dropsMandatory),
                   carousel(locale),
                   secondaryTitle(locale.assignedSeller),
+                  SellerCard(
+                    title: 'piotr',
+                    //TODO add popupOptions
+                    popupOptions: ['todo'],
+                  ),
                   secondaryTitle(locale.description),
+                  DhTextArea(
+                    onChanged: (String description) {
+                      addRouteBloc.add(FormChanged(
+                          routeRequest:
+                              addRouteBloc.state.routeRequest.copyWith(description: description)));
+                    },
+                    value: addRouteBloc.state.routeRequest.description,
+                  ),
                 ],
               ),
             ),
@@ -208,9 +223,9 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
           initialPage: 0,
         ),
         items: [
-          // dropCard(locale: locale),
-          // dropCard(locale: locale),
-          // dropCard(locale: locale),
+          dropCard(locale: locale),
+          dropCard(locale: locale),
+          dropCard(locale: locale),
           IconInCircle(
             themeConfig: themeConfig,
             icon: Icons.add,
