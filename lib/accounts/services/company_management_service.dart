@@ -61,7 +61,7 @@ class CompanyManagementService {
     return account.profiles;
   }
 
-  void uploadCompanyPhoto(Future<File> file) async {
+  Future<void> uploadCompanyPhoto(Future<File> file) async {
     try {
       File loadedFile = await file;
       Dio dio = new Dio();
