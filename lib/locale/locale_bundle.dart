@@ -266,4 +266,6 @@ abstract class LocaleBundle {
   String get startTimeMandatory;
 
   String get endTimeMandatory;
+
+  String get chooseSpotForDrop;
 }

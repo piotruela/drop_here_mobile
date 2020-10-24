@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/add_drop_to_route_bloc.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/choose_spot_for_drop_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
@@ -150,6 +151,7 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
     return ColoredRoundedFlatButton(
       text: locale.addSpotButton,
       onTap: () {
+        Get.to(ChooseSpotForDropPage());
         //TODO go to spot choice
       },
     );

@@ -405,4 +405,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get startTimeMandatory => "Start time*";
+
+  @override
+  String get chooseSpotForDrop => "Choose spot for drop";
 }
