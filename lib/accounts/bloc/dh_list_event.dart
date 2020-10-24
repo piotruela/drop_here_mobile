@@ -73,34 +73,3 @@ class SearchProducts extends DhListEvent {
   @override
   List<Object> get props => [searchText];
 }
-
-class FetchSpotsForDrop extends DhListEvent {
-  FetchSpotsForDrop();
-
-  @override
-  List<Object> get props => [];
-}
-
-// class ChangeGroupValue extends DhListEvent {
-//   final int groupValue;
-//   ChangeGroupValue(this.groupValue);
-//
-//   @override
-//   List<Object> get props => [groupValue];
-// }
-
-class FilterSpotsForDrop extends DhListEvent {
-  final String filter;
-  FilterSpotsForDrop({this.filter});
-
-  @override
-  List<Object> get props => [filter];
-}
-
-class SearchSpotsForDrop extends DhListEvent {
-  final String searchText;
-  SearchSpotsForDrop({this.searchText});
-
-  @override
-  List<Object> get props => [searchText];
-}

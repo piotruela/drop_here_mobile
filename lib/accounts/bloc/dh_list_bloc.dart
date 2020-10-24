@@ -9,8 +9,6 @@ import 'package:drop_here_mobile/accounts/services/company_management_service.da
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:drop_here_mobile/products/model/product_with_photo.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
-import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
-import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart' show Image;
 import 'package:get/get.dart';
@@ -22,7 +20,6 @@ part 'dh_list_state.dart';
 class DhListBloc extends Bloc<DhListEvent, DhListState> {
   final CompanyManagementService companyManagementService = Get.find<CompanyManagementService>();
   final ProductManagementService productManagementService = Get.find<ProductManagementService>();
-  final SpotManagementService spotManagementService = Get.find<SpotManagementService>();
 
   DhListBloc() : super(DhListInitial());
 
@@ -64,13 +61,6 @@ class DhListBloc extends Bloc<DhListEvent, DhListState> {
         final List<ProfileInfoResponse> apiSellers =
             await companyManagementService.fetchCompanySellers();
         yield SellersFetched(apiSellers.map((seller) => seller.convertFromApiModel()).toList());
-      } catch (e) {
-        yield FetchingError(e);
-      }
-    } else if (event is FetchSpotsForDrop) {
-      try {
-        final List<SpotCompanyResponse> spots = await spotManagementService.fetchCompanySpots();
-        yield SpotsForDropFetched(spots, -1);
       } catch (e) {
         yield FetchingError(e);
       }

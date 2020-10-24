@@ -43,23 +43,6 @@ class ProductsFetched extends DhListState {
   List<Object> get props => [products];
 }
 
-class SpotsForDropFetched extends DhListState {
-  final List<SpotCompanyResponse> spots;
-  final int radioValue;
-  const SpotsForDropFetched(this.spots, this.radioValue);
-
-  @override
-  List<Object> get props => [spots, radioValue];
-}
-
-// class GroupValueChanged extends DhListState {
-//   final int radioValue;
-//   const GroupValueChanged(this.radioValue);
-//
-//   @override
-//   List<Object> get props => [radioValue];
-// }
-
 class FetchingError extends DhListState {
   final String error;
   const FetchingError(this.error);

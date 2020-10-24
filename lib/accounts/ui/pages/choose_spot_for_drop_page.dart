@@ -1,3 +1,4 @@
+import 'package:drop_here_mobile/accounts/bloc/choose_spot_for_drop_bloc.dart';
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
@@ -10,13 +11,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-class ChooseSpotForDropPage extends BlocWidget<DhListBloc> {
+class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   @override
-  DhListBloc bloc() => DhListBloc()..add(FetchSpotsForDrop());
+  ChooseSpotForDropBloc bloc() => ChooseSpotForDropBloc()..add(FetchSpotsForDrop());
 
   @override
-  Widget build(BuildContext context, DhListBloc bloc, _) {
+  Widget build(BuildContext context, ChooseSpotForDropBloc bloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
       body: SafeArea(
@@ -39,22 +40,20 @@ class ChooseSpotForDropPage extends BlocWidget<DhListBloc> {
                 bloc: bloc,
               ),
             ),
-            BlocBuilder<DhListBloc, DhListState>(
+            BlocBuilder<ChooseSpotForDropBloc, ChooseSpotForDropState>(
               builder: (context, state) {
-                if (state is DhListInitial) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (state is ListLoading) {
+                if (state is ChooseSpotForDropInitial) {
                   return Center(child: CircularProgressIndicator());
                 } else if (state is FetchingError) {
                   return Container(
                       child: Column(
                     children: [
-                      Text(state.error),
+                      Text('try again'),
                       RaisedButton(onPressed: () => bloc.add(FetchSpotsForDrop()))
                     ],
                   ));
                 } else if (state is SpotsForDropFetched) {
-                  return buildColumnWithData(locale, state, context, bloc);
+                  return buildColumnWithData(locale, context, bloc);
                 }
                 return Container();
               },
@@ -66,22 +65,22 @@ class ChooseSpotForDropPage extends BlocWidget<DhListBloc> {
   }
 
   SafeArea buildColumnWithData(
-      LocaleBundle locale, SpotsForDropFetched state, BuildContext context, DhListBloc bloc) {
+      LocaleBundle locale, BuildContext context, ChooseSpotForDropBloc bloc) {
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ListView.builder(
               shrinkWrap: true,
-              itemCount: state.spots.length,
+              itemCount: bloc.state.spots.length,
               itemBuilder: (BuildContext context, int index) {
                 return DhCard1(
-                  title: state.spots[index].name,
+                  title: bloc.state.spots[index].name,
                   isActive: true,
                   dropsNumber: 1,
                   popupOptions: [locale.block],
-                  state: bloc.state,
                   bloc: bloc,
+                  index: index,
                 );
               }),
         ],
@@ -94,12 +93,11 @@ class DhCard1 extends StatelessWidget {
   final String title;
   final bool isActive;
   final int dropsNumber;
-  final SpotsForDropFetched state;
-  final DhListBloc bloc;
+  final ChooseSpotForDropBloc bloc;
+  final int index;
   final List<String> popupOptions;
-  static int lastValue = 0;
   const DhCard1(
-      {this.title, this.isActive, this.dropsNumber, this.state, this.bloc, this.popupOptions});
+      {this.title, this.isActive, this.dropsNumber, this.bloc, this.index, this.popupOptions});
 
   @override
   Widget build(BuildContext context) {
@@ -128,13 +126,13 @@ class DhCard1 extends StatelessWidget {
               )
             ],
           ),
-          // trailing: Radio(
-          //   groupValue: state.radioValue,
-          //   value: lastValue++,
-          //   onChanged: (_) {
-          //     bloc.add(ChangeGroupValue(state.radioValue));
-          //   },
-          // ),
+          trailing: Radio(
+            groupValue: bloc.state.radioValue,
+            value: index,
+            onChanged: (_) {
+              bloc.add(ChangeGroupValue(index, bloc.state.spots));
+            },
+          ),
         ),
         decoration: BoxDecoration(
           color: themeConfig.colors.white,
