@@ -15,7 +15,6 @@ import 'package:get/get.dart';
 
 class ProductManagementService {
   final DhHttpClient _httpClient = Get.find<DhHttpClient>();
-  final Map<String, String> _headers = {HttpHeaders.contentTypeHeader: "application/json"};
   final CompanyManagementService _companyManagementService = Get.find<CompanyManagementService>();
 
   Future<ProductsPage> getCompanyProducts([CompanyProductsRequest companyProductsRequest]) async {
@@ -45,7 +44,6 @@ class ProductManagementService {
       ProductManagementRequest productManagementRequest) async {
     String companyId = await _companyManagementService.getCompanyId();
     dynamic response = await _httpClient.post(
-        headers: _headers,
         body: json.encode(productManagementRequest.toJson()),
         canRepeatRequest: true,
         path: "/companies/$companyId/products",

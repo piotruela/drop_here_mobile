@@ -13,7 +13,6 @@ import 'package:flutter/material.dart' hide Page;
 import 'package:get/get.dart';
 
 class CompanyManagementService {
-  final Map<String, String> _headers = {HttpHeaders.contentTypeHeader: "application/json"};
   final DhHttpClient _httpClient = Get.find<DhHttpClient>();
 
   CompanyManagementService();
@@ -35,7 +34,6 @@ class CompanyManagementService {
     try {
       dynamic response = await _httpClient.put(
           canRepeatRequest: true,
-          headers: _headers,
           body: json.encode(companyDetails.toJson()),
           path: "/management/companies",
           out: (dynamic json) => json);
