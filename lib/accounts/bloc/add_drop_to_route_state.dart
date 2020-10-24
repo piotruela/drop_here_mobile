@@ -14,7 +14,7 @@ class AddDropToRouteFormState extends Equatable {
 
   bool get isFilled =>
       //TODO add more
-      drop.name != null && drop.startTime != null;
+      drop.name != null;
 
   @override
   List<Object> get props => [drop, isFilled];

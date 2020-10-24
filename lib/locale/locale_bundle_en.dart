@@ -399,4 +399,10 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get addSpotButton => "Add spot +";
+
+  @override
+  String get endTimeMandatory => "End time*";
+
+  @override
+  String get startTimeMandatory => "Start time*";
 }

@@ -69,7 +69,7 @@ class RouteProductRequest {
 @JsonSerializable()
 class RouteDropRequest {
   final String description;
-  final DateTime endTime;
+  final String endTime;
   final String name;
   final int spotId;
   final String startTime;
@@ -81,7 +81,7 @@ class RouteDropRequest {
 
   RouteDropRequest copyWith({
     String description,
-    DateTime endTime,
+    String endTime,
     String name,
     int spotId,
     String startTime,

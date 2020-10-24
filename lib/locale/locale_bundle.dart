@@ -262,4 +262,8 @@ abstract class LocaleBundle {
   String get pickTime;
 
   String get addSpotButton;
+
+  String get startTimeMandatory;
+
+  String get endTimeMandatory;
 }
