@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:drop_here_mobile/accounts/bloc/company_management_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/edit_company_details_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
@@ -32,7 +33,7 @@ class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
                   return CircularProgressIndicator();
                 }
                 if (state is CompanyDetailsFetched) {
-                  return SizedBox(width: 150, height: 150, child: state.image);
+                  return SizedBox(width: 150, height: 150, child: ClipOval(child: state.image));
                 } else {
                   return SizedBox.shrink();
                 }
@@ -77,7 +78,8 @@ class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
                     Icons.edit,
                   ),
                   shape: CircleBorder(),
-                  onPressed: () => companyManagementService.uploadCompanyPhoto(getImage()),
+                  onPressed: () => Get.to(
+                      EditCompanyDetailsPage(company: state.company, companyImage: state.image)),
                 ),
               )),
             ],
