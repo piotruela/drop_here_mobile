@@ -188,17 +188,18 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 4.0),
-                  FutureBuilder(
-                      future: getAddressFromCoordinates(drop., spot.ycoordinate) ?? '',
-                      initialData: "Loading location...",
-                      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                        return Text(
-                          snapshot.data ?? "",
-                          style: themeConfig.textStyles.title3Annotation,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        );
-                      }),
+                  //TODO add when drop localization available
+                  // FutureBuilder(
+                  //     future: getAddressFromCoordinates(drop., spot.ycoordinate) ?? '',
+                  //     initialData: "Loading location...",
+                  //     builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                  //       return Text(
+                  //         snapshot.data ?? "",
+                  //         style: themeConfig.textStyles.title3Annotation,
+                  //         overflow: TextOverflow.ellipsis,
+                  //         maxLines: 1,
+                  //       );
+                  //     }),
                   SizedBox(height: 6.0),
                   //TODO add when drop members available
                   // Text(
