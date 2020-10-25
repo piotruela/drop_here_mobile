@@ -408,4 +408,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get chooseSpotForDrop => "Choose spot for drop";
+
+  @override
+  String get addDrop => "Add drop";
 }

@@ -89,12 +89,14 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
                       buildWhen: (previous, current) => previous.isFilled != current.isFilled,
                       builder: (context, state) => Center(
                         child: SubmitFormButton(
-                            text: locale.addRoute,
+                            text: locale.addDrop,
                             isActive: state.isFilled,
                             //TODO check this function
                             onTap: () {
                               if (state.isFilled) {
                                 addDropToRouteBloc.add(FormSubmitted());
+                                addDrop(addDropToRouteBloc.state.drop);
+                                Get.back();
                               }
                             }),
                       ),
