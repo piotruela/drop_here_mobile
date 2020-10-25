@@ -29,7 +29,7 @@ class LoginPage extends BlocWidget<LoginBloc> {
           listenWhen: (previous, current) => previous != current,
           listener: (context, state) {
             if (state is SuccessState) {
-              Get.to(ChooseProfilePage());
+              Get.offAll(ChooseProfilePage());
             }
             if (state is ErrorState) {
               Scaffold.of(context).showSnackBar(SnackBar(content: Text("Login error")));

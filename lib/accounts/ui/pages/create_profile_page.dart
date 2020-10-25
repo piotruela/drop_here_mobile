@@ -29,7 +29,7 @@ abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
               listenWhen: (previous, current) => previous.runtimeType != current.runtimeType,
               listener: (context, state) {
                 if (state is SuccessState) {
-                  Get.to(getNextPage());
+                  Get.offAll(getNextPage());
                 } else if (state is ErrorState) {
                   Scaffold.of(context).showSnackBar(SnackBar(
                       content:

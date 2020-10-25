@@ -7,7 +7,6 @@ import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
 import 'package:drop_here_mobile/spots/bloc/spots_list_bloc.dart';
 import 'package:drop_here_mobile/spots/ui/widgets/spot_card.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -26,17 +25,19 @@ class SpotsMapPage extends BlocWidget<SpotsMapBloc> {
       body: Stack(
         children: [
           BlocBuilder<SpotsMapBloc, SpotsMapState>(
-            buildWhen: (previous, current) => previous != current,
+            buildWhen: (previous, current) => previous != current && current is SpotsFetched,
             builder: (context, state) {
               Set<Marker> spotMarkers = {};
               if (state is SpotsFetched) {
                 spotMarkers = state.spots
                     .map((spot) => Marker(
+                        onTap: () => bloc.add(SpotPinClicked(spot: spot, context: context)),
                         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
                         position: LatLng(spot.xcoordinate, spot.ycoordinate),
                         markerId: MarkerId(spot.id.toString())))
                     .toSet();
                 return GoogleMap(
+                  padding: EdgeInsets.only(bottom: 50.0),
                   markers: spotMarkers,
                   initialCameraPosition:
                       CameraPosition(zoom: 15, target: LatLng(54.397498, 18.589627)),
@@ -48,36 +49,35 @@ class SpotsMapPage extends BlocWidget<SpotsMapBloc> {
               }
             },
           ),
-          SlidingUpPanel(
-            controller: pc2,
-            panel: Column(
-              children: [
-                panelHeader(context, pc2),
-                DhSearchBar(DhListBloc()),
-                BlocBuilder<SpotsMapBloc, SpotsMapState>(
+          DraggableScrollableSheet(
+              initialChildSize: 0.3,
+              minChildSize: 0.3,
+              maxChildSize: 0.7,
+              builder: (BuildContext context, myScrollController) {
+                return BlocBuilder<SpotsMapBloc, SpotsMapState>(
                   buildWhen: (previous, current) => previous != current,
                   builder: (context, state) {
                     if (state is SpotsFetched) {
-                      return ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: state.spots.length,
-                          itemBuilder: (BuildContext context, int index) => SpotCard(
-                                spot: state.spots[index],
-                                onTap: () => Get.to(SpotDetailsPage(spot: state.spots[index])),
-                                onSelectedItem: (value) =>
-                                    bloc.add(DeleteSpot(spotId: int.parse(value))),
-                              ));
+                      final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+                      return Container(
+                        decoration: BoxDecoration(
+                            color: themeConfig.colors.white,
+                            borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+                        child: Column(
+                          children: [
+                            DhSearchBar(DhListBloc()),
+                            Expanded(child: spotsList(bloc, state, myScrollController)),
+                            SizedBox(height: 50.0)
+                          ],
+                        ),
+                      );
                     } else {
                       return SizedBox.shrink();
                     }
                   },
-                )
-              ],
-            ),
-            minHeight: 120,
-            borderRadius: const BorderRadius.only(
-                topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-          ),
+                );
+              }),
           SlidingUpPanel(
             controller: pc1,
             panel: CreateNewItemPage(),
@@ -86,6 +86,16 @@ class SpotsMapPage extends BlocWidget<SpotsMapBloc> {
             header: panelHeader(context, pc1),
             borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+          ),
+          BlocBuilder<SpotsMapBloc, SpotsMapState>(
+            buildWhen: (previous, current) => previous != current,
+            builder: (context, state) {
+              if (state is SpotDetailsPanelCreated) {
+                return state.spotDetailsPanel;
+              } else {
+                return SizedBox.shrink();
+              }
+            },
           ),
           Align(
               alignment: Alignment.bottomCenter,
@@ -96,6 +106,18 @@ class SpotsMapPage extends BlocWidget<SpotsMapBloc> {
         ],
       ),
     );
+  }
+
+  Widget spotsList(SpotsMapBloc bloc, SpotsFetched state, ScrollController controller) {
+    return ListView.builder(
+        controller: controller,
+        shrinkWrap: true,
+        itemCount: state.spots.length,
+        itemBuilder: (BuildContext context, int index) => SpotCard(
+              spot: state.spots[index],
+              onTap: () => Get.to(SpotDetailsPage(spot: state.spots[index])),
+              onSelectedItem: (value) => bloc.add(DeleteSpot(spotId: int.parse(value))),
+            ));
   }
 
   Widget panelHeader(BuildContext context, PanelController panelController) {

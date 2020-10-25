@@ -12,12 +12,11 @@ import 'package:drop_here_mobile/products/services/product_management_service.da
 import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
 import 'package:get/get.dart';
 
-
 class ConfigBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<ThemeConfig>(() => DHThemeConfig());
-    Get.lazyPut<AssetsConfig>(() => DHAssetsConfig());
+    Get.put<ThemeConfig>(DHThemeConfig());
+    Get.put<AssetsConfig>(DHAssetsConfig());
     Get.put<DhHttpClient>(DhHttpClient());
     Get.put(AccountService());
     Get.put(CountriesService());
