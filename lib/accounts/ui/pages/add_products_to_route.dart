@@ -88,10 +88,8 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
               itemCount: state.products.numberOfElements,
               itemBuilder: (BuildContext context, int index) {
                 return ProductCard(
-                  title: state.products.content[index].name,
-                  unit: state.products.content[index].unit,
-                  category: state.products.content[index].category,
-                  price: state.products.content[index].price,
+                  index: index,
+                  state: state,
                 );
               })
         ],
@@ -101,13 +99,10 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
 }
 
 class ProductCard extends StatelessWidget {
-  final String title;
-  final String category;
-  final double price;
-  final String unit;
-  final Image photo;
+  final ProductsFetched state;
+  final int index;
 
-  const ProductCard({this.title, this.category, this.price, this.unit, this.photo});
+  const ProductCard({this.state, this.index});
 
   @override
   //TODO add shadow and change dots icon
@@ -120,7 +115,7 @@ class ProductCard extends StatelessWidget {
         child: ListTile(
           leading: productPhoto(context),
           title: Text(
-            title,
+            state.products.content[index].name,
             style: themeConfig.textStyles.secondaryTitle,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -132,7 +127,7 @@ class ProductCard extends StatelessWidget {
                 height: 5.0,
               ),
               Text(
-                '${locale.category}: $category',
+                '${locale.category}: ${state.products.content[index].category}',
                 style: themeConfig.textStyles.cardSubtitle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -141,17 +136,42 @@ class ProductCard extends StatelessWidget {
                 height: 6.0,
               ),
               Text(
-                '${locale.price}: ${price.toString()}${locale.currency}/$unit',
+                '${locale.price}: ${state.products.content[index].price.toString()}${locale.currency}/${state.products.content[index].unit}',
                 style: themeConfig.textStyles.cardSubtitle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
             ],
           ),
-          trailing: Checkbox(
-            onChanged: (bool value) {},
-            value: false,
+
+          trailing:
+              // BlocBuilder<AddProductsToRouteBloc, AddProductsToRouteState>(
+              //   //buildWhen: (previous, current) => previous. != current.isFilled(),
+              //   builder: (context, s) =>
+              Checkbox(
+            onChanged: (bool value) {
+              if (value) {
+                state.selectedProducts.add(state.products.content[index]);
+                print(state.selectedProducts.contains(state.products.content[index]));
+              } else {
+                state.selectedProducts.remove(state.products.content[index]);
+                print(state.selectedProducts.contains(state.products.content[index]));
+              }
+            },
+            value: state.selectedProducts.contains(state.products.content[index]),
           ),
+          //),
+
+          // trailing: Checkbox(
+          //   onChanged: (bool value) {
+          //     if (value) {
+          //       state.selectedProducts.add(state.products.content[index]);
+          //     } else {
+          //       state.selectedProducts.remove(state.products.content[index]);
+          //     }
+          //   },
+          //   value: state.selectedProducts.contains(state.products.content[index]),
+          // ),
         ),
         decoration: BoxDecoration(
           color: themeConfig.colors.white,
@@ -174,7 +194,12 @@ class ProductCard extends StatelessWidget {
           maxWidth: 74,
           maxHeight: 84,
         ),
-        child: ClipRRect(borderRadius: BorderRadius.circular(10.0), child: photo),
+        //child: ClipRRect(borderRadius: BorderRadius.circular(10.0), child: photo),
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Container(
+              child: Text('a'),
+            )),
       ),
     );
   }

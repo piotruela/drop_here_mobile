@@ -16,9 +16,10 @@ class FetchingError extends AddProductsToRouteState {
 
 class ProductsFetched extends AddProductsToRouteState {
   final ProductsPage products;
+  final LinkedHashSet<ProductResponse> selectedProducts;
 
-  ProductsFetched(this.products);
+  ProductsFetched(this.products, this.selectedProducts);
 
   @override
-  List<Object> get props => [products];
+  List<Object> get props => [products, selectedProducts];
 }

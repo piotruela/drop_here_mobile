@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
+import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
@@ -20,7 +22,8 @@ class AddProductsToRouteBloc extends Bloc<AddProductsToRouteEvent, AddProductsTo
     yield AddProductsToRouteInitial();
     if (event is FetchProducts) {
       ProductsPage products = await productManagementService.getCompanyProducts();
-      yield (ProductsFetched(products));
-    }
+      Set<ProductResponse> mySet = {};
+      yield (ProductsFetched(products, mySet));
+    } else if (event is EditSelectedProducts) {}
   }
 }
