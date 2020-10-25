@@ -14,10 +14,22 @@ class FetchProducts extends AddProductsToRouteEvent {
   List<Object> get props => [];
 }
 
-class EditSelectedProducts extends AddProductsToRouteEvent {
+class AddProductToSelected extends AddProductsToRouteEvent {
   final ProductResponse product;
+  final ProductsPage products;
+  final LinkedHashSet<ProductResponse> selectedProducts;
 
-  EditSelectedProducts(this.product);
+  AddProductToSelected(this.product, this.products, this.selectedProducts);
   @override
-  List<Object> get props => [product];
+  List<Object> get props => [product, products, selectedProducts];
+}
+
+class RemoveProductFromSelected extends AddProductsToRouteEvent {
+  final ProductResponse product;
+  final ProductsPage products;
+  final LinkedHashSet<ProductResponse> selectedProducts;
+
+  RemoveProductFromSelected(this.product, this.products, this.selectedProducts);
+  @override
+  List<Object> get props => [product, products, selectedProducts];
 }

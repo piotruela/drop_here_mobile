@@ -24,6 +24,12 @@ class AddProductsToRouteBloc extends Bloc<AddProductsToRouteEvent, AddProductsTo
       ProductsPage products = await productManagementService.getCompanyProducts();
       Set<ProductResponse> mySet = {};
       yield (ProductsFetched(products, mySet));
-    } else if (event is EditSelectedProducts) {}
+    } else if (event is AddProductToSelected) {
+      event.selectedProducts.add(event.product);
+      yield (ProductsFetched(event.products, event.selectedProducts));
+    } else if (event is RemoveProductFromSelected) {
+      event.selectedProducts.remove(event.product);
+      yield (ProductsFetched(event.products, event.selectedProducts));
+    }
   }
 }

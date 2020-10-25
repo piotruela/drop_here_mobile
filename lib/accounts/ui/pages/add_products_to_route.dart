@@ -90,6 +90,7 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
                 return ProductCard(
                   index: index,
                   state: state,
+                  bloc: bloc,
                 );
               })
         ],
@@ -101,8 +102,9 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
 class ProductCard extends StatelessWidget {
   final ProductsFetched state;
   final int index;
+  final AddProductsToRouteBloc bloc;
 
-  const ProductCard({this.state, this.index});
+  const ProductCard({this.state, this.index, this.bloc});
 
   @override
   //TODO add shadow and change dots icon
@@ -152,9 +154,14 @@ class ProductCard extends StatelessWidget {
             onChanged: (bool value) {
               if (value) {
                 state.selectedProducts.add(state.products.content[index]);
+                bloc.add(AddProductToSelected(
+                    state.products.content[index], state.products, state.selectedProducts));
                 print(state.selectedProducts.contains(state.products.content[index]));
               } else {
                 state.selectedProducts.remove(state.products.content[index]);
+                bloc.add(RemoveProductFromSelected(
+                    state.products.content[index], state.products, state.selectedProducts));
+
                 print(state.selectedProducts.contains(state.products.content[index]));
               }
             },
