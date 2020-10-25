@@ -1,10 +1,13 @@
 import 'package:drop_here_mobile/accounts/bloc/choose_spot_for_drop_bloc.dart';
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/get_address_from_coordinates.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +23,12 @@ class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
   Widget build(BuildContext context, ChooseSpotForDropBloc bloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
+      floatingActionButton: SubmitFormButton(
+        isActive: true,
+        text: locale.submit,
+        onTap: () {},
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,11 +83,7 @@ class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
               shrinkWrap: true,
               itemCount: bloc.state.spots.length,
               itemBuilder: (BuildContext context, int index) {
-                return DhCard1(
-                  title: bloc.state.spots[index].name,
-                  isActive: true,
-                  dropsNumber: 1,
-                  popupOptions: [locale.block],
+                return SpotRadioCard(
                   bloc: bloc,
                   index: index,
                 );
@@ -89,15 +94,10 @@ class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
   }
 }
 
-class DhCard1 extends StatelessWidget {
-  final String title;
-  final bool isActive;
-  final int dropsNumber;
+class SpotRadioCard extends StatelessWidget {
   final ChooseSpotForDropBloc bloc;
   final int index;
-  final List<String> popupOptions;
-  const DhCard1(
-      {this.title, this.isActive, this.dropsNumber, this.bloc, this.index, this.popupOptions});
+  const SpotRadioCard({this.bloc, this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -107,23 +107,38 @@ class DhCard1 extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
       child: Container(
         child: ListTile(
-          leading: CircleAvatar(
-            radius: 30,
+          leading: IconInCircle(
+            themeConfig: themeConfig,
+            icon: Icons.store,
           ),
           title: Text(
-            title,
+            bloc.state.spots[index].name,
             style: themeConfig.textStyles.secondaryTitle,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              statusText(locale, themeConfig, isActive),
               Text(
-                dropsNumber != null
-                    ? locale.memberOf + ' ' + dropsNumber.toString() + ' ' + locale.spots
-                    : '',
+                bloc.state.spots[index].description ?? '',
                 style: themeConfig.textStyles.cardSubtitle,
-              )
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+              FutureBuilder(
+                  future: getAddressFromCoordinates(bloc.state.spots[index].xcoordinate,
+                          bloc.state.spots[index].ycoordinate) ??
+                      '',
+                  initialData: "Loading location...",
+                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    return Text(
+                      snapshot.data ?? "",
+                      style: themeConfig.textStyles.cardSubtitle,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    );
+                  }),
             ],
           ),
           trailing: Radio(

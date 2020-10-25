@@ -20,7 +20,7 @@ class ChooseSpotForDropBloc extends Bloc<ChooseSpotForDropEvent, ChooseSpotForDr
     if (event is FetchSpotsForDrop) {
       try {
         final List<SpotCompanyResponse> spots = await spotManagementService.fetchCompanySpots();
-        yield SpotsForDropFetched(spots: spots, radioValue: -1);
+        yield SpotsForDropFetched(spots: spots, radioValue: 0);
       } catch (e) {
         yield ChooseSpotForDropError(e);
       }
