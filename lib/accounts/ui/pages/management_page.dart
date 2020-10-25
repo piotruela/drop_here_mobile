@@ -11,6 +11,9 @@ import 'company_details_page.dart';
 
 class ManagementPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+  final int initialIndex;
+
+  ManagementPage({this.initialIndex = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -18,6 +21,7 @@ class ManagementPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: DefaultTabController(
+          initialIndex: initialIndex,
           length: 3,
           child: Scaffold(
               body: Column(
