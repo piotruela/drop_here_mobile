@@ -31,7 +31,7 @@ class LoginPage extends BlocWidget<LoginBloc> {
               Get.offAll(ChooseProfilePage());
             }
             if (state is ErrorState) {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login error")));
+              Scaffold.of(context).showSnackBar(SnackBar(content: Text("Login error")));
             }
           },
           child: BlocBuilder<LoginBloc, LoginFormState>(

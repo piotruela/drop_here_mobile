@@ -27,7 +27,7 @@ class CompanyDetailsRegistrationPage extends BlocWidget<CompanyRegisterDetailsBl
               listenWhen: (previous, current) => previous != current,
               listener: (context, state) {
                 if (state is ErrorState) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  Scaffold.of(context).showSnackBar(SnackBar(
                       content:
                           Text(localeBundle.registrationError + localeBundle.unexpectedError)));
                 }

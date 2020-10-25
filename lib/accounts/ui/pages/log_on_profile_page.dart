@@ -38,7 +38,7 @@ class LogOnProfilePage extends BlocWidget<LoginProfileBloc> {
                 Get.offAll(SpotsMapPage());
               }
               if (state is LoginFailure) {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Login error")));
+                Scaffold.of(context).showSnackBar(SnackBar(content: Text("Login error")));
               }
             },
             buildWhen: (previous, current) => previous.runtimeType != current.runtimeType,

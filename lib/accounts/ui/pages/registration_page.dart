@@ -34,7 +34,7 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
             Get.to(page);
           }
           if (state is ErrorState) {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Register error")));
+            Scaffold.of(context).showSnackBar(SnackBar(content: Text("Register error")));
           }
         },
         buildWhen: (previous, current) => previous.runtimeType != current.runtimeType,
