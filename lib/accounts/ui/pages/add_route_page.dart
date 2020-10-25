@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -304,7 +305,9 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
             ),
           GestureDetector(
             onTap: () {
-              Get.to(AddProductsToRoutePage());
+              Get.to(AddProductsToRoutePage((LinkedHashSet<RouteProductRequest> selectedProducts) {
+                bloc.state.routeRequest.products.addAll(selectedProducts);
+              }));
               // Get.to(AddDropToRoutePage(
               //   addDrop: (RouteDropRequest drop) {
               //     bloc.add(FormChanged(

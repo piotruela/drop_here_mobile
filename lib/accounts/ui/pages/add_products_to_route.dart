@@ -13,8 +13,9 @@ import 'package:get/get.dart';
 
 class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+  final Function addProducts;
 
-  AddProductsToRoutePage();
+  AddProductsToRoutePage(this.addProducts);
   @override
   AddProductsToRouteBloc bloc() =>
       AddProductsToRouteBloc()..add(FetchProducts()); //..add(FetchProducts());
@@ -28,6 +29,8 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
         text: locale.submit,
         onTap: () {
           //TODO add function
+          ProductsFetched state = bloc.state;
+          addProducts(state.selectedProducts);
           //addSpot(bloc.state.spots[bloc.state.radioValue]);
           Get.back();
         },
