@@ -6,11 +6,12 @@ abstract class AddDropToRouteEvent extends Equatable {
 
 class FormChanged extends AddDropToRouteEvent {
   final RouteDropRequest drop;
+  final SpotCompanyResponse spot;
 
-  FormChanged({this.drop});
+  FormChanged({this.drop, this.spot});
 
   @override
-  List<Object> get props => [drop];
+  List<Object> get props => [drop, spot];
 }
 
 class FormSubmitted extends AddDropToRouteEvent {

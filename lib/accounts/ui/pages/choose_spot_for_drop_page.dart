@@ -16,6 +16,9 @@ import 'package:get/get.dart';
 
 class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+  final Function addSpot;
+
+  ChooseSpotForDropPage({this.addSpot});
   @override
   ChooseSpotForDropBloc bloc() => ChooseSpotForDropBloc()..add(FetchSpotsForDrop());
 
@@ -26,7 +29,10 @@ class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
       floatingActionButton: SubmitFormButton(
         isActive: true,
         text: locale.submit,
-        onTap: () {},
+        onTap: () {
+          addSpot(bloc.state.spots[bloc.state.radioValue]);
+          Get.back();
+        },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
@@ -157,35 +163,6 @@ class SpotRadioCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  Row statusText(LocaleBundle locale, ThemeConfig themeConfig, bool isActive) {
-    if (isActive) {
-      return Row(
-        children: [
-          Text(
-            locale.active,
-            style: themeConfig.textStyles.active,
-          ),
-          Icon(
-            Icons.check,
-            color: themeConfig.colors.active,
-          ),
-        ],
-      );
-    }
-    return Row(
-      children: [
-        Text(
-          locale.blocked,
-          style: themeConfig.textStyles.blocked,
-        ),
-        Icon(
-          Icons.clear,
-          color: themeConfig.colors.blocked,
-        ),
-      ],
     );
   }
 }

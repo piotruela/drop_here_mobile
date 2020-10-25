@@ -2,13 +2,16 @@ part of 'add_drop_to_route_bloc.dart';
 
 class AddDropToRouteFormState extends Equatable {
   final RouteDropRequest drop;
-  const AddDropToRouteFormState({this.drop});
+  final SpotCompanyResponse spot;
+  const AddDropToRouteFormState({this.drop, this.spot});
 
   AddDropToRouteFormState copyWith({
     final RouteDropRequest drop,
+    final SpotCompanyResponse spot,
   }) {
     return AddDropToRouteFormState(
       drop: drop ?? this.drop,
+      spot: spot ?? this.spot,
     );
   }
 
@@ -17,5 +20,5 @@ class AddDropToRouteFormState extends Equatable {
       drop.name != null;
 
   @override
-  List<Object> get props => [drop, isFilled];
+  List<Object> get props => [drop, spot, isFilled];
 }
