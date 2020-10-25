@@ -25,7 +25,6 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
         child: Scaffold(
       backgroundColor: Colors.transparent,
       body: BlocConsumer<RegistrationBloc, RegisterState>(
-        bloc: bloc,
         listenWhen: (previous, current) => previous.runtimeType != current.runtimeType,
         listener: (context, state) {
           if (state is SuccessState) {
@@ -35,7 +34,7 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
             Get.to(page);
           }
           if (state is ErrorState) {
-            Scaffold.of(context).showSnackBar(SnackBar(content: Text("Register error")));
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Register error")));
           }
         },
         buildWhen: (previous, current) => previous.runtimeType != current.runtimeType,

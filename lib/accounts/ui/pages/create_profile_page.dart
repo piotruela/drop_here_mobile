@@ -25,13 +25,12 @@ abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
         child: Scaffold(
             backgroundColor: Colors.transparent,
             body: BlocConsumer<CreateProfileBloc, CreateProfileState>(
-              bloc: bloc,
               listenWhen: (previous, current) => previous.runtimeType != current.runtimeType,
               listener: (context, state) {
                 if (state is SuccessState) {
                   Get.offAll(getNextPage());
                 } else if (state is ErrorState) {
-                  Scaffold.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content:
                           Text(localeBundle.registrationError + localeBundle.unexpectedError)));
                 }

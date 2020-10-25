@@ -24,11 +24,10 @@ class CompanyDetailsRegistrationPage extends BlocWidget<CompanyRegisterDetailsBl
         child: Scaffold(
             backgroundColor: Colors.transparent,
             body: BlocListener<CompanyRegisterDetailsBloc, CompanyRegistrationDetailsFormState>(
-              bloc: bloc,
               listenWhen: (previous, current) => previous != current,
               listener: (context, state) {
                 if (state is ErrorState) {
-                  Scaffold.of(context).showSnackBar(SnackBar(
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                       content:
                           Text(localeBundle.registrationError + localeBundle.unexpectedError)));
                 }
