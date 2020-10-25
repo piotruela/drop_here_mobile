@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_drop_to_route_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/add_products_to_route.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
@@ -74,8 +75,8 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
                       // buildWhen: (previous, current) =>
                       //     previous.drops?.length != current.drops?.length,
-                      builder: (context, state) =>
-                          carousel(locale, addRouteBloc.state.routeRequest.drops, addRouteBloc)),
+                      builder: (context, state) => dropsCarousel(
+                          locale, addRouteBloc.state.routeRequest.drops, addRouteBloc)),
                   //carousel(locale),
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.assignedSeller),
@@ -98,7 +99,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.productsMandatory),
                   SizedBox(height: 6.0),
-                  productsCarousel(locale),
+                  productsCarousel(locale, addRouteBloc),
                   SizedBox(
                     height: 40.0,
                   ),
@@ -255,7 +256,8 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     );
   }
 
-  CarouselSlider carousel(LocaleBundle locale, List<RouteDropRequest> drops, AddRouteBloc bloc) {
+  CarouselSlider dropsCarousel(
+      LocaleBundle locale, List<RouteDropRequest> drops, AddRouteBloc bloc) {
     return CarouselSlider(
         options: CarouselOptions(
           aspectRatio: 16 / 7.4,
@@ -285,7 +287,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
         ]);
   }
 
-  CarouselSlider productsCarousel(LocaleBundle locale) {
+  CarouselSlider productsCarousel(LocaleBundle locale, AddRouteBloc bloc) {
     return CarouselSlider(
         options: CarouselOptions(
           aspectRatio: 16 / 7.4,
@@ -294,24 +296,30 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
           initialPage: 0,
         ),
         items: [
-          productCard(
-            photo: File(
-                //TODO change this file
-                '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'),
-          ),
-          productCard(
-            photo: File(
-                //TODO change this file
-                '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'),
-          ),
-          productCard(
-            photo: File(
-                //TODO change this file
-                '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'),
-          ),
-          IconInCircle(
-            themeConfig: themeConfig,
-            icon: Icons.add,
+          for (RouteProductRequest product in bloc.state.routeRequest.products ?? [])
+            productCard(
+              photo: File(
+                  //TODO change this file
+                  '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'),
+            ),
+          GestureDetector(
+            onTap: () {
+              Get.to(AddProductsToRoutePage());
+              // Get.to(AddDropToRoutePage(
+              //   addDrop: (RouteDropRequest drop) {
+              //     bloc.add(FormChanged(
+              //         routeRequest: bloc.state.routeRequest.drops != null
+              //             ? bloc.state.routeRequest
+              //                 .copyWith(drops: bloc.state.routeRequest.drops..add(drop))
+              //             : bloc.state.routeRequest.copyWith(drops: [drop])));
+              //   },
+              // )
+              // );
+            },
+            child: IconInCircle(
+              themeConfig: themeConfig,
+              icon: Icons.add,
+            ),
           )
         ]);
   }

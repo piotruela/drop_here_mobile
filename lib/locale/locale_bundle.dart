@@ -270,4 +270,6 @@ abstract class LocaleBundle {
   String get chooseSpotForDrop;
 
   String get addDrop;
+
+  String get addProductsToRoute;
 }
