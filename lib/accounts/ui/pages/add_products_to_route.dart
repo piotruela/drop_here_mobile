@@ -60,7 +60,7 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
             ),
             BlocBuilder<AddProductsToRouteBloc, AddProductsToRouteState>(
               builder: (context, state) {
-                if (state is ProductsInitial) {
+                if (state is AddProductsToRouteInitial) {
                   return Center(child: CircularProgressIndicator());
                 } else if (state is FetchingError) {
                   return Container(
