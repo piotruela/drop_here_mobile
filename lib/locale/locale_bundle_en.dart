@@ -417,4 +417,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get unlimited => "unlimited";
+
+  @override
+  String get amount => "Amount";
 }

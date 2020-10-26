@@ -274,4 +274,6 @@ abstract class LocaleBundle {
   String get addProductsToRoute;
 
   String get unlimited;
+
+  String get amount;
 }

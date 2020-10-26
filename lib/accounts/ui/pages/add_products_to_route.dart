@@ -3,6 +3,7 @@ import 'package:drop_here_mobile/accounts/model/local_product.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_switch.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
@@ -19,8 +20,8 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
 
   AddProductsToRoutePage(this.addProducts, this.selectedProducts);
   @override
-  AddProductsToRouteBloc bloc() => AddProductsToRouteBloc()
-    ..add(FetchProducts(selectedProducts.toSet())); //..add(FetchProducts());
+  AddProductsToRouteBloc bloc() =>
+      AddProductsToRouteBloc()..add(FetchProducts(selectedProducts.toSet()));
 
   @override
   Widget build(BuildContext context, AddProductsToRouteBloc bloc, _) {
@@ -114,64 +115,113 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
     final LocaleBundle locale = Localization.of(context).bundle;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
-      child: Container(
-        child: ListTile(
-          leading: productPhoto(context, state.localProducts[index].photo),
-          title: Text(
-            state.productsPage.content[index].name,
-            style: themeConfig.textStyles.secondaryTitle,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(state.localProducts[index].name),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(locale.unlimited),
+                        DhSwitch(
+                          initialPosition: false,
+                          onSwitch: (bool value) {
+                            //TODO add action
+                            print(value);
+                          },
+                        ),
+                        //labeledSwitch(text: locale.unlimited, onSwitch: (bool) => {}),
+                      ],
+                    ),
+                    rowWithTextField(locale.amount),
+                    rowWithTextField(locale.pricePerUnit),
+                  ],
+                ),
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 14.0),
+                    child: Text(locale.submit),
+                  )
+                ],
+              );
+            });
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
+        child: Container(
+          child: ListTile(
+            leading: productPhoto(context, state.localProducts[index].photo),
+            title: Text(
+              state.productsPage.content[index].name,
+              style: themeConfig.textStyles.secondaryTitle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 5.0,
+                ),
+                Text(
+                  '${locale.category}: ${state.productsPage.content[index].category}',
+                  style: themeConfig.textStyles.cardSubtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                SizedBox(
+                  height: 6.0,
+                ),
+                Text(
+                  '${locale.price}: ${state.productsPage.content[index].price.toString()}${locale.currency}/${state.productsPage.content[index].unit}',
+                  style: themeConfig.textStyles.cardSubtitle,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+            trailing: Checkbox(
+              onChanged: (bool value) {
+                if (value) {
+                  bloc.add(AddProductToSelected(state.localProducts[index], state.productsPage,
+                      state.selectedProducts, state.localProducts.toSet()));
+                  print(state.selectedProducts.contains(state.productsPage.content[index]));
+                } else {
+                  state.selectedProducts.remove(state.productsPage.content[index]);
+                  bloc.add(RemoveProductFromSelected(state.productsPage.content[index],
+                      state.productsPage, state.selectedProducts, state.localProducts.toSet()));
+
+                  print(state.selectedProducts.contains(state.productsPage.content[index]));
+                }
+              },
+              value:
+                  state.selectedProducts.contains(LocalProduct(state.productsPage.content[index])),
+            ),
           ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 5.0,
-              ),
-              Text(
-                '${locale.category}: ${state.productsPage.content[index].category}',
-                style: themeConfig.textStyles.cardSubtitle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              SizedBox(
-                height: 6.0,
-              ),
-              Text(
-                '${locale.price}: ${state.productsPage.content[index].price.toString()}${locale.currency}/${state.productsPage.content[index].unit}',
-                style: themeConfig.textStyles.cardSubtitle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
+          decoration: BoxDecoration(
+            color: themeConfig.colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              dhShadow(),
             ],
           ),
-          trailing: Checkbox(
-            onChanged: (bool value) {
-              if (value) {
-                bloc.add(AddProductToSelected(state.localProducts[index], state.productsPage,
-                    state.selectedProducts, state.localProducts.toSet()));
-                print(state.selectedProducts.contains(state.productsPage.content[index]));
-              } else {
-                state.selectedProducts.remove(state.productsPage.content[index]);
-                bloc.add(RemoveProductFromSelected(state.productsPage.content[index],
-                    state.productsPage, state.selectedProducts, state.localProducts.toSet()));
+        ),
+      ),
+    );
+  }
 
-                print(state.selectedProducts.contains(state.productsPage.content[index]));
-              }
-            },
-            value: state.selectedProducts.contains(LocalProduct(state.productsPage.content[index])),
-          ),
-        ),
-        decoration: BoxDecoration(
-          color: themeConfig.colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            dhShadow(),
-          ],
-        ),
+  Padding rowWithTextField(String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [Text(text), Container(width: 60.0, height: 25.0, child: TextField())],
       ),
     );
   }
