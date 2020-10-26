@@ -91,7 +91,7 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
         children: [
           ListView.builder(
               shrinkWrap: true,
-              itemCount: state.products.numberOfElements,
+              itemCount: state.productsPage.numberOfElements,
               itemBuilder: (BuildContext context, int index) {
                 return ProductCard(
                   index: index,
@@ -113,7 +113,6 @@ class ProductCard extends StatelessWidget {
   const ProductCard({this.state, this.index, this.bloc});
 
   @override
-  //TODO add shadow and change dots icon
   Widget build(BuildContext context) {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
     final LocaleBundle locale = Localization.of(context).bundle;
@@ -121,9 +120,9 @@ class ProductCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
       child: Container(
         child: ListTile(
-          leading: productPhoto(context),
+          leading: productPhoto(context, state.localProducts[index].photo),
           title: Text(
-            state.products.content[index].name,
+            state.productsPage.content[index].name,
             style: themeConfig.textStyles.secondaryTitle,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -135,7 +134,7 @@ class ProductCard extends StatelessWidget {
                 height: 5.0,
               ),
               Text(
-                '${locale.category}: ${state.products.content[index].category}',
+                '${locale.category}: ${state.productsPage.content[index].category}',
                 style: themeConfig.textStyles.cardSubtitle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -144,7 +143,7 @@ class ProductCard extends StatelessWidget {
                 height: 6.0,
               ),
               Text(
-                '${locale.price}: ${state.products.content[index].price.toString()}${locale.currency}/${state.products.content[index].unit}',
+                '${locale.price}: ${state.productsPage.content[index].price.toString()}${locale.currency}/${state.productsPage.content[index].unit}',
                 style: themeConfig.textStyles.cardSubtitle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -159,20 +158,20 @@ class ProductCard extends StatelessWidget {
               Checkbox(
             onChanged: (bool value) {
               if (value) {
-                LocalProduct product = LocalProduct(state.products.content[index]);
+                LocalProduct product = LocalProduct(state.productsPage.content[index]);
                 //state.selectedProducts.add(product);
-                bloc.add(AddProductToSelected(
-                    state.products.content[index], state.products, state.selectedProducts));
-                print(state.selectedProducts.contains(state.products.content[index]));
+                bloc.add(AddProductToSelected(state.productsPage.content[index], state.productsPage,
+                    state.selectedProducts, state.localProducts.toSet()));
+                print(state.selectedProducts.contains(state.productsPage.content[index]));
               } else {
-                state.selectedProducts.remove(state.products.content[index]);
-                bloc.add(RemoveProductFromSelected(
-                    state.products.content[index], state.products, state.selectedProducts));
+                state.selectedProducts.remove(state.productsPage.content[index]);
+                bloc.add(RemoveProductFromSelected(state.productsPage.content[index],
+                    state.productsPage, state.selectedProducts, state.localProducts.toSet()));
 
-                print(state.selectedProducts.contains(state.products.content[index]));
+                print(state.selectedProducts.contains(state.productsPage.content[index]));
               }
             },
-            value: state.selectedProducts.contains(LocalProduct(state.products.content[index])),
+            value: state.selectedProducts.contains(LocalProduct(state.productsPage.content[index])),
           ),
           //),
           // trailing: Checkbox(
@@ -197,7 +196,7 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Widget productPhoto(BuildContext context) {
+  Widget productPhoto(BuildContext context, Image photo) {
     return Container(
       width: 74.0,
       child: ConstrainedBox(
@@ -207,12 +206,12 @@ class ProductCard extends StatelessWidget {
           maxWidth: 74,
           maxHeight: 84,
         ),
-        //child: ClipRRect(borderRadius: BorderRadius.circular(10.0), child: photo),
-        child: ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: Container(
-              child: Text('a'),
-            )),
+        child: ClipRRect(borderRadius: BorderRadius.circular(10.0), child: photo),
+        // child: ClipRRect(
+        //     borderRadius: BorderRadius.circular(10.0),
+        //     child: Container(
+        //       child: Text('a'),
+        //     )),
       ),
     );
   }

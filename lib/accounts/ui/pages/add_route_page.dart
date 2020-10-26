@@ -302,9 +302,9 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
             productCard(
               locale: locale,
               product: product,
-              photo: File(
-                  //TODO change this file
-                  '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'),
+              // photo: File(
+              //     //TODO change this file
+              //     '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'),
             ),
           GestureDetector(
             onTap: () {
@@ -356,10 +356,15 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-                child: Image.file(
-                  photo,
-                  fit: BoxFit.cover,
-                ),
+                child: photo != null
+                    ? Image.file(
+                        photo,
+                        fit: BoxFit.cover,
+                      )
+                    : IconInCircle(
+                        themeConfig: themeConfig,
+                        icon: Icons.shopping_basket,
+                      ),
               ),
             ),
             Padding(

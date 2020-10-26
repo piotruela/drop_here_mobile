@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
+import 'package:flutter/material.dart';
 import 'package:quiver/core.dart';
 
 class LocalProduct extends ProductResponse {
@@ -11,8 +12,9 @@ class LocalProduct extends ProductResponse {
   int id;
   double amount;
   bool limitedAmount;
+  Image photo;
 
-  LocalProduct(ProductResponse productResponse) {
+  LocalProduct(ProductResponse productResponse, {this.photo}) {
     this.category = productResponse.category;
     this.name = productResponse.name;
     this.description = productResponse.description;
