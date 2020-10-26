@@ -298,7 +298,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
           initialPage: 0,
         ),
         items: [
-          for (RouteProductRequest product in bloc.state.routeRequest.products ?? [])
+          for (LocalProduct product in bloc.state.products ?? [])
             productCard(
               photo: File(
                   //TODO change this file
@@ -311,7 +311,9 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                 //   bloc.add(FormChanged(routeRequest: bloc.state.));
                 //   bloc.state.copyWith(products: []);
                 // }
-                bloc.state.products.addAll(selectedProducts);
+                //bloc.state.products.addAll(selectedProducts);
+                bloc.add(AddProducts(products: selectedProducts.toList()));
+                //bloc.add(FormChanged(routeRequest: bloc.state.routeRequest.))
               }));
               // Get.to(AddDropToRoutePage(
               //   addDrop: (RouteDropRequest drop) {

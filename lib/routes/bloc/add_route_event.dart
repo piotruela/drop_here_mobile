@@ -22,6 +22,15 @@ class FormSubmitted extends AddRouteEvent {
   List<Object> get props => [routeRequest];
 }
 
+class AddProducts extends AddRouteEvent {
+  final List<LocalProduct> products;
+
+  AddProducts({this.products});
+
+  @override
+  List<Object> get props => [products];
+}
+
 class AddDate extends AddRouteEvent {
   final UnpreparedRouteRequest routeRequest;
   final DateTime pickedDate;
