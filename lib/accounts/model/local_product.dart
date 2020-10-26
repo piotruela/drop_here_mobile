@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
+import 'package:quiver/core.dart';
 
 class LocalProduct extends ProductResponse {
   String category;
@@ -23,11 +24,18 @@ class LocalProduct extends ProductResponse {
 
   @override
   bool operator ==(Object other) {
-    return this.name == LocalProduct(other).name;
+    LocalProduct o = LocalProduct(other);
+    return this.name == o.name &&
+        this.category == o.category &&
+        this.id == o.id &&
+        this.description == o.description &&
+        this.unit == o.unit &&
+        this.unitFraction == o.unitFraction &&
+        this.price == o.price;
   }
 
   @override
-  int get hashCode => name.hashCode;
+  int get hashCode => hash4(name, id, category, description);
 
   // String get category => _category;
   //
