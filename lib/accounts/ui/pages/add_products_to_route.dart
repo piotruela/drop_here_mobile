@@ -159,6 +159,7 @@ class ProductCard extends StatelessWidget {
             onChanged: (bool value) {
               if (value) {
                 LocalProduct product = LocalProduct(state.productsPage.content[index]);
+                //LocalProduct p1 = state.localProducts[index];
                 //state.selectedProducts.add(product);
                 bloc.add(AddProductToSelected(state.productsPage.content[index], state.productsPage,
                     state.selectedProducts, state.localProducts.toSet()));

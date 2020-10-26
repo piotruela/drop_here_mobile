@@ -356,11 +356,8 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
               child: ClipRRect(
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-                child: photo != null
-                    ? Image.file(
-                        photo,
-                        fit: BoxFit.cover,
-                      )
+                child: product.photo != null
+                    ? productPhoto(product.photo)
                     : IconInCircle(
                         themeConfig: themeConfig,
                         icon: Icons.shopping_basket,
@@ -393,6 +390,21 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget productPhoto(Image photo) {
+    return Container(
+      width: 74.0,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minWidth: 44,
+          minHeight: 44,
+          maxWidth: 74,
+          maxHeight: 84,
+        ),
+        child: ClipRRect(borderRadius: BorderRadius.circular(10.0), child: photo),
       ),
     );
   }

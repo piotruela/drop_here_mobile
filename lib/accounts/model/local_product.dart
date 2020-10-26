@@ -12,7 +12,7 @@ class LocalProduct extends ProductResponse {
   int id;
   double amount;
   bool limitedAmount;
-  Image photo;
+  final Image photo;
 
   LocalProduct(ProductResponse productResponse, {this.photo}) {
     this.category = productResponse.category;
