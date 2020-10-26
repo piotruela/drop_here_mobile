@@ -15,11 +15,12 @@ import 'package:get/get.dart';
 class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final Function addProducts;
+  final List<LocalProduct> selectedProducts;
 
-  AddProductsToRoutePage(this.addProducts);
+  AddProductsToRoutePage(this.addProducts, this.selectedProducts);
   @override
-  AddProductsToRouteBloc bloc() =>
-      AddProductsToRouteBloc()..add(FetchProducts()); //..add(FetchProducts());
+  AddProductsToRouteBloc bloc() => AddProductsToRouteBloc()
+    ..add(FetchProducts(selectedProducts.toSet())); //..add(FetchProducts());
 
   @override
   Widget build(BuildContext context, AddProductsToRouteBloc bloc, _) {
@@ -66,7 +67,8 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
                       child: Column(
                     children: [
                       Text('try again'),
-                      RaisedButton(onPressed: () => bloc.add(FetchProducts()))
+                      RaisedButton(
+                          onPressed: () => bloc.add(FetchProducts(selectedProducts.toSet())))
                     ],
                   ));
                 } else if (state is ProductsFetched) {

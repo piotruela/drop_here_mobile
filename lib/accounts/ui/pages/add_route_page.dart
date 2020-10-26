@@ -316,7 +316,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                 //bloc.state.products.addAll(selectedProducts);
                 bloc.add(AddProducts(products: selectedProducts.toList()));
                 //bloc.add(FormChanged(routeRequest: bloc.state.routeRequest.))
-              }));
+              }, bloc.state.products));
               // Get.to(AddDropToRoutePage(
               //   addDrop: (RouteDropRequest drop) {
               //     bloc.add(FormChanged(

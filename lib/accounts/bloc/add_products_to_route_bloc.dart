@@ -24,7 +24,7 @@ class AddProductsToRouteBloc extends Bloc<AddProductsToRouteEvent, AddProductsTo
     if (event is FetchProducts) {
       ProductsPage products = await productManagementService.getCompanyProducts();
       Set<LocalProduct> mySet = {};
-      yield (ProductsFetched(products, mySet));
+      yield (ProductsFetched(products, event.selectedProducts ?? {}));
     } else if (event is AddProductToSelected) {
       LocalProduct product = LocalProduct(event.product);
       event.selectedProducts.add(product);

@@ -10,8 +10,11 @@ class ProductsInitial extends AddProductsToRouteEvent {
 }
 
 class FetchProducts extends AddProductsToRouteEvent {
+  final LinkedHashSet<LocalProduct> selectedProducts;
+
+  FetchProducts(this.selectedProducts);
   @override
-  List<Object> get props => [];
+  List<Object> get props => [selectedProducts];
 }
 
 class AddProductToSelected extends AddProductsToRouteEvent {
