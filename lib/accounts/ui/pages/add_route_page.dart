@@ -300,6 +300,8 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
         items: [
           for (LocalProduct product in bloc.state.products ?? [])
             productCard(
+              locale: locale,
+              product: product,
               photo: File(
                   //TODO change this file
                   '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'),
@@ -334,7 +336,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
         ]);
   }
 
-  Widget productCard({File photo}) {
+  Widget productCard({File photo, LocalProduct product, LocaleBundle locale}) {
     return Padding(
       padding: const EdgeInsets.only(right: 22.0, bottom: 6.0),
       child: Container(
@@ -365,17 +367,19 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
               child: Column(
                 children: [
                   Text(
-                    'Strawberries',
+                    product.name,
                     style: themeConfig.textStyles.title3,
                   ),
                   SizedBox(height: 4.0),
                   Text(
-                    '20zł/kg',
+                    product.price.toString() + '/' + product.unit,
                     style: themeConfig.textStyles.title3Annotation,
                   ),
                   SizedBox(height: 6.0),
                   Text(
-                    '57kg',
+                    product.limitedAmount == null || product.limitedAmount == false
+                        ? locale.unlimited
+                        : product.amount.toString(),
                     style: themeConfig.textStyles.title3Annotation,
                   ),
                   //SizedBox(height: 5.0)

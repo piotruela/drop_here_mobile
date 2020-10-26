@@ -414,4 +414,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get addProductsToRoute => "Add products to route";
+
+  @override
+  String get unlimited => "unlimited";
 }
