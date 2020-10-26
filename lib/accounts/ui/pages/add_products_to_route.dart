@@ -30,10 +30,8 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
         isActive: true,
         text: locale.submit,
         onTap: () {
-          //TODO add function
           ProductsFetched state = bloc.state;
           addProducts(state.selectedProducts);
-          //addSpot(bloc.state.spots[bloc.state.radioValue]);
           Get.back();
         },
       ),
@@ -150,19 +148,11 @@ class ProductCard extends StatelessWidget {
               ),
             ],
           ),
-
-          trailing:
-              // BlocBuilder<AddProductsToRouteBloc, AddProductsToRouteState>(
-              //   //buildWhen: (previous, current) => previous. != current.isFilled(),
-              //   builder: (context, s) =>
-              Checkbox(
+          trailing: Checkbox(
             onChanged: (bool value) {
               if (value) {
-                //LocalProduct product = LocalProduct(state.productsPage.content[index]);
-                LocalProduct p1 = state.localProducts[index];
-                //state.selectedProducts.add(product);
-                bloc.add(AddProductToSelected(
-                    p1, state.productsPage, state.selectedProducts, state.localProducts.toSet()));
+                bloc.add(AddProductToSelected(state.localProducts[index], state.productsPage,
+                    state.selectedProducts, state.localProducts.toSet()));
                 print(state.selectedProducts.contains(state.productsPage.content[index]));
               } else {
                 state.selectedProducts.remove(state.productsPage.content[index]);
@@ -174,17 +164,6 @@ class ProductCard extends StatelessWidget {
             },
             value: state.selectedProducts.contains(LocalProduct(state.productsPage.content[index])),
           ),
-          //),
-          // trailing: Checkbox(
-          //   onChanged: (bool value) {
-          //     if (value) {
-          //       state.selectedProducts.add(state.products.content[index]);
-          //     } else {
-          //       state.selectedProducts.remove(state.products.content[index]);
-          //     }
-          //   },
-          //   value: state.selectedProducts.contains(state.products.content[index]),
-          // ),
         ),
         decoration: BoxDecoration(
           color: themeConfig.colors.white,
@@ -208,11 +187,6 @@ class ProductCard extends StatelessWidget {
           maxHeight: 84,
         ),
         child: ClipRRect(borderRadius: BorderRadius.circular(10.0), child: photo),
-        // child: ClipRRect(
-        //     borderRadius: BorderRadius.circular(10.0),
-        //     child: Container(
-        //       child: Text('a'),
-        //     )),
       ),
     );
   }

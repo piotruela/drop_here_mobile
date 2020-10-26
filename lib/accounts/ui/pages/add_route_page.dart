@@ -302,31 +302,12 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
             productCard(
               locale: locale,
               product: product,
-              // photo: File(
-              //     //TODO change this file
-              //     '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'),
             ),
           GestureDetector(
             onTap: () {
               Get.to(AddProductsToRoutePage((LinkedHashSet<LocalProduct> selectedProducts) {
-                // if (bloc.state.products == null) {
-                //   bloc.add(FormChanged(routeRequest: bloc.state.));
-                //   bloc.state.copyWith(products: []);
-                // }
-                //bloc.state.products.addAll(selectedProducts);
                 bloc.add(AddProducts(products: selectedProducts.toList()));
-                //bloc.add(FormChanged(routeRequest: bloc.state.routeRequest.))
               }, bloc.state.products));
-              // Get.to(AddDropToRoutePage(
-              //   addDrop: (RouteDropRequest drop) {
-              //     bloc.add(FormChanged(
-              //         routeRequest: bloc.state.routeRequest.drops != null
-              //             ? bloc.state.routeRequest
-              //                 .copyWith(drops: bloc.state.routeRequest.drops..add(drop))
-              //             : bloc.state.routeRequest.copyWith(drops: [drop])));
-              //   },
-              // )
-              // );
             },
             child: IconInCircle(
               themeConfig: themeConfig,
@@ -384,7 +365,6 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                         : product.amount.toString(),
                     style: themeConfig.textStyles.title3Annotation,
                   ),
-                  //SizedBox(height: 5.0)
                 ],
               ),
             ),
