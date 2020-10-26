@@ -158,11 +158,11 @@ class ProductCard extends StatelessWidget {
               Checkbox(
             onChanged: (bool value) {
               if (value) {
-                LocalProduct product = LocalProduct(state.productsPage.content[index]);
-                //LocalProduct p1 = state.localProducts[index];
+                //LocalProduct product = LocalProduct(state.productsPage.content[index]);
+                LocalProduct p1 = state.localProducts[index];
                 //state.selectedProducts.add(product);
-                bloc.add(AddProductToSelected(state.productsPage.content[index], state.productsPage,
-                    state.selectedProducts, state.localProducts.toSet()));
+                bloc.add(AddProductToSelected(
+                    p1, state.productsPage, state.selectedProducts, state.localProducts.toSet()));
                 print(state.selectedProducts.contains(state.productsPage.content[index]));
               } else {
                 state.selectedProducts.remove(state.productsPage.content[index]);

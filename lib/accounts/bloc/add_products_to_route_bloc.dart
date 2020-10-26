@@ -37,8 +37,8 @@ class AddProductsToRouteBloc extends Bloc<AddProductsToRouteEvent, AddProductsTo
           localProducts: localProducts,
           selectedProducts: event.selectedProducts ?? {}));
     } else if (event is AddProductToSelected) {
-      LocalProduct product = LocalProduct(event.product);
-      event.selectedProducts.add(product);
+      //LocalProduct product = LocalProduct(event.product);
+      event.selectedProducts.add(event.product);
       yield (ProductsFetched(
           localProducts: event.localProducts.toList(),
           productsPage: event.products,
