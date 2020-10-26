@@ -38,16 +38,4 @@ class LocalProduct extends ProductResponse {
 
   @override
   int get hashCode => hash4(name, id, category, description);
-
-  // String get category => _category;
-  //
-  // int get id => _id;
-  //
-  // double get unitFraction => _unitFraction;
-  //
-  // String get unit => _unit;
-  //
-  // String get description => _description;
-  //
-  // String get name => _name;
 }
