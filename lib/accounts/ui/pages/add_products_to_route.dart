@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/add_products_to_route_bloc.dart';
+import 'package:drop_here_mobile/accounts/model/local_product.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
@@ -156,7 +157,8 @@ class ProductCard extends StatelessWidget {
               Checkbox(
             onChanged: (bool value) {
               if (value) {
-                state.selectedProducts.add(state.products.content[index]);
+                LocalProduct product = LocalProduct(state.products.content[index]);
+                //state.selectedProducts.add(product);
                 bloc.add(AddProductToSelected(
                     state.products.content[index], state.products, state.selectedProducts));
                 print(state.selectedProducts.contains(state.products.content[index]));
@@ -168,10 +170,9 @@ class ProductCard extends StatelessWidget {
                 print(state.selectedProducts.contains(state.products.content[index]));
               }
             },
-            value: state.selectedProducts.contains(state.products.content[index]),
+            value: state.selectedProducts.contains(LocalProduct(state.products.content[index])),
           ),
           //),
-
           // trailing: Checkbox(
           //   onChanged: (bool value) {
           //     if (value) {

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:collection';
 
 import 'package:bloc/bloc.dart';
+import 'package:drop_here_mobile/accounts/model/local_product.dart';
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
@@ -22,13 +23,15 @@ class AddProductsToRouteBloc extends Bloc<AddProductsToRouteEvent, AddProductsTo
     yield AddProductsToRouteInitial();
     if (event is FetchProducts) {
       ProductsPage products = await productManagementService.getCompanyProducts();
-      Set<ProductResponse> mySet = {};
+      Set<LocalProduct> mySet = {};
       yield (ProductsFetched(products, mySet));
     } else if (event is AddProductToSelected) {
-      event.selectedProducts.add(event.product);
+      LocalProduct product = LocalProduct(event.product);
+      event.selectedProducts.add(product);
       yield (ProductsFetched(event.products, event.selectedProducts));
     } else if (event is RemoveProductFromSelected) {
-      event.selectedProducts.remove(event.product);
+      LocalProduct product = LocalProduct(event.product);
+      event.selectedProducts.remove(product);
       yield (ProductsFetched(event.products, event.selectedProducts));
     }
   }

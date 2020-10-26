@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:drop_here_mobile/accounts/model/local_product.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_drop_to_route_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_products_to_route.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
@@ -305,8 +306,12 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
             ),
           GestureDetector(
             onTap: () {
-              Get.to(AddProductsToRoutePage((LinkedHashSet<RouteProductRequest> selectedProducts) {
-                bloc.state.routeRequest.products.addAll(selectedProducts);
+              Get.to(AddProductsToRoutePage((LinkedHashSet<LocalProduct> selectedProducts) {
+                // if (bloc.state.products == null) {
+                //   bloc.add(FormChanged(routeRequest: bloc.state.));
+                //   bloc.state.copyWith(products: []);
+                // }
+                bloc.state.products.addAll(selectedProducts);
               }));
               // Get.to(AddDropToRoutePage(
               //   addDrop: (RouteDropRequest drop) {

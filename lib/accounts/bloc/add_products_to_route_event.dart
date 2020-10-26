@@ -17,7 +17,7 @@ class FetchProducts extends AddProductsToRouteEvent {
 class AddProductToSelected extends AddProductsToRouteEvent {
   final ProductResponse product;
   final ProductsPage products;
-  final LinkedHashSet<ProductResponse> selectedProducts;
+  final LinkedHashSet<LocalProduct> selectedProducts;
 
   AddProductToSelected(this.product, this.products, this.selectedProducts);
   @override
@@ -27,7 +27,7 @@ class AddProductToSelected extends AddProductsToRouteEvent {
 class RemoveProductFromSelected extends AddProductsToRouteEvent {
   final ProductResponse product;
   final ProductsPage products;
-  final LinkedHashSet<ProductResponse> selectedProducts;
+  final LinkedHashSet<LocalProduct> selectedProducts;
 
   RemoveProductFromSelected(this.product, this.products, this.selectedProducts);
   @override
