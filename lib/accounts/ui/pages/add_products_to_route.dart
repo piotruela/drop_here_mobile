@@ -140,13 +140,17 @@ class ProductCard extends StatelessWidget {
                           initialPosition: false,
                           onSwitch: (bool value) {
                             //TODO add action
-                            print(value);
+                            //state.localProducts[index].limitedAmount = value;
+                            bloc.add(ToggleAmount(value));
+                            //print(value);
                           },
                         ),
-                        //labeledSwitch(text: locale.unlimited, onSwitch: (bool) => {}),
                       ],
                     ),
-                    rowWithTextField(locale.amount, themeConfig),
+                    state.localProducts[index].limitedAmount == null ||
+                            state.localProducts[index].limitedAmount == false
+                        ? SizedBox.shrink()
+                        : rowWithTextField(locale.amount, themeConfig),
                     rowWithTextField(locale.pricePerUnit, themeConfig),
                   ],
                 ),

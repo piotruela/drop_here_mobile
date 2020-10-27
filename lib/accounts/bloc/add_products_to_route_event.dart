@@ -9,6 +9,14 @@ class ProductsInitial extends AddProductsToRouteEvent {
   List<Object> get props => [];
 }
 
+class ToggleAmount extends AddProductsToRouteEvent {
+  final bool value;
+
+  ToggleAmount(this.value);
+  @override
+  List<Object> get props => [value];
+}
+
 class FetchProducts extends AddProductsToRouteEvent {
   final LinkedHashSet<LocalProduct> selectedProducts;
 

@@ -31,7 +31,6 @@ class AddProductsToRouteBloc extends Bloc<AddProductsToRouteEvent, AddProductsTo
         LocalProduct p = LocalProduct(product, photo: photo);
         localProducts.add(p);
       }
-
       yield (ProductsFetched(
           productsPage: products,
           localProducts: localProducts,
@@ -49,6 +48,9 @@ class AddProductsToRouteBloc extends Bloc<AddProductsToRouteEvent, AddProductsTo
           localProducts: event.localProducts.toList(),
           productsPage: event.products,
           selectedProducts: event.selectedProducts));
+    } else if (event is ToggleAmount) {
+      print('togg');
+      yield (AmountToggled());
     }
   }
 }

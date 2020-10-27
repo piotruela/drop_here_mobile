@@ -14,6 +14,11 @@ class FetchingError extends AddProductsToRouteState {
   List<Object> get props => [];
 }
 
+class AmountToggled extends AddProductsToRouteState {
+  @override
+  List<Object> get props => [];
+}
+
 class ProductsFetched extends AddProductsToRouteState {
   final ProductsPage productsPage;
   final LinkedHashSet<LocalProduct> selectedProducts;
