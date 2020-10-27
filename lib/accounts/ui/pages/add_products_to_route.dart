@@ -27,6 +27,7 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
   Widget build(BuildContext context, AddProductsToRouteBloc bloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       floatingActionButton: SubmitFormButton(
         isActive: true,
         text: locale.submit,
@@ -124,11 +125,17 @@ class ProductCard extends StatelessWidget {
                 content: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(state.localProducts[index].name),
+                    Text(
+                      state.localProducts[index].name,
+                      style: themeConfig.textStyles.secondaryTitle,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(locale.unlimited),
+                        Text(
+                          locale.unlimited,
+                          style: themeConfig.textStyles.contentTitle,
+                        ),
                         DhSwitch(
                           initialPosition: false,
                           onSwitch: (bool value) {
@@ -139,14 +146,22 @@ class ProductCard extends StatelessWidget {
                         //labeledSwitch(text: locale.unlimited, onSwitch: (bool) => {}),
                       ],
                     ),
-                    rowWithTextField(locale.amount),
-                    rowWithTextField(locale.pricePerUnit),
+                    rowWithTextField(locale.amount, themeConfig),
+                    rowWithTextField(locale.pricePerUnit, themeConfig),
                   ],
                 ),
                 actions: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 14.0),
-                    child: Text(locale.submit),
+                  FlatButton(
+                    onPressed: () {
+                      //TODO add action
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 14.0),
+                      child: Text(
+                        locale.submit,
+                        style: themeConfig.textStyles.submitButtonTextStyle,
+                      ),
+                    ),
                   )
                 ],
               );
@@ -216,12 +231,33 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Padding rowWithTextField(String text) {
+  Padding rowWithTextField(String text, ThemeConfig themeConfig) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [Text(text), Container(width: 60.0, height: 25.0, child: TextField())],
+        children: [
+          Text(
+            text,
+            style: themeConfig.textStyles.dataAnnotation,
+          ),
+          Container(
+              width: 60.0,
+              height: 25.0,
+              child: TextField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: themeConfig.colors.black),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: themeConfig.colors.black),
+                    ),
+                    border: UnderlineInputBorder(
+                      borderSide: BorderSide(color: themeConfig.colors.black),
+                    ),
+                  )))
+        ],
       ),
     );
   }

@@ -49,6 +49,7 @@ class DHThemeConfig extends ThemeConfig {
       bigColoredButtonActiveTextStyle: _bigColoredButtonActiveTextStyle,
       bigColoredButtonNotActiveTextStyle: _bigColoredButtonNotActiveTextStyle,
       valueChosenFlatButtonTextStyle: _valueChosenFlatButtonTextStyle,
+      submitButtonTextStyle: _submitButtonTextStyle,
     );
   }
 
@@ -155,6 +156,9 @@ class DHThemeConfig extends ThemeConfig {
 
   static final TextStyle _bigColoredButtonNotActiveTextStyle =
       _bigColoredButtonActiveTextStyle.copyWith(color: _addSthHereColor);
+
+  static final TextStyle _submitButtonTextStyle = _baseTextStyle.copyWith(
+      fontSize: 18.0, height: 21.0 / 18.0, color: _activeColor, fontWeight: FontWeight.w400);
 
   static final Color _primaryColor1 = const Color(0xfff5550a);
   static final Color _primaryColor2 = const Color(0xfff99363);
