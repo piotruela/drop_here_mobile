@@ -11,10 +11,14 @@ class ProductsInitial extends AddProductsToRouteEvent {
 
 class ToggleAmount extends AddProductsToRouteEvent {
   final bool value;
+  final LocalProduct product;
+  final ProductsPage products;
+  final LinkedHashSet<LocalProduct> selectedProducts;
+  final LinkedHashSet<LocalProduct> localProducts;
 
-  ToggleAmount(this.value);
+  ToggleAmount(this.value, this.product, this.products, this.selectedProducts, this.localProducts);
   @override
-  List<Object> get props => [value];
+  List<Object> get props => [value, product, products, selectedProducts, localProducts];
 }
 
 class FetchProducts extends AddProductsToRouteEvent {

@@ -137,20 +137,26 @@ class ProductCard extends StatelessWidget {
                           style: themeConfig.textStyles.contentTitle,
                         ),
                         DhSwitch(
-                          initialPosition: false,
+                          initialPosition: state.localProducts[index].limitedAmount ?? false,
                           onSwitch: (bool value) {
                             //TODO add action
                             //state.localProducts[index].limitedAmount = value;
-                            bloc.add(ToggleAmount(value));
-                            //print(value);
+                            bloc.add(ToggleAmount(
+                              value,
+                              state.localProducts[index],
+                              state.productsPage,
+                              state.selectedProducts,
+                              state.localProducts.toSet(),
+                            ));
+                            print(value);
                           },
                         ),
                       ],
                     ),
                     state.localProducts[index].limitedAmount == null ||
                             state.localProducts[index].limitedAmount == false
-                        ? SizedBox.shrink()
-                        : rowWithTextField(locale.amount, themeConfig),
+                        ? rowWithTextField(locale.amount, themeConfig)
+                        : SizedBox.shrink(),
                     rowWithTextField(locale.pricePerUnit, themeConfig),
                   ],
                 ),

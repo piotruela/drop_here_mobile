@@ -49,8 +49,11 @@ class AddProductsToRouteBloc extends Bloc<AddProductsToRouteEvent, AddProductsTo
           productsPage: event.products,
           selectedProducts: event.selectedProducts));
     } else if (event is ToggleAmount) {
-      print('togg');
-      yield (AmountToggled());
+      event.product.limitedAmount = event.value;
+      yield (ProductsFetched(
+          localProducts: event.localProducts.toList(),
+          productsPage: event.products,
+          selectedProducts: event.selectedProducts));
     }
   }
 }
