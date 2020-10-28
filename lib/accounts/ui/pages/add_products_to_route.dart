@@ -187,16 +187,7 @@ class ProductCard extends StatelessWidget {
                     // value: state.selectedProducts
                     //     .contains(LocalProduct(state.productsPage.content[index])),
                   ),
-                  state.selectedProducts.contains(state.localProducts[index]) &&
-                          state.localProducts[index].amount != null
-                      ? Text(
-                          locale.amount +
-                              ': ' +
-                              state.localProducts[index].amount.toString() +
-                              state.localProducts[index].unit,
-                          style: themeConfig.textStyles.cardSubtitle,
-                        )
-                      : SizedBox.shrink(),
+                  showAmount(themeConfig, locale),
                 ],
               ),
             ),
@@ -334,5 +325,23 @@ class ProductCard extends StatelessWidget {
         child: ClipRRect(borderRadius: BorderRadius.circular(10.0), child: photo),
       ),
     );
+  }
+
+  Widget showAmount(ThemeConfig themeConfig, LocaleBundle locale) {
+    if (state.localProducts[index].limitedAmount ?? false)
+      return Text(
+        locale.amount + ': ' + locale.unlimited,
+        style: themeConfig.textStyles.cardSubtitle,
+      );
+    return state.selectedProducts.contains(state.localProducts[index]) &&
+            state.localProducts[index].amount != null
+        ? Text(
+            locale.amount +
+                ': ' +
+                state.localProducts[index].amount.toString() +
+                state.localProducts[index].unit,
+            style: themeConfig.textStyles.cardSubtitle,
+          )
+        : SizedBox.shrink();
   }
 }
