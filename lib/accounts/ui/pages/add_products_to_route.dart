@@ -117,66 +117,7 @@ class ProductCard extends StatelessWidget {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
     final LocaleBundle locale = Localization.of(context).bundle;
     return GestureDetector(
-      onTap: () {
-        showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      state.localProducts[index].name,
-                      style: themeConfig.textStyles.secondaryTitle,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          locale.unlimited,
-                          style: themeConfig.textStyles.contentTitle,
-                        ),
-                        DhSwitch(
-                          initialPosition: state.localProducts[index].limitedAmount ?? false,
-                          onSwitch: (bool value) {
-                            //TODO add action
-                            //state.localProducts[index].limitedAmount = value;
-                            bloc.add(ToggleAmount(
-                              value,
-                              state.localProducts[index],
-                              state.productsPage,
-                              state.selectedProducts,
-                              state.localProducts.toSet(),
-                            ));
-                            print(value);
-                          },
-                        ),
-                      ],
-                    ),
-                    state.localProducts[index].limitedAmount == null ||
-                            state.localProducts[index].limitedAmount == false
-                        ? rowWithTextField(locale.amount, themeConfig)
-                        : SizedBox.shrink(),
-                    rowWithTextField(locale.pricePerUnit, themeConfig),
-                  ],
-                ),
-                actions: [
-                  FlatButton(
-                    onPressed: () {
-                      //TODO add action
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 14.0),
-                      child: Text(
-                        locale.submit,
-                        style: themeConfig.textStyles.submitButtonTextStyle,
-                      ),
-                    ),
-                  )
-                ],
-              );
-            });
-      },
+      onTap: () {},
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
         child: Container(
@@ -211,22 +152,42 @@ class ProductCard extends StatelessWidget {
                 ),
               ],
             ),
-            trailing: Checkbox(
-              onChanged: (bool value) {
-                if (value) {
-                  bloc.add(AddProductToSelected(state.localProducts[index], state.productsPage,
-                      state.selectedProducts, state.localProducts.toSet()));
-                  print(state.selectedProducts.contains(state.productsPage.content[index]));
-                } else {
-                  state.selectedProducts.remove(state.productsPage.content[index]);
-                  bloc.add(RemoveProductFromSelected(state.productsPage.content[index],
-                      state.productsPage, state.selectedProducts, state.localProducts.toSet()));
+            trailing: Container(
+              height: 150.0,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Checkbox(
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    onChanged: (bool value) {
+                      if (value) {
+                        dhShowDialog(context, themeConfig, locale);
+                        // bloc.add(AddProductToSelected(
+                        //     state.localProducts[index],
+                        //     state.productsPage,
+                        //     state.selectedProducts,
+                        //     state.localProducts.toSet()));
+                        print(state.selectedProducts.contains(state.productsPage.content[index]));
+                      } else {
+                        state.selectedProducts.remove(state.productsPage.content[index]);
+                        bloc.add(RemoveProductFromSelected(
+                            state.productsPage.content[index],
+                            state.productsPage,
+                            state.selectedProducts,
+                            state.localProducts.toSet()));
 
-                  print(state.selectedProducts.contains(state.productsPage.content[index]));
-                }
-              },
-              value:
-                  state.selectedProducts.contains(LocalProduct(state.productsPage.content[index])),
+                        print(state.selectedProducts.contains(state.productsPage.content[index]));
+                      }
+                    },
+                    value: state.selectedProducts
+                        .contains(LocalProduct(state.productsPage.content[index])),
+                  ),
+                  Text(
+                    'ab',
+                    style: themeConfig.textStyles.cardSubtitle,
+                  ),
+                ],
+              ),
             ),
           ),
           decoration: BoxDecoration(
@@ -241,7 +202,79 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Padding rowWithTextField(String text, ThemeConfig themeConfig) {
+  Future dhShowDialog(BuildContext context, ThemeConfig themeConfig, LocaleBundle locale) {
+    TextEditingController amountController = TextEditingController();
+    TextEditingController priceController = TextEditingController();
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  state.localProducts[index].name,
+                  style: themeConfig.textStyles.secondaryTitle,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      locale.unlimited,
+                      style: themeConfig.textStyles.contentTitle,
+                    ),
+                    DhSwitch(
+                      initialPosition: state.localProducts[index].limitedAmount ?? false,
+                      onSwitch: (bool value) {
+                        //TODO add action
+                        //state.localProducts[index].limitedAmount = value;
+                        bloc.add(ToggleAmount(
+                          value,
+                          state.localProducts[index],
+                          state.productsPage,
+                          state.selectedProducts,
+                          state.localProducts.toSet(),
+                        ));
+                        print(value);
+                      },
+                    ),
+                  ],
+                ),
+                state.localProducts[index].limitedAmount == null ||
+                        state.localProducts[index].limitedAmount == false
+                    ? rowWithTextField(locale.amount, themeConfig, amountController)
+                    : SizedBox.shrink(),
+                rowWithTextField(locale.pricePerUnit, themeConfig, priceController),
+              ],
+            ),
+            actions: [
+              FlatButton(
+                onPressed: () {
+                  print('wartosci');
+                  print(amountController.text.toString());
+                  print(priceController.text.toString());
+                  //TODO add action
+                  state.localProducts[index].amount =
+                      double.parse(amountController.text.toString());
+                  state.localProducts[index].price = double.parse(priceController.text.toString());
+                  bloc.add(AddProductToSelected(state.localProducts[index], state.productsPage,
+                      state.selectedProducts, state.localProducts.toSet()));
+                  Navigator.of(context).pop(context);
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 14.0),
+                  child: Text(
+                    locale.submit,
+                    style: themeConfig.textStyles.submitButtonTextStyle,
+                  ),
+                ),
+              )
+            ],
+          );
+        });
+  }
+
+  Padding rowWithTextField(String text, ThemeConfig themeConfig, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: Row(
@@ -255,6 +288,7 @@ class ProductCard extends StatelessWidget {
               width: 60.0,
               height: 25.0,
               child: TextField(
+                  controller: controller,
                   keyboardType: TextInputType.number,
                   decoration: InputDecoration(
                     enabledBorder: UnderlineInputBorder(
