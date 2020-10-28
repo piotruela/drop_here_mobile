@@ -158,6 +158,7 @@ class ProductCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Checkbox(
+                    //tristate: true,
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     onChanged: (bool value) {
                       if (value) {
@@ -169,7 +170,7 @@ class ProductCard extends StatelessWidget {
                         //     state.localProducts.toSet()));
                         print(state.selectedProducts.contains(state.productsPage.content[index]));
                       } else {
-                        state.selectedProducts.remove(state.productsPage.content[index]);
+                        //state.selectedProducts.remove(state.productsPage.content[index]);
                         bloc.add(RemoveProductFromSelected(
                             state.productsPage.content[index],
                             state.productsPage,
@@ -179,8 +180,9 @@ class ProductCard extends StatelessWidget {
                         print(state.selectedProducts.contains(state.productsPage.content[index]));
                       }
                     },
-                    value: state.selectedProducts
-                        .contains(LocalProduct(state.productsPage.content[index])),
+                    value: state.selectedProducts.contains(state.localProducts[index]),
+                    // value: state.selectedProducts
+                    //     .contains(LocalProduct(state.productsPage.content[index])),
                   ),
                   Text(
                     'ab',
