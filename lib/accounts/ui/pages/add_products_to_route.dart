@@ -155,6 +155,7 @@ class ProductCard extends StatelessWidget {
             trailing: Container(
               height: 150.0,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Checkbox(
@@ -172,7 +173,7 @@ class ProductCard extends StatelessWidget {
                       } else {
                         //state.selectedProducts.remove(state.productsPage.content[index]);
                         bloc.add(RemoveProductFromSelected(
-                            state.selectedProducts.toList()[index],
+                            state.localProducts.toList()[index],
                             state.productsPage,
                             state.selectedProducts,
                             state.localProducts.toSet()));
@@ -184,10 +185,15 @@ class ProductCard extends StatelessWidget {
                     // value: state.selectedProducts
                     //     .contains(LocalProduct(state.productsPage.content[index])),
                   ),
-                  Text(
-                    'ab',
-                    style: themeConfig.textStyles.cardSubtitle,
-                  ),
+                  state.localProducts[index].amount != null
+                      ? Text(
+                          locale.amount +
+                              ': ' +
+                              state.localProducts[index].amount.toString() +
+                              state.localProducts[index].unit,
+                          style: themeConfig.textStyles.cardSubtitle,
+                        )
+                      : SizedBox.shrink(),
                 ],
               ),
             ),
@@ -256,8 +262,11 @@ class ProductCard extends StatelessWidget {
                   print(amountController.text.toString());
                   print(priceController.text.toString());
                   //TODO add action
-                  state.localProducts[index].amount =
-                      double.parse(amountController.text.toString());
+                  amountController.text.toString() != null && amountController.text.toString() != ''
+                      ? state.localProducts[index].amount =
+                          double.parse(amountController.text.toString())
+                      : null;
+
                   state.localProducts[index].price = double.parse(priceController.text.toString());
                   bloc.add(AddProductToSelected(state.localProducts[index], state.productsPage,
                       state.selectedProducts, state.localProducts.toSet()));
