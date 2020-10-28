@@ -11,7 +11,7 @@ class LocalProduct extends ProductResponse {
   double price;
   int id;
   double amount;
-  bool limitedAmount;
+  bool unlimited = false;
   final Image photo;
 
   LocalProduct(ProductResponse productResponse, {this.photo}) {

@@ -84,7 +84,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   secondaryTitle(locale.assignedSeller),
                   SizedBox(height: 6.0),
                   SellerCard(
-                    title: 'piotr',
+                    title: 'Piotruś <3',
                     //TODO add popupOptions
                     popupOptions: ['todo'],
                   ),
@@ -318,6 +318,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
   }
 
   Widget productCard({File photo, LocalProduct product, LocaleBundle locale}) {
+    print('unlimited: ' + product.unlimited.toString());
     return Padding(
       padding: const EdgeInsets.only(right: 22.0, bottom: 6.0),
       child: Container(
@@ -355,14 +356,14 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   ),
                   SizedBox(height: 4.0),
                   Text(
-                    product.price.toString() + '/' + product.unit,
+                    product.price.toString() + locale.currency + '/' + product.unit,
                     style: themeConfig.textStyles.title3Annotation,
                   ),
                   SizedBox(height: 6.0),
                   Text(
-                    product.limitedAmount == null || product.limitedAmount == false
-                        ? locale.unlimited
-                        : product.amount.toString(),
+                    product.unlimited == null || product.unlimited == false
+                        ? product.amount.toString() + product.unit
+                        : locale.unlimited,
                     style: themeConfig.textStyles.title3Annotation,
                   ),
                 ],

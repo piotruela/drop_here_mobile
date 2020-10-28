@@ -226,7 +226,7 @@ class ProductCard extends StatelessWidget {
                       style: themeConfig.textStyles.contentTitle,
                     ),
                     DhSwitch(
-                      initialPosition: state.localProducts[index].limitedAmount ?? false,
+                      initialPosition: state.localProducts[index].unlimited ?? false,
                       onSwitch: (bool value) {
                         //TODO add action
                         //state.localProducts[index].limitedAmount = value;
@@ -242,8 +242,8 @@ class ProductCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                state.localProducts[index].limitedAmount == null ||
-                        state.localProducts[index].limitedAmount == false
+                state.localProducts[index].unlimited == null ||
+                        state.localProducts[index].unlimited == false
                     ? rowWithTextField(locale.amount, themeConfig, amountController)
                     : SizedBox.shrink(),
                 rowWithTextField(locale.pricePerUnit, themeConfig, priceController),
@@ -328,7 +328,7 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget showAmount(ThemeConfig themeConfig, LocaleBundle locale) {
-    if (state.localProducts[index].limitedAmount ?? false)
+    if (state.localProducts[index].unlimited ?? false)
       return Text(
         locale.amount + ': ' + locale.unlimited,
         style: themeConfig.textStyles.cardSubtitle,
