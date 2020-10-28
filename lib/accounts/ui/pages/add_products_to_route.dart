@@ -146,7 +146,7 @@ class ProductCard extends StatelessWidget {
                 ),
                 state.selectedProducts.contains(state.localProducts[index])
                     ? Text(
-                        '${locale.price}: ${state.localProducts[index].price.toString()}${locale.currency}/${state.localProducts[index].unit}',
+                        '${locale.price}: ${state.selectedProducts.firstWhere((element) => element == state.localProducts[index]).price.toString()}${locale.currency}/${state.localProducts[index].unit}',
                         style: themeConfig.textStyles.cardSubtitle,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
