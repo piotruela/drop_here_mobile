@@ -144,12 +144,14 @@ class ProductCard extends StatelessWidget {
                 SizedBox(
                   height: 6.0,
                 ),
-                Text(
-                  '${locale.price}: ${state.productsPage.content[index].price.toString()}${locale.currency}/${state.productsPage.content[index].unit}',
-                  style: themeConfig.textStyles.cardSubtitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                state.selectedProducts.contains(state.localProducts[index])
+                    ? Text(
+                        '${locale.price}: ${state.localProducts[index].price.toString()}${locale.currency}/${state.localProducts[index].unit}',
+                        style: themeConfig.textStyles.cardSubtitle,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
             trailing: Container(
@@ -268,6 +270,7 @@ class ProductCard extends StatelessWidget {
                       : null;
 
                   state.localProducts[index].price = double.parse(priceController.text.toString());
+                  print(double.parse(priceController.text.toString()));
                   bloc.add(AddProductToSelected(state.localProducts[index], state.productsPage,
                       state.selectedProducts, state.localProducts.toSet()));
                   Navigator.of(context).pop(context);
