@@ -4,7 +4,6 @@ import 'dart:collection';
 import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/accounts/model/local_product.dart';
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
-import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -42,8 +41,7 @@ class AddProductsToRouteBloc extends Bloc<AddProductsToRouteEvent, AddProductsTo
           productsPage: event.products,
           selectedProducts: event.selectedProducts));
     } else if (event is RemoveProductFromSelected) {
-      LocalProduct product = LocalProduct(event.product);
-      event.selectedProducts.remove(product);
+      event.selectedProducts.remove(event.product);
       yield (ProductsFetched(
           localProducts: event.localProducts.toList(),
           productsPage: event.products,

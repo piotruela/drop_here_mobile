@@ -41,7 +41,7 @@ class AddProductToSelected extends AddProductsToRouteEvent {
 }
 
 class RemoveProductFromSelected extends AddProductsToRouteEvent {
-  final ProductResponse product;
+  final LocalProduct product;
   final ProductsPage products;
   final LinkedHashSet<LocalProduct> selectedProducts;
   final LinkedHashSet<LocalProduct> localProducts;

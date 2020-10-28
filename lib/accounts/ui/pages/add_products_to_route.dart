@@ -172,7 +172,7 @@ class ProductCard extends StatelessWidget {
                       } else {
                         //state.selectedProducts.remove(state.productsPage.content[index]);
                         bloc.add(RemoveProductFromSelected(
-                            state.productsPage.content[index],
+                            state.selectedProducts.toList()[index],
                             state.productsPage,
                             state.selectedProducts,
                             state.localProducts.toSet()));
