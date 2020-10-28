@@ -30,7 +30,15 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
     } else if (event is AddProducts) {
       yield state.copyWith(products: event.products);
     } else if (event is FormSubmitted) {
-      //TODO implement
+      //TODO do sth
+      print(event.routeRequest.toString());
+
+      List<RouteProductRequest> products = [];
+
+      var response = await routeManagementService.createRoute(event.routeRequest);
+      print(response);
+      //TODO yield state
+      //yield
     }
   }
 }

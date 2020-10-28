@@ -114,7 +114,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                           //TODO check this function
                           onTap: () {
                             if (state.isFilled) {
-                              addRouteBloc.add(FormSubmitted());
+                              addRouteBloc.add(FormSubmitted(routeRequest: state.routeRequest));
                             }
                           }),
                     ),
@@ -318,7 +318,6 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
   }
 
   Widget productCard({File photo, LocalProduct product, LocaleBundle locale}) {
-    print('unlimited: ' + product.unlimited.toString());
     return Padding(
       padding: const EdgeInsets.only(right: 22.0, bottom: 6.0),
       child: Container(
