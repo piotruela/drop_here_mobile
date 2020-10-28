@@ -187,7 +187,8 @@ class ProductCard extends StatelessWidget {
                     // value: state.selectedProducts
                     //     .contains(LocalProduct(state.productsPage.content[index])),
                   ),
-                  state.localProducts[index].amount != null
+                  state.selectedProducts.contains(state.localProducts[index]) &&
+                          state.localProducts[index].amount != null
                       ? Text(
                           locale.amount +
                               ': ' +
