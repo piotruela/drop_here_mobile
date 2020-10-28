@@ -165,7 +165,7 @@ class ProductCard extends StatelessWidget {
                         dhShowDialog(context, themeConfig, locale);
                         // bloc.add(AddProductToSelected(
                         //     state.localProducts[index],
-                        //     state.productsPage,
+                        //     state.productsPage,l
                         //     state.selectedProducts,
                         //     state.localProducts.toSet()));
                         print(state.selectedProducts.contains(state.productsPage.content[index]));

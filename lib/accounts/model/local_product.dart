@@ -32,8 +32,7 @@ class LocalProduct extends ProductResponse {
         this.id == o.id &&
         this.description == o.description &&
         this.unit == o.unit &&
-        this.unitFraction == o.unitFraction &&
-        this.price == o.price;
+        this.unitFraction == o.unitFraction;
   }
 
   @override
