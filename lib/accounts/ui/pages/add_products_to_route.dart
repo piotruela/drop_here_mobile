@@ -161,31 +161,21 @@ class ProductCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Checkbox(
-                    //tristate: true,
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     onChanged: (bool value) {
                       if (value) {
                         dhShowDialog(context, themeConfig, locale);
-                        // bloc.add(AddProductToSelected(
-                        //     state.localProducts[index],
-                        //     state.productsPage,l
-                        //     state.selectedProducts,
-                        //     state.localProducts.toSet()));
                         print(state.selectedProducts.contains(state.productsPage.content[index]));
                       } else {
-                        //state.selectedProducts.remove(state.productsPage.content[index]);
                         bloc.add(RemoveProductFromSelected(
                             state.localProducts.toList()[index],
                             state.productsPage,
                             state.selectedProducts,
                             state.localProducts.toSet()));
-
                         print(state.selectedProducts.contains(state.productsPage.content[index]));
                       }
                     },
                     value: state.selectedProducts.contains(state.localProducts[index]),
-                    // value: state.selectedProducts
-                    //     .contains(LocalProduct(state.productsPage.content[index])),
                   ),
                   showAmount(themeConfig, locale),
                 ],
@@ -228,8 +218,6 @@ class ProductCard extends StatelessWidget {
                     DhSwitch(
                       initialPosition: state.localProducts[index].unlimited ?? false,
                       onSwitch: (bool value) {
-                        //TODO add action
-                        //state.localProducts[index].limitedAmount = value;
                         bloc.add(ToggleAmount(
                           value,
                           state.localProducts[index],
@@ -252,10 +240,6 @@ class ProductCard extends StatelessWidget {
             actions: [
               FlatButton(
                 onPressed: () {
-                  print('wartosci');
-                  print(amountController.text.toString());
-                  print(priceController.text.toString());
-                  //TODO add action
                   amountController.text.toString() != null && amountController.text.toString() != ''
                       ? state.localProducts[index].amount =
                           double.parse(amountController.text.toString())
