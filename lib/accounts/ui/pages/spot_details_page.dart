@@ -50,9 +50,6 @@ class SpotDetailsPage extends BlocWidget<SpotDetailsBloc> {
       padding: const EdgeInsets.only(left: 23.0, right: 23.0),
       child: ListView(
         children: [
-          SizedBox(
-            height: 200.0,
-          ), //TODO: Delete, only for debug
           _buildSpotTitle(),
           _buildLocationInfo(),
           textAndFlatButton(

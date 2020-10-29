@@ -25,7 +25,6 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
         child: Scaffold(
       backgroundColor: Colors.transparent,
       body: BlocConsumer<RegistrationBloc, RegisterState>(
-        bloc: bloc,
         listenWhen: (previous, current) => previous.runtimeType != current.runtimeType,
         listener: (context, state) {
           if (state is SuccessState) {

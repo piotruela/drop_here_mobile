@@ -187,7 +187,8 @@ class SandboxPage extends StatelessWidget {
                     onPressed: () async {
                       spotManagementService.fetchCompanySpots();
                     }),
-                FlatButton(child: Text("spots map page"), onPressed: () => Get.to(SpotsMapPage())),
+                FlatButton(
+                    child: Text("spots map page"), onPressed: () => Get.offAll(SpotsMapPage())),
               ],
             ),
           ),

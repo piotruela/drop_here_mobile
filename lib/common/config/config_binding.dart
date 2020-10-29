@@ -16,8 +16,8 @@ import 'package:get/get.dart';
 class ConfigBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<ThemeConfig>(() => DHThemeConfig());
-    Get.lazyPut<AssetsConfig>(() => DHAssetsConfig());
+    Get.put<ThemeConfig>(DHThemeConfig());
+    Get.put<AssetsConfig>(DHAssetsConfig());
     Get.put<DhHttpClient>(DhHttpClient());
     Get.put(AccountService());
     Get.put(CountriesService());
