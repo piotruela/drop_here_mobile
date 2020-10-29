@@ -357,4 +357,67 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get noContent => "No content";
+
+  @override
+  String get planRoute => "Plan route";
+
+  @override
+  String get routeNameExample => "e.g. Route 66";
+
+  @override
+  String get dateMandatory => "Date*";
+
+  @override
+  String get pickADate => "Date +";
+
+  @override
+  String get assignedSeller => "Assigned seller";
+
+  @override
+  String get dropsMandatory => "Drops*";
+
+  @override
+  String get productsMandatory => "Products*";
+
+  @override
+  String get addRoute => "Add route";
+
+  @override
+  String get addDropToRoute => "Add drop to route";
+
+  @override
+  String get timeMandatory => "Time*";
+
+  @override
+  String get dropNameExample => "e.g. Drop No. 2";
+
+  @override
+  String get spotMandatory => "Spot*";
+
+  @override
+  String get pickTime => "Pick time";
+
+  @override
+  String get addSpotButton => "Add spot +";
+
+  @override
+  String get endTimeMandatory => "End time*";
+
+  @override
+  String get startTimeMandatory => "Start time*";
+
+  @override
+  String get chooseSpotForDrop => "Choose spot for drop";
+
+  @override
+  String get addDrop => "Add drop";
+
+  @override
+  String get addProductsToRoute => "Add products to route";
+
+  @override
+  String get unlimited => "Unlimited";
+
+  @override
+  String get amount => "Amount";
 }

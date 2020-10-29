@@ -58,9 +58,7 @@ Map<String, dynamic> _$RouteProductRequestToJson(
 RouteDropRequest _$RouteDropRequestFromJson(Map<String, dynamic> json) {
   return RouteDropRequest(
     description: json['description'] as String,
-    endTime: json['endTime'] == null
-        ? null
-        : DateTime.parse(json['endTime'] as String),
+    endTime: json['endTime'] as String,
     name: json['name'] as String,
     spotId: json['spotId'] as int,
     startTime: json['startTime'] as String,
@@ -70,7 +68,7 @@ RouteDropRequest _$RouteDropRequestFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$RouteDropRequestToJson(RouteDropRequest instance) =>
     <String, dynamic>{
       'description': instance.description,
-      'endTime': instance.endTime?.toIso8601String(),
+      'endTime': instance.endTime,
       'name': instance.name,
       'spotId': instance.spotId,
       'startTime': instance.startTime,
