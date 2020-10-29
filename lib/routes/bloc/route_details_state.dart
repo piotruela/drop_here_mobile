@@ -10,6 +10,9 @@ class RouteDetailsInitial extends RouteDetailsState {
 }
 
 class RouteDetailsFetched extends RouteDetailsState {
+  final RouteResponse route;
+
+  RouteDetailsFetched(this.route);
   @override
   List<Object> get props => [];
 }

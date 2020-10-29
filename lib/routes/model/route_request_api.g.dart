@@ -9,7 +9,7 @@ part of 'route_request_api.dart';
 UnpreparedRouteRequest _$UnpreparedRouteRequestFromJson(
     Map<String, dynamic> json) {
   return UnpreparedRouteRequest(
-    date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
+    date: json['date'] as String,
     description: json['description'] as String,
     name: json['name'] as String,
     profileUid: json['profileUid'] as String,
@@ -29,7 +29,7 @@ UnpreparedRouteRequest _$UnpreparedRouteRequestFromJson(
 Map<String, dynamic> _$UnpreparedRouteRequestToJson(
         UnpreparedRouteRequest instance) =>
     <String, dynamic>{
-      'date': instance.date?.toIso8601String(),
+      'date': instance.date,
       'description': instance.description,
       'name': instance.name,
       'profileUid': instance.profileUid,
@@ -42,7 +42,7 @@ RouteProductRequest _$RouteProductRequestFromJson(Map<String, dynamic> json) {
     amount: (json['amount'] as num)?.toDouble(),
     limitedAmount: json['limitedAmount'] as bool,
     price: (json['price'] as num)?.toDouble(),
-    productUid: json['productUid'] as int,
+    productId: json['productId'] as int,
   );
 }
 
@@ -52,15 +52,13 @@ Map<String, dynamic> _$RouteProductRequestToJson(
       'amount': instance.amount,
       'limitedAmount': instance.limitedAmount,
       'price': instance.price,
-      'productUid': instance.productUid,
+      'productId': instance.productId,
     };
 
 RouteDropRequest _$RouteDropRequestFromJson(Map<String, dynamic> json) {
   return RouteDropRequest(
     description: json['description'] as String,
-    endTime: json['endTime'] == null
-        ? null
-        : DateTime.parse(json['endTime'] as String),
+    endTime: json['endTime'] as String,
     name: json['name'] as String,
     spotId: json['spotId'] as int,
     startTime: json['startTime'] as String,
@@ -70,7 +68,7 @@ RouteDropRequest _$RouteDropRequestFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$RouteDropRequestToJson(RouteDropRequest instance) =>
     <String, dynamic>{
       'description': instance.description,
-      'endTime': instance.endTime?.toIso8601String(),
+      'endTime': instance.endTime,
       'name': instance.name,
       'spotId': instance.spotId,
       'startTime': instance.startTime,

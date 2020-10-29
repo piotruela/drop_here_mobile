@@ -21,3 +21,18 @@ class DeleteSpot extends SpotsMapEvent {
   @override
   List<Object> get props => [spotId];
 }
+
+class SpotPinClicked extends SpotsMapEvent {
+  final SpotCompanyResponse spot;
+  final BuildContext context;
+
+  SpotPinClicked({this.spot, this.context});
+
+  @override
+  List<Object> get props => [spot];
+}
+
+class SpotPanelClosed extends SpotsMapEvent {
+  @override
+  List<Object> get props => [];
+}

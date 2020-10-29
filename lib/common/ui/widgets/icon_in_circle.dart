@@ -16,7 +16,7 @@ class IconInCircle extends StatelessWidget {
         radius: 25,
         child: CircleAvatar(
             backgroundColor: themeConfig.colors.white,
-            radius: 23,
+            radius: 24,
             child: Icon(
               icon,
               size: 30,

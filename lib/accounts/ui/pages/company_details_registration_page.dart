@@ -11,12 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-List<DropdownMenuItem> countries = [
-  DropdownMenuItem(child: Text('Italy'), value: 'Italy'),
-  DropdownMenuItem(child: Text('United States'), value: 'United States'),
-  DropdownMenuItem(child: Text('Poland'), value: 'Poland')
-];
-
 class CompanyDetailsRegistrationPage extends BlocWidget<CompanyRegisterDetailsBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
 
@@ -30,7 +24,6 @@ class CompanyDetailsRegistrationPage extends BlocWidget<CompanyRegisterDetailsBl
         child: Scaffold(
             backgroundColor: Colors.transparent,
             body: BlocListener<CompanyRegisterDetailsBloc, CompanyRegistrationDetailsFormState>(
-              bloc: bloc,
               listenWhen: (previous, current) => previous != current,
               listener: (context, state) {
                 if (state is ErrorState) {

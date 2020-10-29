@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+
 bool isEmpty(String string) => (string == null || string.isEmpty);
 
 bool isNotEmpty(String string) => (string != null && string.isNotEmpty);
@@ -25,7 +28,8 @@ String removeFirstCharacter(String string) {
   return substring(string, 1, string.length);
 }
 
-String capitalize(String string) => isNotEmpty(string) ? string[0].toUpperCase() + string.substring(1) : string;
+String capitalize(String string) =>
+    isNotEmpty(string) ? string[0].toUpperCase() + string.substring(1) : string;
 
 bool isDigit(String string) {
   if (string == null || string.length != 1) {
@@ -40,4 +44,11 @@ String describeEnum(Object enumEntry) {
   final int indexOfDot = description.indexOf('.');
   assert(indexOfDot != -1 && indexOfDot < description.length - 1);
   return description.substring(indexOfDot + 1);
+}
+
+String formatTimeOfDay(TimeOfDay tod) {
+  final now = new DateTime.now();
+  final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
+  final format = DateFormat.Hm(); //"6:00 AM"
+  return format.format(dt);
 }

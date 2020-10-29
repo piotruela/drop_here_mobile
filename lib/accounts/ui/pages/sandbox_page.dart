@@ -9,6 +9,7 @@ import 'package:drop_here_mobile/accounts/services/company_management_service.da
 import 'package:drop_here_mobile/accounts/services/customer_management_service.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_product_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/add_route_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_new_item_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_profile_page.dart';
@@ -30,6 +31,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'add_drop_to_route_page.dart';
 import 'add_spot_page.dart';
 import 'edit_product_page.dart';
 import 'edit_spot_page.dart';
@@ -65,7 +67,19 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                     child: Text("route details"),
                     onPressed: () {
-                      Get.to(RouteDetailsPage());
+                      Get.to(RouteDetailsPage(routeId: 1));
+                    }),
+                FlatButton(
+                    child: Text("add route"),
+                    onPressed: () {
+                      Get.to(AddRoutePage());
+                    }),
+                FlatButton(
+                    child: Text("add drop to route"),
+                    onPressed: () {
+                      Get.to(AddDropToRoutePage(
+                        addDrop: () {},
+                      ));
                     }),
                 FlatButton(
                     child: Text("add spot"),
@@ -179,7 +193,8 @@ class SandboxPage extends StatelessWidget {
                     onPressed: () async {
                       spotManagementService.fetchCompanySpots();
                     }),
-                FlatButton(child: Text("spots map page"), onPressed: () => Get.to(SpotsMapPage())),
+                FlatButton(
+                    child: Text("spots map page"), onPressed: () => Get.offAll(SpotsMapPage())),
               ],
             ),
           ),

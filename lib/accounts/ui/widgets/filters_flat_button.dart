@@ -1,3 +1,4 @@
+import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 class FiltersFlatButton extends StatelessWidget {
   final ThemeConfig themeConfig;
   final LocaleBundle locale;
-  final DhListBloc bloc;
+  final Bloc bloc;
 
   const FiltersFlatButton({
     @required this.themeConfig,

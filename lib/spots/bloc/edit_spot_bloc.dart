@@ -31,7 +31,7 @@ class EditSpotBloc extends Bloc<EditSpotEvent, EditSpotFormState> {
               ycoordinate: event.locationResult.latLng.longitude));
     } else if (event is FormSubmitted) {
       await spotManagementService.updateSpot(event.spot, id);
-      Get.to(SpotsMapPage());
+      Get.offAll(SpotsMapPage());
     }
   }
 }

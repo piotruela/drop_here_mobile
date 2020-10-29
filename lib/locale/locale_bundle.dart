@@ -234,4 +234,46 @@ abstract class LocaleBundle {
   String get hidePassword;
 
   String get noContent;
+
+  String get planRoute;
+
+  String get routeNameExample;
+
+  String get dateMandatory;
+
+  String get pickADate;
+
+  String get dropsMandatory;
+
+  String get assignedSeller;
+
+  String get productsMandatory;
+
+  String get addRoute;
+
+  String get addDropToRoute;
+
+  String get timeMandatory;
+
+  String get dropNameExample;
+
+  String get spotMandatory;
+
+  String get pickTime;
+
+  String get addSpotButton;
+
+  String get startTimeMandatory;
+
+  String get endTimeMandatory;
+
+  String get chooseSpotForDrop;
+
+  String get addDrop;
+
+  String get addProductsToRoute;
+
+  String get unlimited;
+
+  String get amount;
 }
