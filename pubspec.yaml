@@ -54,6 +54,8 @@ dependencies:
   google_maps_flutter: ^0.5.30
   google_map_location_picker: ^3.3.4
   geocoder: ^0.2.1
+  intl: ^0.16.1
+  quiver: ^2.1.3
 
 dev_dependencies:
   flutter_test:

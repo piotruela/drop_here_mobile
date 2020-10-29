@@ -48,6 +48,8 @@ class DHThemeConfig extends ThemeConfig {
       flatButtonOff: _flatButtonOffTextStyle,
       bigColoredButtonActiveTextStyle: _bigColoredButtonActiveTextStyle,
       bigColoredButtonNotActiveTextStyle: _bigColoredButtonNotActiveTextStyle,
+      valueChosenFlatButtonTextStyle: _valueChosenFlatButtonTextStyle,
+      submitButtonTextStyle: _submitButtonTextStyle,
     );
   }
 
@@ -128,6 +130,9 @@ class DHThemeConfig extends ThemeConfig {
   static final TextStyle _managementListTileTextStyle =
       _baseTextStyle.copyWith(fontSize: 18.0, height: 21.0 / 18.0, color: _listTileMenuIconColor);
 
+  static final TextStyle _valueChosenFlatButtonTextStyle =
+      _baseTextStyle.copyWith(fontSize: 14.0, height: 16.0 / 14.0, color: _black);
+
   static final TextStyle _title3TextStyle = _baseTextStyle.copyWith(
       fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w700, color: _black);
 
@@ -151,6 +156,9 @@ class DHThemeConfig extends ThemeConfig {
 
   static final TextStyle _bigColoredButtonNotActiveTextStyle =
       _bigColoredButtonActiveTextStyle.copyWith(color: _addSthHereColor);
+
+  static final TextStyle _submitButtonTextStyle = _baseTextStyle.copyWith(
+      fontSize: 18.0, height: 21.0 / 18.0, color: _activeColor, fontWeight: FontWeight.w400);
 
   static final Color _primaryColor1 = const Color(0xfff5550a);
   static final Color _primaryColor2 = const Color(0xfff99363);
