@@ -17,6 +17,8 @@ class RouteManagementService {
 
   Future<ResourceOperationResponse> createRoute(UnpreparedRouteRequest routeRequest) async {
     String companyId = await getCompanyId();
+    print(companyId);
+    print(routeRequest);
     dynamic response = await _httpClient.post(
         canRepeatRequest: true,
         path: "/companies/$companyId/routes",

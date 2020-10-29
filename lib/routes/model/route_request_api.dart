@@ -5,7 +5,7 @@ part 'route_request_api.g.dart';
 
 @JsonSerializable()
 class UnpreparedRouteRequest {
-  final DateTime date;
+  final String date;
   final String description;
   final String name;
   final String profileUid;
@@ -20,7 +20,7 @@ class UnpreparedRouteRequest {
   Map<String, dynamic> toJson() => _$UnpreparedRouteRequestToJson(this);
 
   UnpreparedRouteRequest copyWith({
-    DateTime date,
+    String date,
     String description,
     String name,
     String profileUid,
