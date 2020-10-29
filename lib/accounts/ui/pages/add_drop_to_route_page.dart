@@ -5,6 +5,7 @@ import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/secondary_title.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/value_picked_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/get_address_from_coordinates.dart';
@@ -18,7 +19,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -95,7 +95,6 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
                             onTap: () {
                               if (state.isFilled) {
                                 addDropToRouteBloc.add(FormSubmitted());
-                                //addDropToRouteBloc.state.drop.spotId =
                                 addDrop(addDropToRouteBloc.state.drop);
                                 Get.back();
                               }
@@ -112,52 +111,43 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
     );
   }
 
-  BlocBuilder<AddDropToRouteBloc, AddDropToRouteFormState> endTimeButton(
-      LocaleBundle locale, AddDropToRouteBloc addDropToRouteBloc) {
+  Widget endTimeButton(LocaleBundle locale, AddDropToRouteBloc addDropToRouteBloc) {
     return BlocBuilder<AddDropToRouteBloc, AddDropToRouteFormState>(
         buildWhen: (previous, current) => previous.drop.endTime != current.drop.endTime,
         builder: (context, state) => Conditional.single(
             context: context,
             conditionBuilder: (_) => state.drop.endTime == null,
             widgetBuilder: (_) =>
-                _buildTimePickerButton(locale, context, addDropToRouteBloc, PickTime.end),
+                _buildTimePickerButton(locale, context, addDropToRouteBloc, PickTime.END),
             fallbackBuilder: (_) => ValuePickedFlatButton(
                   text: state.drop.endTime,
                   onTap: () {
-                    chooseTime(context, addDropToRouteBloc, PickTime.end);
+                    chooseTime(context, addDropToRouteBloc, PickTime.END);
                   },
                 )));
   }
 
-  BlocBuilder<AddDropToRouteBloc, AddDropToRouteFormState> startTimeButton(
-      LocaleBundle locale, AddDropToRouteBloc addDropToRouteBloc) {
+  Widget startTimeButton(LocaleBundle locale, AddDropToRouteBloc addDropToRouteBloc) {
     return BlocBuilder<AddDropToRouteBloc, AddDropToRouteFormState>(
         buildWhen: (previous, current) => previous.drop.startTime != current.drop.startTime,
         builder: (context, state) => Conditional.single(
             context: context,
             conditionBuilder: (_) => state.drop.startTime == null,
             widgetBuilder: (_) =>
-                _buildTimePickerButton(locale, context, addDropToRouteBloc, PickTime.start),
+                _buildTimePickerButton(locale, context, addDropToRouteBloc, PickTime.START),
             fallbackBuilder: (_) => ValuePickedFlatButton(
                   text: state.drop.startTime,
                   onTap: () {
-                    chooseTime(context, addDropToRouteBloc, PickTime.start);
+                    chooseTime(context, addDropToRouteBloc, PickTime.START);
                   },
                 )));
-  }
-
-  Text secondaryTitle(String text) {
-    return Text(
-      text,
-      style: themeConfig.textStyles.secondaryTitle,
-    );
   }
 
   ColoredRoundedFlatButton _buildSpotAddButton(
       LocaleBundle locale, BuildContext context, AddDropToRouteBloc bloc) {
     return ColoredRoundedFlatButton(
       text: locale.addSpotButton,
-      onTap: () => getToChooseSpotForDrop(bloc),
+      onTap: () => navigateToChooseSpotForDropPage(bloc),
     );
   }
 
@@ -175,21 +165,13 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
     TimeOfDay timeOfDay = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
-      // initialTime: bloc.state.drop.startTime != null
-      //     ? timeConvert(bloc.state.drop.startTime)
-      //     : TimeOfDay.now(),
     );
     //TODO add with another state
     bloc.add(FormChanged(
-        drop: pickTime == PickTime.start
+        drop: pickTime == PickTime.START
             ? bloc.state.drop.copyWith(startTime: formatTimeOfDay(timeOfDay))
             : bloc.state.drop.copyWith(endTime: formatTimeOfDay(timeOfDay))));
   }
-}
-
-TimeOfDay stringToTimeOfDay(String tod) {
-  final format = DateFormat.jm(); //"6:00 AM"
-  return TimeOfDay.fromDateTime(format.parse(tod));
 }
 
 TimeOfDay timeConvert(String normTime) {
@@ -211,9 +193,9 @@ TimeOfDay timeConvert(String normTime) {
   return TimeOfDay(hour: hour, minute: minute);
 }
 
-enum PickTime { start, end }
+enum PickTime { START, END }
 
-void getToChooseSpotForDrop(AddDropToRouteBloc bloc) {
+void navigateToChooseSpotForDropPage(AddDropToRouteBloc bloc) {
   Get.to(ChooseSpotForDropPage(
     addSpot: (SpotCompanyResponse spot) {
       bloc.add(FormChanged(spot: spot, drop: bloc.state.drop.copyWith(spotId: spot.id)));
@@ -231,7 +213,7 @@ class SpotCard extends StatelessWidget {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
     final LocaleBundle locale = Localization.of(context).bundle;
     return GestureDetector(
-      onTap: () => getToChooseSpotForDrop(bloc),
+      onTap: () => navigateToChooseSpotForDropPage(bloc),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 7.0),
         child: Container(

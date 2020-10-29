@@ -24,6 +24,6 @@ class RouteManagementService {
         path: "/companies/$companyId/routes",
         body: json.encode(routeRequest.toJson()),
         out: (dynamic json) => json);
-    return ResourceOperationResponse.fromJson(response.data);
+    return ResourceOperationResponse.fromJson(response);
   }
 }

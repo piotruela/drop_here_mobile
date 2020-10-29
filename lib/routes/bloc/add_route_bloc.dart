@@ -31,30 +31,13 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
     } else if (event is AddProducts) {
       yield state.copyWith(products: event.products);
     } else if (event is FormSubmitted) {
-      //TODO do sth
-      print(state.routeRequest.toString());
-
       for (LocalProduct p in state.products) {
-        // if(state.routeRequest.products == null){
-        //   state.routeRequest.products = [];
-        // }
         event.routeRequest.products.add(RouteProductRequest(
             price: p.price, amount: p.amount, limitedAmount: !p.unlimited, productId: p.id));
       }
-
-      // print('drop[y');
-      // for (RouteDropRequest a in state.drops) {
-      //   event.routeRequest.drops.add(RouteDropRequest(
-      //       startTime: a.startTime,
-      //       name: a.name,
-      //       description: a.description,
-      //       endTime: a.endTime,
-      //       spotId: a.spotId));
-      // }
       var response = await routeManagementService.createRoute(event.routeRequest);
       print(response);
-      //TODO yield state
-      //yield
+      Get.back();
     }
   }
 }

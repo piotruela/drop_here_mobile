@@ -10,6 +10,7 @@ import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/secondary_title.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/seller_card.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/value_picked_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -75,11 +76,8 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                               ))),
                   secondaryTitle(locale.dropsMandatory),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
-                      // buildWhen: (previous, current) =>
-                      //     previous.drops?.length != current.drops?.length,
                       builder: (context, state) => dropsCarousel(
                           locale, addRouteBloc.state.routeRequest.drops, addRouteBloc)),
-                  //carousel(locale),
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.assignedSeller),
                   SizedBox(height: 6.0),
@@ -116,7 +114,6 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                             if (state.isFilled) {
                               addRouteBloc.add(
                                   FormSubmitted(routeRequest: addRouteBloc.state.routeRequest));
-                              //addRouteBloc.add(FormSubmitted(routeRequest: state.routeRequest));
                             }
                           }),
                     ),
@@ -149,13 +146,6 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     bloc.add(FormChanged(
       routeRequest: bloc.state.routeRequest.copyWith(date: dateTime.toString().substring(0, 10)),
     ));
-  }
-
-  Text secondaryTitle(String text) {
-    return Text(
-      text,
-      style: themeConfig.textStyles.secondaryTitle,
-    );
   }
 
   Widget dropCard({LocaleBundle locale, RouteDropRequest drop}) {
