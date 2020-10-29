@@ -39,7 +39,7 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
         //   state.routeRequest.products = [];
         // }
         event.routeRequest.products.add(RouteProductRequest(
-            price: p.price, amount: p.amount, limitedAmount: !p.unlimited, productUid: p.id));
+            price: p.price, amount: p.amount, limitedAmount: !p.unlimited, productId: p.id));
       }
 
       // print('drop[y');

@@ -42,7 +42,7 @@ RouteProductRequest _$RouteProductRequestFromJson(Map<String, dynamic> json) {
     amount: (json['amount'] as num)?.toDouble(),
     limitedAmount: json['limitedAmount'] as bool,
     price: (json['price'] as num)?.toDouble(),
-    productUid: json['productUid'] as int,
+    productId: json['productId'] as int,
   );
 }
 
@@ -52,7 +52,7 @@ Map<String, dynamic> _$RouteProductRequestToJson(
       'amount': instance.amount,
       'limitedAmount': instance.limitedAmount,
       'price': instance.price,
-      'productUid': instance.productUid,
+      'productId': instance.productId,
     };
 
 RouteDropRequest _$RouteDropRequestFromJson(Map<String, dynamic> json) {

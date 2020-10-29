@@ -147,7 +147,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
         firstDate: DateTime.now(),
         lastDate: DateTime(DateTime.now().year + 10, 1, 1));
     bloc.add(FormChanged(
-      routeRequest: bloc.state.routeRequest.copyWith(date: dateTime.toString()),
+      routeRequest: bloc.state.routeRequest.copyWith(date: dateTime.toString().substring(0, 10)),
     ));
   }
 
