@@ -21,6 +21,7 @@ import 'package:drop_here_mobile/accounts/ui/pages/spot_details_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
+import 'package:drop_here_mobile/routes/ui/pages/route_details_page.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
 import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
 import 'package:drop_here_mobile/spots/ui/pages/spots_map_page.dart';
@@ -60,6 +61,11 @@ class SandboxPage extends StatelessWidget {
                     child: Text("add product"),
                     onPressed: () {
                       Get.to(AddProductPage());
+                    }),
+                FlatButton(
+                    child: Text("route details"),
+                    onPressed: () {
+                      Get.to(RouteDetailsPage());
                     }),
                 FlatButton(
                     child: Text("add spot"),
