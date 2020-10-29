@@ -18,7 +18,7 @@ class CustomerManagementService {
 
   Future<ResourceOperationResponse> updateCustomerInfo(
       CustomerManagementRequest customerManagementRequest) async {
-    dynamic response = await _httpClient.post(
+    dynamic response = await _httpClient.put(
         canRepeatRequest: true,
         path: "/management/customers",
         body: json.encode(customerManagementRequest.toJson()),

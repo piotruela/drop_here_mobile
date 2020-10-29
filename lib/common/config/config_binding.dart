@@ -11,6 +11,7 @@ import 'package:drop_here_mobile/config/drop_here_theme_config.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
 import 'package:drop_here_mobile/routes/services/route_management_service.dart';
 import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
+import 'package:drop_here_mobile/spots/services/spots_user_service.dart';
 import 'package:get/get.dart';
 
 class ConfigBinding extends Bindings {
@@ -27,5 +28,6 @@ class ConfigBinding extends Bindings {
     Get.put(ProductManagementService());
     Get.put(SpotManagementService());
     Get.put(RouteManagementService());
+    Get.put(SpotsUserService());
   }
 }

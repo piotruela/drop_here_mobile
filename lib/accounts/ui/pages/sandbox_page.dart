@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/authentication_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
+import 'package:drop_here_mobile/accounts/model/api/customer_management_api.dart';
 import 'package:drop_here_mobile/accounts/services/account_service.dart';
 import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
@@ -23,7 +24,10 @@ import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
+import 'package:drop_here_mobile/spots/model/api/spot_user_api.dart';
 import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
+import 'package:drop_here_mobile/spots/services/spots_user_service.dart';
+import 'package:drop_here_mobile/spots/ui/pages/customer_map_page.dart';
 import 'package:drop_here_mobile/spots/ui/pages/spots_map_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -44,6 +48,7 @@ class SandboxPage extends StatelessWidget {
   final AccountService accountService = Get.find<AccountService>();
   final ProductManagementService productManagementService = Get.find<ProductManagementService>();
   final SpotManagementService spotManagementService = Get.find<SpotManagementService>();
+  final SpotsUserService spotsUserService = Get.find<SpotsUserService>();
 
   final picker = ImagePicker();
   NetworkImage img;
@@ -164,6 +169,9 @@ class SandboxPage extends StatelessWidget {
                     child: Text("log out from account"),
                     onPressed: () => authenticationService.logOutFromAccount()),
                 FlatButton(
+                    child: Text("fetch account details"),
+                    onPressed: () => accountService.fetchAccountDetails()),
+                FlatButton(
                   child: Text("fetch clients"),
                   onPressed: () {
                     companyManagementService
@@ -171,11 +179,20 @@ class SandboxPage extends StatelessWidget {
                   },
                 ),
                 FlatButton(
-                    child: Text("get comapny details"),
-                    onPressed: () => companyManagementService.getCompanyInfo()),
+                    child: Text("get spots (client)"),
+                    onPressed: () async => spotsUserService.getSpots(SpotCustomerRequest(
+                        member: false,
+                        namePrefix: "",
+                        radius: 20000,
+                        xCoordinate: 54.397498,
+                        yCoordinate: 18.589627))),
                 FlatButton(
                     child: Text("get customer details"),
                     onPressed: () => customerManagementService.getCustomerInfo()),
+                FlatButton(
+                    child: Text("update customer details"),
+                    onPressed: () => customerManagementService.updateCustomerInfo(
+                        CustomerManagementRequest(firstName: "Piotr", lastName: "Maszota"))),
                 FlatButton(child: Text("map page"), onPressed: () => Get.to(MapPage())),
                 FlatButton(
                     child: Text("fetch profiles"),
@@ -189,6 +206,9 @@ class SandboxPage extends StatelessWidget {
                     }),
                 FlatButton(
                     child: Text("spots map page"), onPressed: () => Get.offAll(SpotsMapPage())),
+                FlatButton(
+                    child: Text("customer spots map page"),
+                    onPressed: () => Get.offAll(CustomerMapPage())),
               ],
             ),
           ),
