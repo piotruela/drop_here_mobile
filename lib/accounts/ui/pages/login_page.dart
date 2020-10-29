@@ -25,18 +25,16 @@ class LoginPage extends BlocWidget<LoginBloc> {
       child: Scaffold(
         backgroundColor: Colors.transparent,
         body: BlocListener<LoginBloc, LoginFormState>(
-          bloc: bloc,
           listenWhen: (previous, current) => previous != current,
           listener: (context, state) {
             if (state is SuccessState) {
-              Get.to(ChooseProfilePage());
+              Get.offAll(ChooseProfilePage());
             }
             if (state is ErrorState) {
               Scaffold.of(context).showSnackBar(SnackBar(content: Text("Login error")));
             }
           },
           child: BlocBuilder<LoginBloc, LoginFormState>(
-            bloc: bloc,
             buildWhen: (previous, current) => previous != current,
             builder: (context, state) {
               if (state is LoginLoadingState || state is SuccessState) {

@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:drop_here_mobile/accounts/bloc/login_profile_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/map_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/spots/ui/pages/spots_map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -35,7 +35,7 @@ class LogOnProfilePage extends BlocWidget<LoginProfileBloc> {
             listenWhen: (previous, current) => previous.runtimeType != current.runtimeType,
             listener: (context, state) {
               if (state is LoginSucceeded) {
-                Get.to(MapPage());
+                Get.offAll(SpotsMapPage());
               }
               if (state is LoginFailure) {
                 Scaffold.of(context).showSnackBar(SnackBar(content: Text("Login error")));
@@ -56,6 +56,7 @@ class LogOnProfilePage extends BlocWidget<LoginProfileBloc> {
       key: key,
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 70.0),
@@ -66,17 +67,9 @@ class LogOnProfilePage extends BlocWidget<LoginProfileBloc> {
                   style: themeConfig.textStyles.primaryTitle),
             ),
             Padding(
-              padding: const EdgeInsets.only(top: 68.0, bottom: 24.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text("${profile.firstName} ${profile.lastName}",
-                      style: themeConfig.textStyles.primaryTitle.copyWith(fontSize: 42.0)),
-                  profile.isAdmin()
-                      ? Icon(Icons.star, color: themeConfig.colors.primary1)
-                      : SizedBox.shrink()
-                ],
-              ),
+              padding: const EdgeInsets.only(top: 68.0, bottom: 20.0),
+              child: Text("${profile.firstName} ${profile.lastName}",
+                  overflow: TextOverflow.clip, style: themeConfig.textStyles.primaryTitle),
             ),
             DhTextFormField(
                 initialValue: bloc.state.form.password,
