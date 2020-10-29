@@ -15,8 +15,9 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
   AddRouteBloc()
       : super(AddRouteFormState(
             routeRequest: UnpreparedRouteRequest(
-                //TODO add parameters here (or not)
-                ),
+              //TODO add parameters here (or not)
+              products: [],
+            ),
             products: [],
             drops: []));
 
@@ -30,15 +31,13 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
     } else if (event is AddProducts) {
       yield state.copyWith(products: event.products);
     } else if (event is FormSubmitted) {
-      //TODO do sth
-      print(event.routeRequest.toString());
-
-      List<RouteProductRequest> products = [];
-
+      for (LocalProduct p in state.products) {
+        event.routeRequest.products.add(RouteProductRequest(
+            price: p.price, amount: p.amount, limitedAmount: !p.unlimited, productId: p.id));
+      }
       var response = await routeManagementService.createRoute(event.routeRequest);
       print(response);
-      //TODO yield state
-      //yield
+      Get.back();
     }
   }
 }

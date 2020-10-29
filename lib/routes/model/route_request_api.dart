@@ -5,7 +5,7 @@ part 'route_request_api.g.dart';
 
 @JsonSerializable()
 class UnpreparedRouteRequest {
-  final DateTime date;
+  final String date;
   final String description;
   final String name;
   final String profileUid;
@@ -20,7 +20,7 @@ class UnpreparedRouteRequest {
   Map<String, dynamic> toJson() => _$UnpreparedRouteRequestToJson(this);
 
   UnpreparedRouteRequest copyWith({
-    DateTime date,
+    String date,
     String description,
     String name,
     String profileUid,
@@ -43,9 +43,9 @@ class RouteProductRequest {
   final double amount;
   final bool limitedAmount;
   final double price;
-  final int productUid;
+  final int productId;
 
-  RouteProductRequest({this.amount, this.limitedAmount, this.price, this.productUid});
+  RouteProductRequest({this.amount, this.limitedAmount, this.price, this.productId});
 
   factory RouteProductRequest.fromJson(Map<String, dynamic> json) =>
       _$RouteProductRequestFromJson(json);
@@ -61,7 +61,7 @@ class RouteProductRequest {
       amount: amount ?? this.amount,
       limitedAmount: limitedAmount ?? this.limitedAmount,
       price: price ?? this.price,
-      productUid: productUid ?? this.productUid,
+      productId: productUid ?? this.productId,
     );
   }
 }
