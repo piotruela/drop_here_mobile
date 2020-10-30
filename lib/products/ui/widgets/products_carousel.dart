@@ -52,35 +52,21 @@ class ProductCard extends BlocWidget<ProductCardBloc> {
               width: 154,
               height: 96,
               child: ClipRRect(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-                  child: BlocBuilder<ProductCardBloc, ProductCardState>(
-                    //buildWhen: (previous, current) => previous.runtimeType != current.runtimeType,
-                    builder: (context, state) {
-                      if (state is ProductCardInitial) {
-                        return CircularProgressIndicator();
-                      }
-                      if (state is ProductCardPhotoFetched) {
-                        return SizedBox(
-                            width: 150, height: 150, child: ClipOval(child: state.photo));
-                      } else {
-                        return SizedBox.shrink();
-                      }
-                    },
-                  )
-                  // Icon(
-                  //   Icons.shopping_basket,
-                  //   color: themeConfig.colors.primary1,
-                  //   size: 50.0,
-                  // ),
-                  //
-                  // child: product.photo != null
-                  //     ? productPhoto(product.photo)
-                  //     : IconInCircle(
-                  //         themeConfig: themeConfig,
-                  //         icon: Icons.shopping_basket,
-                  //       ),
-                  ),
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                child: BlocBuilder<ProductCardBloc, ProductCardState>(
+                  builder: (context, state) {
+                    if (state is ProductCardInitial) {
+                      return CircularProgressIndicator();
+                    }
+                    if (state is ProductCardPhotoFetched) {
+                      return SizedBox(width: 150, height: 150, child: ClipOval(child: state.photo));
+                    } else {
+                      return SizedBox.shrink();
+                    }
+                  },
+                ),
+              ),
             ),
             Padding(
               padding: const EdgeInsets.all(4.0),
@@ -126,66 +112,3 @@ class ProductCard extends BlocWidget<ProductCardBloc> {
     );
   }
 }
-
-// Widget productCard({File photo, RouteProductRouteResponse product, LocaleBundle locale}) {
-//   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-//   return Padding(
-//     padding: const EdgeInsets.only(right: 22.0, bottom: 6.0),
-//     child: Container(
-//       decoration: BoxDecoration(
-//         color: themeConfig.colors.white,
-//         borderRadius: BorderRadius.circular(10.0),
-//         boxShadow: [
-//           dhShadow(),
-//         ],
-//       ),
-//       child: Column(
-//         crossAxisAlignment: CrossAxisAlignment.center,
-//         children: [
-//           Container(
-//             width: 154,
-//             height: 96,
-//             child: ClipRRect(
-//               borderRadius: BorderRadius.only(
-//                   topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-//               child: Icon(
-//                 Icons.shopping_basket,
-//                 color: themeConfig.colors.primary1,
-//                 size: 50.0,
-//               ),
-//               // child: product.photo != null
-//               //     ? productPhoto(product.photo)
-//               //     : IconInCircle(
-//               //         themeConfig: themeConfig,
-//               //         icon: Icons.shopping_basket,
-//               //       ),
-//             ),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.all(4.0),
-//             child: Column(
-//               children: [
-//                 Text(
-//                   product.productResponse.name,
-//                   style: themeConfig.textStyles.title3,
-//                 ),
-//                 SizedBox(height: 4.0),
-//                 Text(
-//                   product.price.toString() + locale.currency + '/' + product.productResponse.unit,
-//                   style: themeConfig.textStyles.title3Annotation,
-//                 ),
-//                 SizedBox(height: 6.0),
-//                 Text(
-//                   product.limitedAmount == null || product.limitedAmount == false
-//                       ? locale.unlimited
-//                       : product.amount.toString() + product.productResponse.unit,
-//                   style: themeConfig.textStyles.title3Annotation,
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     ),
-//   );
-// }
