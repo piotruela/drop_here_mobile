@@ -11,6 +11,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -24,18 +25,22 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
   Widget build(BuildContext context, bloc, _) {
     LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
-      backgroundColor: themeConfig.colors.white,
-      body: BlocBuilder<RouteDetailsBloc, RouteDetailsState>(
-        builder: (context, state) {
-          if (state is RouteDetailsInitial) {
-            return Center(child: CircularProgressIndicator());
-          } else if (state is RouteDetailsFetched) {
-            return buildColumnWithData(state, locale);
-          }
-          return Container();
-        },
-      ),
-    );
+        backgroundColor: themeConfig.colors.white,
+        body: SlidingUpPanel(
+          maxHeight: 550,
+          defaultPanelState: PanelState.OPEN,
+          body: Center(child: Text('background')),
+          panel: BlocBuilder<RouteDetailsBloc, RouteDetailsState>(
+            builder: (context, state) {
+              if (state is RouteDetailsInitial) {
+                return Center(child: CircularProgressIndicator());
+              } else if (state is RouteDetailsFetched) {
+                return buildColumnWithData(state, locale);
+              }
+              return Container();
+            },
+          ),
+        ));
   }
 
   SafeArea buildColumnWithData(RouteDetailsFetched state, LocaleBundle locale) {
