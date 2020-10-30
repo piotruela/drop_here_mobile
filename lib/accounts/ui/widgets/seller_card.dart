@@ -30,25 +30,27 @@ class SellerCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [],
           ),
-          trailing: PopupMenuButton<String>(
-            icon: Icon(
-              Icons.more_vert,
-              color: themeConfig.colors.black,
-              size: 30.0,
-            ),
-            onSelected: (_) {},
-            itemBuilder: (BuildContext context) {
-              return popupOptions.map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(
-                    choice,
-                    style: themeConfig.textStyles.popupMenu,
+          trailing: popupOptions != null
+              ? PopupMenuButton<String>(
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: themeConfig.colors.black,
+                    size: 30.0,
                   ),
-                );
-              }).toList();
-            },
-          ),
+                  onSelected: (_) {},
+                  itemBuilder: (BuildContext context) {
+                    return popupOptions.map((String choice) {
+                      return PopupMenuItem<String>(
+                        value: choice,
+                        child: Text(
+                          choice,
+                          style: themeConfig.textStyles.popupMenu,
+                        ),
+                      );
+                    }).toList();
+                  },
+                )
+              : SizedBox.shrink(),
         ),
         decoration: BoxDecoration(
           color: themeConfig.colors.white,

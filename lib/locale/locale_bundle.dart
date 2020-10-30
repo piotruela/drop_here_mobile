@@ -276,4 +276,14 @@ abstract class LocaleBundle {
   String get unlimited;
 
   String get amount;
+
+  String get date;
+
+  String get numberOfProducts;
+
+  String get numberOfDrops;
+
+  String get status;
+
+  String get drops;
 }
