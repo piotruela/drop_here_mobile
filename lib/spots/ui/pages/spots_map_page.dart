@@ -113,7 +113,7 @@ class SpotsMapPage extends BlocWidget<SpotsMapBloc> {
         controller: controller,
         shrinkWrap: true,
         itemCount: state.spots.length,
-        itemBuilder: (BuildContext context, int index) => SpotCard(
+        itemBuilder: (BuildContext context, int index) => CompanySpotCard(
               spot: state.spots[index],
               onTap: () => Get.to(SpotDetailsPage(spot: state.spots[index])),
               onSelectedItem: (value) => bloc.add(DeleteSpot(spotId: int.parse(value))),

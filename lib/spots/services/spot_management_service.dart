@@ -28,7 +28,7 @@ class SpotManagementService {
   }
 
   Future<ResourceOperationResponse> updateSpot(
-      SpotManagementRequest spotManagementRequest, int spotId) async {
+      SpotManagementRequest spotManagementRequest, String spotId) async {
     String companyId = await _companyManagementService.getCompanyId();
     dynamic response = await _httpClient.put(
         body: json.encode(spotManagementRequest.toJson()),

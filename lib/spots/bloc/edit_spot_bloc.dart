@@ -13,7 +13,7 @@ part 'edit_spot_state.dart';
 
 class EditSpotBloc extends Bloc<EditSpotEvent, EditSpotFormState> {
   SpotManagementService spotManagementService = Get.find<SpotManagementService>();
-  final int id;
+  final String id;
   EditSpotBloc({SpotCompanyResponse spot, this.id})
       : super(EditSpotFormState(spotManagementRequest: spot.toRequest));
 

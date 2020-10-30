@@ -24,7 +24,7 @@ class EditSpotPage extends BlocWidget<EditSpotBloc> {
   EditSpotPage({this.spot});
 
   @override
-  EditSpotBloc bloc() => EditSpotBloc(spot: spot, id: spot.id);
+  EditSpotBloc bloc() => EditSpotBloc(spot: spot, id: spot.id.toString());
 
   @override
   Widget build(BuildContext context, EditSpotBloc bloc, _) {

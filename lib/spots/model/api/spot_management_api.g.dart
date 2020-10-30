@@ -6,8 +6,7 @@ part of 'spot_management_api.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SpotManagementRequest _$SpotManagementRequestFromJson(
-    Map<String, dynamic> json) {
+SpotManagementRequest _$SpotManagementRequestFromJson(Map<String, dynamic> json) {
   return SpotManagementRequest(
     description: json['description'] as String,
     estimatedRadiusMeters: json['estimatedRadiusMeters'] as int,
@@ -21,8 +20,7 @@ SpotManagementRequest _$SpotManagementRequestFromJson(
   );
 }
 
-Map<String, dynamic> _$SpotManagementRequestToJson(
-        SpotManagementRequest instance) =>
+Map<String, dynamic> _$SpotManagementRequestToJson(SpotManagementRequest instance) =>
     <String, dynamic>{
       'description': instance.description,
       'estimatedRadiusMeters': instance.estimatedRadiusMeters,
@@ -37,13 +35,10 @@ Map<String, dynamic> _$SpotManagementRequestToJson(
 
 SpotCompanyResponse _$SpotCompanyResponseFromJson(Map<String, dynamic> json) {
   return SpotCompanyResponse(
-    createdAt: json['createdAt'] == null
-        ? null
-        : DateTime.parse(json['createdAt'] as String),
+    createdAt: json['createdAt'] == null ? null : DateTime.parse(json['createdAt'] as String),
     id: json['id'] as int,
-    lastUpdatedAt: json['lastUpdatedAt'] == null
-        ? null
-        : DateTime.parse(json['lastUpdatedAt'] as String),
+    lastUpdatedAt:
+        json['lastUpdatedAt'] == null ? null : DateTime.parse(json['lastUpdatedAt'] as String),
     description: json['description'] as String,
     estimatedRadiusMeters: json['estimatedRadiusMeters'] as int,
     hidden: json['hidden'] as bool,
@@ -56,9 +51,7 @@ SpotCompanyResponse _$SpotCompanyResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
-Map<String, dynamic> _$SpotCompanyResponseToJson(
-        SpotCompanyResponse instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$SpotCompanyResponseToJson(SpotCompanyResponse instance) => <String, dynamic>{
       'createdAt': instance.createdAt?.toIso8601String(),
       'description': instance.description,
       'estimatedRadiusMeters': instance.estimatedRadiusMeters,
@@ -76,9 +69,8 @@ Map<String, dynamic> _$SpotCompanyResponseToJson(
 SpotMembershipPage _$SpotMembershipPageFromJson(Map<String, dynamic> json) {
   return SpotMembershipPage()
     ..content = (json['content'] as List)
-        ?.map((e) => e == null
-            ? null
-            : SpotCompanyMembershipResponse.fromJson(e as Map<String, dynamic>))
+        ?.map((e) =>
+            e == null ? null : SpotCompanyMembershipResponse.fromJson(e as Map<String, dynamic>))
         ?.toList()
     ..empty = json['empty'] as bool
     ..first = json['first'] as bool
@@ -89,15 +81,12 @@ SpotMembershipPage _$SpotMembershipPageFromJson(Map<String, dynamic> json) {
         ? null
         : Pageable.fromJson(json['pageable'] as Map<String, dynamic>)
     ..size = json['size'] as int
-    ..sort = json['sort'] == null
-        ? null
-        : Sort.fromJson(json['sort'] as Map<String, dynamic>)
+    ..sort = json['sort'] == null ? null : Sort.fromJson(json['sort'] as Map<String, dynamic>)
     ..totalElements = json['totalElements'] as int
     ..totalPages = json['totalPages'] as int;
 }
 
-Map<String, dynamic> _$SpotMembershipPageToJson(SpotMembershipPage instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$SpotMembershipPageToJson(SpotMembershipPage instance) => <String, dynamic>{
       'content': instance.content,
       'empty': instance.empty,
       'first': instance.first,
@@ -111,14 +100,12 @@ Map<String, dynamic> _$SpotMembershipPageToJson(SpotMembershipPage instance) =>
       'totalPages': instance.totalPages,
     };
 
-SpotCompanyMembershipResponse _$SpotCompanyMembershipResponseFromJson(
-    Map<String, dynamic> json) {
+SpotCompanyMembershipResponse _$SpotCompanyMembershipResponseFromJson(Map<String, dynamic> json) {
   return SpotCompanyMembershipResponse(
     customerId: json['customerId'] as int,
     firstName: json['firstName'] as String,
     lastName: json['lastName'] as String,
-    membershipStatus: _$enumDecodeNullable(
-        _$MembershipStatusEnumMap, json['membershipStatus']),
+    membershipStatus: _$enumDecodeNullable(_$MembershipStatusEnumMap, json['membershipStatus']),
   );
 }
 
@@ -141,9 +128,7 @@ T _$enumDecode<T>(
         '${enumValues.values.join(', ')}');
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
+  final value = enumValues.entries.singleWhere((e) => e.value == source, orElse: () => null)?.key;
 
   if (value == null && unknownValue == null) {
     throw ArgumentError('`$source` is not one of the supported values: '
@@ -169,12 +154,10 @@ const _$MembershipStatusEnumMap = {
   MembershipStatus.BLOCKED: 'BLOCKED',
 };
 
-SpotCompanyMembershipManagementRequest
-    _$SpotCompanyMembershipManagementRequestFromJson(
-        Map<String, dynamic> json) {
+SpotCompanyMembershipManagementRequest _$SpotCompanyMembershipManagementRequestFromJson(
+    Map<String, dynamic> json) {
   return SpotCompanyMembershipManagementRequest(
-    membershipStatus: _$enumDecodeNullable(
-        _$MembershipStatusEnumMap, json['membershipStatus']),
+    membershipStatus: _$enumDecodeNullable(_$MembershipStatusEnumMap, json['membershipStatus']),
   );
 }
 
