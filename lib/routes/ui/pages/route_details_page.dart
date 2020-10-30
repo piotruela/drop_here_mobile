@@ -62,8 +62,11 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
                 ),
                 Divider(),
                 annotationText(locale.assignedSeller),
-                SellerCard(
-                  title: 'Piotruś <3',
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  child: SellerCard(
+                    title: 'Piotruś <3',
+                  ),
                 ),
                 SizedBox(height: 8.0),
                 annotationText(locale.drops),
