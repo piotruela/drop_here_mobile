@@ -420,4 +420,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get amount => "Amount";
+
+  @override
+  String get chooseSeller => "Choose seller";
 }

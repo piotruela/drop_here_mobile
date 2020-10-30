@@ -276,4 +276,6 @@ abstract class LocaleBundle {
   String get unlimited;
 
   String get amount;
+
+  String get chooseSeller;
 }

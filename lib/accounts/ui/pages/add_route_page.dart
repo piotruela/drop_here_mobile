@@ -81,11 +81,26 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.assignedSeller),
                   SizedBox(height: 6.0),
-                  SellerCard(
-                    title: 'Piotruś <3',
-                    //TODO add popupOptions
-                    popupOptions: ['todo'],
-                  ),
+                  BlocBuilder<AddRouteBloc, AddRouteFormState>(
+                      // builder: (context, state) => Conditional.single(
+                      //     context: context,
+                      //     conditionBuilder: (_) => state.routeRequest.profileUid != null,
+                      //     widgetBuilder: (_) => _spotPasswordField(locale, bloc),
+                      //     fallbackBuilder: (_) => SizedBox.shrink())),
+
+                      buildWhen: (previous, current) =>
+                          previous.sellerFirstName != current.sellerFirstName ||
+                          previous.sellerLastName != current.sellerLastName,
+                      builder: (context, state) => Conditional.single(
+                            context: context,
+                            conditionBuilder: (_) => state.sellerFirstName == null,
+                            widgetBuilder: (_) => _chooseSeller(locale, context, addRouteBloc),
+                            fallbackBuilder: (_) => SellerCard(
+                              title: state.sellerFirstName + ' ' + state.sellerLastName,
+                              //TODO add popupOptions
+                              popupOptions: ['todo'],
+                            ),
+                          )),
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.description),
                   DhTextArea(
@@ -133,6 +148,16 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
       text: locale.pickADate,
       onTap: () {
         chooseDate(context, bloc);
+      },
+    );
+  }
+
+  ColoredRoundedFlatButton _chooseSeller(
+      LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
+    return ColoredRoundedFlatButton(
+      text: locale.chooseSeller,
+      onTap: () {
+        //TODO add action
       },
     );
   }
