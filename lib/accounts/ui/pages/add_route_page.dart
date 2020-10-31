@@ -5,7 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drop_here_mobile/accounts/model/local_product.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_drop_to_route_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_products_to_route.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/choose_seller_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/choose_seller_page.dart' hide SellerCard;
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
@@ -159,7 +159,9 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
       text: locale.chooseSeller,
       onTap: () {
         Get.to(ChooseSellerPage(
-          addSeller: () {},
+          addSeller: () {
+            //bloc.add()
+          },
         ));
         //TODO add function
       },

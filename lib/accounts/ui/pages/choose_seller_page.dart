@@ -30,6 +30,7 @@ class ChooseSellerPage extends BlocWidget<ChooseSellerBloc> {
         onTap: () {
           //TODO add action
           //addSeller(bloc.state.spots[bloc.state.radioValue]);
+          addSeller();
           Get.back();
         },
       ),
@@ -81,20 +82,28 @@ class ChooseSellerPage extends BlocWidget<ChooseSellerBloc> {
   SafeArea buildColumnWithData(
       LocaleBundle locale, BuildContext context, ChooseSellerBloc bloc, SellersFetched state) {
     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: state.sellers.length,
-              itemBuilder: (BuildContext context, int index) {
-                return SpotRadioCard(
-                  bloc: bloc,
-                  index: index,
-                  state: state,
-                );
-              }),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListView.builder(
+                shrinkWrap: true,
+                itemCount: state.sellers.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return SellerCard(
+                    state: state,
+                    bloc: bloc,
+                    index: index,
+                  );
+                  // return SpotRadioCard(
+                  //   bloc: bloc,
+                  //   index: index,
+                  //   state: state,
+                  // );
+                }),
+          ],
+        ),
       ),
     );
   }
@@ -148,6 +157,53 @@ class SpotRadioCard extends StatelessWidget {
           //         }),
           //   ],
           // ),
+          trailing: Radio(
+            groupValue: state.radioValue,
+            value: index,
+            onChanged: (_) {
+              bloc.add(ChangeGroupValue(index, state.sellers));
+            },
+          ),
+        ),
+        decoration: BoxDecoration(
+          color: themeConfig.colors.white,
+          borderRadius: BorderRadius.circular(10.0),
+          boxShadow: [
+            dhShadow(),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class SellerCard extends StatelessWidget {
+  final ChooseSellerBloc bloc;
+  final int index;
+  final SellersFetched state;
+  const SellerCard({this.bloc, this.index, this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+    final LocaleBundle locale = Localization.of(context).bundle;
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 7.0),
+      child: Container(
+        child: ListTile(
+          leading: CircleAvatar(
+            radius: 30,
+          ),
+          title: Text(
+            state.sellers[index].firstName + ' ' + state.sellers[index].lastName,
+            style: themeConfig.textStyles.secondaryTitle,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [],
+          ),
           trailing: Radio(
             groupValue: state.radioValue,
             value: index,
