@@ -82,8 +82,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                       buildWhen: (previous, current) =>
                           previous.productManagementRequest.category !=
                               current.productManagementRequest.category ||
-                          previous.categories != current.categories ||
-                          previous.showAddCategoryButton != current.showAddCategoryButton,
+                          previous.categories != current.categories,
                       builder: (context, state) => Wrap(
                         children: [
                           if (state.categories != null)
@@ -91,12 +90,11 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                               categoryChoice(text: item.name, addProductBloc: addProductBloc)
                           else
                             CircularProgressIndicator(),
-                          if (state.showAddCategoryButton)
-                            addCategory(
-                                text: locale.addNew,
-                                context: context,
-                                locale: locale,
-                                addProductBloc: addProductBloc)
+                          addCategory(
+                              text: locale.addNew,
+                              context: context,
+                              locale: locale,
+                              addProductBloc: addProductBloc)
                         ],
                       ),
                     ),
@@ -236,7 +234,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                   actions: [
                     FlatButton(
                         onPressed: () {
-                          addProductBloc.add(FormChanged(showAddCategoryButton: false));
+                          //addProductBloc.add(FormChanged());
                           Navigator.of(context).pop(controller.text);
                         },
                         child: Text(locale.add))
@@ -244,7 +242,12 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                 ));
         addProductBloc.add(FormChanged(
             categories: addProductBloc.state.categories
-              ..add(ProductCategoryResponse(name: category))));
+              ..add(ProductCategoryResponse(name: category)),
+            productManagementRequest:
+                addProductBloc.state.productManagementRequest.copyWith(category: category)));
+        // addProductBloc.add(FormChanged(
+        //     categories: addProductBloc.state.categories
+        //       ..add(ProductCategoryResponse(name: category))));
         // .add(FormChanged(
         //     categories: addProductBloc.state.categories
         //       ..add(ProductCategoryResponse(name: category))));
