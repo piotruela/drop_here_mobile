@@ -63,27 +63,25 @@ class ProductsListPage extends BlocWidget<DhListBloc> {
   SafeArea buildColumnWithData(
       LocaleBundle locale, ProductsFetched state, BuildContext context, DhListBloc bloc) {
     return SafeArea(
-      child: ListView(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: state.products.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ProductCard(
-                      title: state.products[index].name,
-                      category: state.products[index].category,
-                      price: state.products[index].price,
-                      unit: state.products[index].unit,
-                      popupOptions: [locale.delete, locale.edit],
-                      photo: state.products[index].photo,
-                    );
-                  }),
-            ],
-          ),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListView.builder(
+                shrinkWrap: true,
+                itemCount: state.products.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return ProductCard(
+                    title: state.products[index].name,
+                    category: state.products[index].category,
+                    price: state.products[index].price,
+                    unit: state.products[index].unit,
+                    popupOptions: [locale.delete, locale.edit],
+                    photo: state.products[index].photo,
+                  );
+                }),
+          ],
+        ),
       ),
     );
   }
