@@ -121,9 +121,13 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           previous.units != current.units,
                       builder: (context, state) => DropdownButton<String>(
                         isExpanded: true,
-                        onChanged: (String unit) => addProductBloc.add(FormChanged(
-                            productManagementRequest: addProductBloc.state.productManagementRequest
-                                .copyWith(unit: unit))),
+                        onChanged: (String unit) {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          return addProductBloc.add(FormChanged(
+                              productManagementRequest: addProductBloc
+                                  .state.productManagementRequest
+                                  .copyWith(unit: unit)));
+                        },
                         value: state.productManagementRequest?.unit,
                         icon: Icon(Icons.arrow_drop_down),
                         items: addProductBloc.state?.units
@@ -216,6 +220,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
     TextEditingController controller = TextEditingController();
     return GestureDetector(
       onTap: () async {
+        FocusScope.of(context).requestFocus(FocusNode());
         String category = await showDialog(
             context: context,
             builder: (_) => AlertDialog(
@@ -240,6 +245,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                         child: Text(locale.add))
                   ],
                 ));
+        //TODO add option to delete category and show 'addCategory' button only when user hasn't added own category
         addProductBloc.add(FormChanged(
             categories: addProductBloc.state.categories
               ..add(ProductCategoryResponse(name: category)),
