@@ -5,7 +5,6 @@ import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
-import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
@@ -96,80 +95,7 @@ class ChooseSellerPage extends BlocWidget<ChooseSellerBloc> {
                     bloc: bloc,
                     index: index,
                   );
-                  // return SpotRadioCard(
-                  //   bloc: bloc,
-                  //   index: index,
-                  //   state: state,
-                  // );
                 }),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class SpotRadioCard extends StatelessWidget {
-  final ChooseSellerBloc bloc;
-  final int index;
-  final SellersFetched state;
-  const SpotRadioCard({this.bloc, this.index, this.state});
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-    final LocaleBundle locale = Localization.of(context).bundle;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
-      child: Container(
-        child: ListTile(
-          leading: IconInCircle(
-            themeConfig: themeConfig,
-            icon: Icons.store,
-          ),
-          title: Text(
-            state.sellers[index].firstName + ' ' + state.sellers[index].lastName,
-            style: themeConfig.textStyles.secondaryTitle,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
-          // subtitle: Column(
-          //   crossAxisAlignment: CrossAxisAlignment.start,
-          //   children: [
-          //     Text(
-          //       bloc.state.spots[index].description ?? '',
-          //       style: themeConfig.textStyles.cardSubtitle,
-          //       overflow: TextOverflow.ellipsis,
-          //       maxLines: 1,
-          //     ),
-          //     FutureBuilder(
-          //         future: getAddressFromCoordinates(bloc.state.spots[index].xcoordinate,
-          //                 bloc.state.spots[index].ycoordinate) ??
-          //             '',
-          //         initialData: "Loading location...",
-          //         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          //           return Text(
-          //             snapshot.data ?? "",
-          //             style: themeConfig.textStyles.cardSubtitle,
-          //             overflow: TextOverflow.ellipsis,
-          //             maxLines: 1,
-          //           );
-          //         }),
-          //   ],
-          // ),
-          trailing: Radio(
-            groupValue: state.radioValue,
-            value: index,
-            onChanged: (_) {
-              bloc.add(ChangeGroupValue(index, state.sellers));
-            },
-          ),
-        ),
-        decoration: BoxDecoration(
-          color: themeConfig.colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            dhShadow(),
           ],
         ),
       ),
