@@ -33,6 +33,18 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
             context: context,
             valueBuilder: (_) => state.type,
             caseBuilders: {
+              CustomerSpotsStateType.failure: (_) {
+                bloc.add(
+                    FetchSpotsEvent(radius: 10000, xCoordinate: 54.397498, yCoordinate: 18.589627));
+
+                return Center(child: CircularProgressIndicator());
+              },
+              CustomerSpotsStateType.join_request_sent: (_) {
+                bloc.add(
+                    FetchSpotsEvent(radius: 10000, xCoordinate: 54.397498, yCoordinate: 18.589627));
+                BlocProvider.of<SpotDetails2Bloc>(context).add(CloseSpotDetailsPanel());
+                return Center(child: CircularProgressIndicator());
+              },
               CustomerSpotsStateType.loading: (_) => Center(child: CircularProgressIndicator()),
               CustomerSpotsStateType.success: (_) =>
                   _buildPageContent(context, bloc, state.spots, panelController)
@@ -65,14 +77,14 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
                 context: context,
                 conditionBuilder: (_) => state.type == SpotDetailsStateType.success,
                 widgetBuilder: (_) =>
-                    _buildSpotDetailsPanel(state.spot.spot, state.spot.drops, controller),
+                    _buildSpotDetailsPanel(state.spot.spot, state.spot.drops, controller, bloc),
                 fallbackBuilder: (_) => SizedBox.shrink()))
       ],
     );
   }
 
   Widget _buildSpotDetailsPanel(SpotBaseCustomerResponse spot, List<DropCustomerSpotResponse> drops,
-      PanelController controller) {
+      PanelController controller, CustomerSpotsBloc bloc) {
     return SlidingUpPanel(
         minHeight: 300,
         maxHeight: 630,
@@ -82,7 +94,9 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
         panelBuilder: (myScrollController) => ListView(
               controller: myScrollController,
               shrinkWrap: true,
-              children: [CustomerSpotDetailsPage(spot: spot, controller: controller)],
+              children: [
+                CustomerSpotDetailsPage(spot: spot, controller: controller, customerSpotsBloc: bloc)
+              ],
             ));
   }
 

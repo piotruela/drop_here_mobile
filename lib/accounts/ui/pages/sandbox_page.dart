@@ -109,7 +109,7 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                   child: Text("spot details page"),
                   onPressed: () {
-                    Get.to(SpotDetailsPage(spot: SpotCompanyResponse()));
+                    Get.to(CompanySpotDetailsPage(spot: SpotCompanyResponse()));
                   },
                 ),
                 FlatButton(
@@ -205,7 +205,8 @@ class SandboxPage extends StatelessWidget {
                       spotManagementService.fetchCompanySpots();
                     }),
                 FlatButton(
-                    child: Text("spots map page"), onPressed: () => Get.offAll(SpotsMapPage())),
+                    child: Text("company spots map page"),
+                    onPressed: () => Get.to(CompanyMapPage())),
                 FlatButton(
                     child: Text("customer spots map page"),
                     onPressed: () => Get.offAll(CustomerMapPage())),

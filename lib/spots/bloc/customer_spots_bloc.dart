@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_user_api.dart';
 import 'package:drop_here_mobile/spots/services/spots_user_service.dart';
 import 'package:equatable/equatable.dart';
@@ -27,6 +28,16 @@ class CustomerSpotsBloc extends Bloc<CustomerSpotsEvent, CustomerSpotsState> {
               xCoordinate: event.xCoordinate,
               yCoordinate: event.yCoordinate));
       yield CustomerSpotsState(spots: spots, type: CustomerSpotsStateType.success);
-    } //TODO: Make separate bloc for spot details or separate state type
+    }
+    if (event is SendSpotJoiningRequest) {
+      yield CustomerSpotsState(spots: null, type: CustomerSpotsStateType.loading);
+      ResourceOperationResponse response =
+          await spotsUserService.joinSpot(event.spotUid, event.companyUid, event.request);
+      yield CustomerSpotsState(
+          spots: null,
+          type: response.operationStatus == OperationStatus.ERROR
+              ? CustomerSpotsStateType.failure
+              : CustomerSpotsStateType.join_request_sent);
+    }
   }
 }

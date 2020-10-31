@@ -10,10 +10,15 @@ class SpotManagementService {
   final DhHttpClient _httpClient = Get.find<DhHttpClient>();
   final CompanyManagementService _companyManagementService = Get.find<CompanyManagementService>();
 
-  Future<SpotCompanyResponse> fetchSpotDetails(String spotUid) async {
-    dynamic response = await _httpClient.get(
-        canRepeatRequest: true, path: "/spots/$spotUid", out: (dynamic json) => json);
-    return SpotCompanyResponse.fromJson(response);
+  Future<List<SpotCompanyResponse>> fetchCompanySpots() async {
+    String companyId = await _companyManagementService.getCompanyId();
+    List<dynamic> response = await _httpClient.get(
+        canRepeatRequest: true, path: "/companies/$companyId/spots", out: (dynamic json) => json);
+    List<SpotCompanyResponse> spots = [];
+    for (dynamic element in response) {
+      spots.add(SpotCompanyResponse.fromJson(element));
+    }
+    return spots;
   }
 
   Future<ResourceOperationResponse> addSpot(SpotManagementRequest spotManagementRequest) async {
@@ -25,6 +30,14 @@ class SpotManagementService {
         out: (dynamic json) => json);
 
     return ResourceOperationResponse.fromJson(response);
+  }
+
+  Future<SpotCompanyResponse> fetchCompanySpot(String spotUid) async {
+    String companyId = await _companyManagementService.getCompanyId();
+    return await _httpClient.get(
+        canRepeatRequest: true,
+        path: "/companies/$companyId/spots/$spotUid",
+        out: (dynamic response) => SpotCompanyResponse.fromJson(response));
   }
 
   Future<ResourceOperationResponse> updateSpot(
@@ -45,18 +58,14 @@ class SpotManagementService {
         canRepeatRequest: true,
         path: "/companies/$companyId/spots/$spotId",
         out: (dynamic json) => json);
-
     return ResourceOperationResponse.fromJson(response);
   }
 
-  Future<List<SpotCompanyResponse>> fetchCompanySpots() async {
+  Future<SpotMembershipPage> fetchSpotMembers(String spotUid) async {
     String companyId = await _companyManagementService.getCompanyId();
-    List<dynamic> response = await _httpClient.get(
-        canRepeatRequest: true, path: "/companies/$companyId/spots", out: (dynamic json) => json);
-    List<SpotCompanyResponse> spots = [];
-    for (dynamic element in response) {
-      spots.add(SpotCompanyResponse.fromJson(element));
-    }
-    return spots;
+    return await _httpClient.get(
+        canRepeatRequest: true,
+        path: "/companies/$companyId/spots/$spotUid/memberships",
+        out: (dynamic response) => SpotMembershipPage.fromJson(response));
   }
 }

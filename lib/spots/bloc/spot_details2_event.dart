@@ -7,3 +7,7 @@ class FetchSpotDetailsEvent extends SpotDetails2Event {
 
   FetchSpotDetailsEvent({this.spotUid});
 }
+
+class CloseSpotDetailsPanel extends SpotDetails2Event {}
+
+class WrongSpotPassword extends SpotDetails2Event {}

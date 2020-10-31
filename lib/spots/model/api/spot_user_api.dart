@@ -85,3 +85,25 @@ class SpotDetailedCustomerResponse {
       _$SpotDetailedCustomerResponseFromJson(json);
   Map<String, dynamic> toJson() => _$SpotDetailedCustomerResponseToJson(this);
 }
+
+@JsonSerializable()
+class SpotJoinRequest {
+  String password;
+  bool receiveCancelledNotifications;
+  bool receiveDelayedNotifications;
+  bool receiveFinishedNotifications;
+  bool receiveLiveNotifications;
+  bool receivePreparedNotifications;
+
+  SpotJoinRequest(
+      {this.password,
+      this.receiveCancelledNotifications = false,
+      this.receiveDelayedNotifications = false,
+      this.receiveFinishedNotifications = false,
+      this.receiveLiveNotifications = false,
+      this.receivePreparedNotifications = false});
+
+  factory SpotJoinRequest.fromJson(Map<String, dynamic> json) => _$SpotJoinRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$SpotJoinRequestToJson(this);
+}
+/*flutter packages pub run build_runner build --delete-conflicting-outputs*/

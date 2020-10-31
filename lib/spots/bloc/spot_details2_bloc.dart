@@ -23,6 +23,10 @@ class SpotDetails2Bloc extends Bloc<SpotDetails2Event, SpotDetailsState> {
       final SpotDetailedCustomerResponse spot =
           await spotsUserService.getSpotDetails(event.spotUid);
       yield SpotDetailsState(spot: spot, type: SpotDetailsStateType.success);
+    } else if (event is CloseSpotDetailsPanel) {
+      yield SpotDetailsState(spot: null, type: SpotDetailsStateType.panel_closed);
+    } else if (event is WrongSpotPassword) {
+      yield SpotDetailsState(spot: state.spot, type: SpotDetailsStateType.failure);
     }
   }
 }

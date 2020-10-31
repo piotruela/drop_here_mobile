@@ -10,4 +10,4 @@ class SpotDetailsState extends Equatable {
   List<Object> get props => [type, spot];
 }
 
-enum SpotDetailsStateType { loading, success, failure }
+enum SpotDetailsStateType { loading, success, failure, panel_closed }
