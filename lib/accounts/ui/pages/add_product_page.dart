@@ -215,6 +215,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
 
   GestureDetector addCategory(
       {String text, AddProductBloc addProductBloc, BuildContext context, LocaleBundle locale}) {
+    TextEditingController controller = TextEditingController();
     return GestureDetector(
       onTap: () async {
         String category = await showDialog(
@@ -227,21 +228,28 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                   content: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      TextField(),
+                      TextField(
+                        controller: controller,
+                      ),
                     ],
                   ),
                   actions: [
                     FlatButton(
                         onPressed: () {
-                          Navigator.of(context).pop('cat');
+                          addProductBloc.add(FormChanged(showAddCategoryButton: false));
+                          Navigator.of(context).pop(controller.text);
                         },
                         child: Text(locale.add))
                   ],
                 ));
-        if (category != null) {
-          addProductBloc.add(FormChanged(showAddCategoryButton: false));
-        }
-
+        addProductBloc.add(FormChanged(
+            categories: addProductBloc.state.categories
+              ..add(ProductCategoryResponse(name: category))));
+        // .add(FormChanged(
+        //     categories: addProductBloc.state.categories
+        //       ..add(ProductCategoryResponse(name: category))));
+        //addProductBloc.add(FormChanged(productManagementRequest: addProductBloc.state.productManagementRequest.copyWith()));
+        print(category);
         // addProductBloc.add(FormChanged(
         //     productManagementRequest:
         //     addProductBloc.state.productManagementRequest.copyWith(category: text)));
