@@ -159,8 +159,11 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
       text: locale.chooseSeller,
       onTap: () {
         Get.to(ChooseSellerPage(
-          addSeller: () {
-            //bloc.add()
+          addSeller: (String profileUid, String sellerFirstName, String sellerLastName) {
+            bloc.add(FormChanged(
+                routeRequest: bloc.state.routeRequest.copyWith(profileUid: profileUid),
+                sellerFirstName: sellerFirstName,
+                sellerLastName: sellerLastName));
           },
         ));
         //TODO add function

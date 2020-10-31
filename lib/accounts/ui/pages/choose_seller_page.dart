@@ -27,9 +27,16 @@ class ChooseSellerPage extends BlocWidget<ChooseSellerBloc> {
         isActive: true,
         text: locale.submit,
         onTap: () {
+          if (bloc.state is SellersFetched) {
+            SellersFetched state = bloc.state;
+            addSeller(
+                state.sellers[state.radioValue].profileUid,
+                state.sellers[state.radioValue].firstName,
+                state.sellers[state.radioValue].lastName);
+          }
           //TODO add action
           //addSeller(bloc.state.spots[bloc.state.radioValue]);
-          addSeller();
+
           Get.back();
         },
       ),
