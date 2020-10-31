@@ -67,7 +67,7 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                     child: Text("route details"),
                     onPressed: () {
-                      Get.to(RouteDetailsPage(routeId: 1));
+                      Get.to(RouteDetailsPage(routeId: 2));
                     }),
                 FlatButton(
                     child: Text("add route"),
