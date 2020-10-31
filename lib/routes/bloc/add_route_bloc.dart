@@ -17,6 +17,7 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
             routeRequest: UnpreparedRouteRequest(
               //TODO add parameters here (or not)
               products: [],
+              drops: [],
             ),
             products: [],
             drops: []));
