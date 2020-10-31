@@ -27,10 +27,13 @@ class CompanySpotsBloc extends Bloc<CompanySpotsEvent, CompanySpotsState> {
       yield CompanySpotsState(
           spots: state.spots,
           type: CompanySpotsStateType.spot_details,
-          spot: state.spots.firstWhere((element) => element.id.toString() == event.spotId,),
+          spot: state.spots.firstWhere(
+            (element) => element.id.toString() == event.spotId,
+          ),
           members: members);
-    } else if(event is CloseSpotDetailsPanel){
-      yield CompanySpotsState(spots: state.spots, type: CompanySpotsStateType.success, spot:null, members: null);
-    }
+    } else if (event is CloseSpotDetailsPanel) {
+      yield CompanySpotsState(
+          spots: state.spots, type: CompanySpotsStateType.success, spot: null, members: null);
+    } else if (event is UpdateMembershipStatus) {}
   }
 }

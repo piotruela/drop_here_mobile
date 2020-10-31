@@ -1,3 +1,4 @@
+import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/seller.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -38,8 +39,21 @@ class ProfileInfoResponse {
 
   ProfileInfoResponse();
 
-  Seller convertFromApiModel() => Seller(
-      name: this.firstName, surname: this.lastName, isActive: this.status == AccountStatus.ACTIVE);
+  Seller convertFromApiModel() =>
+      Seller(name: this.firstName, surname: this.lastName, status: toMembershipStatus());
+
+  MembershipStatus toMembershipStatus() {
+    switch (this.status) {
+      case AccountStatus.ACTIVE:
+        return MembershipStatus.ACTIVE;
+        break;
+      case AccountStatus.INACTIVE:
+        return MembershipStatus.BLOCKED;
+        break;
+      default:
+        return null;
+    }
+  }
 
   ProfileInfoResponse.withName({String firstName, String lastName, ProfileType profileType}) {
     this.firstName = firstName;

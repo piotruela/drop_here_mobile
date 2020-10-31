@@ -15,3 +15,9 @@ class FetchSpotDetailsEvent extends CompanySpotsEvent {
 class CloseSpotDetailsPanel extends CompanySpotsEvent {
   CloseSpotDetailsPanel();
 }
+
+class UpdateMembershipStatus extends CompanySpotsEvent {
+  final int spotId;
+  final int spotMembershipId;
+  UpdateMembershipStatus();
+}

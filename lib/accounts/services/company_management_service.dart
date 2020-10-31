@@ -87,8 +87,8 @@ class CompanyManagementService {
   Future<List<Seller>> fetchSellersList({String filter, String searchText}) {
     //TODO implement
     List<Seller> sellers = [
-      Seller(name: 'jon', isActive: true, surname: 'snow'),
-      Seller(name: 'bart', isActive: false, surname: 'simpson')
+      Seller(name: 'jon', status: MembershipStatus.ACTIVE, surname: 'snow'),
+      Seller(name: 'bart', status: MembershipStatus.BLOCKED, surname: 'simpson')
     ];
     return Future.delayed(Duration(seconds: 1), () {
       return sellers;

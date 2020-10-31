@@ -6,6 +6,7 @@ import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.da
 import 'package:drop_here_mobile/accounts/ui/widgets/rounded_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/get_address_from_coordinates.dart';
+import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
 import 'package:drop_here_mobile/common/ui/widgets/labeled_switch.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
@@ -170,8 +171,10 @@ class CompanySpotDetailsPage extends AbsSpotDetailsPage {
   final PanelController controller;
   final CompanySpotsBloc bloc;
   final SpotMembershipPage members;
+  final ScrollController scrollController;
 
-  CompanySpotDetailsPage({this.spot, this.controller, this.bloc, this.members});
+  CompanySpotDetailsPage(
+      {this.spot, this.controller, this.bloc, this.members, this.scrollController});
 
   @override
   String get name => spot.name;
@@ -213,8 +216,8 @@ class CompanySpotDetailsPage extends AbsSpotDetailsPage {
   Widget buildColumnWithData(LocaleBundle locale, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 23.0, right: 23.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: ListView(
+        controller: scrollController,
         children: [
           closeIcon(controller),
           buildSpotTitle(),
@@ -242,12 +245,19 @@ class CompanySpotDetailsPage extends AbsSpotDetailsPage {
   Widget _buildMembersList() {
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: members.content.length * 7,
+      physics: ScrollPhysics(),
+      itemCount: members.content.length,
       itemBuilder: (BuildContext context, int index) {
+        final SpotCompanyMembershipResponse member = members.content.elementAt(index);
         return DhCard(
-          title: members.content[0].firstName,
-          isActive: members.content[0].membershipStatus == MembershipStatus.ACTIVE,
-        );
+            title: member.fullName,
+            status: member.membershipStatus,
+            padding: EdgeInsets.symmetric(vertical: 7.0),
+            popupOptions: MembershipStatus.values
+                .where((element) =>
+                    element != member.membershipStatus && element != MembershipStatus.PENDING)
+                .map((e) => describeEnum(e))
+                .toList());
       },
     );
   }

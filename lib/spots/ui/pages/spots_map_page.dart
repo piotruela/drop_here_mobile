@@ -80,11 +80,12 @@ class CompanyMapPage extends BlocWidget<CompanySpotsBloc> {
         controller: controller,
         borderRadius:
             const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-        panelBuilder: (myScrollController) => Column(
-              children: [
-                CompanySpotDetailsPage(
-                    spot: spot, controller: controller, bloc: bloc, members: members)
-              ],
+        panelBuilder: (myScrollController) => CompanySpotDetailsPage(
+              spot: spot,
+              controller: controller,
+              bloc: bloc,
+              members: members,
+              scrollController: myScrollController,
             ));
   }
 

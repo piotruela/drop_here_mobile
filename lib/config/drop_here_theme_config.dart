@@ -55,20 +55,20 @@ class DHThemeConfig extends ThemeConfig {
 
   void _initColorTheme() {
     colors = ColorTheme(
-      primary1: _primaryColor1,
-      primary2: _primaryColor2,
-      facebookColor: _facebookColor,
-      textFieldHint: _textFieldHintColor,
-      white: _white,
-      black: _black,
-      background: _backgroundColor,
-      listTileMenu: _listTileMenuColor,
-      listTileMenuIcon: _listTileMenuIconColor,
-      listTileMenuText: _listTileMenuTextColor,
-      addSthHere: _addSthHereColor,
-      active: _activeColor,
-      blocked: _blockedColor,
-    );
+        primary1: _primaryColor1,
+        primary2: _primaryColor2,
+        facebookColor: _facebookColor,
+        textFieldHint: _textFieldHintColor,
+        white: _white,
+        black: _black,
+        background: _backgroundColor,
+        listTileMenu: _listTileMenuColor,
+        listTileMenuIcon: _listTileMenuIconColor,
+        listTileMenuText: _listTileMenuTextColor,
+        addSthHere: _addSthHereColor,
+        active: _activeColor,
+        blocked: _blockedColor,
+        pending: _pendingColor);
   }
 
   static final TextStyle _buttonTextStyle = _secondaryTitleTextStyle.copyWith(color: _white);
@@ -180,4 +180,5 @@ class DHThemeConfig extends ThemeConfig {
 
   static final Color _activeColor = const Color(0xff029519);
   static final Color _blockedColor = const Color(0xffAA0E04);
+  static final Color _pendingColor = const Color(0xffF2C94C);
 }

@@ -135,9 +135,16 @@ class SpotCompanyMembershipResponse {
   final String firstName;
   final String lastName;
   final MembershipStatus membershipStatus;
+  final int spotMembershipId;
+
+  String get fullName => "$firstName $lastName";
 
   SpotCompanyMembershipResponse(
-      {this.customerId, this.firstName, this.lastName, this.membershipStatus});
+      {this.customerId,
+      this.firstName,
+      this.lastName,
+      this.membershipStatus,
+      this.spotMembershipId});
 
   factory SpotCompanyMembershipResponse.fromJson(Map<String, dynamic> json) =>
       _$SpotCompanyMembershipResponseFromJson(json);
