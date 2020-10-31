@@ -5,20 +5,27 @@ class AddProductFormState extends Equatable {
   final List<ProductCategoryResponse> categories;
   final List<ProductUnitResponse> units;
   final File photo;
+  final bool showAddCategoryButton;
   const AddProductFormState(
-      {this.productManagementRequest, this.photo, this.categories, this.units});
+      {this.productManagementRequest,
+      this.photo,
+      this.categories,
+      this.units,
+      this.showAddCategoryButton = true});
 
   AddProductFormState copyWith({
     final ProductManagementRequest productManagementRequest,
     final File photo,
     final List<ProductCategoryResponse> categories,
     final List<ProductUnitResponse> units,
+    final bool showAddCategoryButton,
   }) {
     return AddProductFormState(
       photo: photo ?? this.photo,
       productManagementRequest: productManagementRequest ?? this.productManagementRequest,
       categories: categories ?? this.categories,
       units: units ?? this.units,
+      showAddCategoryButton: showAddCategoryButton ?? this.showAddCategoryButton,
     );
   }
 
@@ -32,5 +39,6 @@ class AddProductFormState extends Equatable {
   }
 
   @override
-  List<Object> get props => [productManagementRequest, photo, categories, units];
+  List<Object> get props =>
+      [productManagementRequest, photo, categories, units, showAddCategoryButton];
 }

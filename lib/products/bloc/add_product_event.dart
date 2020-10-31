@@ -6,12 +6,13 @@ abstract class AddProductEvent extends Equatable {
 
 class FormChanged extends AddProductEvent {
   final File photo;
+  final bool showAddCategoryButton;
   final ProductManagementRequest productManagementRequest;
 
-  FormChanged({this.photo, this.productManagementRequest});
+  FormChanged({this.photo, this.productManagementRequest, this.showAddCategoryButton = true});
 
   @override
-  List<Object> get props => [photo, productManagementRequest];
+  List<Object> get props => [photo, productManagementRequest, showAddCategoryButton];
 }
 
 class FormSubmitted extends AddProductEvent {

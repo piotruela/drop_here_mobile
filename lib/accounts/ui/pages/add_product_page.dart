@@ -85,16 +85,13 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           previous.categories != current.categories,
                       builder: (context, state) => Wrap(
                         children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              if (state.categories != null)
-                                for (ProductCategoryResponse item in state.categories)
-                                  categoryChoice(text: item.name, addProductBloc: addProductBloc)
-                              else
-                                CircularProgressIndicator(),
-                            ],
-                          ),
+                          if (state.categories != null)
+                            for (ProductCategoryResponse item in state.categories)
+                              categoryChoice(text: item.name, addProductBloc: addProductBloc)
+                          else
+                            CircularProgressIndicator(),
+                          if (state.showAddCategoryButton)
+                            addCategory(text: locale.addNew, context: context, locale: locale)
                         ],
                       ),
                     ),
@@ -208,6 +205,42 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
           : RoundedFlatButton(
               text: text,
             ),
+    );
+  }
+
+  GestureDetector addCategory(
+      {String text, AddProductBloc addProductBloc, BuildContext context, LocaleBundle locale}) {
+    return GestureDetector(
+      onTap: () {
+        showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+                  title: Text(
+                    locale.addCategory,
+                    style: themeConfig.textStyles.secondaryTitle,
+                  ),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(),
+                    ],
+                  ),
+                  actions: [
+                    FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(locale.add))
+                  ],
+                ));
+
+        // addProductBloc.add(FormChanged(
+        //     productManagementRequest:
+        //     addProductBloc.state.productManagementRequest.copyWith(category: text)));
+      },
+      child: RoundedFlatButton(
+        text: text,
+      ),
     );
   }
 

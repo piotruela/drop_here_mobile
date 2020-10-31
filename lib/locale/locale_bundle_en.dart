@@ -420,4 +420,10 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get amount => "Amount";
+
+  @override
+  String get add => "Add";
+
+  @override
+  String get addCategory => "Add category";
 }
