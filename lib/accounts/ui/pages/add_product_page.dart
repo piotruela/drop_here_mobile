@@ -82,7 +82,8 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                       buildWhen: (previous, current) =>
                           previous.productManagementRequest.category !=
                               current.productManagementRequest.category ||
-                          previous.categories != current.categories,
+                          previous.categories != current.categories ||
+                          previous.showAddCategoryButton != current.showAddCategoryButton,
                       builder: (context, state) => Wrap(
                         children: [
                           if (state.categories != null)
@@ -91,7 +92,11 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           else
                             CircularProgressIndicator(),
                           if (state.showAddCategoryButton)
-                            addCategory(text: locale.addNew, context: context, locale: locale)
+                            addCategory(
+                                text: locale.addNew,
+                                context: context,
+                                locale: locale,
+                                addProductBloc: addProductBloc)
                         ],
                       ),
                     ),
@@ -211,8 +216,8 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
   GestureDetector addCategory(
       {String text, AddProductBloc addProductBloc, BuildContext context, LocaleBundle locale}) {
     return GestureDetector(
-      onTap: () {
-        showDialog(
+      onTap: () async {
+        String category = await showDialog(
             context: context,
             builder: (_) => AlertDialog(
                   title: Text(
@@ -228,11 +233,14 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                   actions: [
                     FlatButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          Navigator.of(context).pop('cat');
                         },
                         child: Text(locale.add))
                   ],
                 ));
+        if (category != null) {
+          addProductBloc.add(FormChanged(showAddCategoryButton: false));
+        }
 
         // addProductBloc.add(FormChanged(
         //     productManagementRequest:
