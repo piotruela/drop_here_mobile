@@ -250,14 +250,17 @@ class CompanySpotDetailsPage extends AbsSpotDetailsPage {
       itemBuilder: (BuildContext context, int index) {
         final SpotCompanyMembershipResponse member = members.content.elementAt(index);
         return DhCard(
-            title: member.fullName,
-            status: member.membershipStatus,
-            padding: EdgeInsets.symmetric(vertical: 7.0),
-            popupOptions: MembershipStatus.values
-                .where((element) =>
-                    element != member.membershipStatus && element != MembershipStatus.PENDING)
-                .map((e) => describeEnum(e))
-                .toList());
+          title: member.fullName,
+          status: member.membershipStatus,
+          padding: EdgeInsets.symmetric(vertical: 7.0),
+          popupOptions: MembershipStatus.values
+              .where((element) =>
+                  element != member.membershipStatus && element != MembershipStatus.PENDING)
+              .map((e) => describeEnum(e))
+              .toList(),
+          onItemSelected: (string) => bloc
+              .add(UpdateMembershipStatus(spotId: spot.id, status: string, spotMembershipId: 1)),
+        );
       },
     );
   }

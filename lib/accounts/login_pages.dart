@@ -34,7 +34,7 @@ class LoginPages {
     GetPage(name: '/chooseProfile', page: () => ChooseProfilePage()),
     GetPage(name: '/profileLoginPage', page: () => LogOnProfilePage()),
     GetPage(name: '/mapPage', page: () => MapPage()),
-    GetPage(name: '/spotsMapPage', page: () => SpotsMapPage()),
+    GetPage(name: '/spotsMapPage', page: () => CompanyMapPage()),
     GetPage(name: '/customerSpotsMapPage', page: () => CustomerMapPage()),
   ];
 }

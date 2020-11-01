@@ -7,13 +7,22 @@ import 'package:get/get.dart';
 
 import 'dh_shadow.dart';
 
+typedef OnItemSelected = Function(String);
+
 class DhCard extends StatelessWidget {
   final String title;
   final MembershipStatus status;
   final int dropsNumber;
   final List<String> popupOptions;
   final EdgeInsets padding;
-  const DhCard({this.title, this.status, this.dropsNumber, this.popupOptions, this.padding});
+  final OnItemSelected onItemSelected;
+  const DhCard(
+      {this.title,
+      this.status,
+      this.dropsNumber,
+      this.popupOptions,
+      this.padding,
+      this.onItemSelected});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +57,7 @@ class DhCard extends StatelessWidget {
               color: themeConfig.colors.black,
               size: 30.0,
             ),
-            onSelected: (value) => print(value),
+            onSelected: (value) => onItemSelected(value),
             itemBuilder: (BuildContext context) {
               return popupOptions.map((String choice) {
                 return PopupMenuItem<String>(

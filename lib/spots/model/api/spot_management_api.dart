@@ -153,7 +153,7 @@ class SpotCompanyMembershipResponse {
 
 @JsonSerializable()
 class SpotCompanyMembershipManagementRequest {
-  final MembershipStatus membershipStatus;
+  final String membershipStatus;
 
   SpotCompanyMembershipManagementRequest({this.membershipStatus});
 

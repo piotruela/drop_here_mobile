@@ -68,4 +68,18 @@ class SpotManagementService {
         path: "/companies/$companyId/spots/$spotUid/memberships",
         out: (dynamic response) => SpotMembershipPage.fromJson(response));
   }
+
+  Future<ResourceOperationResponse> updateMembership(SpotCompanyMembershipManagementRequest request,
+      String spotUid, String spotMembershipId) async {
+    String companyId = await _companyManagementService.getCompanyId();
+    try {
+      return await _httpClient.put(
+          body: json.encode(request.toJson()),
+          canRepeatRequest: true,
+          path: "/companies/$companyId/spots/$spotUid/memberships/$spotMembershipId",
+          out: (dynamic response) => ResourceOperationResponse.fromJson(response));
+    } on HttpStatusException {
+      return ResourceOperationResponse()..operationStatus = OperationStatus.ERROR;
+    }
+  }
 }

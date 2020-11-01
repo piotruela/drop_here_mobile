@@ -31,7 +31,6 @@ class SpotsUserService {
           path: "/spots/$spotUid/companies/$companyUid/memberships",
           out: (dynamic response) => ResourceOperationResponse.fromJson(response));
     } on HttpStatusException {
-      print("Error");
       return ResourceOperationResponse()..operationStatus = OperationStatus.ERROR;
     }
   }

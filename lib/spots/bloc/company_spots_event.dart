@@ -19,5 +19,6 @@ class CloseSpotDetailsPanel extends CompanySpotsEvent {
 class UpdateMembershipStatus extends CompanySpotsEvent {
   final int spotId;
   final int spotMembershipId;
-  UpdateMembershipStatus();
+  final String status;
+  UpdateMembershipStatus({this.spotId, this.spotMembershipId, this.status});
 }
