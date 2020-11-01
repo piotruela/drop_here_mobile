@@ -4,19 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 Widget labeledSwitch({String text, bool initialPosition, Function(bool) onSwitch}) {
-  return Padding(
-    padding: const EdgeInsets.only(),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        secondaryTitle(text),
-        DhSwitch(
-          initialPosition: initialPosition ?? false,
-          onSwitch: onSwitch,
-        ),
-      ],
-    ),
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    mainAxisSize: MainAxisSize.max,
+    children: [
+      secondaryTitle(text),
+      DhSwitch(
+        initialPosition: initialPosition ?? false,
+        onSwitch: onSwitch,
+      ),
+    ],
   );
 }
 

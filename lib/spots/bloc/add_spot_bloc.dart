@@ -37,7 +37,7 @@ class AddSpotBloc extends Bloc<AddSpotEvent, AddSpotFormState> {
               ycoordinate: event.locationResult.latLng.longitude));
     } else if (event is FormSubmitted) {
       await spotManagementService.addSpot(event.spotManagementRequest);
-      Get.offAll(SpotsMapPage());
+      Get.offAll(CompanyMapPage());
     }
   }
 }

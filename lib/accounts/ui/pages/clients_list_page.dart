@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
+import 'package:drop_here_mobile/accounts/model/client.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_card.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
@@ -84,14 +85,11 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
               shrinkWrap: true,
               itemCount: state.clients.length,
               itemBuilder: (BuildContext context, int index) {
+                final Client client = state.clients[index];
                 return DhCard(
-                  title: state.clients[index].name,
-                  isActive: state.clients[index].isActive,
-                  dropsNumber: state.clients[index].numberOfDropsMember,
-                  popupOptions: [
-                    state.clients[index].isActive ? locale.block : locale.unblock,
-                    locale.edit
-                  ],
+                  title: client.name,
+                  status: client.status,
+                  dropsNumber: client.numberOfDropsMember,
                 );
               }),
         ],

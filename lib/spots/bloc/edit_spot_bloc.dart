@@ -13,7 +13,7 @@ part 'edit_spot_state.dart';
 
 class EditSpotBloc extends Bloc<EditSpotEvent, EditSpotFormState> {
   SpotManagementService spotManagementService = Get.find<SpotManagementService>();
-  final int id;
+  final String id;
   EditSpotBloc({SpotCompanyResponse spot, this.id})
       : super(EditSpotFormState(spotManagementRequest: spot.toRequest));
 
@@ -31,7 +31,7 @@ class EditSpotBloc extends Bloc<EditSpotEvent, EditSpotFormState> {
               ycoordinate: event.locationResult.latLng.longitude));
     } else if (event is FormSubmitted) {
       await spotManagementService.updateSpot(event.spot, id);
-      Get.offAll(SpotsMapPage());
+      Get.offAll(CompanyMapPage());
     }
   }
 }

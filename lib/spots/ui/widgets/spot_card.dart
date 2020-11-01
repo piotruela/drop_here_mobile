@@ -1,18 +1,61 @@
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
 import 'package:drop_here_mobile/common/get_address_from_coordinates.dart';
+import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
+import 'package:drop_here_mobile/spots/model/api/spot_user_api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SpotCard extends StatelessWidget {
-  final SpotCompanyResponse spot;
-  final VoidCallback onTap;
-  final Function(String) onSelectedItem;
+class CustomerSpotCard extends SpotCard {
+  final SpotBaseCustomerResponse spot;
 
-  SpotCard({this.spot, this.onTap, this.onSelectedItem});
+  CustomerSpotCard({this.spot, onSelectedItem, onTap})
+      : super(onSelectedItem: onSelectedItem, onTap: onTap);
+
+  @override
+  String get id => spot.uid;
+
+  @override
+  String get name => spot.name;
+
+  @override
+  double get xcoordinate => spot.xcoordinate;
+
+  @override
+  double get ycoordinate => spot.ycoordinate;
+}
+
+class CompanySpotCard extends SpotCard {
+  final SpotCompanyResponse spot;
+
+  CompanySpotCard({this.spot, onSelectedItem, onTap})
+      : super(onSelectedItem: onSelectedItem, onTap: onTap);
+
+  @override
+  String get id => spot.id.toString();
+
+  @override
+  String get name => spot.name;
+
+  @override
+  double get xcoordinate => spot.xcoordinate;
+
+  @override
+  double get ycoordinate => spot.ycoordinate;
+}
+
+abstract class SpotCard extends StatelessWidget {
+  final Function(String) onSelectedItem;
+  final VoidCallback onTap;
+
+  String get name;
+  String get id;
+  double get xcoordinate;
+  double get ycoordinate;
+
+  const SpotCard({this.onSelectedItem, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -28,11 +71,11 @@ class SpotCard extends StatelessWidget {
               icon: Icons.store,
             ),
             title: Text(
-              spot.name,
+              name,
               style: themeConfig.textStyles.secondaryTitle,
             ),
             subtitle: FutureBuilder(
-                future: getAddressFromCoordinates(spot.xcoordinate, spot.ycoordinate),
+                future: getAddressFromCoordinates(xcoordinate, ycoordinate),
                 initialData: "Loading location...",
                 builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                   return Text(
@@ -50,7 +93,7 @@ class SpotCard extends StatelessWidget {
               onSelected: (value) => onSelectedItem(value),
               itemBuilder: (context) => <PopupMenuItem<String>>[
                 new PopupMenuItem<String>(
-                    value: spot.id.toString(),
+                    value: id,
                     child: GestureDetector(child: Text(Localization.of(context).bundle.delete))),
               ],
             ),
