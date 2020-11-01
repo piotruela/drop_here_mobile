@@ -83,7 +83,7 @@ class RouteDropRequest {
     String description,
     String endTime,
     String name,
-    int spotId,
+    String spotId,
     String startTime,
   }) {
     return RouteDropRequest(

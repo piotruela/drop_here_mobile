@@ -15,7 +15,7 @@ class DhSearchBar extends StatelessWidget {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
     final LocaleBundle locale = Localization.of(context).bundle;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 18.0),
+      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 8.0),
       child: TextField(
         onChanged: (String searchText) {
           bloc.add(SearchClients(searchText: searchText));

@@ -286,4 +286,6 @@ abstract class LocaleBundle {
   String get status;
 
   String get drops;
+
+  String get pending;
 }

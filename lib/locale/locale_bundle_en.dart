@@ -435,4 +435,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get drops => "Drops";
+
+  @override
+  String get pending => "Pending";
 }

@@ -8,8 +8,9 @@ class ColoredRoundedFlatButton extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final String text;
   final Function onTap;
+  final TextStyle style;
 
-  ColoredRoundedFlatButton({this.text, this.onTap});
+  ColoredRoundedFlatButton({this.text, this.onTap, this.style});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class ColoredRoundedFlatButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: themeConfig.textStyles.coloredFlatButton,
+          style: style ?? themeConfig.textStyles.coloredFlatButton,
         ),
       ),
     );

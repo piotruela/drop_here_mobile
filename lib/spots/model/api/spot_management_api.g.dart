@@ -119,6 +119,7 @@ SpotCompanyMembershipResponse _$SpotCompanyMembershipResponseFromJson(
     lastName: json['lastName'] as String,
     membershipStatus: _$enumDecodeNullable(
         _$MembershipStatusEnumMap, json['membershipStatus']),
+    spotMembershipId: json['spotMembershipId'] as int,
   );
 }
 
@@ -129,6 +130,7 @@ Map<String, dynamic> _$SpotCompanyMembershipResponseToJson(
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'membershipStatus': _$MembershipStatusEnumMap[instance.membershipStatus],
+      'spotMembershipId': instance.spotMembershipId,
     };
 
 T _$enumDecode<T>(
@@ -173,13 +175,12 @@ SpotCompanyMembershipManagementRequest
     _$SpotCompanyMembershipManagementRequestFromJson(
         Map<String, dynamic> json) {
   return SpotCompanyMembershipManagementRequest(
-    membershipStatus: _$enumDecodeNullable(
-        _$MembershipStatusEnumMap, json['membershipStatus']),
+    membershipStatus: json['membershipStatus'] as String,
   );
 }
 
 Map<String, dynamic> _$SpotCompanyMembershipManagementRequestToJson(
         SpotCompanyMembershipManagementRequest instance) =>
     <String, dynamic>{
-      'membershipStatus': _$MembershipStatusEnumMap[instance.membershipStatus],
+      'membershipStatus': instance.membershipStatus,
     };

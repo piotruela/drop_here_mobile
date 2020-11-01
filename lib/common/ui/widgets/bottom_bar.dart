@@ -22,7 +22,14 @@ class DHBottomBar extends StatelessWidget {
       height: 50,
       width: MediaQuery.of(context).size.width,
       child: Container(
-        color: themeConfig.colors.white,
+        decoration: BoxDecoration(color: themeConfig.colors.white, boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 5,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          )
+        ]),
         child: Row(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
