@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
+import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -134,9 +135,16 @@ class SpotCompanyMembershipResponse {
   final String firstName;
   final String lastName;
   final MembershipStatus membershipStatus;
+  final int spotMembershipId;
+
+  String get fullName => "$firstName $lastName";
 
   SpotCompanyMembershipResponse(
-      {this.customerId, this.firstName, this.lastName, this.membershipStatus});
+      {this.customerId,
+      this.firstName,
+      this.lastName,
+      this.membershipStatus,
+      this.spotMembershipId});
 
   factory SpotCompanyMembershipResponse.fromJson(Map<String, dynamic> json) =>
       _$SpotCompanyMembershipResponseFromJson(json);
@@ -145,11 +153,37 @@ class SpotCompanyMembershipResponse {
 
 @JsonSerializable()
 class SpotCompanyMembershipManagementRequest {
-  final MembershipStatus membershipStatus;
+  final String membershipStatus;
 
   SpotCompanyMembershipManagementRequest({this.membershipStatus});
 
   factory SpotCompanyMembershipManagementRequest.fromJson(Map<String, dynamic> json) =>
       _$SpotCompanyMembershipManagementRequestFromJson(json);
   Map<String, dynamic> toJson() => _$SpotCompanyMembershipManagementRequestToJson(this);
+}
+
+class CompanySpotMembership {
+  String customerName;
+  MembershipStatus membershipStatus;
+  int offset;
+  int pageNumber;
+  int pageSize;
+  bool paged;
+  bool sortSorted;
+  bool sortUnsorted;
+  bool unpaged;
+
+  CompanySpotMembership();
+
+  String toQueryParams() {
+    return "customerName=${customerName ?? ''}"
+        "&membershipStatus=${describeEnum(membershipStatus) ?? ''}"
+        "&offset=${offset ?? ''}"
+        "&pageNumber=${pageNumber ?? ''}"
+        "&pageSize=${pageSize ?? ''}"
+        "&paged=${paged ?? ''}"
+        "&sort.sorted=${sortSorted ?? ''}"
+        "&sort.unsorted=${sortUnsorted ?? ''}"
+        "&unpaged=${unpaged ?? ''}";
+  }
 }

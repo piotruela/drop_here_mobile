@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
+import 'package:drop_here_mobile/accounts/model/seller.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_card.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
@@ -90,12 +91,10 @@ class SellersListPage extends BlocWidget<DhListBloc> {
               shrinkWrap: true,
               itemCount: state.sellers.length,
               itemBuilder: (BuildContext context, int index) {
+                final Seller seller = state.sellers.elementAt(index);
                 return DhCard(
-                  title: state.sellers[index].name + ' ' + state.sellers[index].surname,
-                  isActive: state.sellers[index].isActive,
-                  popupOptions: [
-                    state.sellers[index].isActive ? locale.markAsInactive : locale.markAsActive,
-                  ],
+                  title: seller.fullName,
+                  status: seller.status,
                 );
               }),
         ],

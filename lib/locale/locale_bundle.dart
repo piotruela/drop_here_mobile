@@ -278,4 +278,6 @@ abstract class LocaleBundle {
   String get amount;
 
   String get chooseSeller;
+
+  String get pending;
 }

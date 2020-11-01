@@ -423,4 +423,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get chooseSeller => "Choose seller";
+
+  @override
+  String get pending => "Pending";
 }
