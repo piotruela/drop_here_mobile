@@ -31,6 +31,7 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductFormState> {
         productManagementRequest: form,
         photo: event?.photo,
         categories: event.categories,
+        photoNull: event.photoNull ?? false,
       );
     } else if (event is FormSubmitted) {
       ResourceOperationResponse response =

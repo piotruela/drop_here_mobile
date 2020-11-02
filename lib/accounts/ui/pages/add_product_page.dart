@@ -285,9 +285,9 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
           child: bloc.state.photo != null
               ? GestureDetector(
                   onTap: () {
-                    //bloc.add(FormChanged());
+                    bloc.add(FormChanged(photoNull: true));
                     //bloc.state.copyWith(photoNull: true);
-                    bloc.add(bloc.state.copyWith(photoNull: true));
+                    //bloc.add(bloc.state.copyWith(photoNull: true));
                     //bloc.add(FormChanged(photo: bloc.state.copyWith(photoNull: true, photo: null)));
                     //bloc.state.copyWith(photo: null, photoNull: true);
 
