@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
 import 'package:drop_here_mobile/routes/model/route_request_api.dart';
+import 'package:drop_here_mobile/routes/model/route_response_api.dart';
 import 'package:get/get.dart';
 
 class RouteManagementService {
@@ -25,10 +26,10 @@ class RouteManagementService {
     return ResourceOperationResponse.fromJson(response);
   }
 
-  Future<ResourceOperationResponse> fetchRoutes(UnpreparedRouteRequest routeRequest) async {
+  Future<RouteResponse> fetchRoutes(UnpreparedRouteRequest routeRequest) async {
     String companyId = await getCompanyId();
     dynamic response = await _httpClient.get(
         canRepeatRequest: true, path: "/companies/$companyId/routes", out: (dynamic json) => json);
-    return ResourceOperationResponse.fromJson(response);
+    return RouteResponse.fromJson(response);
   }
 }
