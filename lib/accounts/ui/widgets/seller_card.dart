@@ -1,6 +1,4 @@
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/locale/locale_bundle.dart';
-import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +12,6 @@ class SellerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-    final LocaleBundle locale = Localization.of(context).bundle;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 7.0),
       child: Container(

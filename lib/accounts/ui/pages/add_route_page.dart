@@ -1,4 +1,3 @@
-import 'dart:collection';
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
@@ -296,10 +295,9 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
               product: product,
             ),
           GestureDetector(
-            onTap: () {
-              Get.to(AddProductsToRoutePage((LinkedHashSet<LocalProduct> selectedProducts) {
-                bloc.add(AddProducts(products: selectedProducts.toList()));
-              }, bloc.state.products));
+            onTap: () async {
+              bloc.add(AddProducts(
+                  products: await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));
             },
             child: IconInCircle(
               themeConfig: themeConfig,

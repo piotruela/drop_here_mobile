@@ -29,7 +29,7 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
       UnpreparedRouteRequest form = event.routeRequest;
       yield state.copyWith(routeRequest: form);
     } else if (event is AddProducts) {
-      yield state.copyWith(products: event.products);
+      yield state.copyWith(products: event.products.toList());
     } else if (event is FormSubmitted) {
       for (LocalProduct p in state.products) {
         event.routeRequest.products.add(RouteProductRequest(

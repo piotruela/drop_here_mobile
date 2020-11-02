@@ -37,4 +37,11 @@ class LocalProduct extends ProductResponse {
 
   @override
   int get hashCode => hash4(name, id, category, description);
+
+  String get pricePerAmount {
+    if (amount != null) {
+      return "$price/1$unit";
+    } else
+      return null;
+  }
 }

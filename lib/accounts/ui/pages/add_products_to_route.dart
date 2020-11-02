@@ -1,12 +1,13 @@
 import 'package:drop_here_mobile/accounts/bloc/add_products_to_route_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/local_product.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_switch.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/common/ui/widgets/labeled_switch.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
@@ -15,37 +16,32 @@ import 'package:get/get.dart';
 
 class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-  final Function addProducts;
-  final List<LocalProduct> selectedProducts;
+  final Set<LocalProduct> selectedProducts;
 
-  AddProductsToRoutePage(this.addProducts, this.selectedProducts);
+  AddProductsToRoutePage(this.selectedProducts);
   @override
   AddProductsToRouteBloc bloc() =>
-      AddProductsToRouteBloc()..add(FetchProducts(selectedProducts.toSet()));
+      AddProductsToRouteBloc()..add(FetchProducts(selectedProducts: selectedProducts));
 
   @override
   Widget build(BuildContext context, AddProductsToRouteBloc bloc, _) {
-    final LocaleBundle locale = Localization.of(context).bundle;
+    final LocaleBundle localeBundle = Localization.of(context).bundle;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       floatingActionButton: SubmitFormButton(
         isActive: true,
-        text: locale.submit,
-        onTap: () {
-          ProductsFetched state = bloc.state;
-          addProducts(state.selectedProducts);
-          Get.back();
-        },
+        text: localeBundle.submit,
+        onTap: () => Get.back(result: selectedProducts),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
               child: Text(
-                locale.addProductsToRoute,
+                localeBundle.addProductsToRoute,
                 style: themeConfig.textStyles.primaryTitle,
               ),
             ),
@@ -54,27 +50,29 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
               padding: const EdgeInsets.only(left: 25.0),
               child: FiltersFlatButton(
                 themeConfig: themeConfig,
-                locale: locale,
+                locale: localeBundle,
                 bloc: bloc,
               ),
             ),
             BlocBuilder<AddProductsToRouteBloc, AddProductsToRouteState>(
+              buildWhen: (previous, current) => previous != current,
               builder: (context, state) {
-                if (state is AddProductsToRouteInitial) {
+                if (state.type == AddProductsToRouteStateType.initial ||
+                    state.type == AddProductsToRouteStateType.loading) {
                   return Center(child: CircularProgressIndicator());
-                } else if (state is FetchingError) {
+                } else if (state.type == AddProductsToRouteStateType.error) {
                   return Container(
                       child: Column(
                     children: [
                       Text('try again'),
                       RaisedButton(
-                          onPressed: () => bloc.add(FetchProducts(selectedProducts.toSet())))
+                          onPressed: () =>
+                              bloc.add(FetchProducts(selectedProducts: selectedProducts)))
                     ],
                   ));
-                } else if (state is ProductsFetched) {
-                  return buildColumnWithData(locale, context, bloc, state);
+                } else {
+                  return buildColumnWithData(localeBundle, context, bloc, state);
                 }
-                return Container();
               },
             ),
           ],
@@ -83,48 +81,44 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
     );
   }
 
-  SafeArea buildColumnWithData(LocaleBundle locale, BuildContext context,
-      AddProductsToRouteBloc bloc, ProductsFetched state) {
-    return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: state.productsPage.numberOfElements,
-              itemBuilder: (BuildContext context, int index) {
-                return ProductCard(
-                  index: index,
-                  state: state,
-                  bloc: bloc,
-                );
-              })
-        ],
-      ),
-    );
+  Widget buildColumnWithData(LocaleBundle localeBundle, BuildContext context,
+      AddProductsToRouteBloc bloc, AddProductsToRouteState state) {
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: state.productsPage?.numberOfElements,
+        itemBuilder: (BuildContext context, int index) {
+          return ProductCard(
+            bloc: bloc,
+            product: state.localProducts?.elementAt(index),
+            pricePerAmount: state.selectedProducts
+                ?.lookup(state.localProducts.elementAt(index))
+                ?.pricePerAmount,
+          );
+        });
   }
 }
 
 class ProductCard extends StatelessWidget {
-  final ProductsFetched state;
-  final int index;
+  final LocalProduct product;
+  final VoidCallback onTap;
+  final String pricePerAmount;
   final AddProductsToRouteBloc bloc;
 
-  const ProductCard({this.state, this.index, this.bloc});
+  const ProductCard({this.product, this.onTap, this.pricePerAmount, this.bloc});
 
   @override
   Widget build(BuildContext context) {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-    final LocaleBundle locale = Localization.of(context).bundle;
+    final LocaleBundle localeBundle = Localization.of(context).bundle;
     return GestureDetector(
-      onTap: () {},
+      onTap: () => {},
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
         child: Container(
           child: ListTile(
-            leading: productPhoto(context, state.localProducts[index].photo),
+            leading: productPhoto(context, product.photo),
             title: Text(
-              state.productsPage.content[index].name,
+              product.name,
               style: themeConfig.textStyles.secondaryTitle,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -136,7 +130,7 @@ class ProductCard extends StatelessWidget {
                   height: 5.0,
                 ),
                 Text(
-                  '${locale.category}: ${state.productsPage.content[index].category}',
+                  '${localeBundle.category}: ${product.category}',
                   style: themeConfig.textStyles.cardSubtitle,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -144,9 +138,9 @@ class ProductCard extends StatelessWidget {
                 SizedBox(
                   height: 6.0,
                 ),
-                state.selectedProducts.contains(state.localProducts[index])
+                pricePerAmount != null
                     ? Text(
-                        '${locale.price}: ${state.selectedProducts.firstWhere((element) => element == state.localProducts[index]).price.toString()}${locale.currency}/${state.localProducts[index].unit}',
+                        product.unlimited ? "unlimited" : product.amount.toString(),
                         style: themeConfig.textStyles.cardSubtitle,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -161,23 +155,26 @@ class ProductCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Checkbox(
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    onChanged: (bool value) {
-                      if (value) {
-                        dhShowDialog(context, themeConfig, locale);
-                        print(state.selectedProducts.contains(state.productsPage.content[index]));
-                      } else {
-                        bloc.add(RemoveProductFromSelected(
-                            state.localProducts.toList()[index],
-                            state.productsPage,
-                            state.selectedProducts,
-                            state.localProducts.toSet()));
-                        print(state.selectedProducts.contains(state.productsPage.content[index]));
-                      }
-                    },
-                    value: state.selectedProducts.contains(state.localProducts[index]),
-                  ),
-                  showAmount(themeConfig, locale),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      value: pricePerAmount != null,
+                      onChanged: (bool) async {
+                        if (pricePerAmount.isNull) {
+                          bloc.add(ProductSelected(product: product));
+                          LocalProduct productWithAmount = await showDialog(
+                              context: context,
+                              child: AmountDialog(
+                                initialUnlimited: product.unlimited,
+                                productWithAmount: product,
+                                bloc: bloc,
+                              ));
+                          if (productWithAmount != null) {
+                            bloc.add(AmountSelected(product: productWithAmount));
+                          }
+                        } else {
+                          bloc.add(ProductUnchecked(product: product));
+                        }
+                      }),
+                  Text(pricePerAmount ?? "")
                 ],
               ),
             ),
@@ -192,76 +189,6 @@ class ProductCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Future dhShowDialog(BuildContext context, ThemeConfig themeConfig, LocaleBundle locale) {
-    TextEditingController amountController = TextEditingController();
-    TextEditingController priceController = TextEditingController();
-    return showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  state.localProducts[index].name,
-                  style: themeConfig.textStyles.secondaryTitle,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      locale.unlimited,
-                      style: themeConfig.textStyles.contentTitle,
-                    ),
-                    DhSwitch(
-                      initialPosition: state.localProducts[index].unlimited ?? false,
-                      onSwitch: (bool value) {
-                        bloc.add(ToggleAmount(
-                          value,
-                          state.localProducts[index],
-                          state.productsPage,
-                          state.selectedProducts,
-                          state.localProducts.toSet(),
-                        ));
-                        print(value);
-                      },
-                    ),
-                  ],
-                ),
-                state.localProducts[index].unlimited == null ||
-                        state.localProducts[index].unlimited == false
-                    ? rowWithTextField(locale.amount, themeConfig, amountController)
-                    : SizedBox.shrink(),
-                rowWithTextField(locale.pricePerUnit, themeConfig, priceController),
-              ],
-            ),
-            actions: [
-              FlatButton(
-                onPressed: () {
-                  amountController.text.toString() != null && amountController.text.toString() != ''
-                      ? state.localProducts[index].amount =
-                          double.parse(amountController.text.toString())
-                      : null;
-
-                  state.localProducts[index].price = double.parse(priceController.text.toString());
-                  print(double.parse(priceController.text.toString()));
-                  bloc.add(AddProductToSelected(state.localProducts[index], state.productsPage,
-                      state.selectedProducts, state.localProducts.toSet()));
-                  Navigator.of(context).pop(context);
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 7.0, horizontal: 14.0),
-                  child: Text(
-                    locale.submit,
-                    style: themeConfig.textStyles.submitButtonTextStyle,
-                  ),
-                ),
-              )
-            ],
-          );
-        });
   }
 
   Padding rowWithTextField(String text, ThemeConfig themeConfig, TextEditingController controller) {
@@ -310,22 +237,79 @@ class ProductCard extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget showAmount(ThemeConfig themeConfig, LocaleBundle locale) {
-    if (state.localProducts[index].unlimited ?? false)
-      return Text(
-        locale.amount + ': ' + locale.unlimited,
-        style: themeConfig.textStyles.cardSubtitle,
-      );
-    return state.selectedProducts.contains(state.localProducts[index]) &&
-            state.localProducts[index].amount != null
-        ? Text(
-            locale.amount +
-                ': ' +
-                state.localProducts[index].amount.toString() +
-                state.localProducts[index].unit,
-            style: themeConfig.textStyles.cardSubtitle,
-          )
-        : SizedBox.shrink();
+class AmountDialog extends StatefulWidget {
+  final AddProductsToRouteBloc bloc;
+  final bool initialUnlimited;
+  final LocalProduct productWithAmount;
+
+  AmountDialog({this.bloc, this.initialUnlimited, this.productWithAmount});
+
+  @override
+  _AmountDialogState createState() => _AmountDialogState();
+}
+
+class _AmountDialogState extends State<AmountDialog> {
+  bool _unlimited;
+  LocalProduct product;
+
+  @override
+  void initState() {
+    _unlimited = widget.initialUnlimited;
+    product = widget.productWithAmount;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+    final LocaleBundle localeBundle = Localization.of(context).bundle;
+    return AlertDialog(
+      content: Column(
+        mainAxisSize: MainAxisSize.max,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Align(
+              child: Text(widget.productWithAmount.name,
+                  style: themeConfig.textStyles.secondaryTitle)),
+          labeledSwitch(
+              text: localeBundle.unlimited,
+              initialPosition: widget.initialUnlimited,
+              onSwitch: (unlimited) {
+                setState(() {
+                  _unlimited = unlimited;
+                  product.unlimited = unlimited;
+                  widget.bloc.add(UnlimitedToggleChanged(unlimited: _unlimited));
+                });
+              }),
+          !_unlimited ? _buildConditionalFields(product) : SizedBox.shrink(),
+          Align(
+            child: RaisedButton(
+              child: Text("Submit", style: themeConfig.textStyles.active),
+              onPressed: () => Navigator.pop(context, product),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildConditionalFields(LocalProduct product) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Amount"),
+        DhPlainTextFormField(
+            inputType: InputType.number,
+            hintText: "420",
+            onChanged: (String amount) => product.amount = double.parse(amount)),
+        Text("Price per unit"),
+        DhPlainTextFormField(
+            inputType: InputType.number,
+            hintText: "123",
+            onChanged: (String price) => product.price = double.parse(price)),
+      ],
+    );
   }
 }
