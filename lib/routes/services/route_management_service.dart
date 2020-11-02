@@ -26,10 +26,10 @@ class RouteManagementService {
     return ResourceOperationResponse.fromJson(response);
   }
 
-  Future<RouteShortResponse> fetchRoutes(UnpreparedRouteRequest routeRequest) async {
+  Future<RoutePage> fetchRoutes() async {
     String companyId = await getCompanyId();
     dynamic response = await _httpClient.get(
         canRepeatRequest: true, path: "/companies/$companyId/routes", out: (dynamic json) => json);
-    return RouteShortResponse.fromJson(response);
+    return RoutePage.fromJson(response);
   }
 }

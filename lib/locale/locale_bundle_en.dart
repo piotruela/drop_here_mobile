@@ -423,4 +423,13 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get pending => "Pending";
+
+  @override
+  String get status => "Status";
+
+  @override
+  String get numberOfDrops => "No. of drops";
+
+  @override
+  String get routes => "Routes";
 }

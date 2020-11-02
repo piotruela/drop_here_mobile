@@ -278,4 +278,10 @@ abstract class LocaleBundle {
   String get amount;
 
   String get pending;
+
+  String get status;
+
+  String get numberOfDrops;
+
+  String get routes;
 }
