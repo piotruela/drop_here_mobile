@@ -14,8 +14,8 @@ class CreateNewItemPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LocaleBundle locale = Localization.of(context).bundle;
-    return Scaffold(
-      body: SafeArea(
+    return Container(
+      child: SafeArea(
         child: Column(
           children: [
             Center(
