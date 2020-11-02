@@ -120,74 +120,98 @@ class ProductCard extends StatelessWidget {
       onTap: () {},
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
-        child: Container(
-          child: ListTile(
-            leading: productPhoto(context, state.localProducts[index].photo),
-            title: Text(
-              state.productsPage.content[index].name,
-              style: themeConfig.textStyles.secondaryTitle,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(
-                  '${locale.category}: ${state.productsPage.content[index].category}',
-                  style: themeConfig.textStyles.cardSubtitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(
-                  height: 6.0,
-                ),
-                state.selectedProducts.contains(state.localProducts[index])
-                    ? Text(
-                        '${locale.price}: ${state.selectedProducts.firstWhere((element) => element == state.localProducts[index]).price.toString()}${locale.currency}/${state.localProducts[index].unit}',
-                        style: themeConfig.textStyles.cardSubtitle,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    : SizedBox.shrink(),
-              ],
-            ),
-            trailing: Container(
-              height: 150.0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
+        child: GestureDetector(
+          onTap: () {
+            if (state.selectedProducts.contains(state.localProducts[index])) {
+              //was true
+              bloc.add(RemoveProductFromSelected(state.localProducts.toList()[index],
+                  state.productsPage, state.selectedProducts, state.localProducts.toSet()));
+            } else {
+              dhShowDialog(context, themeConfig, locale);
+            }
+            // if (value) {
+            // dhShowDialog(context, themeConfig, locale);
+            // print(state.selectedProducts.contains(state.productsPage.content[index]));
+            // } else {
+            // bloc.add(RemoveProductFromSelected(
+            // state.localProducts.toList()[index],
+            // state.productsPage,
+            // state.selectedProducts,
+            // state.localProducts.toSet()));
+            // print(state.selectedProducts.contains(state.productsPage.content[index]));
+            // }
+            // },
+            // value: state.selectedProducts.contains(state.localProducts[index]),
+          },
+          child: Container(
+            child: ListTile(
+              leading: productPhoto(context, state.localProducts[index].photo),
+              title: Text(
+                state.productsPage.content[index].name,
+                style: themeConfig.textStyles.secondaryTitle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              subtitle: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Checkbox(
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    onChanged: (bool value) {
-                      if (value) {
-                        dhShowDialog(context, themeConfig, locale);
-                        print(state.selectedProducts.contains(state.productsPage.content[index]));
-                      } else {
-                        bloc.add(RemoveProductFromSelected(
-                            state.localProducts.toList()[index],
-                            state.productsPage,
-                            state.selectedProducts,
-                            state.localProducts.toSet()));
-                        print(state.selectedProducts.contains(state.productsPage.content[index]));
-                      }
-                    },
-                    value: state.selectedProducts.contains(state.localProducts[index]),
+                  SizedBox(
+                    height: 5.0,
                   ),
-                  showAmount(themeConfig, locale),
+                  Text(
+                    '${locale.category}: ${state.productsPage.content[index].category}',
+                    style: themeConfig.textStyles.cardSubtitle,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  SizedBox(
+                    height: 6.0,
+                  ),
+                  state.selectedProducts.contains(state.localProducts[index])
+                      ? Text(
+                          '${locale.price}: ${state.selectedProducts.firstWhere((element) => element == state.localProducts[index]).price.toString()}${locale.currency}/${state.localProducts[index].unit}',
+                          style: themeConfig.textStyles.cardSubtitle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        )
+                      : SizedBox.shrink(),
                 ],
               ),
+              trailing: Container(
+                height: 150.0,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Checkbox(
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      // onChanged: (bool value) {
+                      //   if (value) {
+                      //     dhShowDialog(context, themeConfig, locale);
+                      //     print(state.selectedProducts.contains(state.productsPage.content[index]));
+                      //   } else {
+                      //     bloc.add(RemoveProductFromSelected(
+                      //         state.localProducts.toList()[index],
+                      //         state.productsPage,
+                      //         state.selectedProducts,
+                      //         state.localProducts.toSet()));
+                      //     print(state.selectedProducts.contains(state.productsPage.content[index]));
+                      //   }
+                      // },
+                      value: state.selectedProducts.contains(state.localProducts[index]),
+                    ),
+                    showAmount(themeConfig, locale),
+                  ],
+                ),
+              ),
             ),
-          ),
-          decoration: BoxDecoration(
-            color: themeConfig.colors.white,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              dhShadow(),
-            ],
+            decoration: BoxDecoration(
+              color: themeConfig.colors.white,
+              borderRadius: BorderRadius.circular(10.0),
+              boxShadow: [
+                dhShadow(),
+              ],
+            ),
           ),
         ),
       ),
