@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/create_new_item_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/spot_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
@@ -31,10 +32,10 @@ class CompanyMapPage extends BlocWidget<CompanySpotsBloc> {
             valueBuilder: (_) => state.type,
             caseBuilders: {
               CompanySpotsStateType.loading: (_) => Center(child: CircularProgressIndicator()),
-              CompanySpotsStateType.spot_details: (_) =>
-                  _buildPageContent(context, bloc, state.spots, detailsPanelController),
-              CompanySpotsStateType.success: (_) =>
-                  _buildPageContent(context, bloc, state.spots, detailsPanelController)
+              CompanySpotsStateType.spot_details: (_) => _buildPageContent(
+                  context, bloc, state.spots, detailsPanelController, addNewItemPanelController),
+              CompanySpotsStateType.success: (_) => _buildPageContent(
+                  context, bloc, state.spots, detailsPanelController, addNewItemPanelController)
             },
             fallbackBuilder: (_) => SizedBox.shrink()),
       ),
@@ -42,8 +43,12 @@ class CompanyMapPage extends BlocWidget<CompanySpotsBloc> {
     );
   }
 
-  Widget _buildPageContent(BuildContext context, CompanySpotsBloc bloc,
-      List<SpotCompanyResponse> spots, PanelController controller) {
+  Widget _buildPageContent(
+      BuildContext context,
+      CompanySpotsBloc bloc,
+      List<SpotCompanyResponse> spots,
+      PanelController detailsPanelController,
+      PanelController addNewItemPanelController) {
     final Set<Marker> spotsSet = _convertSpotsToMarkers(context, bloc, spots);
     return Stack(
       children: [
@@ -55,7 +60,7 @@ class CompanyMapPage extends BlocWidget<CompanySpotsBloc> {
         DraggableScrollableSheet(
             initialChildSize: 0.15,
             minChildSize: 0.15,
-            maxChildSize: 0.43,
+            maxChildSize: 0.70,
             builder: (BuildContext context, myScrollController) =>
                 _spotsPanel(context, bloc, spots, myScrollController)),
         BlocBuilder<CompanySpotsBloc, CompanySpotsState>(
@@ -64,8 +69,16 @@ class CompanyMapPage extends BlocWidget<CompanySpotsBloc> {
                 context: context,
                 conditionBuilder: (_) => state.spot != null,
                 widgetBuilder: (_) =>
-                    _buildSpotDetailsPanel(state.spot, controller, bloc, state.members),
-                fallbackBuilder: (_) => SizedBox.shrink()))
+                    _buildSpotDetailsPanel(state.spot, detailsPanelController, bloc, state.members),
+                fallbackBuilder: (_) => SizedBox.shrink())),
+        SlidingUpPanel(
+          controller: addNewItemPanelController,
+          panel: CreateNewItemPage(),
+          minHeight: 0,
+          maxHeight: 530,
+          borderRadius:
+              const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+        ),
       ],
     );
   }
