@@ -280,4 +280,6 @@ abstract class LocaleBundle {
   String get add;
 
   String get addCategory;
+
+  String get pending;
 }

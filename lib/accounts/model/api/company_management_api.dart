@@ -11,6 +11,11 @@ enum RelationshipStatus { ACTIVE, BLOCKED }
 
 enum MembershipStatus { ACTIVE, PENDING, BLOCKED }
 
+extension Extension on MembershipStatus {
+  static List<MembershipStatus> get requestValues =>
+      [MembershipStatus.ACTIVE, MembershipStatus.BLOCKED];
+}
+
 @JsonSerializable()
 class Company {
   String country;
@@ -81,14 +86,12 @@ class CompanyCustomerResponse {
   int customerId;
   String firstName;
   String lastName;
-  RelationshipStatus relationshipStatus;
+  MembershipStatus relationshipStatus;
 
   CompanyCustomerResponse();
 
-  Client convertFromApiModel(){
-    return Client(
-        isActive: this.relationshipStatus == RelationshipStatus.ACTIVE,
-        name: "${this.firstName} ${this.lastName}");
+  Client convertFromApiModel() {
+    return Client(status: this.relationshipStatus, name: "${this.firstName} ${this.lastName}");
   }
 
   factory CompanyCustomerResponse.fromJson(Map<String, dynamic> json) =>

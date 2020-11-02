@@ -122,7 +122,7 @@ CompanyCustomerResponse _$CompanyCustomerResponseFromJson(
     ..firstName = json['firstName'] as String
     ..lastName = json['lastName'] as String
     ..relationshipStatus = _$enumDecodeNullable(
-        _$RelationshipStatusEnumMap, json['relationshipStatus']);
+        _$MembershipStatusEnumMap, json['relationshipStatus']);
 }
 
 Map<String, dynamic> _$CompanyCustomerResponseToJson(
@@ -132,12 +132,13 @@ Map<String, dynamic> _$CompanyCustomerResponseToJson(
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'relationshipStatus':
-          _$RelationshipStatusEnumMap[instance.relationshipStatus],
+          _$MembershipStatusEnumMap[instance.relationshipStatus],
     };
 
-const _$RelationshipStatusEnumMap = {
-  RelationshipStatus.ACTIVE: 'ACTIVE',
-  RelationshipStatus.BLOCKED: 'BLOCKED',
+const _$MembershipStatusEnumMap = {
+  MembershipStatus.ACTIVE: 'ACTIVE',
+  MembershipStatus.PENDING: 'PENDING',
+  MembershipStatus.BLOCKED: 'BLOCKED',
 };
 
 CompanyCustomerSpotMembershipResponse
@@ -158,9 +159,3 @@ Map<String, dynamic> _$CompanyCustomerSpotMembershipResponseToJson(
       'spotName': instance.spotName,
       'spotUid': instance.spotUid,
     };
-
-const _$MembershipStatusEnumMap = {
-  MembershipStatus.ACTIVE: 'ACTIVE',
-  MembershipStatus.PENDING: 'PENDING',
-  MembershipStatus.BLOCKED: 'BLOCKED',
-};

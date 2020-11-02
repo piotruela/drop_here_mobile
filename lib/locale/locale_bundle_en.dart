@@ -426,4 +426,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get addCategory => "Add category";
+
+  @override
+  String get pending => "Pending";
 }

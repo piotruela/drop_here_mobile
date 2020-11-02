@@ -86,21 +86,22 @@ class ColorTheme {
   final Color addSthHere;
   final Color active;
   final Color blocked;
+  final Color pending;
 
-  ColorTheme({
-    this.black,
-    this.background,
-    this.primary1,
-    this.primary2,
-    this.secondary,
-    this.facebookColor,
-    this.textFieldHint,
-    this.white,
-    this.listTileMenu,
-    this.listTileMenuIcon,
-    this.listTileMenuText,
-    this.addSthHere,
-    this.active,
-    this.blocked,
-  });
+  ColorTheme(
+      {this.black,
+      this.background,
+      this.primary1,
+      this.primary2,
+      this.secondary,
+      this.facebookColor,
+      this.textFieldHint,
+      this.white,
+      this.listTileMenu,
+      this.listTileMenuIcon,
+      this.listTileMenuText,
+      this.addSthHere,
+      this.active,
+      this.blocked,
+      this.pending});
 }

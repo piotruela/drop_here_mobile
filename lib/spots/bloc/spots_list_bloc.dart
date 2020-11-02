@@ -33,7 +33,7 @@ class SpotsMapBloc extends Bloc<SpotsMapEvent, SpotsMapState> {
           minHeight: 200.0,
           maxHeight: 600.0,
           defaultPanelState: PanelState.CLOSED,
-          panel: SpotDetailsPage(spot: event.spot));
+          panel: CompanySpotDetailsPage(spot: event.spot));
       yield SpotDetailsPanelCreated(spotDetailsPanel: spotPanel);
     } else if (event is SpotPanelClosed) {
       yield SpotDetailsPanelClosed(spotDetailsPanel: null);
