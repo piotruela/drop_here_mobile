@@ -306,6 +306,9 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
 
   Future getImage(Bloc bloc) async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    bloc.add(FormChanged(photo: File(pickedFile.path)));
+    if (pickedFile == null) {
+      return;
+    }
+    bloc.add(FormChanged(photo: File(pickedFile?.path)));
   }
 }
