@@ -6,6 +6,7 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/products/model/product_with_photo.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -71,15 +72,16 @@ class ProductsListPage extends BlocWidget<DhListBloc> {
                 shrinkWrap: true,
                 itemCount: state.products.length,
                 itemBuilder: (BuildContext context, int index) {
+                  final ProductWithPhoto product = state.products[index];
                   return ProductCard(
-                    title: state.products[index].name,
-                    category: state.products[index].category,
-                    price: state.products[index].price,
-                    unit: state.products[index].unit,
+                    title: product.name,
+                    category: product.category,
+                    price: product.price,
+                    unit: product.unit,
                     popupOptions: [locale.delete, locale.edit],
-                    photo: state.products[index].photo,
+                    photo: product.photo,
                   );
-                }),
+                })
           ],
         ),
       ),

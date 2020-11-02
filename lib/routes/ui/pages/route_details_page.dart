@@ -23,7 +23,7 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
   bloc() => RouteDetailsBloc()..add(FetchRouteDetails(routeId));
   @override
   Widget build(BuildContext context, bloc, _) {
-    LocaleBundle locale = Localization.of(context).bundle;
+    final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
         backgroundColor: themeConfig.colors.white,
         body: SlidingUpPanel(
@@ -70,7 +70,7 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5.0),
                   child: SellerCard(
-                    title: state.route.profileFirstName + ' ' + state.route.profileLastName,
+                    title: state.route.sellerFullName(),
                   ),
                 ),
                 SizedBox(height: 8.0),

@@ -78,7 +78,7 @@ class ProductCard extends BlocWidget<ProductCardBloc> {
                   ),
                   SizedBox(height: 4.0),
                   Text(
-                    product.price.toString() + locale.currency + '/' + product.productResponse.unit,
+                    product.toPricePerUnit(locale),
                     style: themeConfig.textStyles.title3Annotation,
                   ),
                   SizedBox(height: 6.0),
