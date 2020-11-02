@@ -66,6 +66,10 @@ class ProfileInfoResponse {
   factory ProfileInfoResponse.fromJson(Map<String, dynamic> json) =>
       _$ProfileInfoResponseFromJson(json);
   Map<String, dynamic> toJson() => _$ProfileInfoResponseToJson(this);
+
+  String sellerFullName() {
+    return firstName + ' ' + lastName;
+  }
 }
 
 @JsonSerializable()

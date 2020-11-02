@@ -128,7 +128,7 @@ class SellerCard extends StatelessWidget {
             radius: 30,
           ),
           title: Text(
-            state.sellers[index].firstName + ' ' + state.sellers[index].lastName,
+            state.sellers[index].sellerFullName(),
             style: themeConfig.textStyles.secondaryTitle,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,

@@ -80,6 +80,10 @@ class RouteResponse {
 
   factory RouteResponse.fromJson(Map<String, dynamic> json) => _$RouteResponseFromJson(json);
   Map<String, dynamic> toJson() => _$RouteResponseToJson(this);
+
+  String sellerFullName() {
+    return profileFirstName + ' ' + profileLastName;
+  }
 }
 
 @JsonSerializable()

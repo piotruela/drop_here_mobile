@@ -37,4 +37,8 @@ class AddRouteFormState extends Equatable {
   @override
   List<Object> get props =>
       [routeRequest, isFilled, drops, products, sellerFirstName, sellerLastName];
+
+  String sellerFullName() {
+    return sellerFirstName + ' ' + sellerLastName;
+  }
 }

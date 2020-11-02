@@ -83,21 +83,14 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   secondaryTitle(locale.assignedSeller),
                   SizedBox(height: 6.0),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
-                      // builder: (context, state) => Conditional.single(
-                      //     context: context,
-                      //     conditionBuilder: (_) => state.routeRequest.profileUid != null,
-                      //     widgetBuilder: (_) => _spotPasswordField(locale, bloc),
-                      //     fallbackBuilder: (_) => SizedBox.shrink())),
-
                       buildWhen: (previous, current) =>
-                          previous.sellerFirstName != current.sellerFirstName ||
-                          previous.sellerLastName != current.sellerLastName,
+                          previous.sellerFullName() != current.sellerFullName(),
                       builder: (context, state) => Conditional.single(
                             context: context,
-                            conditionBuilder: (_) => state.sellerFirstName == null,
+                            conditionBuilder: (_) => state.sellerFullName() == null,
                             widgetBuilder: (_) => _chooseSeller(locale, context, addRouteBloc),
                             fallbackBuilder: (_) => SellerCard(
-                              title: state.sellerFirstName + ' ' + state.sellerLastName,
+                              title: state.sellerFullName(),
                               //TODO add popupOptions
                               popupOptions: ['todo'],
                             ),
