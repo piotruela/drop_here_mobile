@@ -111,56 +111,62 @@ class SpotRadioCard extends StatelessWidget {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
-      child: Container(
-        child: ListTile(
-          leading: IconInCircle(
-            themeConfig: themeConfig,
-            icon: Icons.store,
+      child: GestureDetector(
+        onTap: () {
+          bloc.add(ChangeGroupValue(index, bloc.state.spots));
+        },
+        child: Container(
+          child: ListTile(
+            leading: IconInCircle(
+              themeConfig: themeConfig,
+              icon: Icons.store,
+            ),
+            title: Text(
+              bloc.state.spots[index].name,
+              style: themeConfig.textStyles.secondaryTitle,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  bloc.state.spots[index].description ?? '',
+                  style: themeConfig.textStyles.cardSubtitle,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                FutureBuilder(
+                    future: getAddressFromCoordinates(bloc.state.spots[index].xcoordinate,
+                            bloc.state.spots[index].ycoordinate) ??
+                        '',
+                    initialData: "Loading location...",
+                    builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                      return Text(
+                        snapshot.data ?? "",
+                        style: themeConfig.textStyles.cardSubtitle,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      );
+                    }),
+              ],
+            ),
+            trailing: Radio(
+              groupValue: bloc.state.radioValue,
+              value: index,
+              //onChanged: (_) {},
+              // onChanged: (_) {
+              //   bloc.add(ChangeGroupValue(index, bloc.state.spots));
+              // },
+            ),
           ),
-          title: Text(
-            bloc.state.spots[index].name,
-            style: themeConfig.textStyles.secondaryTitle,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                bloc.state.spots[index].description ?? '',
-                style: themeConfig.textStyles.cardSubtitle,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-              FutureBuilder(
-                  future: getAddressFromCoordinates(bloc.state.spots[index].xcoordinate,
-                          bloc.state.spots[index].ycoordinate) ??
-                      '',
-                  initialData: "Loading location...",
-                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    return Text(
-                      snapshot.data ?? "",
-                      style: themeConfig.textStyles.cardSubtitle,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    );
-                  }),
+          decoration: BoxDecoration(
+            color: themeConfig.colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              dhShadow(),
             ],
           ),
-          trailing: Radio(
-            groupValue: bloc.state.radioValue,
-            value: index,
-            onChanged: (_) {
-              bloc.add(ChangeGroupValue(index, bloc.state.spots));
-            },
-          ),
-        ),
-        decoration: BoxDecoration(
-          color: themeConfig.colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            dhShadow(),
-          ],
         ),
       ),
     );
