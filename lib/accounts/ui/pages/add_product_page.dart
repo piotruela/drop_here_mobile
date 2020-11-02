@@ -283,7 +283,28 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
       builder: (context, state) => GestureDetector(
         child: Container(
           child: bloc.state.photo != null
-              ? Image.file(bloc.state.photo)
+              ? GestureDetector(
+                  onTap: () {
+                    //bloc.add(FormChanged());
+                    //bloc.state.copyWith(photoNull: true);
+                    bloc.add(bloc.state.copyWith(photoNull: true));
+                    //bloc.add(FormChanged(photo: bloc.state.copyWith(photoNull: true, photo: null)));
+                    //bloc.state.copyWith(photo: null, photoNull: true);
+
+                    /*onSuffixPressed: () => bloc.add(FormChanged(
+              spotManagementRequest: bloc.state.spotManagementRequest.copyWith(nameNull: true))),*/
+
+                    print('ta');
+                  },
+                  child: Stack(children: [
+                    Image.file(bloc.state.photo),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Icon(Icons.close),
+                    )
+                  ]),
+                )
               : Icon(
                   Icons.add,
                   color: Colors.white,

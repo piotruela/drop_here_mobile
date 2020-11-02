@@ -9,10 +9,18 @@ class FormChanged extends AddProductEvent {
   final ProductManagementRequest productManagementRequest;
   final List<ProductCategoryResponse> categories;
 
-  FormChanged({this.photo, this.productManagementRequest, this.categories});
+  FormChanged({
+    this.photo,
+    this.productManagementRequest,
+    this.categories,
+  });
 
   @override
-  List<Object> get props => [photo, productManagementRequest, categories];
+  List<Object> get props => [
+        photo,
+        productManagementRequest,
+        categories,
+      ];
 }
 
 class FormSubmitted extends AddProductEvent {
