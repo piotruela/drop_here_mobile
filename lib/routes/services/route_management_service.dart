@@ -32,4 +32,13 @@ class RouteManagementService {
         canRepeatRequest: true, path: "/companies/$companyId/routes", out: (dynamic json) => json);
     return RoutePage.fromJson(response);
   }
+
+  Future<ResourceOperationResponse> deleteRoute(String routeId) async {
+    String companyId = await getCompanyId();
+    dynamic response = await _httpClient.delete(
+        canRepeatRequest: true,
+        path: "/companies/$companyId/routes/$routeId",
+        out: (dynamic json) => json);
+    return ResourceOperationResponse.fromJson(response);
+  }
 }
