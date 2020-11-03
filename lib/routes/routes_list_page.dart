@@ -70,7 +70,7 @@ class RoutesListPage extends BlocWidget<RoutesListBloc> {
               itemBuilder: (BuildContext context, int index) {
                 return RouteCard(
                   route: state.routePage.content[index],
-                  popupOptions: [locale.edit, locale.delete],
+                  bloc: bloc,
                 );
               }),
         ],
@@ -81,10 +81,8 @@ class RoutesListPage extends BlocWidget<RoutesListBloc> {
 
 class RouteCard extends StatelessWidget {
   final RouteShortResponse route;
-
-  final List<String> popupOptions;
-
-  const RouteCard({this.route, this.popupOptions});
+  final RoutesListBloc bloc;
+  const RouteCard({this.route, this.bloc});
 
   @override
   //TODO add shadow and change dots icon
@@ -136,17 +134,15 @@ class RouteCard extends StatelessWidget {
               size: 30.0,
             ),
             onSelected: (_) {},
-            itemBuilder: (BuildContext context) {
-              return popupOptions.map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(
-                    choice,
-                    style: themeConfig.textStyles.popupMenu,
-                  ),
-                );
-              }).toList();
-            },
+            itemBuilder: (context) => <PopupMenuItem<String>>[
+              new PopupMenuItem<String>(
+                  child: GestureDetector(
+                child: Text(Localization.of(context).bundle.delete),
+                onTap: () {
+                  bloc.add(DeleteRoute(route.id.toString()));
+                },
+              )),
+            ],
           ),
         ),
         decoration: BoxDecoration(

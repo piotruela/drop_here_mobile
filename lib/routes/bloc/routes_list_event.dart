@@ -10,3 +10,11 @@ class FetchRoutes extends RoutesListEvent {
   @override
   List<Object> get props => [];
 }
+
+class DeleteRoute extends RoutesListEvent {
+  final String routeId;
+  const DeleteRoute(this.routeId);
+
+  @override
+  List<Object> get props => [routeId];
+}

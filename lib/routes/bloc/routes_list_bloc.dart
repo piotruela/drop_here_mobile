@@ -20,6 +20,10 @@ class RoutesListBloc extends Bloc<RoutesListEvent, RoutesListState> {
     if (event is FetchRoutes) {
       RoutePage route = await routeManagementService.fetchRoutes();
       yield RoutesFetched(route);
+    } else if (event is DeleteRoute) {
+      routeManagementService.deleteRoute(event.routeId);
+      //TODO yield state
+      //yield RoutesFetched();
     }
   }
 }
