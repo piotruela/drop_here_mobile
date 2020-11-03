@@ -136,8 +136,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     );
   }
 
-  ColoredRoundedFlatButton _buildDatePickerButton(
-      LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
+  Widget _buildDatePickerButton(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
     return ColoredRoundedFlatButton(
       text: locale.pickADate,
       onTap: () {
@@ -146,8 +145,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     );
   }
 
-  ColoredRoundedFlatButton _chooseSeller(
-      LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
+  Widget _chooseSeller(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
     return ColoredRoundedFlatButton(
       text: locale.chooseSeller,
       onTap: () {
