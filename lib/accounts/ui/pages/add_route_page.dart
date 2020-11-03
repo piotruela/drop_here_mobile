@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drop_here_mobile/accounts/model/local_product.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_drop_to_route_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_products_to_route.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/choose_seller_page.dart' hide SellerCard;
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
@@ -80,11 +81,19 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.assignedSeller),
                   SizedBox(height: 6.0),
-                  SellerCard(
-                    title: 'Piotruś <3',
-                    //TODO add popupOptions
-                    popupOptions: ['todo'],
-                  ),
+                  BlocBuilder<AddRouteBloc, AddRouteFormState>(
+                      buildWhen: (previous, current) =>
+                          previous.sellerFullName() != current.sellerFullName(),
+                      builder: (context, state) => Conditional.single(
+                            context: context,
+                            conditionBuilder: (_) => state.sellerFullName() == null,
+                            widgetBuilder: (_) => _chooseSeller(locale, context, addRouteBloc),
+                            fallbackBuilder: (_) => SellerCard(
+                              title: state.sellerFullName(),
+                              //TODO add popupOptions
+                              popupOptions: ['todo'],
+                            ),
+                          )),
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.description),
                   DhTextArea(
@@ -126,12 +135,28 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     );
   }
 
-  ColoredRoundedFlatButton _buildDatePickerButton(
-      LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
+  Widget _buildDatePickerButton(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
     return ColoredRoundedFlatButton(
       text: locale.pickADate,
       onTap: () {
         chooseDate(context, bloc);
+      },
+    );
+  }
+
+  Widget _chooseSeller(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
+    return ColoredRoundedFlatButton(
+      text: locale.chooseSeller,
+      onTap: () {
+        Get.to(ChooseSellerPage(
+          addSeller: (String profileUid, String sellerFirstName, String sellerLastName) {
+            bloc.add(FormChanged(
+                routeRequest: bloc.state.routeRequest.copyWith(profileUid: profileUid),
+                sellerFirstName: sellerFirstName,
+                sellerLastName: sellerLastName));
+          },
+        ));
+        //TODO add function
       },
     );
   }

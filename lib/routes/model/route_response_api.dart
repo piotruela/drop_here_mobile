@@ -1,3 +1,4 @@
+import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
@@ -80,6 +81,10 @@ class RouteResponse {
 
   factory RouteResponse.fromJson(Map<String, dynamic> json) => _$RouteResponseFromJson(json);
   Map<String, dynamic> toJson() => _$RouteResponseToJson(this);
+
+  String sellerFullName() {
+    return profileFirstName + ' ' + profileLastName;
+  }
 }
 
 @JsonSerializable()
@@ -120,6 +125,10 @@ class RouteProductRouteResponse {
   factory RouteProductRouteResponse.fromJson(Map<String, dynamic> json) =>
       _$RouteProductRouteResponseFromJson(json);
   Map<String, dynamic> toJson() => _$RouteProductRouteResponseToJson(this);
+
+  String toPricePerUnit(LocaleBundle locale) {
+    return price.toString() + locale.currency + '/' + productResponse.unit;
+  }
 }
 
 enum RouteStatus { UNPREPARED, PREPARED, ONGOING, FINISHED }
