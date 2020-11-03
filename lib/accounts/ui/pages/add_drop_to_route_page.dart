@@ -211,7 +211,6 @@ class SpotCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-    final LocaleBundle locale = Localization.of(context).bundle;
     return GestureDetector(
       onTap: () => navigateToChooseSpotForDropPage(bloc),
       child: Padding(

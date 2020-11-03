@@ -25,7 +25,7 @@ class FormSubmitted extends AddRouteEvent {
 }
 
 class AddProducts extends AddRouteEvent {
-  final List<LocalProduct> products;
+  final Set<LocalProduct> products;
 
   AddProducts({this.products});
 

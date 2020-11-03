@@ -258,8 +258,8 @@ class CompanySpotDetailsPage extends AbsSpotDetailsPage {
                   element != member.membershipStatus && element != MembershipStatus.PENDING)
               .map((e) => describeEnum(e))
               .toList(),
-          onItemSelected: (string) => bloc
-              .add(UpdateMembershipStatus(spotId: spot.id, status: string, spotMembershipId: 1)),
+          onItemSelected: (string) => bloc.add(UpdateMembershipStatus(
+              spotId: spot.id, status: string, spotMembershipId: member.spotMembershipId)),
         );
       },
     );
