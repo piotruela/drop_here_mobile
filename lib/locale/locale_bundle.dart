@@ -277,11 +277,17 @@ abstract class LocaleBundle {
 
   String get amount;
 
-  String get pending;
+  String get date;
+
+  String get numberOfProducts;
+
+  String get numberOfDrops;
 
   String get status;
 
-  String get numberOfDrops;
+  String get drops;
+
+  String get pending;
 
   String get routes;
 }
