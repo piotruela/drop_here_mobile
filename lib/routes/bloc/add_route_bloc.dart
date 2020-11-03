@@ -17,6 +17,7 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
             routeRequest: UnpreparedRouteRequest(
               //TODO add parameters here (or not)
               products: [],
+              drops: [],
             ),
             products: [],
             drops: []));
@@ -27,7 +28,10 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
   ) async* {
     if (event is FormChanged) {
       UnpreparedRouteRequest form = event.routeRequest;
-      yield state.copyWith(routeRequest: form);
+      yield state.copyWith(
+          routeRequest: form,
+          sellerFirstName: event.sellerFirstName,
+          sellerLastName: event.sellerLastName);
     } else if (event is AddProducts) {
       yield state.copyWith(products: event.products);
     } else if (event is FormSubmitted) {
