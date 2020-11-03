@@ -39,11 +39,3 @@ class ProductUnchecked extends AddProductsToRouteEvent {
   @override
   List<Object> get props => [];
 }
-
-class UnlimitedToggleChanged extends AddProductsToRouteEvent {
-  final bool unlimited;
-
-  UnlimitedToggleChanged({this.unlimited});
-  @override
-  List<Object> get props => [];
-}

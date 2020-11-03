@@ -21,7 +21,7 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
   AddProductsToRoutePage(this.selectedProducts);
   @override
   AddProductsToRouteBloc bloc() =>
-      AddProductsToRouteBloc()..add(FetchProducts(selectedProducts: selectedProducts));
+      AddProductsToRouteBloc()..add(FetchProducts(selectedProducts: selectedProducts ?? {}));
 
   @override
   Widget build(BuildContext context, AddProductsToRouteBloc bloc, _) {
@@ -31,94 +31,139 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
       floatingActionButton: SubmitFormButton(
         isActive: true,
         text: localeBundle.submit,
-        onTap: () => Get.back(result: selectedProducts),
+        onTap: () => Get.back(result: bloc.state.selectedProducts),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
-              child: Text(
-                localeBundle.addProductsToRoute,
-                style: themeConfig.textStyles.primaryTitle,
-              ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
+            child: Text(
+              localeBundle.addProductsToRoute,
+              style: themeConfig.textStyles.primaryTitle,
             ),
-            DhSearchBar(bloc),
-            Padding(
-              padding: const EdgeInsets.only(left: 25.0),
-              child: FiltersFlatButton(
-                themeConfig: themeConfig,
-                locale: localeBundle,
-                bloc: bloc,
-              ),
+          ),
+          DhSearchBar(bloc),
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0),
+            child: FiltersFlatButton(
+              themeConfig: themeConfig,
+              locale: localeBundle,
+              bloc: bloc,
             ),
-            BlocBuilder<AddProductsToRouteBloc, AddProductsToRouteState>(
-              buildWhen: (previous, current) => previous != current,
-              builder: (context, state) {
-                if (state.type == AddProductsToRouteStateType.initial ||
-                    state.type == AddProductsToRouteStateType.loading) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (state.type == AddProductsToRouteStateType.error) {
-                  return Container(
-                      child: Column(
-                    children: [
-                      Text('try again'),
-                      RaisedButton(
-                          onPressed: () =>
-                              bloc.add(FetchProducts(selectedProducts: selectedProducts)))
-                    ],
-                  ));
-                } else {
-                  return buildColumnWithData(localeBundle, context, bloc, state);
-                }
-              },
-            ),
-          ],
-        ),
+          ),
+          BlocBuilder<AddProductsToRouteBloc, AddProductsToRouteState>(
+            buildWhen: (previous, current) => previous != current,
+            builder: (context, state) {
+              if (state.type == AddProductsToRouteStateType.initial ||
+                  state.type == AddProductsToRouteStateType.loading) {
+                return Center(child: CircularProgressIndicator());
+              } else if (state.type == AddProductsToRouteStateType.error) {
+                return Container(
+                    child: Column(
+                  children: [
+                    Text('try again'),
+                    RaisedButton(
+                        onPressed: () =>
+                            bloc.add(FetchProducts(selectedProducts: selectedProducts)))
+                  ],
+                ));
+              } else {
+                return buildColumnWithData(localeBundle, context, bloc, state);
+              }
+            },
+          ),
+        ],
       ),
     );
   }
 
   Widget buildColumnWithData(LocaleBundle localeBundle, BuildContext context,
       AddProductsToRouteBloc bloc, AddProductsToRouteState state) {
-    return ListView.builder(
-        shrinkWrap: true,
-        itemCount: state.productsPage?.numberOfElements,
-        itemBuilder: (BuildContext context, int index) {
-          return ProductCard(
-            bloc: bloc,
-            product: state.localProducts?.elementAt(index),
-            pricePerAmount: state.selectedProducts
-                ?.lookup(state.localProducts.elementAt(index))
-                ?.pricePerAmount,
-          );
-        });
+    return Expanded(
+      child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: state.productsPage?.numberOfElements,
+          itemBuilder: (BuildContext context, int index) {
+            return ProductCard(
+              bloc: bloc,
+              product: state.localProducts?.elementAt(index),
+              selected1: state.selectedProducts
+                  .any((element) => element.name == state.localProducts?.elementAt(index)?.name),
+            );
+          }),
+    );
   }
 }
 
-class ProductCard extends StatelessWidget {
-  final LocalProduct product;
-  final VoidCallback onTap;
-  final String pricePerAmount;
+class ProductCard extends DhTile {
   final AddProductsToRouteBloc bloc;
+  final LocalProduct product;
+  final bool selected1;
+  ProductCard({this.bloc, this.product, this.selected1});
 
-  const ProductCard({this.product, this.onTap, this.pricePerAmount, this.bloc});
+  @override
+  String get title => product.name;
+
+  @override
+  String get subtitle1 => "Category: ${product.category}";
+
+  @override
+  Widget get trailing => selected1
+      ? Column(
+          children: [
+            Text("Price: ${product.pricePerAmount}"),
+            Text("Amount: ${product.unlimited ? "unlimited" : product.amount}"),
+          ],
+        )
+      : null;
+
+  @override
+  Image get photo => product.photo;
+
+  @override
+  bool get selected => selected1;
+
+  @override
+  String get subtitle2 => null;
+
+  @override
+  onTap(BuildContext context) => selected
+      ? () => bloc.add(ProductUnchecked(product: product))
+      : () async {
+          bloc.add(ProductSelected(product: product));
+          final LocalProduct productWithAmount = await showDialog(
+              context: context,
+              child: AmountDialog(
+                  initialUnlimited: product.unlimited, bloc: bloc, selectedProduct: product));
+          if (productWithAmount != null) {
+            bloc.add(AmountSelected(product: productWithAmount));
+          }
+        };
+}
+
+abstract class DhTile extends StatelessWidget {
+  String get title;
+  String get subtitle1;
+  String get subtitle2;
+  Widget get trailing;
+  Image get photo;
+  bool get selected;
+  VoidCallback onTap(BuildContext context);
 
   @override
   Widget build(BuildContext context) {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-    final LocaleBundle localeBundle = Localization.of(context).bundle;
     return GestureDetector(
-      onTap: () => {},
+      onTap: onTap(context),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
         child: Container(
           child: ListTile(
-            leading: productPhoto(context, product.photo),
+            leading: _productPhoto(),
             title: Text(
-              product.name,
+              title,
               style: themeConfig.textStyles.secondaryTitle,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
@@ -126,60 +171,14 @@ class ProductCard extends StatelessWidget {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(
-                  height: 5.0,
-                ),
-                Text(
-                  '${localeBundle.category}: ${product.category}',
-                  style: themeConfig.textStyles.cardSubtitle,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                SizedBox(
-                  height: 6.0,
-                ),
-                pricePerAmount != null
-                    ? Text(
-                        product.unlimited ? "unlimited" : product.amount.toString(),
-                        style: themeConfig.textStyles.cardSubtitle,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      )
-                    : SizedBox.shrink(),
+                _subtitleText(subtitle1),
+                _subtitleText(subtitle2),
               ],
             ),
-            trailing: Container(
-              height: 150.0,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Checkbox(
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      value: pricePerAmount != null,
-                      onChanged: (bool) async {
-                        if (pricePerAmount.isNull) {
-                          bloc.add(ProductSelected(product: product));
-                          LocalProduct productWithAmount = await showDialog(
-                              context: context,
-                              child: AmountDialog(
-                                initialUnlimited: product.unlimited,
-                                productWithAmount: product,
-                                bloc: bloc,
-                              ));
-                          if (productWithAmount != null) {
-                            bloc.add(AmountSelected(product: productWithAmount));
-                          }
-                        } else {
-                          bloc.add(ProductUnchecked(product: product));
-                        }
-                      }),
-                  Text(pricePerAmount ?? "")
-                ],
-              ),
-            ),
+            trailing: trailing,
           ),
           decoration: BoxDecoration(
+            border: selected ? Border.all(width: 2.0, color: themeConfig.colors.primary1) : null,
             color: themeConfig.colors.white,
             borderRadius: BorderRadius.circular(10.0),
             boxShadow: [
@@ -191,39 +190,22 @@ class ProductCard extends StatelessWidget {
     );
   }
 
-  Padding rowWithTextField(String text, ThemeConfig themeConfig, TextEditingController controller) {
+  Widget _subtitleText(String text) {
+    final ThemeConfig themeConfig = Get.find<ThemeConfig>();
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            text,
-            style: themeConfig.textStyles.dataAnnotation,
-          ),
-          Container(
-              width: 60.0,
-              height: 25.0,
-              child: TextField(
-                  controller: controller,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: themeConfig.colors.black),
-                    ),
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: themeConfig.colors.black),
-                    ),
-                    border: UnderlineInputBorder(
-                      borderSide: BorderSide(color: themeConfig.colors.black),
-                    ),
-                  )))
-        ],
-      ),
+      padding: const EdgeInsets.symmetric(vertical: 3.0),
+      child: text != null
+          ? Text(
+              text,
+              style: themeConfig.textStyles.cardSubtitle,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            )
+          : SizedBox.shrink(),
     );
   }
 
-  Widget productPhoto(BuildContext context, Image photo) {
+  Widget _productPhoto() {
     return Container(
       width: 74.0,
       child: ConstrainedBox(
@@ -242,9 +224,9 @@ class ProductCard extends StatelessWidget {
 class AmountDialog extends StatefulWidget {
   final AddProductsToRouteBloc bloc;
   final bool initialUnlimited;
-  final LocalProduct productWithAmount;
+  final LocalProduct selectedProduct;
 
-  AmountDialog({this.bloc, this.initialUnlimited, this.productWithAmount});
+  AmountDialog({this.bloc, this.initialUnlimited, this.selectedProduct});
 
   @override
   _AmountDialogState createState() => _AmountDialogState();
@@ -257,7 +239,7 @@ class _AmountDialogState extends State<AmountDialog> {
   @override
   void initState() {
     _unlimited = widget.initialUnlimited;
-    product = widget.productWithAmount;
+    product = widget.selectedProduct;
     super.initState();
   }
 
@@ -267,27 +249,37 @@ class _AmountDialogState extends State<AmountDialog> {
     final LocaleBundle localeBundle = Localization.of(context).bundle;
     return AlertDialog(
       content: Column(
-        mainAxisSize: MainAxisSize.max,
+        mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Align(
-              child: Text(widget.productWithAmount.name,
-                  style: themeConfig.textStyles.secondaryTitle)),
+              child:
+                  Text(widget.selectedProduct.name, style: themeConfig.textStyles.secondaryTitle)),
           labeledSwitch(
               text: localeBundle.unlimited,
               initialPosition: widget.initialUnlimited,
               onSwitch: (unlimited) {
                 setState(() {
                   _unlimited = unlimited;
-                  product.unlimited = unlimited;
-                  widget.bloc.add(UnlimitedToggleChanged(unlimited: _unlimited));
+                  product.unlimited = _unlimited;
                 });
               }),
+          Text("Price per unit"),
+          DhPlainTextFormField(
+              inputType: InputType.number,
+              initialValue: product.price.toString(),
+              hintText: "9.99",
+              onChanged: (String price) => setState(
+                    () => product.price = double.parse(price),
+                  )),
           !_unlimited ? _buildConditionalFields(product) : SizedBox.shrink(),
           Align(
-            child: RaisedButton(
-              child: Text("Submit", style: themeConfig.textStyles.active),
-              onPressed: () => Navigator.pop(context, product),
+            child: SubmitFormButton(
+              text: "Submit",
+              onTap: () => Navigator.pop(context, product),
+              isActive:
+                  (_unlimited || (product.amount != null && product.amount.toString() != "")) &&
+                      (product.price != null && product.price.toString() != ""),
             ),
           ),
         ],
@@ -302,13 +294,11 @@ class _AmountDialogState extends State<AmountDialog> {
         Text("Amount"),
         DhPlainTextFormField(
             inputType: InputType.number,
-            hintText: "420",
-            onChanged: (String amount) => product.amount = double.parse(amount)),
-        Text("Price per unit"),
-        DhPlainTextFormField(
-            inputType: InputType.number,
-            hintText: "123",
-            onChanged: (String price) => product.price = double.parse(price)),
+            initialValue: product?.amount?.toString() ?? "",
+            hintText: "15",
+            onChanged: (String amount) => setState(
+                  () => product.amount = double.parse(amount),
+                )),
       ],
     );
   }

@@ -27,21 +27,19 @@ class AddProductsToRouteBloc extends Bloc<AddProductsToRouteEvent, AddProductsTo
       final ProductsPage products = await productManagementService.getCompanyProducts();
       List<LocalProduct> localProducts = [];
       for (ProductResponse product in products.content) {
-        final Image photo = await productManagementService.getProductPhoto(product.id.toString());
-        localProducts.add(LocalProduct(product, photo: photo));
+        if(event.selectedProducts.any((element) => element.name == product.name)){
+          localProducts.add(event.selectedProducts.firstWhere((element) => element.name == product.name));
+        }
+        else {
+          final Image photo = await productManagementService.getProductPhoto(product.id.toString());
+          localProducts.add(LocalProduct(product, photo: photo));
+        }
       }
       yield AddProductsToRouteState(
           type: AddProductsToRouteStateType.products_fetched,
           productsPage: products,
           localProducts: localProducts,
-          selectedProducts: {});
-    } else if (event is UnlimitedToggleChanged) {
-      yield AddProductsToRouteState(
-          type: AddProductsToRouteStateType.unlimited_toggled,
-          localProducts: state.localProducts,
-          productsPage: state.productsPage,
-          selectedProducts: state.selectedProducts,
-          unlimited: event.unlimited);
+          selectedProducts: event.selectedProducts);
     } else if (event is ProductSelected) {
       yield AddProductsToRouteState(
           type: AddProductsToRouteStateType.product_checked,
@@ -61,7 +59,7 @@ class AddProductsToRouteBloc extends Bloc<AddProductsToRouteEvent, AddProductsTo
           localProducts: state.localProducts,
           productsPage: state.productsPage,
           selectedProducts: state.selectedProducts);
-      state.selectedProducts.remove(event.product);
+      state.selectedProducts.removeWhere((element) => element.name == event.product.name);
       yield AddProductsToRouteState(
           type: AddProductsToRouteStateType.product_removed,
           localProducts: state.localProducts,
