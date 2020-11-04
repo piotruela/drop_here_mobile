@@ -239,7 +239,6 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                   actions: [
                     FlatButton(
                         onPressed: () {
-                          //addProductBloc.add(FormChanged());
                           Navigator.of(context).pop(controller.text);
                         },
                         child: Text(locale.add))
@@ -251,17 +250,6 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
               ..add(ProductCategoryResponse(name: category)),
             productManagementRequest:
                 addProductBloc.state.productManagementRequest.copyWith(category: category)));
-        // addProductBloc.add(FormChanged(
-        //     categories: addProductBloc.state.categories
-        //       ..add(ProductCategoryResponse(name: category))));
-        // .add(FormChanged(
-        //     categories: addProductBloc.state.categories
-        //       ..add(ProductCategoryResponse(name: category))));
-        //addProductBloc.add(FormChanged(productManagementRequest: addProductBloc.state.productManagementRequest.copyWith()));
-        print(category);
-        // addProductBloc.add(FormChanged(
-        //     productManagementRequest:
-        //     addProductBloc.state.productManagementRequest.copyWith(category: text)));
       },
       child: RoundedFlatButton(
         text: text,
@@ -286,15 +274,6 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
               ? GestureDetector(
                   onTap: () {
                     bloc.add(FormChanged(photoNull: true));
-                    //bloc.state.copyWith(photoNull: true);
-                    //bloc.add(bloc.state.copyWith(photoNull: true));
-                    //bloc.add(FormChanged(photo: bloc.state.copyWith(photoNull: true, photo: null)));
-                    //bloc.state.copyWith(photo: null, photoNull: true);
-
-                    /*onSuffixPressed: () => bloc.add(FormChanged(
-              spotManagementRequest: bloc.state.spotManagementRequest.copyWith(nameNull: true))),*/
-
-                    print('ta');
                   },
                   child: Stack(children: [
                     Image.file(bloc.state.photo),
