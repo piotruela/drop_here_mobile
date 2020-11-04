@@ -290,4 +290,6 @@ abstract class LocaleBundle {
   String get drops;
 
   String get pending;
+
+  String get routes;
 }
