@@ -13,5 +13,5 @@ class RoutesListState extends Equatable {
 enum RoutesListStateType {
   initial,
   routes_fetched,
-  product_deleted,
+  route_deleted,
 }

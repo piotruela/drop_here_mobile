@@ -23,24 +23,6 @@ class RoutesListBloc extends Bloc<RoutesListEvent, RoutesListState> {
       routeManagementService.deleteRoute(event.routeId);
       RoutePage route = await routeManagementService.fetchRoutes();
       yield RoutesListState(type: RoutesListStateType.routes_fetched, routePage: route);
-      // RoutePage routePage = state.routePage;
-      // final List<RouteShortResponse> updatedRoutes =
-      //     state.routePage.content.where((route) => route.id.toString() != event.routeId).toList();
-      // routePage.content = updatedRoutes;
-      // routeManagementService.deleteRoute(event.routeId);
-      // yield RoutesListState(type: RoutesListStateType.product_deleted, routePage: routePage);
-
-      // if (state is RoutesFetched) {
-      //   RoutePage routePage = (state as RoutesFetched).routePage;
-      //   final List<RouteShortResponse> updatedRoutes = (state as RoutesFetched)
-      //       .routePage
-      //       .content
-      //       .where((route) => route.id.toString() != event.routeId)
-      //       .toList();
-      //   routePage.content = updatedRoutes;
-      //   routeManagementService.deleteRoute(event.routeId);
-      //   yield RoutesFetched(routePage);
-      // }
     }
   }
 }

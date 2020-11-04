@@ -48,7 +48,7 @@ class RoutesListPage extends BlocWidget<RoutesListBloc> {
                 if (state.type == RoutesListStateType.initial) {
                   return Center(child: CircularProgressIndicator());
                 } else if (state.type == RoutesListStateType.routes_fetched ||
-                    state.type == RoutesListStateType.product_deleted) {
+                    state.type == RoutesListStateType.route_deleted) {
                   return buildColumnWithData(locale, state, context, bloc);
                 }
                 return Container();
