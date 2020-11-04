@@ -44,9 +44,10 @@ class RoutesListPage extends BlocWidget<RoutesListBloc> {
             ),
             BlocBuilder<RoutesListBloc, RoutesListState>(
               builder: (context, state) {
-                if (state is RoutesListInitial) {
+                if (state.type == RoutesListStateType.initial) {
                   return Center(child: CircularProgressIndicator());
-                } else if (state is RoutesFetched) {
+                } else if (state.type == RoutesListStateType.routes_fetched ||
+                    state.type == RoutesListStateType.product_deleted) {
                   return buildColumnWithData(locale, state, context, bloc);
                 }
                 return Container();
@@ -59,7 +60,7 @@ class RoutesListPage extends BlocWidget<RoutesListBloc> {
   }
 
   SafeArea buildColumnWithData(
-      LocaleBundle locale, RoutesFetched state, BuildContext context, RoutesListBloc bloc) {
+      LocaleBundle locale, RoutesListState state, BuildContext context, RoutesListBloc bloc) {
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -140,6 +141,7 @@ class RouteCard extends StatelessWidget {
                 child: Text(Localization.of(context).bundle.delete),
                 onTap: () {
                   bloc.add(DeleteRoute(route.id.toString()));
+                  Navigator.pop(context);
                 },
               )),
             ],

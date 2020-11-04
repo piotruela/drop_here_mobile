@@ -1,18 +1,17 @@
 part of 'routes_list_bloc.dart';
 
-abstract class RoutesListState extends Equatable {
-  const RoutesListState();
-}
-
-class RoutesListInitial extends RoutesListState {
-  @override
-  List<Object> get props => [];
-}
-
-class RoutesFetched extends RoutesListState {
+class RoutesListState extends Equatable {
+  final RoutesListStateType type;
   final RoutePage routePage;
 
-  RoutesFetched(this.routePage);
+  const RoutesListState({this.type, this.routePage});
+
   @override
-  List<Object> get props => [routePage];
+  List<Object> get props => [type, routePage];
+}
+
+enum RoutesListStateType {
+  initial,
+  routes_fetched,
+  product_deleted,
 }

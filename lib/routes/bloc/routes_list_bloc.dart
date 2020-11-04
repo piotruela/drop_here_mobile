@@ -10,28 +10,37 @@ part 'routes_list_event.dart';
 part 'routes_list_state.dart';
 
 class RoutesListBloc extends Bloc<RoutesListEvent, RoutesListState> {
-  RoutesListBloc() : super(RoutesListInitial());
+  RoutesListBloc() : super(RoutesListState(type: RoutesListStateType.initial));
   RouteManagementService routeManagementService = Get.find<RouteManagementService>();
   @override
   Stream<RoutesListState> mapEventToState(
     RoutesListEvent event,
   ) async* {
     if (event is FetchRoutes) {
-      yield RoutesListInitial();
       RoutePage route = await routeManagementService.fetchRoutes();
-      yield RoutesFetched(route);
+      yield RoutesListState(type: RoutesListStateType.routes_fetched, routePage: route);
     } else if (event is DeleteRoute) {
-      if (state is RoutesFetched) {
-        RoutePage routePage = (state as RoutesFetched).routePage;
-        final List<RouteShortResponse> updatedRoutes = (state as RoutesFetched)
-            .routePage
-            .content
-            .where((route) => route.id.toString() != event.routeId)
-            .toList();
-        routePage.content = updatedRoutes;
-        routeManagementService.deleteRoute(event.routeId);
-        yield RoutesFetched(routePage);
-      }
+      routeManagementService.deleteRoute(event.routeId);
+      RoutePage route = await routeManagementService.fetchRoutes();
+      yield RoutesListState(type: RoutesListStateType.routes_fetched, routePage: route);
+      // RoutePage routePage = state.routePage;
+      // final List<RouteShortResponse> updatedRoutes =
+      //     state.routePage.content.where((route) => route.id.toString() != event.routeId).toList();
+      // routePage.content = updatedRoutes;
+      // routeManagementService.deleteRoute(event.routeId);
+      // yield RoutesListState(type: RoutesListStateType.product_deleted, routePage: routePage);
+
+      // if (state is RoutesFetched) {
+      //   RoutePage routePage = (state as RoutesFetched).routePage;
+      //   final List<RouteShortResponse> updatedRoutes = (state as RoutesFetched)
+      //       .routePage
+      //       .content
+      //       .where((route) => route.id.toString() != event.routeId)
+      //       .toList();
+      //   routePage.content = updatedRoutes;
+      //   routeManagementService.deleteRoute(event.routeId);
+      //   yield RoutesFetched(routePage);
+      // }
     }
   }
 }
