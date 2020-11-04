@@ -16,20 +16,22 @@ class RoutesListBloc extends Bloc<RoutesListEvent, RoutesListState> {
   Stream<RoutesListState> mapEventToState(
     RoutesListEvent event,
   ) async* {
-    yield RoutesListInitial();
     if (event is FetchRoutes) {
+      yield RoutesListInitial();
       RoutePage route = await routeManagementService.fetchRoutes();
       yield RoutesFetched(route);
     } else if (event is DeleteRoute) {
-      if(state is RoutesFetched){
+      if (state is RoutesFetched) {
         RoutePage routePage = (state as RoutesFetched).routePage;
-        final List<RouteShortResponse> updatedRoutes = (state as RoutesFetched).routePage.content.where((route) => route.id.toString() != event.routeId).toList();
+        final List<RouteShortResponse> updatedRoutes = (state as RoutesFetched)
+            .routePage
+            .content
+            .where((route) => route.id.toString() != event.routeId)
+            .toList();
         routePage.content = updatedRoutes;
+        routeManagementService.deleteRoute(event.routeId);
         yield RoutesFetched(routePage);
       }
-      routeManagementService.deleteRoute(event.routeId);
-      //TODO yield state
-      //yield RoutesFetched();
     }
   }
 }
