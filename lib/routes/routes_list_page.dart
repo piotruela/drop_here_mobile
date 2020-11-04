@@ -8,6 +8,7 @@ import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/routes/bloc/routes_list_bloc.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -108,23 +109,25 @@ class RouteCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: 5.0,
+                height: 3.0,
               ),
-              //TODO add status if available
-              // Text(
-              //   '${locale.status}: ${route.}',
-              //   style: themeConfig.textStyles.cardSubtitle,
-              //   maxLines: 1,
-              //   overflow: TextOverflow.ellipsis,
-              // ),
-              // SizedBox(
-              //   height: 6.0,
-              // ),
+              Text(
+                '${locale.status}: ${describeEnum(route.status)}',
+                style: themeConfig.textStyles.cardSubtitle,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(
+                height: 4.0,
+              ),
               Text(
                 '${locale.numberOfDrops}: ${route.dropsAmount}',
                 style: themeConfig.textStyles.cardSubtitle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
+              ),
+              SizedBox(
+                height: 2.0,
               ),
             ],
           ),
