@@ -52,6 +52,7 @@ RouteShortResponse _$RouteShortResponseFromJson(Map<String, dynamic> json) {
     profileFirstName: json['profileFirstName'] as String,
     profileLastName: json['profileLastName'] as String,
     profileUid: json['profileUid'] as String,
+    status: _$enumDecodeNullable(_$RouteStatusEnumMap, json['status']),
   );
 }
 
@@ -64,7 +65,47 @@ Map<String, dynamic> _$RouteShortResponseToJson(RouteShortResponse instance) =>
       'profileFirstName': instance.profileFirstName,
       'profileLastName': instance.profileLastName,
       'profileUid': instance.profileUid,
+      'status': _$RouteStatusEnumMap[instance.status],
     };
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$RouteStatusEnumMap = {
+  RouteStatus.UNPREPARED: 'UNPREPARED',
+  RouteStatus.PREPARED: 'PREPARED',
+  RouteStatus.ONGOING: 'ONGOING',
+  RouteStatus.FINISHED: 'FINISHED',
+};
 
 RouteResponse _$RouteResponseFromJson(Map<String, dynamic> json) {
   return RouteResponse(
@@ -108,45 +149,6 @@ Map<String, dynamic> _$RouteResponseToJson(RouteResponse instance) =>
       'routeDate': instance.routeDate?.toIso8601String(),
       'status': _$RouteStatusEnumMap[instance.status],
     };
-
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
-}
-
-const _$RouteStatusEnumMap = {
-  RouteStatus.UNPREPARED: 'UNPREPARED',
-  RouteStatus.PREPARED: 'PREPARED',
-  RouteStatus.ONGOING: 'ONGOING',
-  RouteStatus.FINISHED: 'FINISHED',
-};
 
 DropRouteResponse _$DropRouteResponseFromJson(Map<String, dynamic> json) {
   return DropRouteResponse(

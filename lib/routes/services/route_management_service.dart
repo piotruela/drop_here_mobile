@@ -26,6 +26,22 @@ class RouteManagementService {
     return ResourceOperationResponse.fromJson(response);
   }
 
+  Future<RoutePage> fetchRoutes() async {
+    String companyId = await getCompanyId();
+    dynamic response = await _httpClient.get(
+        canRepeatRequest: true, path: "/companies/$companyId/routes", out: (dynamic json) => json);
+    return RoutePage.fromJson(response);
+  }
+
+  Future<ResourceOperationResponse> deleteRoute(String routeId) async {
+    String companyId = await getCompanyId();
+    dynamic response = await _httpClient.delete(
+        canRepeatRequest: true,
+        path: "/companies/$companyId/routes/$routeId",
+        out: (dynamic json) => json);
+    return ResourceOperationResponse.fromJson(response);
+  }
+
   Future<RouteResponse> fetchRoute(int routeId) async {
     String companyId = await getCompanyId();
     dynamic response = await _httpClient.get(
