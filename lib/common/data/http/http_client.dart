@@ -197,7 +197,7 @@ class DhHttpClient {
 
   void checkStatusCode(HttpClientResponse response, HttpCallRepeater httpCallRepeater) {
     if (!_isHttpResponse2xx(response)) {
-      throw HttpStatusException(httpCallRepeater.uri, response.statusCode,
+      throw HttpStatusException(httpCallRepeater.uri, response.statusCode,response,
           message: response.reasonPhrase);
     }
   }
@@ -222,13 +222,14 @@ class DhHttpClient {
 class _ErrorHandler {
   static const bool _repeatAfterConnectionClosedError = true;
   static const int _maximumNumberOfRetriesAfterConnectionClosedError = 1;
+  static const bool _logHttpStatusException = true;
 
-  static void handleError({
+  static Future<void> handleError({
     @required Log log,
     @required dynamic error,
     @required HttpCallRepeater httpCallRepeater,
     @required bool canRepeatRequest,
-  }) {
+  }) async {
     if (canRepeatRequest &&
         _shouldRepeatOnConnectionClosedError(error, httpCallRepeater.numberOfRetries)) {
       log.warn('"Connection closed before full header was received" error thrown '
@@ -240,8 +241,17 @@ class _ErrorHandler {
           '"Connection closed before full header was received" error thrown - limits of retries '
           '($_maximumNumberOfRetriesAfterConnectionClosedError) exceeded '
           '- request with uri\n ${httpCallRepeater.uri}');
+    }else if (_logHttpStatusException && error is HttpStatusException) {
+      await _logApiHttpStatusException(error);
     }
-    throw error;
+  }
+
+  static Future _logApiHttpStatusException(HttpStatusException error) async {
+    var errorJsonResponse = "";
+    try {
+      errorJsonResponse = await error.httpClientResponse.transform(utf8.decoder).join();
+    } catch (e) {}
+    print(error.toString()  + " Response: " + errorJsonResponse);
   }
 
   static bool _shouldRepeatOnConnectionClosedError(dynamic error, int numberOfRetriesSoFar) =>
@@ -260,10 +270,11 @@ class _ErrorHandler {
 }
 
 class HttpStatusException extends HttpException {
-  const HttpStatusException(Uri uri, this.statusCode, {String message = ''})
+  const HttpStatusException(Uri uri, this.statusCode, this.httpClientResponse,{String message = ''})
       : super(message, uri: uri);
 
   final int statusCode;
+  final HttpClientResponse httpClientResponse;
 
   @override
   String toString() => 'HttpStatusException $statusCode: $message ${super.uri}';
