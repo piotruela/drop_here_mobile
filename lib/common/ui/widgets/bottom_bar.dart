@@ -1,7 +1,7 @@
-import 'package:drop_here_mobile/accounts/ui/pages/create_profile_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/login_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/routes/routes_list_page.dart';
 import 'package:drop_here_mobile/spots/ui/pages/company_map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,7 +36,7 @@ class DHBottomBar extends StatelessWidget {
           children: <Widget>[
             IconButton(
               //update the bottom app bar view each time an item is clicked
-              onPressed: () => Get.to(CreateAdminProfilePage()),
+              onPressed: () => Get.to(RoutesListPage()),
               iconSize: 35.0,
               icon: Icon(
                 Icons.home,
@@ -46,7 +46,7 @@ class DHBottomBar extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () => Get.to(LoginPage()),
+              onPressed: () => Get.to(ProductsListPage()),
               iconSize: 35.0,
               icon: Icon(
                 Icons.shopping_basket,
