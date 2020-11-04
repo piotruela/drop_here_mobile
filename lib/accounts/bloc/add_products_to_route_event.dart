@@ -9,44 +9,33 @@ class ProductsInitial extends AddProductsToRouteEvent {
   List<Object> get props => [];
 }
 
-class ToggleAmount extends AddProductsToRouteEvent {
-  final bool value;
-  final LocalProduct product;
-  final ProductsPage products;
-  final LinkedHashSet<LocalProduct> selectedProducts;
-  final LinkedHashSet<LocalProduct> localProducts;
-
-  ToggleAmount(this.value, this.product, this.products, this.selectedProducts, this.localProducts);
-  @override
-  List<Object> get props => [value, product, products, selectedProducts, localProducts];
-}
-
 class FetchProducts extends AddProductsToRouteEvent {
-  final LinkedHashSet<LocalProduct> selectedProducts;
+  final Set<LocalProduct> selectedProducts;
 
-  FetchProducts(this.selectedProducts);
+  FetchProducts({this.selectedProducts});
   @override
   List<Object> get props => [selectedProducts];
 }
 
-class AddProductToSelected extends AddProductsToRouteEvent {
+class ProductSelected extends AddProductsToRouteEvent {
   final LocalProduct product;
-  final ProductsPage products;
-  final LinkedHashSet<LocalProduct> selectedProducts;
-  final LinkedHashSet<LocalProduct> localProducts;
-
-  AddProductToSelected(this.product, this.products, this.selectedProducts, this.localProducts);
+  ProductSelected({this.product});
   @override
-  List<Object> get props => [product, products, selectedProducts, localProducts];
+  List<Object> get props => [product];
 }
 
-class RemoveProductFromSelected extends AddProductsToRouteEvent {
+class AmountSelected extends AddProductsToRouteEvent {
   final LocalProduct product;
-  final ProductsPage products;
-  final LinkedHashSet<LocalProduct> selectedProducts;
-  final LinkedHashSet<LocalProduct> localProducts;
 
-  RemoveProductFromSelected(this.product, this.products, this.selectedProducts, this.localProducts);
+  AmountSelected({this.product});
   @override
-  List<Object> get props => [product, products, selectedProducts, localProducts];
+  List<Object> get props => [product];
+}
+
+class ProductUnchecked extends AddProductsToRouteEvent {
+  final LocalProduct product;
+
+  ProductUnchecked({this.product});
+  @override
+  List<Object> get props => [];
 }

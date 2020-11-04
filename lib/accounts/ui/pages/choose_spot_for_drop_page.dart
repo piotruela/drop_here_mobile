@@ -108,7 +108,6 @@ class SpotRadioCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-    final LocaleBundle locale = Localization.of(context).bundle;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
       child: GestureDetector(

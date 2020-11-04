@@ -1,6 +1,4 @@
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/locale/locale_bundle.dart';
-import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,7 +12,6 @@ class SellerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-    final LocaleBundle locale = Localization.of(context).bundle;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 7.0),
       child: Container(
@@ -30,25 +27,27 @@ class SellerCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [],
           ),
-          trailing: PopupMenuButton<String>(
-            icon: Icon(
-              Icons.more_vert,
-              color: themeConfig.colors.black,
-              size: 30.0,
-            ),
-            onSelected: (_) {},
-            itemBuilder: (BuildContext context) {
-              return popupOptions.map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(
-                    choice,
-                    style: themeConfig.textStyles.popupMenu,
+          trailing: popupOptions != null
+              ? PopupMenuButton<String>(
+                  icon: Icon(
+                    Icons.more_vert,
+                    color: themeConfig.colors.black,
+                    size: 30.0,
                   ),
-                );
-              }).toList();
-            },
-          ),
+                  onSelected: (_) {},
+                  itemBuilder: (BuildContext context) {
+                    return popupOptions.map((String choice) {
+                      return PopupMenuItem<String>(
+                        value: choice,
+                        child: Text(
+                          choice,
+                          style: themeConfig.textStyles.popupMenu,
+                        ),
+                      );
+                    }).toList();
+                  },
+                )
+              : SizedBox.shrink(),
         ),
         decoration: BoxDecoration(
           color: themeConfig.colors.white,
