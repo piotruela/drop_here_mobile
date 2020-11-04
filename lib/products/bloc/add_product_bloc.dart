@@ -23,7 +23,16 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductFormState> {
     final ProductManagementService productManagementService = Get.find<ProductManagementService>();
     if (event is FormChanged) {
       ProductManagementRequest form = event.productManagementRequest;
-      yield state.copyWith(productManagementRequest: form, photo: event?.photo);
+      // yield AddProductFormState(
+      //     productManagementRequest: form,
+      //     photo: event.photo,
+      //     showAddCategoryButton: event.showAddCategoryButton);
+      yield state.copyWith(
+        productManagementRequest: form,
+        photo: event?.photo,
+        categories: event.categories,
+        photoNull: event.photoNull ?? false,
+      );
     } else if (event is FormSubmitted) {
       ResourceOperationResponse response =
           await productManagementService.addProduct(state.productManagementRequest);

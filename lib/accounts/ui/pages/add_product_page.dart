@@ -85,16 +85,16 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           previous.categories != current.categories,
                       builder: (context, state) => Wrap(
                         children: [
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              if (state.categories != null)
-                                for (ProductCategoryResponse item in state.categories)
-                                  categoryChoice(text: item.name, addProductBloc: addProductBloc)
-                              else
-                                CircularProgressIndicator(),
-                            ],
-                          ),
+                          if (state.categories != null)
+                            for (ProductCategoryResponse item in state.categories)
+                              categoryChoice(text: item.name, addProductBloc: addProductBloc)
+                          else
+                            CircularProgressIndicator(),
+                          addCategory(
+                              text: locale.addNew,
+                              context: context,
+                              locale: locale,
+                              addProductBloc: addProductBloc)
                         ],
                       ),
                     ),
@@ -121,9 +121,13 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                           previous.units != current.units,
                       builder: (context, state) => DropdownButton<String>(
                         isExpanded: true,
-                        onChanged: (String unit) => addProductBloc.add(FormChanged(
-                            productManagementRequest: addProductBloc.state.productManagementRequest
-                                .copyWith(unit: unit))),
+                        onChanged: (String unit) {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          return addProductBloc.add(FormChanged(
+                              productManagementRequest: addProductBloc
+                                  .state.productManagementRequest
+                                  .copyWith(unit: unit)));
+                        },
                         value: state.productManagementRequest?.unit,
                         icon: Icon(Icons.arrow_drop_down),
                         items: addProductBloc.state?.units
@@ -211,6 +215,48 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
     );
   }
 
+  GestureDetector addCategory(
+      {String text, AddProductBloc addProductBloc, BuildContext context, LocaleBundle locale}) {
+    TextEditingController controller = TextEditingController();
+    return GestureDetector(
+      onTap: () async {
+        FocusScope.of(context).requestFocus(FocusNode());
+        String category = await showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+                  title: Text(
+                    locale.addCategory,
+                    style: themeConfig.textStyles.secondaryTitle,
+                  ),
+                  content: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      TextField(
+                        controller: controller,
+                      ),
+                    ],
+                  ),
+                  actions: [
+                    FlatButton(
+                        onPressed: () {
+                          Navigator.of(context).pop(controller.text);
+                        },
+                        child: Text(locale.add))
+                  ],
+                ));
+        //TODO add option to delete category and show 'addCategory' button only when user hasn't added own category
+        addProductBloc.add(FormChanged(
+            categories: addProductBloc.state.categories
+              ..add(ProductCategoryResponse(name: category)),
+            productManagementRequest:
+                addProductBloc.state.productManagementRequest.copyWith(category: category)));
+      },
+      child: RoundedFlatButton(
+        text: text,
+      ),
+    );
+  }
+
   BlocBuilder<AddProductBloc, AddProductFormState> floatingButton(
       String text, AddProductBloc addProductBloc, LocaleBundle locale) {
     return BlocBuilder<AddProductBloc, AddProductFormState>(
@@ -225,7 +271,19 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
       builder: (context, state) => GestureDetector(
         child: Container(
           child: bloc.state.photo != null
-              ? Image.file(bloc.state.photo)
+              ? GestureDetector(
+                  onTap: () {
+                    bloc.add(FormChanged(photoNull: true));
+                  },
+                  child: Stack(children: [
+                    Image.file(bloc.state.photo),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Icon(Icons.close),
+                    )
+                  ]),
+                )
               : Icon(
                   Icons.add,
                   color: Colors.white,
@@ -248,6 +306,9 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
 
   Future getImage(Bloc bloc) async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    bloc.add(FormChanged(photo: File(pickedFile.path)));
+    if (pickedFile == null) {
+      return;
+    }
+    bloc.add(FormChanged(photo: File(pickedFile?.path)));
   }
 }
