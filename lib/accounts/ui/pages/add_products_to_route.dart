@@ -148,7 +148,7 @@ abstract class DhTile extends StatelessWidget {
   String get subtitle1;
   String get subtitle2;
   Widget get trailing;
-  Image get photo;
+  Widget get photo;
   bool get selected;
   VoidCallback onTap(BuildContext context);
 

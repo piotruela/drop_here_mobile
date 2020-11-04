@@ -1,5 +1,5 @@
+import 'package:drop_here_mobile/accounts/ui/pages/add_products_to_route.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
@@ -73,6 +73,7 @@ class RoutesListPage extends BlocWidget<RoutesListBloc> {
                 return RouteCard(
                   route: state.routePage.content[index],
                   bloc: bloc,
+                  locale: locale,
                 );
               }),
         ],
@@ -81,83 +82,61 @@ class RoutesListPage extends BlocWidget<RoutesListBloc> {
   }
 }
 
-class RouteCard extends StatelessWidget {
+class RouteCard extends DhTile {
   final RouteShortResponse route;
   final RoutesListBloc bloc;
-  const RouteCard({this.route, this.bloc});
+  final LocaleBundle locale;
+  RouteCard({this.route, this.bloc, this.locale});
+  final ThemeConfig themeConfig = Get.find<ThemeConfig>();
 
   @override
-  //TODO add shadow and change dots icon
-  Widget build(BuildContext context) {
-    final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-    final LocaleBundle locale = Localization.of(context).bundle;
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
-      child: Container(
-        child: ListTile(
-          leading: IconInCircle(
-            themeConfig: themeConfig,
-            icon: Icons.assistant_direction,
-          ),
-          title: Text(
-            route.name,
-            style: themeConfig.textStyles.secondaryTitle,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 3.0,
-              ),
-              Text(
-                '${locale.status}: ${describeEnum(route.status)}',
-                style: themeConfig.textStyles.cardSubtitle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              SizedBox(
-                height: 4.0,
-              ),
-              Text(
-                '${locale.numberOfDrops}: ${route.dropsAmount}',
-                style: themeConfig.textStyles.cardSubtitle,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              SizedBox(
-                height: 2.0,
-              ),
-            ],
-          ),
-          trailing: PopupMenuButton<String>(
-            icon: Icon(
-              Icons.more_vert,
-              color: themeConfig.colors.black,
-              size: 30.0,
-            ),
-            onSelected: (_) {},
-            itemBuilder: (context) => <PopupMenuItem<String>>[
-              new PopupMenuItem<String>(
-                  child: GestureDetector(
-                child: Text(Localization.of(context).bundle.delete),
-                onTap: () {
-                  bloc.add(DeleteRoute(route.id.toString()));
-                  Navigator.pop(context);
-                },
-              )),
-            ],
-          ),
+  onTap(BuildContext context) => () {
+        PopupMenuItem<String>(
+            child: GestureDetector(
+          child: Text(Localization.of(context).bundle.delete),
+          onTap: () {
+            bloc.add(DeleteRoute(route.id.toString()));
+            Navigator.pop(context);
+          },
+        ));
+      };
+
+  @override
+  // TODO: implement photo
+  Widget get photo => IconInCircle(
+        icon: Icons.assistant_direction,
+        themeConfig: themeConfig,
+      );
+
+  @override
+  bool get selected => false;
+
+  @override
+  String get subtitle1 => '${locale.status}: ${describeEnum(route.status)}';
+
+  @override
+  String get subtitle2 => '${locale.numberOfDrops}: ${route.dropsAmount}';
+
+  @override
+  String get title => route.name;
+
+  @override
+  Widget get trailing => PopupMenuButton<String>(
+        icon: Icon(
+          Icons.more_vert,
+          color: themeConfig.colors.black,
+          size: 30.0,
         ),
-        decoration: BoxDecoration(
-          color: themeConfig.colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            dhShadow(),
-          ],
-        ),
-      ),
-    );
-  }
+        onSelected: (_) {},
+        itemBuilder: (context) => <PopupMenuItem<String>>[
+          new PopupMenuItem<String>(
+              child: GestureDetector(
+            child: Text(Localization.of(context).bundle.delete),
+            onTap: () {
+              bloc.add(DeleteRoute(route.id.toString()));
+              Navigator.pop(context);
+            },
+          )),
+        ],
+      );
 }
