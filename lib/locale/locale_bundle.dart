@@ -277,6 +277,10 @@ abstract class LocaleBundle {
 
   String get amount;
 
+  String get add;
+
+  String get addCategory;
+
   String get chooseSeller;
 
   String get date;
