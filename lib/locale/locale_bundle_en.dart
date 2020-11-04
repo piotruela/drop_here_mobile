@@ -447,4 +447,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get pending => "Pending";
+
+  @override
+  String get routes => "Routes";
 }
