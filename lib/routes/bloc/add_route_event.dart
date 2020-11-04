@@ -6,11 +6,13 @@ abstract class AddRouteEvent extends Equatable {
 
 class FormChanged extends AddRouteEvent {
   final UnpreparedRouteRequest routeRequest;
+  final String sellerFirstName;
+  final String sellerLastName;
 
-  FormChanged({this.routeRequest});
+  FormChanged({this.routeRequest, this.sellerFirstName, this.sellerLastName});
 
   @override
-  List<Object> get props => [routeRequest];
+  List<Object> get props => [routeRequest, sellerFirstName, sellerLastName];
 }
 
 class FormSubmitted extends AddRouteEvent {
@@ -23,7 +25,7 @@ class FormSubmitted extends AddRouteEvent {
 }
 
 class AddProducts extends AddRouteEvent {
-  final List<LocalProduct> products;
+  final Set<LocalProduct> products;
 
   AddProducts({this.products});
 

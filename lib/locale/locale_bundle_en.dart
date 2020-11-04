@@ -422,6 +422,9 @@ class LocaleBundleEn extends LocaleBundle {
   String get amount => "Amount";
 
   @override
+  String get chooseSeller => "Choose seller";
+
+  @override
   String get date => "Date";
 
   @override

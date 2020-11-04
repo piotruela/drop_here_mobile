@@ -1,31 +1,33 @@
 part of 'add_products_to_route_bloc.dart';
 
-abstract class AddProductsToRouteState extends Equatable {
-  const AddProductsToRouteState();
-}
-
-class AddProductsToRouteInitial extends AddProductsToRouteState {
-  @override
-  List<Object> get props => [];
-}
-
-class FetchingError extends AddProductsToRouteState {
-  @override
-  List<Object> get props => [];
-}
-
-class AmountToggled extends AddProductsToRouteState {
-  @override
-  List<Object> get props => [];
-}
-
-class ProductsFetched extends AddProductsToRouteState {
+class AddProductsToRouteState extends Equatable {
+  final AddProductsToRouteStateType type;
   final ProductsPage productsPage;
-  final LinkedHashSet<LocalProduct> selectedProducts;
+  final Set<LocalProduct> selectedProducts;
   final List<LocalProduct> localProducts;
+  final LocalProduct checkedProduct;
+  final bool unlimited;
 
-  ProductsFetched({this.productsPage, this.selectedProducts, this.localProducts});
+  AddProductsToRouteState(
+      {this.productsPage,
+      this.selectedProducts,
+      this.localProducts,
+      this.checkedProduct,
+      this.type,
+      this.unlimited});
 
   @override
-  List<Object> get props => [productsPage, selectedProducts, localProducts];
+  List<Object> get props => [type, productsPage, selectedProducts, localProducts, unlimited];
+}
+
+enum AddProductsToRouteStateType {
+  initial,
+  loading,
+  products_fetched,
+  product_checked,
+  product_unchecked,
+  product_removed,
+  unlimited_toggled,
+  amount_chosen,
+  error
 }

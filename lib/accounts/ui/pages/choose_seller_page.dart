@@ -1,36 +1,42 @@
-import 'package:drop_here_mobile/accounts/bloc/choose_spot_for_drop_bloc.dart';
-import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
+import 'package:drop_here_mobile/accounts/bloc/choose_seller_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/common/get_address_from_coordinates.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
-import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
+class ChooseSellerPage extends BlocWidget<ChooseSellerBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-  final Function addSpot;
+  final Function addSeller;
 
-  ChooseSpotForDropPage({this.addSpot});
+  ChooseSellerPage({this.addSeller});
   @override
-  ChooseSpotForDropBloc bloc() => ChooseSpotForDropBloc()..add(FetchSpotsForDrop());
+  ChooseSellerBloc bloc() => ChooseSellerBloc()..add(FetchSellers());
 
   @override
-  Widget build(BuildContext context, ChooseSpotForDropBloc bloc, _) {
+  Widget build(BuildContext context, ChooseSellerBloc bloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
       floatingActionButton: SubmitFormButton(
         isActive: true,
         text: locale.submit,
         onTap: () {
-          addSpot(bloc.state.spots[bloc.state.radioValue]);
+          if (bloc.state is SellersFetched) {
+            SellersFetched state = bloc.state;
+            addSeller(
+                state.sellers[state.radioValue].profileUid,
+                state.sellers[state.radioValue].firstName,
+                state.sellers[state.radioValue].lastName);
+          }
+          //TODO add action
+          //addSeller(bloc.state.spots[bloc.state.radioValue]);
+
           Get.back();
         },
       ),
@@ -42,7 +48,7 @@ class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
               child: Text(
-                locale.chooseSpotForDrop,
+                locale.chooseSeller,
                 style: themeConfig.textStyles.primaryTitle,
               ),
             ),
@@ -55,20 +61,20 @@ class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
                 bloc: bloc,
               ),
             ),
-            BlocBuilder<ChooseSpotForDropBloc, ChooseSpotForDropState>(
+            BlocBuilder<ChooseSellerBloc, ChooseSellerState>(
               builder: (context, state) {
-                if (state is ChooseSpotForDropInitial) {
+                if (state is ChooseSellerInitial) {
                   return Center(child: CircularProgressIndicator());
-                } else if (state is FetchingError) {
+                } else if (state is SellersFetchingError) {
                   return Container(
                       child: Column(
                     children: [
                       Text('try again'),
-                      RaisedButton(onPressed: () => bloc.add(FetchSpotsForDrop()))
+                      RaisedButton(onPressed: () => bloc.add(FetchSellers()))
                     ],
                   ));
-                } else if (state is SpotsForDropFetched) {
-                  return buildColumnWithData(locale, context, bloc);
+                } else if (state is SellersFetched) {
+                  return buildColumnWithData(locale, context, bloc, state);
                 }
                 return Container();
               },
@@ -80,77 +86,62 @@ class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
   }
 
   SafeArea buildColumnWithData(
-      LocaleBundle locale, BuildContext context, ChooseSpotForDropBloc bloc) {
+      LocaleBundle locale, BuildContext context, ChooseSellerBloc bloc, SellersFetched state) {
     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: bloc.state.spots.length,
-              itemBuilder: (BuildContext context, int index) {
-                return SpotRadioCard(
-                  bloc: bloc,
-                  index: index,
-                );
-              }),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 25.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListView.builder(
+                shrinkWrap: true,
+                itemCount: state.sellers.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return SellerCard(
+                    state: state,
+                    bloc: bloc,
+                    index: index,
+                  );
+                }),
+          ],
+        ),
       ),
     );
   }
 }
 
-class SpotRadioCard extends StatelessWidget {
-  final ChooseSpotForDropBloc bloc;
+class SellerCard extends StatelessWidget {
+  final ChooseSellerBloc bloc;
   final int index;
-  const SpotRadioCard({this.bloc, this.index});
+  final SellersFetched state;
+  const SellerCard({this.bloc, this.index, this.state});
 
   @override
   Widget build(BuildContext context) {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+    final LocaleBundle locale = Localization.of(context).bundle;
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
+      padding: const EdgeInsets.symmetric(vertical: 7.0),
       child: Container(
         child: ListTile(
-          leading: IconInCircle(
-            themeConfig: themeConfig,
-            icon: Icons.store,
+          leading: CircleAvatar(
+            radius: 30,
           ),
           title: Text(
-            bloc.state.spots[index].name,
+            state.sellers[index].sellerFullName,
             style: themeConfig.textStyles.secondaryTitle,
+            maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            maxLines: 1,
           ),
           subtitle: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                bloc.state.spots[index].description ?? '',
-                style: themeConfig.textStyles.cardSubtitle,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-              FutureBuilder(
-                  future: getAddressFromCoordinates(bloc.state.spots[index].xcoordinate,
-                          bloc.state.spots[index].ycoordinate) ??
-                      '',
-                  initialData: "Loading location...",
-                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                    return Text(
-                      snapshot.data ?? "",
-                      style: themeConfig.textStyles.cardSubtitle,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    );
-                  }),
-            ],
+            children: [],
           ),
           trailing: Radio(
-            groupValue: bloc.state.radioValue,
+            groupValue: state.radioValue,
             value: index,
             onChanged: (_) {
-              bloc.add(ChangeGroupValue(index, bloc.state.spots));
+              bloc.add(ChangeGroupValue(index, state.sellers));
             },
           ),
         ),
