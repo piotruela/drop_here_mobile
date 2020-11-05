@@ -73,10 +73,13 @@ class ProductManagementRequest {
 
 @JsonSerializable()
 class ProductCustomizationWrapperRequest {
-  final List<ProductCustomizationRequest> customizations;
-  final String heading;
-  final String type;
-  ProductCustomizationWrapperRequest({this.customizations, this.heading, this.type});
+  List<ProductCustomizationRequest> customizations;
+  String heading;
+  CustomizationType type;
+  bool required;
+
+  ProductCustomizationWrapperRequest(
+      {this.customizations, this.heading, this.type, this.required = false});
   factory ProductCustomizationWrapperRequest.fromJson(Map<String, dynamic> json) =>
       _$ProductCustomizationWrapperRequestFromJson(json);
   Map<String, dynamic> toJson() => _$ProductCustomizationWrapperRequestToJson(this);
@@ -89,6 +92,8 @@ class ProductCustomizationWrapperRequest {
         type: type ?? this.type);
   }
 }
+
+enum CustomizationType { SINGLE, MULTIPLE }
 
 @JsonSerializable()
 class ProductCustomizationRequest {

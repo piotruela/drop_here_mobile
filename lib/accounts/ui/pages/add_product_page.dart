@@ -15,6 +15,7 @@ import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/products/bloc/add_product_bloc.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/products/ui/widgets/customization_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -113,6 +114,18 @@ class AddProductPage2 extends BlocWidget<AddProductBloc2> {
               ]),
           SizedBox(
             height: 4.0,
+          ),
+          ChoosableButton(
+            text: "Add customization+",
+            isChosen: false,
+            chooseAction: () async {
+              FocusScope.of(context).requestFocus(FocusNode());
+              ProductCustomizationWrapperRequest customization = await showDialog(
+                  context: context,
+                  child: CustomizationDialog(
+                      customization:
+                          ProductCustomizationWrapperRequest(type: CustomizationType.SINGLE)));
+            },
           ),
           BlocBuilder<AddProductBloc2, AddProductState>(
             buildWhen: (previous, current) => previous.type != current.type,

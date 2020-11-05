@@ -28,7 +28,10 @@ class ChoosableButton extends StatelessWidget {
               border: isChosen ? Border.all(width: 1.0, color: themeConfig.colors.primary1) : null,
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
           child: Center(
-            child: Text(text, style: themeConfig.textStyles.coloredFlatButton),
+            child: Text(text,
+                style: isChosen
+                    ? themeConfig.textStyles.coloredFlatButton
+                    : themeConfig.textStyles.coloredFlatButton.copyWith(color: Colors.black)),
           ),
         ),
       ),
