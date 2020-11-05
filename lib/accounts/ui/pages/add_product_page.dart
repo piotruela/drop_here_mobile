@@ -77,6 +77,7 @@ class AddProductPage2 extends BlocWidget<AddProductBloc2> {
                     category: category,
                   ))),
                 ),
+              bloc.state.categoryAdded ? SizedBox.shrink() : _addCategoryButton(context, bloc)
             ],
           ),
           SizedBox(
@@ -94,6 +95,22 @@ class AddProductPage2 extends BlocWidget<AddProductBloc2> {
               InputType.number,
               (value) => bloc.add(
                   FormChanged2(product: bloc.state.product.copyWith(price: double.parse(value))))),
+          _sectionTitle(localeBundle.unitTypeMandatory),
+          DropdownButton<String>(
+              isExpanded: true,
+              onChanged: (String unit) {
+                FocusScope.of(context).requestFocus(FocusNode());
+                return bloc.add(FormChanged2(product: bloc.state.product.copyWith(unit: unit)));
+              },
+              value: bloc.state.product?.unit,
+              icon: Icon(Icons.arrow_drop_down),
+              items: [
+                for (String unit in bloc.state.unitTypes)
+                  DropdownMenuItem<String>(
+                    value: unit,
+                    child: Text(unit),
+                  )
+              ]),
           SizedBox(
             height: 4.0,
           ),
@@ -110,6 +127,42 @@ class AddProductPage2 extends BlocWidget<AddProductBloc2> {
         ],
       ),
     );
+  }
+
+  Widget _addCategoryButton(BuildContext context, AddProductBloc2 bloc) {
+    final TextEditingController controller = TextEditingController();
+    return ChoosableButton(
+        text: "Add new+",
+        isChosen: false,
+        chooseAction: () async {
+          FocusScope.of(context).requestFocus(FocusNode());
+          final String category = await showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                    title: Text(
+                      "Add category",
+                      style: themeConfig.textStyles.secondaryTitle,
+                    ),
+                    content: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        TextField(
+                          controller: controller,
+                        ),
+                      ],
+                    ),
+                    actions: [
+                      FlatButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(controller.text);
+                          },
+                          child: Text("Add"))
+                    ],
+                  ));
+          if (category != null && category != "") {
+            bloc.add(CategoryAdded(categoryName: category));
+          }
+        });
   }
 
   Widget _sectionTitle(String title) {

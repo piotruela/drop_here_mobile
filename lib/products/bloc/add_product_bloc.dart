@@ -65,9 +65,10 @@ class AddProductBloc2 extends Bloc<AddProductEvent2, AddProductState> {
           unitTypes: state.unitTypes,
           categoryAdded: true);
     } else if (event is FormSubmitted2) {
-      final ResourceOperationResponse response =
+      print(event.product);
+      /*final ResourceOperationResponse response =
           await productManagementService.addProduct(event.product);
-      await productManagementService.uploadProductPhoto(event.photo, response.id.toString());
+      await productManagementService.uploadProductPhoto(event.photo, response.id.toString());*/
     }
   }
 }
