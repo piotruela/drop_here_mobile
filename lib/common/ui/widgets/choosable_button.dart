@@ -15,11 +15,10 @@ class ChoosableButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
-        onTap: isChosen ? null : chooseAction,
+      child: FlatButton(
+        onPressed: isChosen ? null : chooseAction,
         child: Container(
           height: 30.0,
-          width: text.length * 15.0,
           decoration: BoxDecoration(
               color: themeConfig.colors.white,
               boxShadow: [
@@ -38,3 +37,18 @@ class ChoosableButton extends StatelessWidget {
     );
   }
 }
+/*
+Container(
+child: ConstrainedBox(
+constraints: BoxConstraints(
+minWidth: 300.0,
+maxWidth: 300.0,
+minHeight: 30.0,
+maxHeight: 100.0,
+),
+child: AutoSizeText(
+"yourText",
+style: TextStyle(fontSize: 30.0),
+),
+),
+);*/

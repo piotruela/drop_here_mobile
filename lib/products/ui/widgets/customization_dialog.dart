@@ -41,7 +41,7 @@ class _CustomizationDialogState extends State<CustomizationDialog> {
                   customization.required = unlimited;
                 });
               }),
-          Text("Name"),
+          _sectionTitle("Name"),
           DhPlainTextFormField(
               inputType: InputType.text,
               initialValue: customization.heading,
@@ -49,7 +49,7 @@ class _CustomizationDialogState extends State<CustomizationDialog> {
               onChanged: (String heading) => setState(
                     () => customization.heading = heading,
                   )),
-          Text("Type"),
+          _sectionTitle("Type"),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -65,21 +65,32 @@ class _CustomizationDialogState extends State<CustomizationDialog> {
                       setState(() => customization.type = CustomizationType.MULTIPLE)),
             ],
           ),
+          ChoosableButton(text: "Add value +", isChosen: false, chooseAction: () => {}),
+          /*setState(() => customization.type = CustomizationType.SINGLE))*/
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              RaisedButton(
-                child: Text("Cancel", style: themeConfig.textStyles.blocked),
-                onPressed: () => Navigator.pop(context, null),
+              GestureDetector(
+                child:
+                    Text("Cancel", style: themeConfig.textStyles.blocked.copyWith(fontSize: 20.0)),
+                onTap: () => Navigator.pop(context, null),
               ),
-              RaisedButton(
-                child: Text("Submit", style: themeConfig.textStyles.active),
-                onPressed: () => Navigator.pop(context, customization),
+              GestureDetector(
+                child:
+                    Text("Submit", style: themeConfig.textStyles.active.copyWith(fontSize: 20.0)),
+                onTap: () => Navigator.pop(context, customization),
               ),
             ],
           )
         ],
       ),
+    );
+  }
+
+  Widget _sectionTitle(String title) {
+    return Text(
+      title,
+      style: themeConfig.textStyles.secondaryTitle,
     );
   }
 }
