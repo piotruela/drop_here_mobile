@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/chosen_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_floating_action_button.dart';
@@ -9,6 +10,7 @@ import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/rounded_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/products/bloc/add_product_bloc.dart';
@@ -17,6 +19,167 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+
+class AddProductPage2 extends BlocWidget<AddProductBloc2> {
+  final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+  final picker = ImagePicker();
+
+  @override
+  AddProductBloc2 bloc() => AddProductBloc2()..add(FormInitialized());
+
+  @override
+  Widget build(BuildContext context, AddProductBloc2 bloc, _) {
+    final LocaleBundle localeBundle = Localization.of(context).bundle;
+    return Scaffold(
+        body: BlocConsumer<AddProductBloc2, AddProductState>(
+      buildWhen: (previous, current) => previous != current,
+      builder: (context, state) {
+        if (bloc.state.type == AddProductStateType.loading) {
+          return Center(child: CircularProgressIndicator());
+        } else if (state.type == AddProductStateType.fetching_error) {
+          return Text("ERROR");
+        } else {
+          return _buildContent(context, bloc, localeBundle);
+        }
+      },
+      listenWhen: (previous, current) => previous.type != current.type,
+      listener: (context, state) {
+        if (state.type == AddProductStateType.added_successfully) {
+          Get.to(ProductsListPage());
+        } else {}
+      },
+    ));
+  }
+
+  Widget _buildContent(BuildContext context, AddProductBloc2 bloc, LocaleBundle localeBundle) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          Text(
+            localeBundle.addProduct,
+            style: themeConfig.textStyles.primaryTitle,
+          ),
+          _field(localeBundle.nameMandatory, localeBundle.productNameExample, InputType.text,
+              (value) => bloc.add(FormChanged2(product: bloc.state.product.copyWith(name: value)))),
+          _sectionTitle(localeBundle.photo),
+          choosePhotoWidget(bloc),
+          _sectionTitle(localeBundle.categoryMandatory),
+          Wrap(
+            children: [
+              for (String category in bloc.state.categories)
+                ChoosableButton(
+                  text: category,
+                  isChosen: category == bloc.state.product.category,
+                  chooseAction: () => bloc.add(FormChanged2(
+                      product: bloc.state.product.copyWith(
+                    category: category,
+                  ))),
+                ),
+            ],
+          ),
+          SizedBox(
+            height: 8.0,
+          ),
+          _field(
+              localeBundle.description,
+              "",
+              InputType.text,
+              (value) =>
+                  bloc.add(FormChanged2(product: bloc.state.product.copyWith(description: value)))),
+          _field(
+              localeBundle.pricePerUnitMandatory,
+              localeBundle.pricePerUnitExample,
+              InputType.number,
+              (value) => bloc.add(
+                  FormChanged2(product: bloc.state.product.copyWith(price: double.parse(value))))),
+          SizedBox(
+            height: 4.0,
+          ),
+          BlocBuilder<AddProductBloc2, AddProductState>(
+            buildWhen: (previous, current) => previous.type != current.type,
+            builder: (context, state) => Center(
+              child: SubmitFormButton(
+                  text: localeBundle.addProduct,
+                  isActive: state.isFormFilled,
+                  onTap: () =>
+                      bloc.add(FormSubmitted2(product: state.product, photo: state.photo))),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _sectionTitle(String title) {
+    return Text(
+      title,
+      style: themeConfig.textStyles.secondaryTitle,
+    );
+  }
+
+  Widget _field(String text, String hint, InputType inputType, Function(String) onChanged) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          text,
+          style: themeConfig.textStyles.secondaryTitle,
+        ),
+        DhPlainTextFormField(
+            hintText: hint, inputType: inputType, onChanged: (String value) => onChanged)
+      ],
+    );
+  }
+
+  Widget choosePhotoWidget(AddProductBloc2 bloc) {
+    return BlocBuilder<AddProductBloc2, AddProductState>(
+      builder: (context, state) => GestureDetector(
+        child: Container(
+          child: bloc.state.photo != null
+              ? GestureDetector(
+                  onTap: () {
+                    bloc.add(PhotoChanged(photo: null));
+                  },
+                  child: Stack(children: [
+                    Image.file(bloc.state.photo),
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: Icon(Icons.close),
+                    )
+                  ]),
+                )
+              : Icon(
+                  Icons.add,
+                  color: Colors.white,
+                  size: 46.0,
+                ),
+          width: 80.0,
+          height: 80.0,
+          decoration: BoxDecoration(
+            color: themeConfig.colors.addSthHere,
+            borderRadius: BorderRadius.circular(8.0),
+            boxShadow: [
+              dhShadow(),
+            ],
+          ),
+        ),
+        onTap: () => getImage(bloc),
+      ),
+    );
+  }
+
+  Future getImage(Bloc bloc) async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+    if (pickedFile == null) {
+      return;
+    }
+    bloc.add(PhotoChanged(photo: File(pickedFile?.path)));
+  }
+}
 
 class AddProductPage extends BlocWidget<AddProductBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
