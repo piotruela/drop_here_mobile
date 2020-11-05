@@ -166,7 +166,9 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
   void chooseDate(BuildContext context, AddRouteBloc bloc) async {
     DateTime dateTime = await showDatePicker(
         context: context,
-        initialDate: DateTime.parse(bloc.state.routeRequest.date) ?? DateTime.now(),
+        initialDate: bloc.state.routeRequest.date != null
+            ? DateTime.parse(bloc.state.routeRequest.date)
+            : DateTime.now(),
         //initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime(DateTime.now().year + 10, 1, 1));
