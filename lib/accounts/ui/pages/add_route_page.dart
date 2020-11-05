@@ -91,7 +91,8 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                             fallbackBuilder: (_) => SellerCard(
                               title: state.sellerFullName(),
                               //TODO add popupOptions
-                              popupOptions: ['todo'],
+                              trailing: Icon(Icons.edit),
+                              onTap: () => getToChoseSellerPage(addRouteBloc),
                             ),
                           )),
                   SizedBox(height: 6.0),
@@ -148,17 +149,21 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     return ColoredRoundedFlatButton(
       text: locale.chooseSeller,
       onTap: () {
-        Get.to(ChooseSellerPage(
-          addSeller: (String profileUid, String sellerFirstName, String sellerLastName) {
-            bloc.add(FormChanged(
-                routeRequest: bloc.state.routeRequest.copyWith(profileUid: profileUid),
-                sellerFirstName: sellerFirstName,
-                sellerLastName: sellerLastName));
-          },
-        ));
+        getToChoseSellerPage(bloc);
         //TODO add function
       },
     );
+  }
+
+  void getToChoseSellerPage(AddRouteBloc bloc) {
+    Get.to(ChooseSellerPage(
+      addSeller: (String profileUid, String sellerFirstName, String sellerLastName) {
+        bloc.add(FormChanged(
+            routeRequest: bloc.state.routeRequest.copyWith(profileUid: profileUid),
+            sellerFirstName: sellerFirstName,
+            sellerLastName: sellerLastName));
+      },
+    ));
   }
 
   void chooseDate(BuildContext context, AddRouteBloc bloc) async {
