@@ -22,6 +22,7 @@ import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/spot_details_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/notifications/services/push_notifications_service.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
 import 'package:drop_here_mobile/routes/ui/pages/route_details_page.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
@@ -44,6 +45,7 @@ class SandboxPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final AssetsConfig assetsConfig = Get.find<AssetsConfig>();
   final AuthenticationService authenticationService = Get.find<AuthenticationService>();
+  final PushNotificationsConfigurationService notificationsConfigurationService = Get.find<PushNotificationsConfigurationService>();
   final CompanyManagementService companyManagementService = Get.find<CompanyManagementService>();
   final CustomerManagementService customerManagementService = Get.find<CustomerManagementService>();
   final AccountService accountService = Get.find<AccountService>();
@@ -64,6 +66,11 @@ class SandboxPage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                FlatButton(
+                    child: Text("initialize firebase"),
+                    onPressed: () async {
+                      await notificationsConfigurationService.configurePushNotifications();
+                    }),
                 FlatButton(
                     child: Text("add product"),
                     onPressed: () {

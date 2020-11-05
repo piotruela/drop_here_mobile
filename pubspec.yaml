@@ -56,7 +56,9 @@ dependencies:
   geocoder: ^0.2.1
   intl: ^0.16.1
   quiver: ^2.1.3
-
+  #todo macias (aktualna wersja)
+  firebase_messaging: ^7.0.3
+  flutter_local_notifications: ^3.0.1+2
 dev_dependencies:
   flutter_test:
     sdk: flutter
