@@ -41,45 +41,47 @@ class ChooseSellerPage extends BlocWidget<ChooseSellerBloc> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
-              child: Text(
-                locale.chooseSeller,
-                style: themeConfig.textStyles.primaryTitle,
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
+                child: Text(
+                  locale.chooseSeller,
+                  style: themeConfig.textStyles.primaryTitle,
+                ),
               ),
-            ),
-            DhSearchBar(bloc),
-            Padding(
-              padding: const EdgeInsets.only(left: 25.0),
-              child: FiltersFlatButton(
-                themeConfig: themeConfig,
-                locale: locale,
-                bloc: bloc,
+              DhSearchBar(bloc),
+              Padding(
+                padding: const EdgeInsets.only(left: 25.0),
+                child: FiltersFlatButton(
+                  themeConfig: themeConfig,
+                  locale: locale,
+                  bloc: bloc,
+                ),
               ),
-            ),
-            BlocBuilder<ChooseSellerBloc, ChooseSellerState>(
-              builder: (context, state) {
-                if (state is ChooseSellerInitial) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (state is SellersFetchingError) {
-                  return Container(
-                      child: Column(
-                    children: [
-                      Text('try again'),
-                      RaisedButton(onPressed: () => bloc.add(FetchSellers()))
-                    ],
-                  ));
-                } else if (state is SellersFetched) {
-                  return buildColumnWithData(locale, context, bloc, state);
-                }
-                return Container();
-              },
-            ),
-          ],
+              BlocBuilder<ChooseSellerBloc, ChooseSellerState>(
+                builder: (context, state) {
+                  if (state is ChooseSellerInitial) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (state is SellersFetchingError) {
+                    return Container(
+                        child: Column(
+                      children: [
+                        Text('try again'),
+                        RaisedButton(onPressed: () => bloc.add(FetchSellers()))
+                      ],
+                    ));
+                  } else if (state is SellersFetched) {
+                    return buildColumnWithData(locale, context, bloc, state);
+                  }
+                  return Container();
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
