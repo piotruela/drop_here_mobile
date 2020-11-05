@@ -37,10 +37,32 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
           categories: categories,
           unitTypes: units,
           categoryAdded: false);
-    } else if (event is FormChanged2) {
+    } else if (event is FormChanged) {
       yield AddProductState(
           type: AddProductStateType.form_changed,
           product: event.product,
+          photo: state.photo,
+          categories: state.categories,
+          unitTypes: state.unitTypes,
+          categoryAdded: state.categoryAdded);
+    } else if (event is CustomizationAdded) {
+      List<ProductCustomizationWrapperRequest> customizations =
+          state.product.productCustomizationWrappers;
+      customizations.add(event.customization);
+      yield AddProductState(
+          type: AddProductStateType.form_changed,
+          product: state.product.copyWith(productCustomizationWrappers: customizations),
+          photo: state.photo,
+          categories: state.categories,
+          unitTypes: state.unitTypes,
+          categoryAdded: state.categoryAdded);
+    } else if (event is CustomizationRemoved) {
+      List<ProductCustomizationWrapperRequest> customizations =
+          state.product.productCustomizationWrappers;
+      customizations.remove(event.customization);
+      yield AddProductState(
+          type: AddProductStateType.form_changed,
+          product: state.product.copyWith(productCustomizationWrappers: customizations),
           photo: state.photo,
           categories: state.categories,
           unitTypes: state.unitTypes,

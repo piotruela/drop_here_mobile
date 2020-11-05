@@ -97,8 +97,8 @@ enum CustomizationType { SINGLE, MULTIPLE }
 
 @JsonSerializable()
 class ProductCustomizationRequest {
-  final double price;
-  final String value;
+  double price;
+  String value;
 
   ProductCustomizationRequest({this.price, this.value});
   factory ProductCustomizationRequest.fromJson(Map<String, dynamic> json) =>

@@ -9,13 +9,31 @@ class FormInitialized extends AddProductEvent {
   List<Object> get props => [];
 }
 
-class FormChanged2 extends AddProductEvent {
+class FormChanged extends AddProductEvent {
   final ProductManagementRequest product;
 
-  FormChanged2({this.product});
+  FormChanged({this.product});
 
   @override
   List<Object> get props => [product];
+}
+
+class CustomizationAdded extends AddProductEvent {
+  final ProductCustomizationWrapperRequest customization;
+
+  CustomizationAdded({this.customization});
+
+  @override
+  List<Object> get props => [customization];
+}
+
+class CustomizationRemoved extends AddProductEvent {
+  final ProductCustomizationWrapperRequest customization;
+
+  CustomizationRemoved({this.customization});
+
+  @override
+  List<Object> get props => [customization];
 }
 
 class PhotoChanged extends AddProductEvent {

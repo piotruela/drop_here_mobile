@@ -5,8 +5,10 @@ import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_bu
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
+import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/products/bloc/add_product_bloc.dart';
@@ -54,12 +56,13 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
       child: ListView(
         shrinkWrap: true,
         children: [
+          DhBackButton(padding: EdgeInsets.zero),
           Text(
             localeBundle.addProduct,
             style: themeConfig.textStyles.primaryTitle,
           ),
           _field(localeBundle.nameMandatory, localeBundle.productNameExample, InputType.text,
-              (value) => bloc.add(FormChanged2(product: bloc.state.product.copyWith(name: value)))),
+              (value) => bloc.add(FormChanged(product: bloc.state.product.copyWith(name: value)))),
           _sectionTitle(localeBundle.photo),
           choosePhotoWidget(bloc),
           _sectionTitle(localeBundle.categoryMandatory),
@@ -71,7 +74,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                   isChosen: category == bloc.state.product.category,
                   chooseAction: () {
                     FocusScope.of(context).requestFocus(FocusNode());
-                    bloc.add(FormChanged2(
+                    bloc.add(FormChanged(
                         product: bloc.state.product.copyWith(
                       category: category,
                     )));
@@ -88,19 +91,19 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
               "",
               InputType.text,
               (value) =>
-                  bloc.add(FormChanged2(product: bloc.state.product.copyWith(description: value)))),
+                  bloc.add(FormChanged(product: bloc.state.product.copyWith(description: value)))),
           _field(
               localeBundle.pricePerUnitMandatory,
               localeBundle.pricePerUnitExample,
               InputType.number,
               (value) => bloc.add(
-                  FormChanged2(product: bloc.state.product.copyWith(price: double.parse(value))))),
+                  FormChanged(product: bloc.state.product.copyWith(price: double.parse(value))))),
           _sectionTitle(localeBundle.unitTypeMandatory),
           DropdownButton<String>(
               isExpanded: true,
               onChanged: (String unit) {
                 FocusScope.of(context).requestFocus(FocusNode());
-                return bloc.add(FormChanged2(product: bloc.state.product.copyWith(unit: unit)));
+                return bloc.add(FormChanged(product: bloc.state.product.copyWith(unit: unit)));
               },
               value: bloc.state.product?.unit,
               icon: Icon(Icons.arrow_drop_down),
@@ -111,19 +114,27 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                     child: Text(unit),
                   )
               ]),
+          _sectionTitle("Customizations"),
           SizedBox(
             height: 4.0,
           ),
+          _customizationsList(bloc, bloc.state.product.productCustomizationWrappers),
           ChoosableButton(
-            text: "Add customization+",
+            text: "Add customization +",
             isChosen: false,
             chooseAction: () async {
               FocusScope.of(context).requestFocus(FocusNode());
               ProductCustomizationWrapperRequest customization = await showDialog(
                   context: context,
                   child: CustomizationDialog(
-                      customization:
-                          ProductCustomizationWrapperRequest(type: CustomizationType.SINGLE)));
+                      customization: ProductCustomizationWrapperRequest(
+                          type: CustomizationType.SINGLE,
+                          customizations: [
+                        ProductCustomizationRequest(value: "Simple", price: 9.99)
+                      ])));
+              if (customization != null) {
+                bloc.add(CustomizationAdded(customization: customization));
+              }
             },
           ),
           BlocBuilder<AddProductBloc, AddProductState>(
@@ -138,6 +149,23 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _customizationsList(
+      AddProductBloc bloc, List<ProductCustomizationWrapperRequest> customizations) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (ProductCustomizationWrapperRequest customization in customizations)
+          ChoosableButtonWithSubText(
+            text: customization.heading + (customization.required ? "*" : ""),
+            subText:
+                "${describeEnum(customization.type)} type, ${customization.customizations.length} options",
+            isChosen: false,
+            chooseAction: () => bloc.add(CustomizationRemoved(customization: customization)),
+          )
+      ],
     );
   }
 
