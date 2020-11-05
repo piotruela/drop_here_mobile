@@ -82,19 +82,21 @@ class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
   SafeArea buildColumnWithData(
       LocaleBundle locale, BuildContext context, ChooseSpotForDropBloc bloc) {
     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: bloc.state.spots.length,
-              itemBuilder: (BuildContext context, int index) {
-                return SpotRadioCard(
-                  bloc: bloc,
-                  index: index,
-                );
-              }),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListView.builder(
+                shrinkWrap: true,
+                itemCount: bloc.state.spots.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return SpotRadioCard(
+                    bloc: bloc,
+                    index: index,
+                  );
+                }),
+          ],
+        ),
       ),
     );
   }
