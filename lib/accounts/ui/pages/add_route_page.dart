@@ -77,7 +77,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   secondaryTitle(locale.dropsMandatory),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
                       builder: (context, state) => dropsCarousel(
-                          locale, addRouteBloc.state.routeRequest.drops, addRouteBloc)),
+                          locale, addRouteBloc.state.routeRequest.drops, addRouteBloc, context)),
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.assignedSeller),
                   SizedBox(height: 6.0),
@@ -107,7 +107,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.productsMandatory),
                   SizedBox(height: 6.0),
-                  productsCarousel(locale, addRouteBloc),
+                  productsCarousel(locale, addRouteBloc, context),
                   SizedBox(
                     height: 40.0,
                   ),
@@ -136,6 +136,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
   }
 
   Widget _buildDatePickerButton(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
+    FocusScope.of(context).requestFocus(FocusNode());
     return ColoredRoundedFlatButton(
       text: locale.pickADate,
       onTap: () {
@@ -145,6 +146,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
   }
 
   Widget _chooseSeller(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
+    FocusScope.of(context).requestFocus(FocusNode());
     return ColoredRoundedFlatButton(
       text: locale.chooseSeller,
       onTap: () {
@@ -275,7 +277,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
   }
 
   CarouselSlider dropsCarousel(
-      LocaleBundle locale, List<RouteDropRequest> drops, AddRouteBloc bloc) {
+      LocaleBundle locale, List<RouteDropRequest> drops, AddRouteBloc bloc, BuildContext context) {
     return CarouselSlider(
         options: CarouselOptions(
           aspectRatio: 16 / 7.4,
@@ -287,6 +289,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
           for (RouteDropRequest drop in drops ?? []) dropCard(locale: locale, drop: drop),
           GestureDetector(
             onTap: () {
+              FocusScope.of(context).requestFocus(FocusNode());
               Get.to(AddDropToRoutePage(
                 addDrop: (RouteDropRequest drop) {
                   bloc.add(FormChanged(
@@ -305,7 +308,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
         ]);
   }
 
-  CarouselSlider productsCarousel(LocaleBundle locale, AddRouteBloc bloc) {
+  CarouselSlider productsCarousel(LocaleBundle locale, AddRouteBloc bloc, BuildContext context) {
     return CarouselSlider(
         options: CarouselOptions(
           aspectRatio: 16 / 7.4,
@@ -321,6 +324,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
             ),
           GestureDetector(
             onTap: () async {
+              FocusScope.of(context).requestFocus(FocusNode());
               bloc.add(AddProducts(
                   products: await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));
             },
