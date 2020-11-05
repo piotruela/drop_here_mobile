@@ -136,7 +136,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
   }
 
   Widget _buildDatePickerButton(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
-    FocusScope.of(context).requestFocus(FocusNode());
+    //FocusScope.of(context).requestFocus(FocusNode());
     return ColoredRoundedFlatButton(
       text: locale.pickADate,
       onTap: () {
@@ -146,7 +146,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
   }
 
   Widget _chooseSeller(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
-    FocusScope.of(context).requestFocus(FocusNode());
+    //FocusScope.of(context).requestFocus(FocusNode());
     return ColoredRoundedFlatButton(
       text: locale.chooseSeller,
       onTap: () {
@@ -291,7 +291,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
           for (RouteDropRequest drop in drops ?? []) dropCard(locale: locale, drop: drop),
           GestureDetector(
             onTap: () {
-              FocusScope.of(context).requestFocus(FocusNode());
+              //FocusScope.of(context).requestFocus(FocusNode());
               Get.to(AddDropToRoutePage(
                 addDrop: (RouteDropRequest drop) {
                   bloc.add(FormChanged(
@@ -326,7 +326,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
             ),
           GestureDetector(
             onTap: () async {
-              FocusScope.of(context).requestFocus(FocusNode());
+              //FocusScope.of(context).requestFocus(FocusNode());
               bloc.add(AddProducts(
                   products: await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));
             },

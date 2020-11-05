@@ -296,4 +296,6 @@ abstract class LocaleBundle {
   String get pending;
 
   String get routes;
+
+  String get endTimeBeforeStartTime;
 }

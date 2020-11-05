@@ -19,6 +19,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -88,18 +89,25 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
                     BlocBuilder<AddDropToRouteBloc, AddDropToRouteFormState>(
                       buildWhen: (previous, current) => previous.isFilled != current.isFilled,
                       builder: (context, state) => Center(
-                        child: SubmitFormButton(
-                            text: locale.addDrop,
-                            isActive: state.isFilled,
-                            //TODO check this function
-                            onTap: () {
-                              if (state.isFilled) {
-                                addDropToRouteBloc.add(FormSubmitted());
-                                addDrop(addDropToRouteBloc.state.drop);
-                                Get.back();
-                              }
-                            }),
-                      ),
+                          child: SubmitFormButton(
+                              text: locale.addDrop,
+                              isActive: state.isFilled,
+                              onTap: () {
+                                if (state.isFilled) {
+                                  var format = DateFormat("HH:mm");
+                                  var start = format.parse(addDropToRouteBloc.state.drop.startTime);
+                                  var end = format.parse(addDropToRouteBloc.state.drop.endTime);
+                                  if (end.isBefore(start)) {
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                      content: Text(locale.endTimeBeforeStartTime),
+                                    ));
+                                  } else {
+                                    addDropToRouteBloc.add(FormSubmitted());
+                                    addDrop(addDropToRouteBloc.state.drop);
+                                    Get.back();
+                                  }
+                                }
+                              })),
                     ),
                   ],
                 ),
@@ -166,6 +174,7 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
       context: context,
       initialTime: TimeOfDay.now(),
     );
+
     //TODO add with another state
     bloc.add(FormChanged(
         drop: pickTime == PickTime.START
