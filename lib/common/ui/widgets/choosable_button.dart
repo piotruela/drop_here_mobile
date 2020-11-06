@@ -10,7 +10,7 @@ class ChoosableButton extends StatelessWidget {
   final Widget trailing;
   final VoidCallback chooseAction;
 
-  ChoosableButton({this.text, this.isChosen, this.chooseAction, this.trailing});
+  ChoosableButton({this.text, this.isChosen = false, this.chooseAction, this.trailing});
 
   @override
   Widget build(BuildContext context) {
@@ -31,10 +31,7 @@ class ChoosableButton extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(text, style: themeConfig.textStyles.coloredFlatButton),
-              trailing ?? SizedBox.shrink()
-            ],
+            children: [Text(text, style: themeConfig.textStyles.coloredFlatButton), trailing ?? SizedBox.shrink()],
           ),
         ),
       ),
@@ -50,8 +47,7 @@ class ChoosableButtonWithSubText extends StatelessWidget {
   final Widget trailing;
   final VoidCallback chooseAction;
 
-  ChoosableButtonWithSubText(
-      {this.text, this.subText, this.isChosen, this.chooseAction, this.trailing});
+  ChoosableButtonWithSubText({this.text, this.subText, this.isChosen, this.chooseAction, this.trailing});
 
   @override
   Widget build(BuildContext context) {

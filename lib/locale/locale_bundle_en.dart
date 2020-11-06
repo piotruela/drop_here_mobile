@@ -146,6 +146,9 @@ class LocaleBundleEn extends LocaleBundle {
   String get description => "Description";
 
   @override
+  String get descriptionMandatory => "Description*";
+
+  @override
   String get nameMandatory => "Name*";
 
   @override

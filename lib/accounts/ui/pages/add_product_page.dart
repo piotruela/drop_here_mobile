@@ -1,14 +1,12 @@
-import 'dart:io';
-
 import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
 import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
+import 'package:drop_here_mobile/common/ui/widgets/info_text.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/products/bloc/add_product_bloc.dart';
@@ -16,12 +14,17 @@ import 'package:drop_here_mobile/products/model/api/product_management_api.dart'
 import 'package:drop_here_mobile/products/ui/widgets/customization_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 class AddProductPage extends BlocWidget<AddProductBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final picker = ImagePicker();
+  final ProductManagementRequest product;
+  final Image photo;
+
+  AddProductPage({this.product, this.photo});
 
   @override
   AddProductBloc bloc() => AddProductBloc()..add(FormInitialized());
@@ -61,11 +64,16 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
             localeBundle.addProduct,
             style: themeConfig.textStyles.primaryTitle,
           ),
-          _field(localeBundle.nameMandatory, localeBundle.productNameExample, InputType.text,
-              (value) => bloc.add(FormChanged(product: bloc.state.product.copyWith(name: value)))),
+          _field(
+              localeBundle.nameMandatory,
+              localeBundle.productNameExample,
+              InputType.text,
+              (value) => bloc.add(FormChanged(product: bloc.state.product.copyWith(name: value))),
+              bloc.state.product.name),
           _sectionTitle(localeBundle.photo),
           choosePhotoWidget(bloc),
           _sectionTitle(localeBundle.categoryMandatory),
+          InfoText(text: "Choose one from existing or add new"),
           Wrap(
             children: [
               for (String category in bloc.state.categories)
@@ -87,11 +95,11 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
             height: 8.0,
           ),
           _field(
-              localeBundle.description,
-              "",
+              localeBundle.descriptionMandatory,
+              "This product is...",
               InputType.text,
-              (value) =>
-                  bloc.add(FormChanged(product: bloc.state.product.copyWith(description: value)))),
+              (value) => bloc.add(FormChanged(product: bloc.state.product.copyWith(description: value))),
+              bloc.state.product.description),
           _sectionTitle(localeBundle.unitTypeMandatory),
           DropdownButton<String>(
               isExpanded: true,
@@ -112,31 +120,35 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
               localeBundle.pricePerUnitMandatory,
               localeBundle.pricePerUnitExample,
               InputType.number,
-              (value) => bloc.add(
-                  FormChanged(product: bloc.state.product.copyWith(price: double.parse(value))))),
+              (value) => bloc.add(FormChanged(product: bloc.state.product.copyWith(price: double.parse(value)))),
+              bloc.state.product?.price?.toString() ?? ""),
           _field(
               localeBundle.unitFractionMandatory,
               localeBundle.unitFractionExample,
               InputType.number,
-              (value) => bloc.add(FormChanged(
-                  product: bloc.state.product.copyWith(unitFraction: double.parse(value))))),
+              (value) => bloc.add(FormChanged(product: bloc.state.product.copyWith(unitFraction: double.parse(value)))),
+              bloc.state.product?.unitFraction?.toString() ?? ""),
           _sectionTitle("Customizations"),
           SizedBox(
             height: 4.0,
           ),
           _customizationsList(context, bloc, bloc.state.product.productCustomizationWrappers),
-          ChoosableButton(
-            text: "Add customization +",
-            isChosen: false,
-            chooseAction: () async {
-              FocusScope.of(context).requestFocus(FocusNode());
-              ProductCustomizationWrapperRequest customization = await showDialog(
-                  context: context,
-                  child: CustomizationDialog(customization: ProductCustomizationWrapperRequest()));
-              if (customization != null) {
-                bloc.add(CustomizationAdded(customization: customization));
-              }
-            },
+          Wrap(
+            children: [
+              ChoosableButton(
+                text: "Add customization +",
+                isChosen: false,
+                chooseAction: () async {
+                  FocusScope.of(context).requestFocus(FocusNode());
+                  ProductCustomizationWrapperRequest customization = await showDialog(
+                      context: context,
+                      child: CustomizationDialog(customization: ProductCustomizationWrapperRequest()));
+                  if (customization != null) {
+                    bloc.add(CustomizationAdded(customization: customization));
+                  }
+                },
+              ),
+            ],
           ),
           BlocBuilder<AddProductBloc, AddProductState>(
             buildWhen: (previous, current) => previous != current,
@@ -146,8 +158,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                 child: SubmitFormButton(
                     text: localeBundle.addProduct,
                     isActive: state.isFormFilled,
-                    onTap: () =>
-                        bloc.add(FormSubmitted(product: state.product, photo: state.photo))),
+                    onTap: () => bloc.add(FormSubmitted(product: state.product, photo: state.photo))),
               ),
             ),
           ),
@@ -156,20 +167,20 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
     );
   }
 
-  Widget _customizationsList(BuildContext context, AddProductBloc bloc,
-      List<ProductCustomizationWrapperRequest> customizations) {
+  Widget _customizationsList(
+      BuildContext context, AddProductBloc bloc, List<ProductCustomizationWrapperRequest> customizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         for (ProductCustomizationWrapperRequest customization in customizations)
           ChoosableButtonWithSubText(
             text: customization.heading + (customization.required ? "*" : ""),
-            subText:
-                "${describeEnum(customization.type)} type, ${customization.customizations.length} options",
+            subText: "${describeEnum(customization.type)} type, ${customization.customizations.length} options",
             isChosen: false,
-            chooseAction: () async => bloc.add(EditCustomization(customizationIndex: customizations.indexOf(customization),
-                customization: await showDialog(
-                    context: context, child: CustomizationDialog(customization: customization)))),
+            chooseAction: () async => bloc.add(EditCustomization(
+                customizationIndex: customizations.indexOf(customization),
+                customization:
+                    await showDialog(context: context, child: CustomizationDialog(customization: customization)))),
             trailing: IconButton(
               icon: Icon(Icons.close),
               onPressed: () => bloc.add(CustomizationRemoved(customization: customization)),
@@ -180,9 +191,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
   }
 
   Widget _categoriesTrailingButton(BuildContext context, AddProductBloc bloc) {
-    return bloc.state.addedCategory != null
-        ? _addedCategoryButton(context, bloc)
-        : _addCategoryButton(context, bloc);
+    return bloc.state.addedCategory != null ? _addedCategoryButton(context, bloc) : _addCategoryButton(context, bloc);
   }
 
   Widget _addedCategoryButton(BuildContext context, AddProductBloc bloc) {
@@ -248,7 +257,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
     );
   }
 
-  Widget _field(String text, String hint, InputType inputType, Function(String) onChanged) {
+  Widget _field(String text, String hint, InputType inputType, Function(String) onChanged, String initialValue) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -257,54 +266,40 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
           text,
           style: themeConfig.textStyles.secondaryTitle,
         ),
-        DhPlainTextFormField(hintText: hint, inputType: inputType, onChanged: onChanged)
+        DhPlainTextFormField(hintText: hint, inputType: inputType, onChanged: onChanged, initialValue: initialValue)
       ],
     );
   }
 
   Widget choosePhotoWidget(AddProductBloc bloc) {
     return BlocBuilder<AddProductBloc, AddProductState>(
-      builder: (context, state) => GestureDetector(
-        child: Container(
-          child: bloc.state.photo != null
-              ? GestureDetector(
-                  onTap: () {
-                    bloc.add(PhotoChanged(photo: null));
-                  },
-                  child: Stack(children: [
-                    Image.file(bloc.state.photo),
-                    Positioned(
-                      right: 0,
-                      top: 0,
-                      child: Icon(Icons.close),
-                    )
-                  ]),
-                )
-              : Icon(
-                  Icons.add,
-                  color: Colors.white,
-                  size: 46.0,
+        buildWhen: (previous, current) => previous.photo != current.photo,
+        builder: (context, state) => Conditional.single(
+            context: context,
+            conditionBuilder: (_) => bloc.state.photo != null,
+            widgetBuilder: (_) => Stack(
+                  children: [
+                    GestureDetector(
+                        onTap: () async =>
+                            bloc.add(PhotoChanged(photo: await picker.getImage(source: ImageSource.gallery))),
+                        child: SizedBox(
+                            width: 200,
+                            height: 200,
+                            child: Container(
+                              decoration: BoxDecoration(border: Border.all(color: themeConfig.colors.primary1)),
+                              child: ClipRRect(child: bloc.state.photo),
+                            ))),
+                    ChoosableButton(text: "Remove", chooseAction: () => bloc.add(PhotoChanged(photo: null)))
+                  ],
                 ),
-          width: 80.0,
-          height: 80.0,
-          decoration: BoxDecoration(
-            color: themeConfig.colors.addSthHere,
-            borderRadius: BorderRadius.circular(8.0),
-            boxShadow: [
-              dhShadow(),
-            ],
-          ),
-        ),
-        onTap: () => getImage(bloc),
-      ),
-    );
-  }
-
-  Future getImage(Bloc bloc) async {
-    final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    if (pickedFile == null) {
-      return;
-    }
-    bloc.add(PhotoChanged(photo: File(pickedFile?.path)));
+            fallbackBuilder: (_) => Wrap(
+                  children: [
+                    ChoosableButton(
+                      text: "Add photo +",
+                      chooseAction: () async =>
+                          bloc.add(PhotoChanged(photo: await picker.getImage(source: ImageSource.gallery))),
+                    ),
+                  ],
+                )));
   }
 }

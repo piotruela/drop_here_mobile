@@ -47,7 +47,7 @@ class CustomizationRemoved extends AddProductEvent {
 }
 
 class PhotoChanged extends AddProductEvent {
-  final File photo;
+  final PickedFile photo;
 
   PhotoChanged({this.photo});
 
@@ -71,7 +71,7 @@ class CategoryRemoved extends AddProductEvent {
 }
 
 class FormSubmitted extends AddProductEvent {
-  final File photo;
+  final Image photo;
   final ProductManagementRequest product;
 
   FormSubmitted({this.photo, this.product});

@@ -17,9 +17,9 @@ class DhHttpClient {
   Future<dynamic> initialized;
   final _Session session;
   String _baseUrl = "https://drop-here.herokuapp.com";
-  final Map<String, String> _httpHeaders = {
-    HttpHeaders.contentTypeHeader: "application/json;charset=UTF-8"
-  };
+  final Map<String, String> _httpHeaders = {HttpHeaders.contentTypeHeader: "application/json;charset=UTF-8"};
+
+  String get baseUrl => _baseUrl;
 
   DhHttpClient({bool useSession = true, bool withTrustedRoots = false})
       : session = useSession ? _Session() : _DummySession(),
@@ -64,8 +64,7 @@ class DhHttpClient {
         .postUrl(uri)
         .then((HttpClientRequest request) => _prepareRequestWithBody(request, body, headers))
         .then((HttpClientResponse response) => _onResponseHandler(response, out, httpCallRepeater))
-        .catchError((error) =>
-            _onErrorResponseHandler(error, httpCallRepeater, canRepeatRequest: canRepeatRequest));
+        .catchError((error) => _onErrorResponseHandler(error, httpCallRepeater, canRepeatRequest: canRepeatRequest));
     return httpCallRepeater.call(httpCaller);
   }
 
@@ -85,8 +84,7 @@ class DhHttpClient {
         .then((HttpClientRequest request) => _prepareRequest(request, headers))
         .then((HttpClientResponse response) =>
             _onResponseHandler(response, out, httpCallRepeater, parseRawToJson: parseRawToJson))
-        .catchError((error) =>
-            _onErrorResponseHandler(error, httpCallRepeater, canRepeatRequest: canRepeatRequest));
+        .catchError((error) => _onErrorResponseHandler(error, httpCallRepeater, canRepeatRequest: canRepeatRequest));
     return httpCallRepeater.call(httpCaller);
   }
 
@@ -105,8 +103,7 @@ class DhHttpClient {
         .putUrl(uri)
         .then((HttpClientRequest request) => _prepareRequestWithBody(request, body, headers))
         .then((HttpClientResponse response) => _onResponseHandler(response, out, httpCallRepeater))
-        .catchError((error) =>
-            _onErrorResponseHandler(error, httpCallRepeater, canRepeatRequest: canRepeatRequest));
+        .catchError((error) => _onErrorResponseHandler(error, httpCallRepeater, canRepeatRequest: canRepeatRequest));
     return httpCallRepeater.call(httpCaller);
   }
 
@@ -125,8 +122,7 @@ class DhHttpClient {
         .patchUrl(uri)
         .then((HttpClientRequest request) => _prepareRequestWithBody(request, body, headers))
         .then((HttpClientResponse response) => _onResponseHandler(response, out, httpCallRepeater))
-        .catchError((error) =>
-            _onErrorResponseHandler(error, httpCallRepeater, canRepeatRequest: canRepeatRequest));
+        .catchError((error) => _onErrorResponseHandler(error, httpCallRepeater, canRepeatRequest: canRepeatRequest));
     return httpCallRepeater.call(httpCaller);
   }
 
@@ -145,8 +141,7 @@ class DhHttpClient {
         .deleteUrl(uri)
         .then((HttpClientRequest request) => _prepareRequestWithBody(request, body, headers))
         .then((HttpClientResponse response) => _onResponseHandler(response, out, httpCallRepeater))
-        .catchError((error) =>
-            _onErrorResponseHandler(error, httpCallRepeater, canRepeatRequest: canRepeatRequest));
+        .catchError((error) => _onErrorResponseHandler(error, httpCallRepeater, canRepeatRequest: canRepeatRequest));
     return httpCallRepeater.call(httpCaller);
   }
 
@@ -157,8 +152,7 @@ class DhHttpClient {
     return request.close();
   }
 
-  Future<HttpClientResponse> _prepareRequest(
-      HttpClientRequest request, Map<String, String> headers) {
+  Future<HttpClientResponse> _prepareRequest(HttpClientRequest request, Map<String, String> headers) {
     _addHeaders(request.headers, headers);
     return request.close();
   }
@@ -175,8 +169,8 @@ class DhHttpClient {
     allHeaders.forEach((key, value) => httpHeaders.add(key, value));
   }
 
-  Future<T> _onResponseHandler<T>(HttpClientResponse response, T Function(dynamic response) out,
-      HttpCallRepeater httpCallRepeater,
+  Future<T> _onResponseHandler<T>(
+      HttpClientResponse response, T Function(dynamic response) out, HttpCallRepeater httpCallRepeater,
       {bool parseRawToJson = true}) async {
     try {
       checkStatusCode(response, httpCallRepeater);
@@ -197,15 +191,13 @@ class DhHttpClient {
 
   void checkStatusCode(HttpClientResponse response, HttpCallRepeater httpCallRepeater) {
     if (!_isHttpResponse2xx(response)) {
-      throw HttpStatusException(httpCallRepeater.uri, response.statusCode,
-          message: response.reasonPhrase);
+      throw HttpStatusException(httpCallRepeater.uri, response.statusCode, message: response.reasonPhrase);
     }
   }
 
   bool _isHttpResponse2xx(HttpClientResponse response) => response.statusCode ~/ 100 == 2;
 
-  void _onErrorResponseHandler(dynamic error, HttpCallRepeater httpCallRepeater,
-      {@required bool canRepeatRequest}) {
+  void _onErrorResponseHandler(dynamic error, HttpCallRepeater httpCallRepeater, {@required bool canRepeatRequest}) {
     _ErrorHandler.handleError(
       log: _log,
       error: error,
@@ -229,15 +221,13 @@ class _ErrorHandler {
     @required HttpCallRepeater httpCallRepeater,
     @required bool canRepeatRequest,
   }) {
-    if (canRepeatRequest &&
-        _shouldRepeatOnConnectionClosedError(error, httpCallRepeater.numberOfRetries)) {
+    if (canRepeatRequest && _shouldRepeatOnConnectionClosedError(error, httpCallRepeater.numberOfRetries)) {
       log.warn('"Connection closed before full header was received" error thrown '
           '- trying to repeat the request with uri\n ${httpCallRepeater.uri}');
       throw RetryHttpCallException();
     } else if (canRepeatRequest &&
         _shouldLogNotRepeatedConnectionClosedError(error, httpCallRepeater.numberOfRetries)) {
-      log.warn(
-          '"Connection closed before full header was received" error thrown - limits of retries '
+      log.warn('"Connection closed before full header was received" error thrown - limits of retries '
           '($_maximumNumberOfRetriesAfterConnectionClosedError) exceeded '
           '- request with uri\n ${httpCallRepeater.uri}');
     }
@@ -255,13 +245,11 @@ class _ErrorHandler {
       numberOfRetriesSoFar >= _maximumNumberOfRetriesAfterConnectionClosedError;
 
   static bool _isConnectionClosedError(dynamic error) =>
-      error is HttpException &&
-      error.message.contains('Connection closed before full header was received');
+      error is HttpException && error.message.contains('Connection closed before full header was received');
 }
 
 class HttpStatusException extends HttpException {
-  const HttpStatusException(Uri uri, this.statusCode, {String message = ''})
-      : super(message, uri: uri);
+  const HttpStatusException(Uri uri, this.statusCode, {String message = ''}) : super(message, uri: uri);
 
   final int statusCode;
 
@@ -271,9 +259,7 @@ class HttpStatusException extends HttpException {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is HttpStatusException &&
-          runtimeType == other.runtimeType &&
-          statusCode == other.statusCode;
+      other is HttpStatusException && runtimeType == other.runtimeType && statusCode == other.statusCode;
 
   @override
   int get hashCode => statusCode.hashCode;

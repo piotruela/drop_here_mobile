@@ -47,8 +47,7 @@ class _CustomizationDialogState extends State<CustomizationDialog> {
             },
           ),
         ],
-        title:
-            Align(child: Text("Add customization", style: themeConfig.textStyles.secondaryTitle)),
+        title: Align(child: Text("Add customization", style: themeConfig.textStyles.secondaryTitle)),
         content: SingleChildScrollView(
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -66,7 +65,7 @@ class _CustomizationDialogState extends State<CustomizationDialog> {
               DhPlainTextFormField(
                   inputType: InputType.text,
                   initialValue: customization.heading,
-                  hintText: "Roll type",
+                  hintText: "e.g. Roll type",
                   isRequired: true,
                   onChanged: (String heading) => setState(
                         () => customization.heading = heading,
@@ -78,13 +77,11 @@ class _CustomizationDialogState extends State<CustomizationDialog> {
                   ChoosableButton(
                       text: "Single",
                       isChosen: describeEnum(customization?.type) == "SINGLE",
-                      chooseAction: () =>
-                          setState(() => customization.type = CustomizationType.SINGLE)),
+                      chooseAction: () => setState(() => customization.type = CustomizationType.SINGLE)),
                   ChoosableButton(
                       text: "Multiple",
                       isChosen: describeEnum(customization?.type) == "MULTIPLE",
-                      chooseAction: () =>
-                          setState(() => customization.type = CustomizationType.MULTIPLE)),
+                      chooseAction: () => setState(() => customization.type = CustomizationType.MULTIPLE)),
                 ],
               ),
               _sectionTitle("Values"),
@@ -107,8 +104,7 @@ class _CustomizationDialogState extends State<CustomizationDialog> {
                   chooseAction: () async {
                     ProductCustomizationRequest customization = ProductCustomizationRequest();
                     customization = await showDialog(
-                        context: context,
-                        child: CustomizationValueDialog(customization: customization));
+                        context: context, child: CustomizationValueDialog(customization: customization));
                     if (customization != null) {
                       setState(() => customizationValues.add(customization));
                     }
@@ -181,28 +177,24 @@ class _CustomizationValueDialogState extends State<CustomizationValueDialog> {
             ),
           ],
           content: SingleChildScrollView(
-            child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _sectionTitle("Value"),
-                  DhPlainTextFormField(
-                    inputType: InputType.text,
-                    initialValue: "",
-                    hintText: "Simple",
-                    isRequired: true,
-                    onChanged: (String value) => setState(() => customization.value = value),
-                  ),
-                  _sectionTitle("Price"),
-                  DhPlainTextFormField(
-                    inputType: InputType.number,
-                    initialValue: "",
-                    hintText: "9.99",
-                    isRequired: true,
-                    onChanged: (String value) =>
-                        setState(() => customization.price = double.parse(value)),
-                  ),
-                ]),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.min, children: [
+              _sectionTitle("Value"),
+              DhPlainTextFormField(
+                inputType: InputType.text,
+                initialValue: "",
+                hintText: "e.g. wholemeal",
+                isRequired: true,
+                onChanged: (String value) => setState(() => customization.value = value),
+              ),
+              _sectionTitle("Price"),
+              DhPlainTextFormField(
+                inputType: InputType.number,
+                initialValue: "",
+                hintText: "e.g. 0.50",
+                isRequired: true,
+                onChanged: (String value) => setState(() => customization.price = double.parse(value)),
+              ),
+            ]),
           )),
     );
   }

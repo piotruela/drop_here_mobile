@@ -46,8 +46,7 @@ class ProductManagementRequest {
       this.unit,
       this.unitFraction});
 
-  factory ProductManagementRequest.fromJson(Map<String, dynamic> json) =>
-      _$ProductManagementRequestFromJson(json);
+  factory ProductManagementRequest.fromJson(Map<String, dynamic> json) => _$ProductManagementRequestFromJson(json);
   Map<String, dynamic> toJson() => _$ProductManagementRequestToJson(this);
 
   ProductManagementRequest copyWith(
@@ -63,8 +62,7 @@ class ProductManagementRequest {
       description: description ?? this.description,
       name: name ?? this.name,
       price: price ?? this.price,
-      productCustomizationWrappers:
-          productCustomizationWrappers ?? this.productCustomizationWrappers,
+      productCustomizationWrappers: productCustomizationWrappers ?? this.productCustomizationWrappers,
       unit: unit ?? this.unit,
       unitFraction: unitFraction ?? this.unitFraction,
     );
@@ -81,6 +79,7 @@ class ProductCustomizationWrapperRequest {
   ProductCustomizationWrapperRequest(
       {customizations, this.heading, this.type = CustomizationType.SINGLE, this.required = false})
       : customizations = customizations ?? [];
+
   factory ProductCustomizationWrapperRequest.fromJson(Map<String, dynamic> json) =>
       _$ProductCustomizationWrapperRequestFromJson(json);
   Map<String, dynamic> toJson() => _$ProductCustomizationWrapperRequestToJson(this);
@@ -170,8 +169,7 @@ class ProductCategoryResponse {
 
   ProductCategoryResponse({this.name});
 
-  factory ProductCategoryResponse.fromJson(Map<String, dynamic> json) =>
-      _$ProductCategoryResponseFromJson(json);
+  factory ProductCategoryResponse.fromJson(Map<String, dynamic> json) => _$ProductCategoryResponseFromJson(json);
   Map<String, dynamic> toJson() => _$ProductCategoryResponseToJson(this);
 }
 
@@ -182,7 +180,6 @@ class ProductUnitResponse {
 
   ProductUnitResponse({this.name, this.fractionable});
 
-  factory ProductUnitResponse.fromJson(Map<String, dynamic> json) =>
-      _$ProductUnitResponseFromJson(json);
+  factory ProductUnitResponse.fromJson(Map<String, dynamic> json) => _$ProductUnitResponseFromJson(json);
   Map<String, dynamic> toJson() => _$ProductUnitResponseToJson(this);
 }
