@@ -298,4 +298,6 @@ abstract class LocaleBundle {
   String get routes;
 
   String get endTimeBeforeStartTime;
+
+  String get dropStartTimeBeforePreviousDropEndTime;
 }

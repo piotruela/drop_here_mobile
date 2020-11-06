@@ -24,8 +24,9 @@ import 'package:intl/intl.dart';
 class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final Function addDrop;
+  final DateTime lastDropEndTime;
 
-  AddDropToRoutePage({@required this.addDrop});
+  AddDropToRoutePage({@required this.addDrop, this.lastDropEndTime});
   @override
   bloc() => AddDropToRouteBloc();
 
@@ -69,7 +70,6 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
                                   _buildSpotAddButton(locale, context, addDropToRouteBloc),
                               fallbackBuilder: (_) => SpotCard(state.spot, addDropToRouteBloc),
                             )),
-                    //TODO add check if endTime is after startTime
                     secondaryTitle(locale.startTimeMandatory),
                     startTimeButton(locale, addDropToRouteBloc),
                     secondaryTitle(locale.endTimeMandatory),
@@ -94,12 +94,19 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
                               isActive: state.isFilled,
                               onTap: () {
                                 if (state.isFilled) {
-                                  var format = DateFormat("HH:mm");
-                                  var start = format.parse(addDropToRouteBloc.state.drop.startTime);
-                                  var end = format.parse(addDropToRouteBloc.state.drop.endTime);
+                                  DateFormat format = DateFormat("HH:mm");
+                                  DateTime start =
+                                      format.parse(addDropToRouteBloc.state.drop.startTime);
+                                  DateTime end =
+                                      format.parse(addDropToRouteBloc.state.drop.endTime);
                                   if (end.isBefore(start)) {
                                     Scaffold.of(context).showSnackBar(SnackBar(
                                       content: Text(locale.endTimeBeforeStartTime),
+                                    ));
+                                  } else if (lastDropEndTime != null &&
+                                      start.isBefore(lastDropEndTime)) {
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                      content: Text(locale.dropStartTimeBeforePreviousDropEndTime),
                                     ));
                                   } else {
                                     addDropToRouteBloc.add(FormSubmitted());

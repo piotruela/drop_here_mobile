@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class AddRoutePage extends BlocWidget<AddRouteBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -311,14 +312,18 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
             onTap: () {
               FocusScope.of(context).unfocus();
               Get.to(AddDropToRoutePage(
-                addDrop: (RouteDropRequest drop) {
-                  bloc.add(FormChanged(
-                      routeRequest: bloc.state.routeRequest.drops != null
-                          ? bloc.state.routeRequest
-                              .copyWith(drops: bloc.state.routeRequest.drops..add(drop))
-                          : bloc.state.routeRequest.copyWith(drops: [drop])));
-                },
-              ));
+                  addDrop: (RouteDropRequest drop) {
+                    bloc.add(FormChanged(
+                        routeRequest: bloc.state.routeRequest.drops != null
+                            ? bloc.state.routeRequest
+                                .copyWith(drops: bloc.state.routeRequest.drops..add(drop))
+                            : bloc.state.routeRequest.copyWith(drops: [drop])));
+                  },
+                  lastDropEndTime: bloc.state.routeRequest.drops?.length != 0
+                      ? DateFormat("HH:mm").parse(
+                          bloc.state.routeRequest.drops.last.endTime,
+                        )
+                      : null));
             },
             child: IconInCircle(
               themeConfig: themeConfig,
