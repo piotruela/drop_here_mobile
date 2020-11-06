@@ -90,22 +90,24 @@ class ChooseSellerPage extends BlocWidget<ChooseSellerBloc> {
   SafeArea buildColumnWithData(
       LocaleBundle locale, BuildContext context, ChooseSellerBloc bloc, SellersFetched state) {
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: state.sellers.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return SellerCard(
-                    state: state,
-                    bloc: bloc,
-                    index: index,
-                  );
-                }),
-          ],
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: state.sellers.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return SellerCard(
+                      state: state,
+                      bloc: bloc,
+                      index: index,
+                    );
+                  }),
+            ],
+          ),
         ),
       ),
     );
@@ -124,35 +126,40 @@ class SellerCard extends StatelessWidget {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 7.0),
-      child: Container(
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 30,
+      child: GestureDetector(
+        onTap: () {
+          bloc.add(ChangeGroupValue(index, state.sellers));
+        },
+        child: Container(
+          child: ListTile(
+            leading: CircleAvatar(
+              radius: 30,
+            ),
+            title: Text(
+              state.sellers[index].sellerFullName,
+              style: themeConfig.textStyles.secondaryTitle,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [],
+            ),
+            trailing: Radio(
+              groupValue: state.radioValue,
+              value: index,
+              // onChanged: (_) {
+              //   bloc.add(ChangeGroupValue(index, state.sellers));
+              // },
+            ),
           ),
-          title: Text(
-            state.sellers[index].sellerFullName,
-            style: themeConfig.textStyles.secondaryTitle,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
+          decoration: BoxDecoration(
+            color: themeConfig.colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              dhShadow(),
+            ],
           ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [],
-          ),
-          trailing: Radio(
-            groupValue: state.radioValue,
-            value: index,
-            onChanged: (_) {
-              bloc.add(ChangeGroupValue(index, state.sellers));
-            },
-          ),
-        ),
-        decoration: BoxDecoration(
-          color: themeConfig.colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            dhShadow(),
-          ],
         ),
       ),
     );
