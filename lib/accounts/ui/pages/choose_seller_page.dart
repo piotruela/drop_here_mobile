@@ -131,8 +131,11 @@ class SellerCard extends StatelessWidget {
           bloc.add(ChangeGroupValue(index, state.sellers));
         },
         child: Container(
-          child: ListTile(
-            leading: CircleAvatar(
+          child: RadioListTile(
+            controlAffinity: ListTileControlAffinity.trailing,
+            groupValue: state.radioValue,
+            value: index,
+            secondary: CircleAvatar(
               radius: 30,
             ),
             title: Text(
@@ -145,13 +148,9 @@ class SellerCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [],
             ),
-            trailing: Radio(
-              groupValue: state.radioValue,
-              value: index,
-              // onChanged: (_) {
-              //   bloc.add(ChangeGroupValue(index, state.sellers));
-              // },
-            ),
+            onChanged: (_) {
+              bloc.add(ChangeGroupValue(index, state.sellers));
+            },
           ),
           decoration: BoxDecoration(
             color: themeConfig.colors.white,
