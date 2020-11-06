@@ -79,7 +79,8 @@ class ProductCustomizationWrapperRequest {
   bool required;
 
   ProductCustomizationWrapperRequest(
-      {this.customizations, this.heading, this.type, this.required = false});
+      {customizations, this.heading, this.type = CustomizationType.SINGLE, this.required = false})
+      : customizations = customizations ?? [];
   factory ProductCustomizationWrapperRequest.fromJson(Map<String, dynamic> json) =>
       _$ProductCustomizationWrapperRequestFromJson(json);
   Map<String, dynamic> toJson() => _$ProductCustomizationWrapperRequestToJson(this);

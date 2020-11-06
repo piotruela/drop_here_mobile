@@ -27,6 +27,16 @@ class CustomizationAdded extends AddProductEvent {
   List<Object> get props => [customization];
 }
 
+class EditCustomization extends AddProductEvent {
+  final int customizationIndex;
+  final ProductCustomizationWrapperRequest customization;
+
+  EditCustomization({this.customizationIndex, this.customization});
+
+  @override
+  List<Object> get props => [customizationIndex, customization];
+}
+
 class CustomizationRemoved extends AddProductEvent {
   final ProductCustomizationWrapperRequest customization;
 
@@ -46,12 +56,18 @@ class PhotoChanged extends AddProductEvent {
 }
 
 class CategoryAdded extends AddProductEvent {
-  final String categoryName;
+  final String addedCategory;
 
-  CategoryAdded({this.categoryName});
+  CategoryAdded({this.addedCategory});
 
   @override
-  List<Object> get props => [categoryName];
+  List<Object> get props => [addedCategory];
+}
+
+class CategoryRemoved extends AddProductEvent {
+  CategoryRemoved();
+  @override
+  List<Object> get props => [];
 }
 
 class FormSubmitted extends AddProductEvent {

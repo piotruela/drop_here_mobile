@@ -6,18 +6,13 @@ class AddProductState extends Equatable {
   final File photo;
   final List<String> categories;
   final List<String> unitTypes;
-  final bool categoryAdded;
+  final String addedCategory;
 
   AddProductState(
-      {this.type,
-      this.product,
-      this.photo,
-      this.categories,
-      this.unitTypes,
-      this.categoryAdded = false});
+      {this.type, this.product, this.photo, this.categories, this.unitTypes, this.addedCategory});
 
   @override
-  List<Object> get props => [type, product, photo, categories, unitTypes, categoryAdded];
+  List<Object> get props => [type, product, photo, categories, unitTypes, addedCategory];
 
   bool get isFormFilled =>
       product.name != null &&
@@ -34,5 +29,6 @@ enum AddProductStateType {
   form_changed,
   fetching_error,
   category_added,
+  category_removed,
   added_successfully
 }

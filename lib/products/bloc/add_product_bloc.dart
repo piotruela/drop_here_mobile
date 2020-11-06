@@ -36,7 +36,7 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
           product: ProductManagementRequest(productCustomizationWrappers: []),
           categories: categories,
           unitTypes: units,
-          categoryAdded: false);
+          addedCategory: null);
     } else if (event is FormChanged) {
       yield AddProductState(
           type: AddProductStateType.form_changed,
@@ -44,7 +44,7 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
           photo: state.photo,
           categories: state.categories,
           unitTypes: state.unitTypes,
-          categoryAdded: state.categoryAdded);
+          addedCategory: state.addedCategory);
     } else if (event is CustomizationAdded) {
       List<ProductCustomizationWrapperRequest> customizations =
           state.product.productCustomizationWrappers;
@@ -55,7 +55,19 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
           photo: state.photo,
           categories: state.categories,
           unitTypes: state.unitTypes,
-          categoryAdded: state.categoryAdded);
+          addedCategory: state.addedCategory);
+    } else if (event is EditCustomization) {
+      List<ProductCustomizationWrapperRequest> customizations =
+          state.product.productCustomizationWrappers;
+      customizations.replaceRange(event.customizationIndex, event.customizationIndex, [event.customization]);
+      customizations.add(event.customization);
+      yield AddProductState(
+          type: AddProductStateType.form_changed,
+          product: state.product.copyWith(productCustomizationWrappers: customizations),
+          photo: state.photo,
+          categories: state.categories,
+          unitTypes: state.unitTypes,
+          addedCategory: state.addedCategory);
     } else if (event is CustomizationRemoved) {
       List<ProductCustomizationWrapperRequest> customizations =
           state.product.productCustomizationWrappers;
@@ -66,7 +78,7 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
           photo: state.photo,
           categories: state.categories,
           unitTypes: state.unitTypes,
-          categoryAdded: state.categoryAdded);
+          addedCategory: state.addedCategory);
     } else if (event is PhotoChanged) {
       yield AddProductState(
           type: AddProductStateType.form_changed,
@@ -74,17 +86,23 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
           photo: event.photo,
           categories: state.categories,
           unitTypes: state.unitTypes,
-          categoryAdded: state.categoryAdded);
+          addedCategory: state.addedCategory);
     } else if (event is CategoryAdded) {
-      List<String> categories = state.categories;
-      categories.add(event.categoryName);
       yield AddProductState(
           type: AddProductStateType.category_added,
           product: state.product,
           photo: state.photo,
-          categories: categories,
+          categories: state.categories,
           unitTypes: state.unitTypes,
-          categoryAdded: true);
+          addedCategory: event.addedCategory);
+    } else if (event is CategoryRemoved) {
+      yield AddProductState(
+          type: AddProductStateType.category_removed,
+          product: state.product,
+          photo: state.photo,
+          categories: state.categories,
+          unitTypes: state.unitTypes,
+          addedCategory: null);
     } else if (event is FormSubmitted) {
       print(event.product);
       /*final ResourceOperationResponse response =

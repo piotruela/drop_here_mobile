@@ -105,57 +105,10 @@ class _CustomizationDialogState extends State<CustomizationDialog> {
                   text: "Add value +",
                   isChosen: false,
                   chooseAction: () async {
-                    final _formKey1 = GlobalKey<FormState>();
                     ProductCustomizationRequest customization = ProductCustomizationRequest();
                     customization = await showDialog(
                         context: context,
-                        child: Form(
-                          key: _formKey1,
-                          child: AlertDialog(
-                              title: Text("Add value"),
-                              actions: [
-                                GestureDetector(
-                                  child: Text("Cancel",
-                                      style:
-                                          themeConfig.textStyles.blocked.copyWith(fontSize: 20.0)),
-                                  onTap: () => Navigator.pop(context, null),
-                                ),
-                                GestureDetector(
-                                  child: Text("Submit",
-                                      style:
-                                          themeConfig.textStyles.active.copyWith(fontSize: 20.0)),
-                                  onTap: () {
-                                    if (_formKey1.currentState.validate()) {
-                                      Navigator.pop(context, customization);
-                                    }
-                                  },
-                                ),
-                              ],
-                              content: SingleChildScrollView(
-                                child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      _sectionTitle("Value"),
-                                      DhPlainTextFormField(
-                                        inputType: InputType.text,
-                                        initialValue: "",
-                                        hintText: "Simple",
-                                        isRequired: true,
-                                        onChanged: (String value) => customization.value = value,
-                                      ),
-                                      _sectionTitle("Price"),
-                                      DhPlainTextFormField(
-                                        inputType: InputType.number,
-                                        initialValue: "",
-                                        hintText: "9.99",
-                                        isRequired: true,
-                                        onChanged: (String value) =>
-                                            customization.price = double.parse(value),
-                                      ),
-                                    ]),
-                              )),
-                        ));
+                        child: CustomizationValueDialog(customization: customization));
                     if (customization != null) {
                       setState(() => customizationValues.add(customization));
                     }
@@ -168,6 +121,7 @@ class _CustomizationDialogState extends State<CustomizationDialog> {
   }
 
   Widget _customizationsList(List<ProductCustomizationRequest> customizationValue) {
+    if (customizationValues.isEmpty) return SizedBox.shrink();
     return Column(mainAxisAlignment: MainAxisAlignment.start, children: [
       for (ProductCustomizationRequest customization in customizationValues)
         ChoosableButton(
@@ -176,6 +130,81 @@ class _CustomizationDialogState extends State<CustomizationDialog> {
           chooseAction: () => setState(() => customizationValues.remove(customization)),
         )
     ]);
+  }
+
+  Widget _sectionTitle(String title) {
+    return Text(
+      title,
+      style: themeConfig.textStyles.secondaryTitle,
+    );
+  }
+}
+
+class CustomizationValueDialog extends StatefulWidget {
+  final ProductCustomizationRequest customization;
+
+  const CustomizationValueDialog({this.customization});
+
+  @override
+  _CustomizationValueDialogState createState() => _CustomizationValueDialogState();
+}
+
+class _CustomizationValueDialogState extends State<CustomizationValueDialog> {
+  final _formKey = GlobalKey<FormState>();
+  final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+  ProductCustomizationRequest customization;
+
+  @override
+  void initState() {
+    customization = widget.customization;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Form(
+      key: _formKey,
+      child: AlertDialog(
+          title: Text("Add value"),
+          actions: [
+            GestureDetector(
+              child: Text("Cancel", style: themeConfig.textStyles.blocked.copyWith(fontSize: 20.0)),
+              onTap: () => Navigator.pop(context, null),
+            ),
+            GestureDetector(
+              child: Text("Submit", style: themeConfig.textStyles.active.copyWith(fontSize: 20.0)),
+              onTap: () {
+                if (_formKey.currentState.validate()) {
+                  Navigator.pop(context, customization);
+                }
+              },
+            ),
+          ],
+          content: SingleChildScrollView(
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _sectionTitle("Value"),
+                  DhPlainTextFormField(
+                    inputType: InputType.text,
+                    initialValue: "",
+                    hintText: "Simple",
+                    isRequired: true,
+                    onChanged: (String value) => setState(() => customization.value = value),
+                  ),
+                  _sectionTitle("Price"),
+                  DhPlainTextFormField(
+                    inputType: InputType.number,
+                    initialValue: "",
+                    hintText: "9.99",
+                    isRequired: true,
+                    onChanged: (String value) =>
+                        setState(() => customization.price = double.parse(value)),
+                  ),
+                ]),
+          )),
+    );
   }
 
   Widget _sectionTitle(String title) {

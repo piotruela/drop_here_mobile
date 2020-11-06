@@ -80,7 +80,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                     )));
                   },
                 ),
-              bloc.state.categoryAdded ? SizedBox.shrink() : _addCategoryButton(context, bloc)
+              _categoriesTrailingButton(context, bloc)
             ],
           ),
           SizedBox(
@@ -124,7 +124,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
           SizedBox(
             height: 4.0,
           ),
-          _customizationsList(bloc, bloc.state.product.productCustomizationWrappers),
+          _customizationsList(context, bloc, bloc.state.product.productCustomizationWrappers),
           ChoosableButton(
             text: "Add customization +",
             isChosen: false,
@@ -132,12 +132,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
               FocusScope.of(context).requestFocus(FocusNode());
               ProductCustomizationWrapperRequest customization = await showDialog(
                   context: context,
-                  child: CustomizationDialog(
-                      customization: ProductCustomizationWrapperRequest(
-                          type: CustomizationType.SINGLE,
-                          customizations: [
-                        ProductCustomizationRequest(value: "Simple", price: 9.99)
-                      ])));
+                  child: CustomizationDialog(customization: ProductCustomizationWrapperRequest()));
               if (customization != null) {
                 bloc.add(CustomizationAdded(customization: customization));
               }
@@ -145,11 +140,15 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
           ),
           BlocBuilder<AddProductBloc, AddProductState>(
             buildWhen: (previous, current) => previous != current,
-            builder: (context, state) => Center(
-              child: SubmitFormButton(
-                  text: localeBundle.addProduct,
-                  isActive: state.isFormFilled,
-                  onTap: () => bloc.add(FormSubmitted(product: state.product, photo: state.photo))),
+            builder: (context, state) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 30.0),
+              child: Center(
+                child: SubmitFormButton(
+                    text: localeBundle.addProduct,
+                    isActive: state.isFormFilled,
+                    onTap: () =>
+                        bloc.add(FormSubmitted(product: state.product, photo: state.photo))),
+              ),
             ),
           ),
         ],
@@ -157,8 +156,8 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
     );
   }
 
-  Widget _customizationsList(
-      AddProductBloc bloc, List<ProductCustomizationWrapperRequest> customizations) {
+  Widget _customizationsList(BuildContext context, AddProductBloc bloc,
+      List<ProductCustomizationWrapperRequest> customizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -168,16 +167,48 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
             subText:
                 "${describeEnum(customization.type)} type, ${customization.customizations.length} options",
             isChosen: false,
-            chooseAction: () => bloc.add(CustomizationRemoved(customization: customization)),
+            chooseAction: () async => bloc.add(EditCustomization(customizationIndex: customizations.indexOf(customization),
+                customization: await showDialog(
+                    context: context, child: CustomizationDialog(customization: customization)))),
+            trailing: IconButton(
+              icon: Icon(Icons.close),
+              onPressed: () => bloc.add(CustomizationRemoved(customization: customization)),
+            ),
           )
       ],
+    );
+  }
+
+  Widget _categoriesTrailingButton(BuildContext context, AddProductBloc bloc) {
+    return bloc.state.addedCategory != null
+        ? _addedCategoryButton(context, bloc)
+        : _addCategoryButton(context, bloc);
+  }
+
+  Widget _addedCategoryButton(BuildContext context, AddProductBloc bloc) {
+    return ChoosableButton(
+      text: bloc.state.addedCategory,
+      isChosen: bloc.state.addedCategory == bloc.state.product.category,
+      chooseAction: () {
+        FocusScope.of(context).requestFocus(FocusNode());
+        bloc.add(FormChanged(
+            product: bloc.state.product.copyWith(
+          category: bloc.state.addedCategory,
+        )));
+      },
+      trailing: IconButton(
+          icon: Icon(
+            Icons.close,
+            size: 20.0,
+          ),
+          onPressed: () => bloc.add(CategoryRemoved())),
     );
   }
 
   Widget _addCategoryButton(BuildContext context, AddProductBloc bloc) {
     final TextEditingController controller = TextEditingController();
     return ChoosableButton(
-        text: "Add new+",
+        text: "Add new +",
         isChosen: false,
         chooseAction: () async {
           FocusScope.of(context).requestFocus(FocusNode());
@@ -205,7 +236,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                     ],
                   ));
           if (category != null && category != "") {
-            bloc.add(CategoryAdded(categoryName: category));
+            bloc.add(CategoryAdded(addedCategory: category.toUpperCase()));
           }
         });
   }
