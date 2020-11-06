@@ -196,12 +196,21 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
             SizedBox(
               height: 6.0,
             ),
-            Container(
-              width: 114.0,
-              child: IconInCircle(
-                themeConfig: themeConfig,
-                icon: Icons.thumbs_up_down,
-              ),
+            Stack(
+              children: [
+                Container(
+                  width: 114.0,
+                  child: IconInCircle(
+                    themeConfig: themeConfig,
+                    icon: Icons.thumbs_up_down,
+                  ),
+                ),
+                Positioned(
+                  top: 0,
+                  right: 2,
+                  child: GestureDetector(onTap: () {}, child: Icon(Icons.close)),
+                )
+              ],
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
