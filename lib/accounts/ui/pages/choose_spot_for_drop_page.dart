@@ -120,8 +120,9 @@ class SpotRadioCard extends StatelessWidget {
           bloc.add(ChangeGroupValue(index, bloc.state.spots));
         },
         child: Container(
-          child: ListTile(
-            leading: IconInCircle(
+          child: RadioListTile(
+            controlAffinity: ListTileControlAffinity.trailing,
+            secondary: IconInCircle(
               themeConfig: themeConfig,
               icon: Icons.store,
             ),
@@ -149,14 +150,11 @@ class SpotRadioCard extends StatelessWidget {
                     }),
               ],
             ),
-            trailing: Radio(
-              groupValue: bloc.state.radioValue,
-              value: index,
-              //onChanged: (_) {},
-              // onChanged: (_) {
-              //   bloc.add(ChangeGroupValue(index, bloc.state.spots));
-              // },
-            ),
+            groupValue: bloc.state.radioValue,
+            value: index,
+            onChanged: (_) {
+              bloc.add(ChangeGroupValue(index, bloc.state.spots));
+            },
           ),
           decoration: BoxDecoration(
             color: themeConfig.colors.white,
