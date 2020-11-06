@@ -76,8 +76,8 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                               ))),
                   secondaryTitle(locale.dropsMandatory),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
-                      builder: (context, state) => dropsCarousel(
-                          locale, addRouteBloc.state.routeRequest.drops, addRouteBloc, context)),
+                      buildWhen: (previous, current) => previous != current,
+                      builder: (context, state) => dropsCarousel(locale, addRouteBloc, context)),
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.assignedSeller),
                   SizedBox(height: 6.0),
@@ -179,7 +179,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     ));
   }
 
-  Widget dropCard({LocaleBundle locale, RouteDropRequest drop}) {
+  Widget dropCard({LocaleBundle locale, RouteDropRequest drop, AddRouteBloc bloc}) {
     return Padding(
       padding: const EdgeInsets.only(right: 22.0, bottom: 6.0),
       child: Container(
@@ -208,7 +208,13 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                 Positioned(
                   top: 0,
                   right: 2,
-                  child: GestureDetector(onTap: () {}, child: Icon(Icons.close)),
+                  child: GestureDetector(
+                    onTap: () {
+                      print('cli');
+                      bloc.add(RemoveDrop(drop));
+                    },
+                    child: Icon(Icons.close),
+                  ),
                 )
               ],
             ),
@@ -290,8 +296,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     );
   }
 
-  CarouselSlider dropsCarousel(
-      LocaleBundle locale, List<RouteDropRequest> drops, AddRouteBloc bloc, BuildContext context) {
+  CarouselSlider dropsCarousel(LocaleBundle locale, AddRouteBloc bloc, BuildContext context) {
     return CarouselSlider(
         options: CarouselOptions(
           aspectRatio: 16 / 7.4,
@@ -300,7 +305,8 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
           initialPage: 0,
         ),
         items: [
-          for (RouteDropRequest drop in drops ?? []) dropCard(locale: locale, drop: drop),
+          for (RouteDropRequest drop in bloc.state.routeRequest.drops ?? [])
+            dropCard(locale: locale, drop: drop, bloc: bloc),
           GestureDetector(
             onTap: () {
               FocusScope.of(context).unfocus();

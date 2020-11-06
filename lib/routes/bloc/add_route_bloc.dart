@@ -34,6 +34,17 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
           sellerLastName: event.sellerLastName);
     } else if (event is AddProducts) {
       yield state.copyWith(products: event.products.toList());
+    } else if (event is RemoveDrop) {
+      List<RouteDropRequest> drops = List.from(state.routeRequest.drops);
+      //List<RouteDropRequest> drops = state.routeRequest.drops;
+      drops.remove(event.drop);
+      yield AddRouteFormState(
+        routeRequest: state.routeRequest..drops.remove(event.drop),
+        drops: drops,
+        products: state.products,
+        sellerLastName: state.sellerLastName,
+        sellerFirstName: state.sellerFirstName,
+      );
     } else if (event is FormSubmitted) {
       for (LocalProduct p in state.products) {
         event.routeRequest.products.add(RouteProductRequest(

@@ -46,3 +46,10 @@ class DeleteDate extends AddRouteEvent {
   @override
   List<Object> get props => [];
 }
+
+class RemoveDrop extends AddRouteEvent {
+  final RouteDropRequest drop;
+  const RemoveDrop(this.drop);
+  @override
+  List<Object> get props => [drop];
+}
