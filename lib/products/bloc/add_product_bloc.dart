@@ -13,27 +13,31 @@ import 'package:image_picker/image_picker.dart';
 part 'add_product_event.dart';
 part 'add_product_state.dart';
 
-class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
+class ManageProductBloc extends Bloc<ManageProductEvent, ManageProductState> {
   final ProductManagementService productManagementService = Get.find<ProductManagementService>();
-  AddProductBloc()
-      : super(AddProductState(
-            type: AddProductStateType.loading, product: null, photo: null, categories: null, unitTypes: null));
+  ManageProductBloc({ProductManagementRequest product, Image photo})
+      : super(ManageProductState(
+            type: ManageProductStateType.loading,
+            product: product ?? ProductManagementRequest(productCustomizationWrappers: []),
+            photo: photo,
+            categories: null,
+            unitTypes: null));
 
   @override
-  Stream<AddProductState> mapEventToState(AddProductEvent event) async* {
+  Stream<ManageProductState> mapEventToState(ManageProductEvent event) async* {
     if (event is FormInitialized) {
-      AddProductState(type: AddProductStateType.loading, product: null, photo: null, categories: null, unitTypes: null);
       final List<String> categories = await productManagementService.getCategories();
       final List<String> units = await productManagementService.getUnits();
-      yield AddProductState(
-          type: AddProductStateType.data_fetched,
-          product: ProductManagementRequest(productCustomizationWrappers: []),
+      yield ManageProductState(
+          type: ManageProductStateType.data_fetched,
+          product: state.product,
+          photo: state.photo,
           categories: categories,
           unitTypes: units,
           addedCategory: null);
     } else if (event is FormChanged) {
-      yield AddProductState(
-          type: AddProductStateType.form_changed,
+      yield ManageProductState(
+          type: ManageProductStateType.form_changed,
           product: event.product,
           photo: state.photo,
           categories: state.categories,
@@ -42,8 +46,8 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
     } else if (event is CustomizationAdded) {
       List<ProductCustomizationWrapperRequest> customizations = state.product.productCustomizationWrappers;
       customizations.add(event.customization);
-      yield AddProductState(
-          type: AddProductStateType.form_changed,
+      yield ManageProductState(
+          type: ManageProductStateType.form_changed,
           product: state.product.copyWith(productCustomizationWrappers: customizations),
           photo: state.photo,
           categories: state.categories,
@@ -54,8 +58,8 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
       if (event.customization != null) {
         customizations[event.customizationIndex] = event.customization;
       }
-      yield AddProductState(
-          type: AddProductStateType.form_changed,
+      yield ManageProductState(
+          type: ManageProductStateType.form_changed,
           product: state.product.copyWith(productCustomizationWrappers: customizations),
           photo: state.photo,
           categories: state.categories,
@@ -64,8 +68,8 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
     } else if (event is CustomizationRemoved) {
       List<ProductCustomizationWrapperRequest> customizations = state.product.productCustomizationWrappers;
       customizations.remove(event.customization);
-      yield AddProductState(
-          type: AddProductStateType.form_changed,
+      yield ManageProductState(
+          type: ManageProductStateType.form_changed,
           product: state.product.copyWith(productCustomizationWrappers: customizations),
           photo: state.photo,
           categories: state.categories,
@@ -76,32 +80,39 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
       if (event.photo != null) {
         photo = Image.file(File(event.photo.path));
       }
-      yield AddProductState(
-          type: AddProductStateType.form_changed,
+      yield ManageProductState(
+          type: ManageProductStateType.form_changed,
           product: state.product,
           photo: photo,
           categories: state.categories,
           unitTypes: state.unitTypes,
           addedCategory: state.addedCategory);
     } else if (event is CategoryAdded) {
-      yield AddProductState(
-          type: AddProductStateType.category_added,
+      yield ManageProductState(
+          type: ManageProductStateType.category_added,
           product: state.product.copyWith(category: event.addedCategory),
           photo: state.photo,
           categories: state.categories,
           unitTypes: state.unitTypes,
           addedCategory: event.addedCategory);
     } else if (event is CategoryRemoved) {
-      yield AddProductState(
-          type: AddProductStateType.category_removed,
+      yield ManageProductState(
+          type: ManageProductStateType.category_removed,
           product: state.product,
           photo: state.photo,
           categories: state.categories,
           unitTypes: state.unitTypes,
           addedCategory: null);
     } else if (event is FormSubmitted) {
-      final ResourceOperationResponse response = await productManagementService.addProduct(event.product);
-      await productManagementService.uploadProductPhoto(event.photo, response.id.toString());
+      ResourceOperationResponse response;
+      if (event.productId != null) {
+        response = await productManagementService.updateProduct(event.product, event.productId);
+      } else {
+        response = await productManagementService.addProduct(event.product);
+      }
+      if (event.photo != null) {
+        await productManagementService.uploadProductPhoto(event.photo, response.id.toString());
+      }
     }
   }
 }

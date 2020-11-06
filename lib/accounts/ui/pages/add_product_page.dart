@@ -18,27 +18,73 @@ import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddProductPage extends BlocWidget<AddProductBloc> {
+class EditProductPage extends ManageProductPage {
+  final ProductManagementRequest initialProduct;
+  final Image initialPhoto;
+  final String productIdentify;
+
+  EditProductPage({this.initialProduct, this.initialPhoto, this.productIdentify});
+
+  @override
+  String get pageTitle => "Edit product";
+
+  @override
+  bool get isEditing => false;
+
+  String get productId => productIdentify;
+
+  @override
+  ProductManagementRequest get product => initialProduct;
+
+  @override
+  Image get photo => initialPhoto;
+}
+
+class AddProductPage extends ManageProductPage {
+  @override
+  String get pageTitle => "Add product";
+
+  @override
+  bool get isEditing => false;
+
+  String get productId => null;
+
+  @override
+  Image get photo => null;
+
+  @override
+  ProductManagementRequest get product => ProductManagementRequest(productCustomizationWrappers: []);
+}
+
+abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final picker = ImagePicker();
-  final ProductManagementRequest product;
-  final Image photo;
 
-  AddProductPage({this.product, this.photo});
+  ManageProductPage();
 
   @override
-  AddProductBloc bloc() => AddProductBloc()..add(FormInitialized());
+  ManageProductBloc bloc() => ManageProductBloc(product: product, photo: photo)..add(FormInitialized());
+
+  ProductManagementRequest get product;
+
+  Image get photo;
+
+  String get pageTitle;
+
+  bool get isEditing;
+
+  String get productId;
 
   @override
-  Widget build(BuildContext context, AddProductBloc bloc, _) {
+  Widget build(BuildContext context, ManageProductBloc bloc, _) {
     final LocaleBundle localeBundle = Localization.of(context).bundle;
     return Scaffold(
-        body: BlocConsumer<AddProductBloc, AddProductState>(
+        body: BlocConsumer<ManageProductBloc, ManageProductState>(
       buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
-        if (bloc.state.type == AddProductStateType.loading) {
+        if (bloc.state.type == ManageProductStateType.loading) {
           return Center(child: CircularProgressIndicator());
-        } else if (state.type == AddProductStateType.fetching_error) {
+        } else if (state.type == ManageProductStateType.fetching_error) {
           return Text("ERROR");
         } else {
           return _buildContent(context, bloc, localeBundle);
@@ -46,14 +92,14 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
       },
       listenWhen: (previous, current) => previous.type != current.type,
       listener: (context, state) {
-        if (state.type == AddProductStateType.added_successfully) {
+        if (state.type == ManageProductStateType.added_successfully) {
           Get.to(ProductsListPage());
         } else {}
       },
     ));
   }
 
-  Widget _buildContent(BuildContext context, AddProductBloc bloc, LocaleBundle localeBundle) {
+  Widget _buildContent(BuildContext context, ManageProductBloc bloc, LocaleBundle localeBundle) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 25.0),
       child: ListView(
@@ -61,7 +107,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
         children: [
           DhBackButton(padding: EdgeInsets.zero),
           Text(
-            localeBundle.addProduct,
+            pageTitle,
             style: themeConfig.textStyles.primaryTitle,
           ),
           _field(
@@ -150,15 +196,16 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
               ),
             ],
           ),
-          BlocBuilder<AddProductBloc, AddProductState>(
+          BlocBuilder<ManageProductBloc, ManageProductState>(
             buildWhen: (previous, current) => previous != current,
             builder: (context, state) => Padding(
               padding: const EdgeInsets.symmetric(vertical: 30.0),
               child: Center(
                 child: SubmitFormButton(
-                    text: localeBundle.addProduct,
+                    text: pageTitle,
                     isActive: state.isFormFilled,
-                    onTap: () => bloc.add(FormSubmitted(product: state.product, photo: state.photo))),
+                    onTap: () => bloc.add(
+                        FormSubmitted(productId: productId, photo: bloc.state.photo, product: bloc.state.product))),
               ),
             ),
           ),
@@ -168,7 +215,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
   }
 
   Widget _customizationsList(
-      BuildContext context, AddProductBloc bloc, List<ProductCustomizationWrapperRequest> customizations) {
+      BuildContext context, ManageProductBloc bloc, List<ProductCustomizationWrapperRequest> customizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -190,11 +237,11 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
     );
   }
 
-  Widget _categoriesTrailingButton(BuildContext context, AddProductBloc bloc) {
+  Widget _categoriesTrailingButton(BuildContext context, ManageProductBloc bloc) {
     return bloc.state.addedCategory != null ? _addedCategoryButton(context, bloc) : _addCategoryButton(context, bloc);
   }
 
-  Widget _addedCategoryButton(BuildContext context, AddProductBloc bloc) {
+  Widget _addedCategoryButton(BuildContext context, ManageProductBloc bloc) {
     return ChoosableButton(
       text: bloc.state.addedCategory,
       isChosen: bloc.state.addedCategory == bloc.state.product.category,
@@ -214,7 +261,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
     );
   }
 
-  Widget _addCategoryButton(BuildContext context, AddProductBloc bloc) {
+  Widget _addCategoryButton(BuildContext context, ManageProductBloc bloc) {
     final TextEditingController controller = TextEditingController();
     return ChoosableButton(
         text: "Add new +",
@@ -271,8 +318,8 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
     );
   }
 
-  Widget choosePhotoWidget(AddProductBloc bloc) {
-    return BlocBuilder<AddProductBloc, AddProductState>(
+  Widget choosePhotoWidget(ManageProductBloc bloc) {
+    return BlocBuilder<ManageProductBloc, ManageProductState>(
         buildWhen: (previous, current) => previous.photo != current.photo,
         builder: (context, state) => Conditional.single(
             context: context,

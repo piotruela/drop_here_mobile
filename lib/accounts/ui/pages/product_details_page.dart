@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/edit_product_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/add_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/edit_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -136,8 +136,7 @@ class ProductDetailsPage extends StatelessWidget {
               width: 154,
               height: 96,
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
                 child: Image.file(
                   photo,
                   fit: BoxFit.cover,

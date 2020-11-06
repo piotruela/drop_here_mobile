@@ -15,6 +15,7 @@ import 'package:drop_here_mobile/accounts/ui/pages/product_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
 import 'package:drop_here_mobile/routes/routes_list_page.dart';
 import 'package:drop_here_mobile/routes/ui/pages/route_details_page.dart';
@@ -28,7 +29,6 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'add_drop_to_route_page.dart';
-import 'edit_product_page.dart';
 
 class SandboxPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -84,7 +84,23 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                     child: Text("edit product"),
                     onPressed: () {
-                      Get.to(EditProductPage());
+                      Get.to(EditProductPage(
+                        productIdentify: "12",
+                        initialProduct: ProductManagementRequest(
+                            category: "MOET",
+                            name: "CHAMPAGNE",
+                            description: "Desc",
+                            price: 4.0,
+                            unit: 'kg',
+                            unitFraction: 1,
+                            productCustomizationWrappers: [
+                              ProductCustomizationWrapperRequest(
+                                  required: true,
+                                  heading: "Korek",
+                                  type: CustomizationType.SINGLE,
+                                  customizations: [ProductCustomizationRequest(value: "czarny", price: 20)])
+                            ]),
+                      ));
                     }),
                 FlatButton(
                   child: Text("home page"),
@@ -116,13 +132,12 @@ class SandboxPage extends StatelessWidget {
                 ),
                 FlatButton(
                     child: Text("Log in to company account"),
-                    onPressed: () => authenticationService
-                        .authenticate(LoginRequest(mail: "zrobilem@g.pl", password: "12345678"))),
+                    onPressed: () =>
+                        authenticationService.authenticate(LoginRequest(mail: "zrobilem@g.pl", password: "12345678"))),
                 FlatButton(
                     child: Text("Log in to admin profile"),
                     onPressed: () async {
-                      List<ProfileInfoResponse> profileInfoResponse =
-                          await accountService.fetchProfiles();
+                      List<ProfileInfoResponse> profileInfoResponse = await accountService.fetchProfiles();
                       authenticationService.loginToProfile(ProfileLoginRequest(
                           profileUid: profileInfoResponse
                               .firstWhere((element) => element.profileType == ProfileType.MAIN)
@@ -131,17 +146,12 @@ class SandboxPage extends StatelessWidget {
                     }),
                 FlatButton(
                     child: Text("Log in to customer account"),
-                    onPressed: () => authenticationService
-                        .authenticate(LoginRequest(mail: "klient@g.pl", password: "12345678"))),
+                    onPressed: () =>
+                        authenticationService.authenticate(LoginRequest(mail: "klient@g.pl", password: "12345678"))),
                 FlatButton(
-                    child: Text("log out from account"),
-                    onPressed: () => authenticationService.logOutFromAccount()),
-                FlatButton(
-                    child: Text("company spots map page"),
-                    onPressed: () => Get.to(CompanyMapPage())),
-                FlatButton(
-                    child: Text("customer spots map page"),
-                    onPressed: () => Get.offAll(CustomerMapPage())),
+                    child: Text("log out from account"), onPressed: () => authenticationService.logOutFromAccount()),
+                FlatButton(child: Text("company spots map page"), onPressed: () => Get.to(CompanyMapPage())),
+                FlatButton(child: Text("customer spots map page"), onPressed: () => Get.offAll(CustomerMapPage())),
               ],
             ),
           ),
