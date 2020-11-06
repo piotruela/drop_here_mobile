@@ -54,11 +54,11 @@ class CategoryAdded extends AddProductEvent {
   List<Object> get props => [categoryName];
 }
 
-class FormSubmitted2 extends AddProductEvent {
+class FormSubmitted extends AddProductEvent {
   final File photo;
   final ProductManagementRequest product;
 
-  FormSubmitted2({this.photo, this.product});
+  FormSubmitted({this.photo, this.product});
 
   @override
   List<Object> get props => [photo, product];

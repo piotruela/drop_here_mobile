@@ -92,12 +92,6 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
               InputType.text,
               (value) =>
                   bloc.add(FormChanged(product: bloc.state.product.copyWith(description: value)))),
-          _field(
-              localeBundle.pricePerUnitMandatory,
-              localeBundle.pricePerUnitExample,
-              InputType.number,
-              (value) => bloc.add(
-                  FormChanged(product: bloc.state.product.copyWith(price: double.parse(value))))),
           _sectionTitle(localeBundle.unitTypeMandatory),
           DropdownButton<String>(
               isExpanded: true,
@@ -114,6 +108,18 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
                     child: Text(unit),
                   )
               ]),
+          _field(
+              localeBundle.pricePerUnitMandatory,
+              localeBundle.pricePerUnitExample,
+              InputType.number,
+              (value) => bloc.add(
+                  FormChanged(product: bloc.state.product.copyWith(price: double.parse(value))))),
+          _field(
+              localeBundle.unitFractionMandatory,
+              localeBundle.unitFractionExample,
+              InputType.number,
+              (value) => bloc.add(FormChanged(
+                  product: bloc.state.product.copyWith(unitFraction: double.parse(value))))),
           _sectionTitle("Customizations"),
           SizedBox(
             height: 4.0,
@@ -138,13 +144,12 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
             },
           ),
           BlocBuilder<AddProductBloc, AddProductState>(
-            buildWhen: (previous, current) => previous.type != current.type,
+            buildWhen: (previous, current) => previous != current,
             builder: (context, state) => Center(
               child: SubmitFormButton(
                   text: localeBundle.addProduct,
                   isActive: state.isFormFilled,
-                  onTap: () =>
-                      bloc.add(FormSubmitted2(product: state.product, photo: state.photo))),
+                  onTap: () => bloc.add(FormSubmitted(product: state.product, photo: state.photo))),
             ),
           ),
         ],
@@ -221,8 +226,7 @@ class AddProductPage extends BlocWidget<AddProductBloc> {
           text,
           style: themeConfig.textStyles.secondaryTitle,
         ),
-        DhPlainTextFormField(
-            hintText: hint, inputType: inputType, onChanged: (String value) => onChanged)
+        DhPlainTextFormField(hintText: hint, inputType: inputType, onChanged: onChanged)
       ],
     );
   }

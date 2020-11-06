@@ -17,6 +17,7 @@ class CustomizationDialog extends StatefulWidget {
 
 class _CustomizationDialogState extends State<CustomizationDialog> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+  final _formKey = GlobalKey<FormState>();
   ProductCustomizationWrapperRequest customization;
   List<ProductCustomizationRequest> customizationValues;
 
@@ -29,108 +30,138 @@ class _CustomizationDialogState extends State<CustomizationDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      actions: [
-        GestureDetector(
-          child: Text("Cancel", style: themeConfig.textStyles.blocked.copyWith(fontSize: 20.0)),
-          onTap: () => Navigator.pop(context, null),
-        ),
-        GestureDetector(
-          child: Text("Submit", style: themeConfig.textStyles.active.copyWith(fontSize: 20.0)),
-          onTap: () => Navigator.pop(context, customization),
-        ),
-      ],
-      title: Text("Add customization", style: themeConfig.textStyles.secondaryTitle),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            labeledSwitch(
-                text: "Obligatory",
-                initialPosition: customization.required,
-                onSwitch: (unlimited) {
-                  setState(() {
-                    customization.required = unlimited;
-                  });
-                }),
-            _sectionTitle("Name"),
-            DhPlainTextFormField(
-                inputType: InputType.text,
-                initialValue: customization.heading,
-                hintText: "Roll type",
-                onChanged: (String heading) => setState(
-                      () => customization.heading = heading,
-                    )),
-            _sectionTitle("Type"),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                ChoosableButton(
-                    text: "Single",
-                    isChosen: describeEnum(customization?.type) == "SINGLE",
-                    chooseAction: () =>
-                        setState(() => customization.type = CustomizationType.SINGLE)),
-                ChoosableButton(
-                    text: "Multiple",
-                    isChosen: describeEnum(customization?.type) == "MULTIPLE",
-                    chooseAction: () =>
-                        setState(() => customization.type = CustomizationType.MULTIPLE)),
-              ],
-            ),
-            _sectionTitle("Values"),
-            Row(
-              children: [
-                Icon(
-                  Icons.info,
-                  size: 15.0,
-                ),
-                Text(
-                  "Click on customization to delete it",
-                  style: themeConfig.textStyles.cardSubtitle,
-                )
-              ],
-            ),
-            _customizationsList(customizationValues),
-            ChoosableButton(
-                text: "Add value +",
-                isChosen: false,
-                chooseAction: () async {
-                  ProductCustomizationRequest customization = ProductCustomizationRequest();
-                  await showDialog(
-                      context: context,
-                      child: AlertDialog(
-                          title: Text("Add value"),
-                          actions: [
-                            GestureDetector(
-                              child: Text("Submit",
-                                  style: themeConfig.textStyles.active.copyWith(fontSize: 20.0)),
-                              onTap: () => Navigator.pop(context, customization),
-                            ),
-                          ],
-                          content: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                _sectionTitle("Value"),
-                                DhPlainTextFormField(
-                                  inputType: InputType.text,
-                                  initialValue: "",
-                                  hintText: "Simple",
-                                  onChanged: (String value) => customization.value = value,
+    return Form(
+      key: _formKey,
+      child: AlertDialog(
+        actions: [
+          GestureDetector(
+            child: Text("Cancel", style: themeConfig.textStyles.blocked.copyWith(fontSize: 20.0)),
+            onTap: () => Navigator.pop(context, null),
+          ),
+          GestureDetector(
+            child: Text("Submit", style: themeConfig.textStyles.active.copyWith(fontSize: 20.0)),
+            onTap: () {
+              if (_formKey.currentState.validate()) {
+                Navigator.pop(context, customization);
+              }
+            },
+          ),
+        ],
+        title:
+            Align(child: Text("Add customization", style: themeConfig.textStyles.secondaryTitle)),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              labeledSwitch(
+                  text: "Obligatory",
+                  initialPosition: customization.required,
+                  onSwitch: (unlimited) {
+                    setState(() {
+                      customization.required = unlimited;
+                    });
+                  }),
+              _sectionTitle("Name"),
+              DhPlainTextFormField(
+                  inputType: InputType.text,
+                  initialValue: customization.heading,
+                  hintText: "Roll type",
+                  isRequired: true,
+                  onChanged: (String heading) => setState(
+                        () => customization.heading = heading,
+                      )),
+              _sectionTitle("Type"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ChoosableButton(
+                      text: "Single",
+                      isChosen: describeEnum(customization?.type) == "SINGLE",
+                      chooseAction: () =>
+                          setState(() => customization.type = CustomizationType.SINGLE)),
+                  ChoosableButton(
+                      text: "Multiple",
+                      isChosen: describeEnum(customization?.type) == "MULTIPLE",
+                      chooseAction: () =>
+                          setState(() => customization.type = CustomizationType.MULTIPLE)),
+                ],
+              ),
+              _sectionTitle("Values"),
+              Row(
+                children: [
+                  Icon(
+                    Icons.info,
+                    size: 15.0,
+                  ),
+                  Text(
+                    "Click on customization to delete it",
+                    style: themeConfig.textStyles.cardSubtitle,
+                  )
+                ],
+              ),
+              _customizationsList(customizationValues),
+              ChoosableButton(
+                  text: "Add value +",
+                  isChosen: false,
+                  chooseAction: () async {
+                    final _formKey1 = GlobalKey<FormState>();
+                    ProductCustomizationRequest customization = ProductCustomizationRequest();
+                    customization = await showDialog(
+                        context: context,
+                        child: Form(
+                          key: _formKey1,
+                          child: AlertDialog(
+                              title: Text("Add value"),
+                              actions: [
+                                GestureDetector(
+                                  child: Text("Cancel",
+                                      style:
+                                          themeConfig.textStyles.blocked.copyWith(fontSize: 20.0)),
+                                  onTap: () => Navigator.pop(context, null),
                                 ),
-                                _sectionTitle("Price"),
-                                DhPlainTextFormField(
-                                  inputType: InputType.number,
-                                  initialValue: "",
-                                  hintText: "9.99",
-                                  onChanged: (String value) =>
-                                      customization.price = double.parse(value),
+                                GestureDetector(
+                                  child: Text("Submit",
+                                      style:
+                                          themeConfig.textStyles.active.copyWith(fontSize: 20.0)),
+                                  onTap: () {
+                                    if (_formKey1.currentState.validate()) {
+                                      Navigator.pop(context, customization);
+                                    }
+                                  },
                                 ),
-                              ])));
-                  setState(() => customizationValues.add(customization));
-                }),
-          ],
+                              ],
+                              content: SingleChildScrollView(
+                                child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      _sectionTitle("Value"),
+                                      DhPlainTextFormField(
+                                        inputType: InputType.text,
+                                        initialValue: "",
+                                        hintText: "Simple",
+                                        isRequired: true,
+                                        onChanged: (String value) => customization.value = value,
+                                      ),
+                                      _sectionTitle("Price"),
+                                      DhPlainTextFormField(
+                                        inputType: InputType.number,
+                                        initialValue: "",
+                                        hintText: "9.99",
+                                        isRequired: true,
+                                        onChanged: (String value) =>
+                                            customization.price = double.parse(value),
+                                      ),
+                                    ]),
+                              )),
+                        ));
+                    if (customization != null) {
+                      setState(() => customizationValues.add(customization));
+                    }
+                  }),
+            ],
+          ),
         ),
       ),
     );

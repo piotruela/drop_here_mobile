@@ -85,7 +85,7 @@ class AddProductBloc extends Bloc<AddProductEvent, AddProductState> {
           categories: categories,
           unitTypes: state.unitTypes,
           categoryAdded: true);
-    } else if (event is FormSubmitted2) {
+    } else if (event is FormSubmitted) {
       print(event.product);
       /*final ResourceOperationResponse response =
           await productManagementService.addProduct(event.product);
