@@ -1,12 +1,12 @@
 import 'package:drop_here_mobile/accounts/bloc/company_register_details_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/map_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/spots/ui/pages/company_map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -32,7 +32,7 @@ class CompanyDetailsRegistrationPage extends BlocWidget<CompanyRegisterDetailsBl
                           Text(localeBundle.registrationError + localeBundle.unexpectedError)));
                 }
                 if (state is SuccessState) {
-                  Get.to(MapPage());
+                  Get.to(CompanyMapPage());
                 } else {}
               },
               child: pageBody(bloc, context),
