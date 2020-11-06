@@ -26,16 +26,16 @@ class ProductManagementService {
     return ProductsPage.fromJson(response);
   }
 
-  Future<List<ProductCategoryResponse>> getCategories() async {
+  Future<List<String>> getCategories() async {
     String companyId = await _companyManagementService.getCompanyId();
     List<dynamic> response = await _httpClient.get(
         canRepeatRequest: true,
         path: "/companies/$companyId/categories",
         out: (dynamic json) => json);
 
-    List<ProductCategoryResponse> categories = [];
+    List<String> categories = [];
     for (dynamic element in response) {
-      categories.add(ProductCategoryResponse.fromJson(element));
+      categories.add(ProductCategoryResponse.fromJson(element).name);
     }
     return categories;
   }
@@ -52,12 +52,12 @@ class ProductManagementService {
     return ResourceOperationResponse.fromJson(response);
   }
 
-  Future<List<ProductUnitResponse>> getUnits() async {
+  Future<List<String>> getUnits() async {
     List<dynamic> response =
         await _httpClient.get(canRepeatRequest: true, path: "/units", out: (dynamic json) => json);
-    List<ProductUnitResponse> units = [];
+    List<String> units = [];
     for (dynamic element in response) {
-      units.add(ProductUnitResponse.fromJson(element));
+      units.add(ProductUnitResponse.fromJson(element).name);
     }
     return units;
   }

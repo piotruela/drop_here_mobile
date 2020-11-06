@@ -2,7 +2,9 @@ import 'package:drop_here_mobile/accounts/ui/pages/add_products_to_route.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/ui/widgets/add_new_item_panel.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
 import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
@@ -12,9 +14,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class RoutesListPage extends BlocWidget<RoutesListBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+  final PanelController controller = PanelController();
 
   @override
   RoutesListBloc bloc() => RoutesListBloc()..add(FetchRoutes());
@@ -23,61 +27,65 @@ class RoutesListPage extends BlocWidget<RoutesListBloc> {
   Widget build(BuildContext context, RoutesListBloc bloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 25.0, top: 25.0),
-              child: Text(
-                locale.routes,
-                style: themeConfig.textStyles.primaryTitle,
-              ),
+      body: Stack(
+        children: [
+          SafeArea(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 25.0, top: 25.0),
+                  child: Text(
+                    locale.routes,
+                    style: themeConfig.textStyles.primaryTitle,
+                  ),
+                ),
+                DhSearchBar(bloc),
+                Padding(
+                  padding: const EdgeInsets.only(left: 25.0),
+                  child: FiltersFlatButton(
+                    themeConfig: themeConfig,
+                    locale: locale,
+                    bloc: bloc,
+                  ),
+                ),
+                BlocBuilder<RoutesListBloc, RoutesListState>(
+                  builder: (context, state) {
+                    if (state.type == RoutesListStateType.initial) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (state.type == RoutesListStateType.routes_fetched ||
+                        state.type == RoutesListStateType.route_deleted) {
+                      return buildColumnWithData(locale, state, context, bloc);
+                    }
+                    return Container();
+                  },
+                ),
+              ],
             ),
-            DhSearchBar(bloc),
-            Padding(
-              padding: const EdgeInsets.only(left: 25.0),
-              child: FiltersFlatButton(
-                themeConfig: themeConfig,
-                locale: locale,
-                bloc: bloc,
-              ),
-            ),
-            BlocBuilder<RoutesListBloc, RoutesListState>(
-              builder: (context, state) {
-                if (state.type == RoutesListStateType.initial) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (state.type == RoutesListStateType.routes_fetched ||
-                    state.type == RoutesListStateType.route_deleted) {
-                  return buildColumnWithData(locale, state, context, bloc);
-                }
-                return Container();
-              },
-            ),
-          ],
-        ),
+          ),
+          AddNewItemPanel(controller: controller)
+        ],
+      ),
+      bottomNavigationBar: DHBottomBar(
+        controller: controller,
+        selectedIndex: 0,
       ),
     );
   }
 
-  SafeArea buildColumnWithData(
+  Widget buildColumnWithData(
       LocaleBundle locale, RoutesListState state, BuildContext context, RoutesListBloc bloc) {
-    return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: state.routePage.numberOfElements,
-              itemBuilder: (BuildContext context, int index) {
-                return RouteCard(
-                  route: state.routePage.content[index],
-                  bloc: bloc,
-                  locale: locale,
-                );
-              }),
-        ],
-      ),
+    return Expanded(
+      child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: state.routePage.numberOfElements,
+          itemBuilder: (BuildContext context, int index) {
+            return RouteCard(
+              route: state.routePage.content[index],
+              bloc: bloc,
+              locale: locale,
+            );
+          }),
     );
   }
 }

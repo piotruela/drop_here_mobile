@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/edit_spot_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_card.dart';
@@ -47,7 +48,9 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
   }
 
   @override
-  Widget get iconButton => null;
+  IconData get manageIcon => Icons.settings;
+
+  VoidCallback get manageAction => () => {};
 
   @override
   String get name => spot.name;
@@ -183,20 +186,11 @@ class CompanySpotDetailsPage extends AbsSpotDetailsPage {
   String get description => spot.description;
 
   @override
-  Widget get iconButton => GestureDetector(
-      onTap: () => {},
-      child: CircleAvatar(
-        backgroundColor: themeConfig.colors.black,
-        child: CircleAvatar(
-          backgroundColor: themeConfig.colors.white,
-          radius: 18.0,
-          child: Icon(
-            Icons.edit,
-            color: Colors.black,
-            size: 20.0,
-          ),
-        ),
-      ));
+  IconData get manageIcon => Icons.edit;
+
+  @override
+  VoidCallback get manageAction => () => Get.to(EditSpotPage(spot: spot));
+
   @override
   bool get requiresAccept => spot.requiresAccept;
 
@@ -271,7 +265,9 @@ abstract class AbsSpotDetailsPage extends StatelessWidget {
 
   String get name;
 
-  Widget get iconButton;
+  IconData get manageIcon;
+
+  VoidCallback get manageAction;
 
   double get xcoord;
 
@@ -305,18 +301,15 @@ abstract class AbsSpotDetailsPage extends StatelessWidget {
   Widget buildSpotTitle() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8.0),
-      child: Row(
-        children: [
-          Text(
-            name,
-            style: themeConfig.textStyles.primaryTitle,
-          ),
-          iconButton ?? SizedBox.shrink()
-        ],
+      child: Text(
+        name,
+        style: themeConfig.textStyles.primaryTitle,
+        overflow: TextOverflow.clip,
       ),
     );
   }
 
+/*iconButton ?? SizedBox.shrink()*/
   @protected
   Widget buildLocationInfo() {
     return Row(
@@ -369,18 +362,41 @@ abstract class AbsSpotDetailsPage extends StatelessWidget {
   }
 
   @protected
-  Widget closeIcon(PanelController controller) {
-    return Align(
-        alignment: Alignment.topRight,
-        child: GestureDetector(
-            child: Icon(
-              Icons.close,
-              size: 40,
+  Widget manageButton() {
+    return Padding(
+      padding: const EdgeInsets.only(left: 8.0),
+      child: GestureDetector(
+          onTap: manageAction,
+          child: CircleAvatar(
+            backgroundColor: themeConfig.colors.black,
+            child: CircleAvatar(
+              backgroundColor: themeConfig.colors.white,
+              radius: 18.0,
+              child: Icon(
+                manageIcon,
+                color: Colors.black,
+                size: 20.0,
+              ),
             ),
-            onTap: () {
-              controller.hide();
-              closePanelAction?.call();
-            }));
+          )),
+    );
+  }
+
+  @protected
+  Widget closeIcon(PanelController controller) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        manageButton(),
+        IconButton(
+          icon: Icon(Icons.close, size: 40.0),
+          onPressed: () {
+            controller.hide();
+            closePanelAction?.call();
+          },
+        )
+      ],
+    );
   }
 }
 

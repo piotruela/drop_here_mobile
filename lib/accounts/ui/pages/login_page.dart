@@ -84,7 +84,7 @@ class LoginPage extends BlocWidget<LoginBloc> {
                 DhButton(
                   onPressed: () {},
                   text: Localization.of(context).bundle.logInWithFacebook,
-                  backgroundColor: themeConfig.colors.facebookColor,
+                  backgroundColor: themeConfig.colors.facebookColor.withOpacity(0.5),
                 ),
               ],
             ),

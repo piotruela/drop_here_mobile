@@ -6,6 +6,7 @@ import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,7 @@ abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
       key: formKey,
       child: ListView(
         children: [
+          DhBackButton(),
           Column(
             children: [
               Padding(
