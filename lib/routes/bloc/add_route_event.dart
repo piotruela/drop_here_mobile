@@ -56,7 +56,26 @@ class AddDrop extends AddRouteEvent {
 
 class RemoveDrop extends AddRouteEvent {
   final LocalDrop drop;
+
   const RemoveDrop(this.drop);
+
   @override
   List<Object> get props => [drop];
+}
+
+class FetchRoute extends AddRouteEvent {
+  final int routeId;
+
+  FetchRoute(this.routeId);
+  @override
+  List<Object> get props => [routeId];
+}
+
+class UpdateRoute extends AddRouteEvent {
+  final UnpreparedRouteRequest routeRequest;
+  final int routeId;
+
+  UpdateRoute(this.routeRequest, this.routeId);
+  @override
+  List<Object> get props => [routeRequest, routeId];
 }

@@ -18,6 +18,7 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
 import 'package:drop_here_mobile/routes/routes_list_page.dart';
+import 'package:drop_here_mobile/routes/ui/pages/edit_route_page.dart';
 import 'package:drop_here_mobile/routes/ui/pages/route_details_page.dart';
 import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
 import 'package:drop_here_mobile/spots/services/spots_user_service.dart';
@@ -70,6 +71,11 @@ class SandboxPage extends StatelessWidget {
                       Get.to(RouteDetailsPage(routeId: 2));
                     }),
                 FlatButton(
+                    child: Text("edit route"),
+                    onPressed: () {
+                      Get.to(EditRoutePage(routeId: 2));
+                    }),
+                FlatButton(
                     child: Text("add route"),
                     onPressed: () {
                       Get.to(AddRoutePage());
@@ -98,7 +104,9 @@ class SandboxPage extends StatelessWidget {
                                   required: true,
                                   heading: "Korek",
                                   type: CustomizationType.SINGLE,
-                                  customizations: [ProductCustomizationRequest(value: "czarny", price: 20)])
+                                  customizations: [
+                                    ProductCustomizationRequest(value: "czarny", price: 20)
+                                  ])
                             ]),
                       ));
                     }),
@@ -132,12 +140,13 @@ class SandboxPage extends StatelessWidget {
                 ),
                 FlatButton(
                     child: Text("Log in to company account"),
-                    onPressed: () =>
-                        authenticationService.authenticate(LoginRequest(mail: "zrobilem@g.pl", password: "12345678"))),
+                    onPressed: () => authenticationService
+                        .authenticate(LoginRequest(mail: "zrobilem@g.pl", password: "12345678"))),
                 FlatButton(
                     child: Text("Log in to admin profile"),
                     onPressed: () async {
-                      List<ProfileInfoResponse> profileInfoResponse = await accountService.fetchProfiles();
+                      List<ProfileInfoResponse> profileInfoResponse =
+                          await accountService.fetchProfiles();
                       authenticationService.loginToProfile(ProfileLoginRequest(
                           profileUid: profileInfoResponse
                               .firstWhere((element) => element.profileType == ProfileType.MAIN)
@@ -146,12 +155,17 @@ class SandboxPage extends StatelessWidget {
                     }),
                 FlatButton(
                     child: Text("Log in to customer account"),
-                    onPressed: () =>
-                        authenticationService.authenticate(LoginRequest(mail: "klient@g.pl", password: "12345678"))),
+                    onPressed: () => authenticationService
+                        .authenticate(LoginRequest(mail: "klient@g.pl", password: "12345678"))),
                 FlatButton(
-                    child: Text("log out from account"), onPressed: () => authenticationService.logOutFromAccount()),
-                FlatButton(child: Text("company spots map page"), onPressed: () => Get.to(CompanyMapPage())),
-                FlatButton(child: Text("customer spots map page"), onPressed: () => Get.offAll(CustomerMapPage())),
+                    child: Text("log out from account"),
+                    onPressed: () => authenticationService.logOutFromAccount()),
+                FlatButton(
+                    child: Text("company spots map page"),
+                    onPressed: () => Get.to(CompanyMapPage())),
+                FlatButton(
+                    child: Text("customer spots map page"),
+                    onPressed: () => Get.offAll(CustomerMapPage())),
               ],
             ),
           ),
