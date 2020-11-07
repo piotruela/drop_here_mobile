@@ -36,7 +36,13 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
     } else if (event is AddProducts) {
       yield state.copyWith(products: event.products.toList());
     } else if (event is AddDrop) {
-      yield AddRouteFormState(drops: state.drops..add(event.drop));
+      yield AddRouteFormState(
+        drops: state.drops..add(event.drop),
+        routeRequest: state.routeRequest,
+        products: state.products,
+        sellerLastName: state.sellerLastName,
+        sellerFirstName: state.sellerFirstName,
+      );
     } else if (event is RemoveDrop) {
       List<LocalDrop> drops = List.from(state.drops);
       //List<RouteDropRequest> drops = state.routeRequest.drops;

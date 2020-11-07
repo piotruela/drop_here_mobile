@@ -230,6 +230,22 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 4.0),
+                  Row(
+                    children: [
+                      Icon(
+                        Icons.pin_drop,
+                        color: themeConfig.colors.primary1,
+                        size: 10.0,
+                      ),
+                      SizedBox(
+                        width: 3.0,
+                      ),
+                      Text(
+                        drop.spotName ?? '',
+                        style: themeConfig.textStyles.title3Annotation,
+                      ),
+                    ],
+                  ),
                   //TODO add when drop localization available
                   // FutureBuilder(
                   //     future: getAddressFromCoordinates(drop., spot.ycoordinate) ?? '',
@@ -287,6 +303,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   SizedBox(
                     height: 4.0,
                   ),
+
                   //SizedBox(height: 5.0)
                 ],
               ),

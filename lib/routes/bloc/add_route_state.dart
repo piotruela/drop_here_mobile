@@ -32,7 +32,7 @@ class AddRouteFormState extends Equatable {
 
   bool get isFilled =>
       //TODO add more
-      routeRequest.name != null && routeRequest.date != null;
+      routeRequest != null && routeRequest.name != null && routeRequest.date != null;
 
   @override
   List<Object> get props =>
