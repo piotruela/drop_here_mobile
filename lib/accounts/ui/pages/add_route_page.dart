@@ -93,7 +93,10 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                               title: state.sellerFullName(),
                               //TODO add popupOptions
                               trailing: Icon(Icons.edit),
-                              onTap: () => getToChoseSellerPage(addRouteBloc),
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                getToChoseSellerPage(addRouteBloc);
+                              },
                             ),
                           )),
                   SizedBox(height: 6.0),
@@ -147,6 +150,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
   }
 
   Widget _chooseSeller(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
+    FocusScope.of(context).unfocus();
     return ColoredRoundedFlatButton(
       text: locale.chooseSeller,
       onTap: () {
@@ -168,6 +172,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
   }
 
   void chooseDate(BuildContext context, AddRouteBloc bloc) async {
+    FocusScope.of(context).unfocus();
     DateTime dateTime = await showDatePicker(
         context: context,
         initialDate: bloc.state.routeRequest.date != null

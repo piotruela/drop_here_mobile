@@ -160,6 +160,7 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
 
   ColoredRoundedFlatButton _buildSpotAddButton(
       LocaleBundle locale, BuildContext context, AddDropToRouteBloc bloc) {
+    FocusScope.of(context).unfocus();
     return ColoredRoundedFlatButton(
       text: locale.addSpotButton,
       onTap: () => navigateToChooseSpotForDropPage(bloc),
@@ -177,6 +178,7 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
   }
 
   void chooseTime(BuildContext context, AddDropToRouteBloc bloc, PickTime pickTime) async {
+    FocusScope.of(context).unfocus();
     TimeOfDay timeOfDay = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
@@ -230,7 +232,10 @@ class SpotCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
     return GestureDetector(
-      onTap: () => navigateToChooseSpotForDropPage(bloc),
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        navigateToChooseSpotForDropPage(bloc);
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 7.0),
         child: Container(

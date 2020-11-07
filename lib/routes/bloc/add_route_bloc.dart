@@ -45,7 +45,6 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
       );
     } else if (event is RemoveDrop) {
       List<LocalDrop> drops = List.from(state.drops);
-      //List<RouteDropRequest> drops = state.routeRequest.drops;
       drops.remove(event.drop);
       yield AddRouteFormState(
         routeRequest: state.routeRequest,
@@ -59,9 +58,13 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
         event.routeRequest.products.add(RouteProductRequest(
             price: p.price, amount: p.amount, limitedAmount: !p.unlimited, productId: p.id));
       }
-      for(LocalDrop d in state.drops){
+      for (LocalDrop d in state.drops) {
         event.routeRequest.drops.add(RouteDropRequest(
-          name: d.name, spotId: d.spotId, description: d.description, startTime: d.startTime, endTime: d.endTime,
+          name: d.name,
+          spotId: d.spotId,
+          description: d.description,
+          startTime: d.startTime,
+          endTime: d.endTime,
         ));
       }
       var response = await routeManagementService.createRoute(event.routeRequest);
