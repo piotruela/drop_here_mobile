@@ -7,9 +7,10 @@ class ChoosableButton extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final String text;
   final bool isChosen;
+  final Widget trailing;
   final VoidCallback chooseAction;
 
-  ChoosableButton({this.text, this.isChosen, this.chooseAction});
+  ChoosableButton({this.text, this.isChosen = false, this.chooseAction, this.trailing});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,11 @@ class ChoosableButton extends StatelessWidget {
               ],
               border: isChosen ? Border.all(width: 1.0, color: themeConfig.colors.primary1) : null,
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          child: Text(text, style: themeConfig.textStyles.coloredFlatButton),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [Text(text, style: themeConfig.textStyles.coloredFlatButton), trailing ?? SizedBox.shrink()],
+          ),
         ),
       ),
     );
@@ -39,9 +44,10 @@ class ChoosableButtonWithSubText extends StatelessWidget {
   final String text;
   final String subText;
   final bool isChosen;
+  final Widget trailing;
   final VoidCallback chooseAction;
 
-  ChoosableButtonWithSubText({this.text, this.subText, this.isChosen, this.chooseAction});
+  ChoosableButtonWithSubText({this.text, this.subText, this.isChosen, this.chooseAction, this.trailing});
 
   @override
   Widget build(BuildContext context) {
@@ -59,10 +65,17 @@ class ChoosableButtonWithSubText extends StatelessWidget {
               ],
               border: isChosen ? Border.all(width: 1.0, color: themeConfig.colors.primary1) : null,
               borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          child: Column(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Text(text, style: themeConfig.textStyles.coloredFlatButton),
-              Text(subText, style: themeConfig.textStyles.cardSubtitle)
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(text, style: themeConfig.textStyles.coloredFlatButton),
+                  Text(subText, style: themeConfig.textStyles.cardSubtitle)
+                ],
+              ),
+              trailing ?? SizedBox.shrink()
             ],
           ),
         ),

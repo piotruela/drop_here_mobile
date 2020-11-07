@@ -99,6 +99,8 @@ abstract class LocaleBundle {
 
   String get description;
 
+  String get descriptionMandatory;
+
   String get unitTypeMandatory;
 
   String get pricePerUnitMandatory;
