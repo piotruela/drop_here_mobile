@@ -2,7 +2,7 @@ part of 'add_route_bloc.dart';
 
 class AddRouteFormState extends Equatable {
   final UnpreparedRouteRequest routeRequest;
-  final List<RouteDropRequest> drops;
+  final List<LocalDrop> drops;
   final List<LocalProduct> products;
   final String sellerFirstName;
   final String sellerLastName;
@@ -16,7 +16,7 @@ class AddRouteFormState extends Equatable {
 
   AddRouteFormState copyWith({
     final UnpreparedRouteRequest routeRequest,
-    final List<RouteDropRequest> drops,
+    final List<LocalDrop> drops,
     final List<LocalProduct> products,
     final String sellerFirstName,
     final String sellerLastName,

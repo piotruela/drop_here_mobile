@@ -16,10 +16,10 @@ import 'package:drop_here_mobile/accounts/ui/widgets/value_picked_flat_button.da
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
+import 'package:drop_here_mobile/drops/model/localDrop.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/routes/bloc/add_route_bloc.dart';
-import 'package:drop_here_mobile/routes/model/route_request_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
@@ -180,7 +180,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     ));
   }
 
-  Widget dropCard({LocaleBundle locale, RouteDropRequest drop, AddRouteBloc bloc}) {
+  Widget dropCard({LocaleBundle locale, LocalDrop drop, AddRouteBloc bloc}) {
     return Padding(
       padding: const EdgeInsets.only(right: 22.0, bottom: 6.0),
       child: Container(
@@ -306,22 +306,20 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
           initialPage: 0,
         ),
         items: [
-          for (RouteDropRequest drop in bloc.state.routeRequest.drops ?? [])
+          for (LocalDrop drop in bloc.state.drops ?? [])
             dropCard(locale: locale, drop: drop, bloc: bloc),
           GestureDetector(
             onTap: () {
               FocusScope.of(context).unfocus();
               Get.to(AddDropToRoutePage(
-                  addDrop: (RouteDropRequest drop) {
-                    bloc.add(FormChanged(
-                        routeRequest: bloc.state.routeRequest.drops != null
-                            ? bloc.state.routeRequest
-                                .copyWith(drops: bloc.state.routeRequest.drops..add(drop))
-                            : bloc.state.routeRequest.copyWith(drops: [drop])));
+                  addDrop: (LocalDrop drop) {
+                    bloc.add(AddDrop(
+                      drop,
+                    ));
                   },
-                  lastDropEndTime: bloc.state.routeRequest.drops?.length != 0
+                  lastDropEndTime: bloc.state.drops?.length != 0
                       ? DateFormat("HH:mm").parse(
-                          bloc.state.routeRequest.drops.last.endTime,
+                          bloc.state.drops.last.endTime,
                         )
                       : null));
             },

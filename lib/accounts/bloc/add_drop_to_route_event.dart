@@ -5,7 +5,7 @@ abstract class AddDropToRouteEvent extends Equatable {
 }
 
 class FormChanged extends AddDropToRouteEvent {
-  final RouteDropRequest drop;
+  final LocalDrop drop;
   final SpotCompanyResponse spot;
 
   FormChanged({this.drop, this.spot});
@@ -15,7 +15,7 @@ class FormChanged extends AddDropToRouteEvent {
 }
 
 class FormSubmitted extends AddDropToRouteEvent {
-  final RouteDropRequest drop;
+  final LocalDrop drop;
 
   FormSubmitted({this.drop});
 

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/accounts/model/local_product.dart';
+import 'package:drop_here_mobile/drops/model/localDrop.dart';
 import 'package:drop_here_mobile/routes/model/route_request_api.dart';
 import 'package:drop_here_mobile/routes/services/route_management_service.dart';
 import 'package:equatable/equatable.dart';
@@ -34,12 +35,14 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
           sellerLastName: event.sellerLastName);
     } else if (event is AddProducts) {
       yield state.copyWith(products: event.products.toList());
+    } else if (event is AddDrop) {
+      yield AddRouteFormState(drops: state.drops..add(event.drop));
     } else if (event is RemoveDrop) {
-      List<RouteDropRequest> drops = List.from(state.routeRequest.drops);
+      List<LocalDrop> drops = List.from(state.drops);
       //List<RouteDropRequest> drops = state.routeRequest.drops;
       drops.remove(event.drop);
       yield AddRouteFormState(
-        routeRequest: state.routeRequest..drops.remove(event.drop),
+        routeRequest: state.routeRequest,
         drops: drops,
         products: state.products,
         sellerLastName: state.sellerLastName,

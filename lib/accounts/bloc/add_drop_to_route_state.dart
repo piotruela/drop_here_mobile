@@ -1,12 +1,12 @@
 part of 'add_drop_to_route_bloc.dart';
 
 class AddDropToRouteFormState extends Equatable {
-  final RouteDropRequest drop;
+  final LocalDrop drop;
   final SpotCompanyResponse spot;
   const AddDropToRouteFormState({this.drop, this.spot});
 
   AddDropToRouteFormState copyWith({
-    final RouteDropRequest drop,
+    final LocalDrop drop,
     final SpotCompanyResponse spot,
   }) {
     return AddDropToRouteFormState(

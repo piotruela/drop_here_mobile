@@ -186,6 +186,7 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
     bloc.add(FormChanged(
         drop: pickTime == PickTime.START
             ? bloc.state.drop.copyWith(startTime: formatTimeOfDay(timeOfDay))
+            //? bloc.state.copyWith(startTime: formatTimeOfDay(timeOfDay))
             : bloc.state.drop.copyWith(endTime: formatTimeOfDay(timeOfDay))));
   }
 }
@@ -214,7 +215,8 @@ enum PickTime { START, END }
 void navigateToChooseSpotForDropPage(AddDropToRouteBloc bloc) {
   Get.to(ChooseSpotForDropPage(
     addSpot: (SpotCompanyResponse spot) {
-      bloc.add(FormChanged(spot: spot, drop: bloc.state.drop.copyWith(spotId: spot.id)));
+      bloc.add(FormChanged(spot: spot));
+      //bloc.add(FormChanged(spot: spot, drop: bloc.state.drop.copyWith(spotId: spot.id)));
     },
   ));
 }
