@@ -188,7 +188,6 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
     bloc.add(FormChanged(
         drop: pickTime == PickTime.START
             ? bloc.state.drop.copyWith(startTime: formatTimeOfDay(timeOfDay))
-            //? bloc.state.copyWith(startTime: formatTimeOfDay(timeOfDay))
             : bloc.state.drop.copyWith(endTime: formatTimeOfDay(timeOfDay))));
   }
 }

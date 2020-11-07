@@ -10,7 +10,6 @@ part 'add_drop_to_route_event.dart';
 part 'add_drop_to_route_state.dart';
 
 class AddDropToRouteBloc extends Bloc<AddDropToRouteEvent, AddDropToRouteFormState> {
-  //TODO add drop to super state?
   AddDropToRouteBloc() : super(AddDropToRouteFormState(drop: LocalDrop(RouteDropRequest(), '')));
 
   @override
