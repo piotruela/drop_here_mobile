@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
 import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
 import 'package:equatable/equatable.dart';
@@ -38,7 +37,7 @@ class CompanySpotsBloc extends Bloc<CompanySpotsEvent, CompanySpotsState> {
     } else if (event is UpdateMembershipStatus) {
       yield CompanySpotsState(
           spots: state.spots, type: CompanySpotsStateType.loading, spot: state.spot, members: null);
-      ResourceOperationResponse response = await spotManagementService.updateMembership(
+      await spotManagementService.updateMembership(
           SpotCompanyMembershipManagementRequest(membershipStatus: event.status),
           event.spotId.toString(),
           event.spotMembershipId.toString());

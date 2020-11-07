@@ -8,9 +8,10 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
 import 'package:drop_here_mobile/config/drop_here_assets_config.dart';
 import 'package:drop_here_mobile/config/drop_here_theme_config.dart';
+import 'package:drop_here_mobile/notifications/services/executive_service/firebase_push_notifications_executive_service.dart';
+import 'package:drop_here_mobile/notifications/services/executive_service/notifications_executive_service_factory.dart';
 import 'package:drop_here_mobile/notifications/services/notifications_service.dart';
-import 'package:drop_here_mobile/notifications/services/push_notifications_executive_service/firebase_push_notifications_executive_service.dart';
-import 'package:drop_here_mobile/notifications/services/push_notifications_executive_service/push_notifications_factory.dart';
+import 'package:drop_here_mobile/notifications/services/observer_service/local_notification_push_notification_observer.dart';
 import 'package:drop_here_mobile/notifications/services/push_notifications_service.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
 import 'package:drop_here_mobile/routes/services/route_management_service.dart';
@@ -36,6 +37,7 @@ class ConfigBinding extends Bindings {
     Get.put(NotificationsService());
     Get.put(FirebasePushNotificationsExecutiveService());
     Get.put(PushNotificationsExecutiveServiceFactory());
+    Get.put(LocalNotificationObserver());
     Get.put(PushNotificationsConfigurationService());
   }
 }

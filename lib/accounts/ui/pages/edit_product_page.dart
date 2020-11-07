@@ -18,8 +18,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 class EditProductPage extends BlocWidget<EditProductBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final picker = ImagePicker();
-  File _image;
-  List<GestureDetector> categoryChoiceWidgets = [];
+  final List<GestureDetector> categoryChoiceWidgets = [];
 
   @override
   EditProductBloc bloc() => EditProductBloc();
@@ -235,8 +234,8 @@ class EditProductPage extends BlocWidget<EditProductBloc> {
 
   Future getImage(Bloc bloc) async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
-    _image = File(pickedFile.path);
-    bloc.add(FormChanged(photo: _image));
+    final image = File(pickedFile.path);
+    bloc.add(FormChanged(photo: image));
   }
 }
 
