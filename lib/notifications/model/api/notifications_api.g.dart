@@ -57,4 +57,5 @@ T _$enumDecodeNullable<T>(
 
 const _$BroadcastingServiceTypeEnumMap = {
   BroadcastingServiceType.FIREBASE: 'FIREBASE',
+  BroadcastingServiceType.LOCAL_NOTIFICATIONS: 'LOCAL_NOTIFICATIONS',
 };

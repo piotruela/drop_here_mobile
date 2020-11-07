@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'notifications_api.g.dart';
 
-enum BroadcastingServiceType { FIREBASE }
+enum BroadcastingServiceType { FIREBASE, LOCAL_NOTIFICATIONS }
 
 @JsonSerializable()
 class NotificationTokenManagementRequest {

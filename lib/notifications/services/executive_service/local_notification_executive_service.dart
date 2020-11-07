@@ -1,78 +1,66 @@
+import 'dart:convert';
+
 import 'package:drop_here_mobile/notifications/model/api/notifications_api.dart';
 import 'package:drop_here_mobile/notifications/services/executive_service/notification_executive_service.dart';
 import 'package:drop_here_mobile/notifications/services/observer_service/notification_observer_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-//todo usee
 class LocalNotificationExecutiveService extends NotificationExecutiveService {
-  static FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
+  NotifyObservers _notifyObserversFunction;
+  FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
+
+  final NotificationDetails _platformChannelSpecifics = new NotificationDetails(
+      android: new AndroidNotificationDetails('LocalNotificationsChannel1',
+          'LocalNotificationsChannel', 'Local notifications channel',
+          playSound: true, importance: Importance.max, priority: Priority.high),
+      iOS: new IOSNotificationDetails(presentSound: true));
+
+  @override
+  bool requiresToken() {
+    return false;
+  }
 
   @override
   Future<String> fetchToken() {
-    // TODO: implement fetchToken
-    throw UnimplementedError();
+    //Not needed to implement since requiresToken() == false
+    return Future.value();
   }
 
   @override
   BroadcastingServiceType getServiceType() {
-    // TODO: implement getServiceType
-    throw UnimplementedError();
+    return BroadcastingServiceType.LOCAL_NOTIFICATIONS;
   }
 
   @override
-  Future<void> init(NotifyObservers notifyObservers) {
-    // TODO: implement init
-    throw UnimplementedError();
+  Future<void> init(NotifyObservers notifyObserversFunction) {
+    this._notifyObserversFunction = notifyObserversFunction;
+
+    var initializationSettingsAndroid =
+        new AndroidInitializationSettings('@mipmap/app_logo');
+    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettings = new InitializationSettings(
+        android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
+
+    _flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
+    return _flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onSelectNotification: onSelectNotification);
   }
 
-  // //todo macias gdzies indziej to wyrzucic - bo to bedzie globalne a nie firebasowe
-  // void initState() {
-  //   var initializationSettingsAndroid =
-  //   new AndroidInitializationSettings('@mipmap/ic_launcher');
-  //   var initializationSettingsIOS = new IOSInitializationSettings();
-  //   var initializationSettings = new InitializationSettings(
-  //       android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-  //
-  //   flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-  //   flutterLocalNotificationsPlugin.initialize(initializationSettings,
-  //       onSelectNotification: onSelectNotification);
-  // }
-  //
-  // //todo macias 2
-  // Future<dynamic> onSelectNotification(String payload) async {
-  //   //Do whatever you want to do on notification click. In this case, I'll show an alert dialog*/ /*
-  //   print("klikł");
-  // }
-  //
-  // //todo macias 3
-  // static Future<void> showNotification(
-  //     int notificationId,
-  //     String notificationTitle,
-  //     String notificationContent,
-  //     String payload, {
-  //       String channelId = '1234',
-  //       String channelTitle = 'Android Channel',
-  //       String channelDescription = 'Default Android Channel for notifications',
-  //       Priority notificationPriority = Priority.high,
-  //       Importance notificationImportance = Importance.max,
-  //     }) async {
-  //   var androidPlatformChannelSpecifics = new AndroidNotificationDetails(
-  //       channelId, channelTitle, channelDescription,
-  //       playSound: false,
-  //       importance: notificationImportance,
-  //       priority: notificationPriority);
-  //   var iOSPlatformChannelSpecifics =
-  //   new IOSNotificationDetails(presentSound: false);
-  //   var platformChannelSpecifics = new NotificationDetails(
-  //       android: androidPlatformChannelSpecifics,
-  //       iOS: iOSPlatformChannelSpecifics);
-  //
-  //   await flutterLocalNotificationsPlugin.show(
-  //     notificationId,
-  //     notificationTitle,
-  //     notificationContent,
-  //     platformChannelSpecifics,
-  //     payload: payload,
-  //   );
-  // }
+  Future<void> createNotification(NotificationPayload notificationPayload) {
+    return _flutterLocalNotificationsPlugin.show(
+      1,
+      notificationPayload.title,
+      notificationPayload.message,
+      _platformChannelSpecifics,
+      payload: json.encode(notificationPayload.toJson()),
+    );
+  }
+
+  Future<dynamic> onSelectNotification(String payload) async {
+    var previousNotification =
+        NotificationPayload.fromJson(jsonDecode(payload));
+    previousNotification.notificationType =
+        NotificationType.CLICKED_VIEW_NOT_DEFINED;
+    _notifyObserversFunction.call(previousNotification);
+  }
 }

@@ -4,6 +4,8 @@ import 'package:drop_here_mobile/notifications/services/observer_service/notific
 abstract class NotificationExecutiveService {
   BroadcastingServiceType getServiceType();
 
+  bool requiresToken();
+
   Future<String> fetchToken();
 
   Future<void> init(NotifyObservers notifyObserversFunction);

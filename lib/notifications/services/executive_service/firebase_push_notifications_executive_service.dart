@@ -8,7 +8,7 @@ class FirebasePushNotificationsExecutiveService
   static FirebaseMessaging _fcm = FirebaseMessaging();
   final String _fcmNotificationKey = 'notification';
   final String _fcmNotificationTitle = 'title';
-  final String _fcmNotificationBody = 'title';
+  final String _fcmNotificationBody = 'body';
   final String _fcmDataKey = 'data';
   final String _fcmDataNotificationReferencedSubjectType =
       'DROP_HERE_NOTIFICATION_REFERENCED_SUBJECT_TYPE';
@@ -67,8 +67,20 @@ class FirebasePushNotificationsExecutiveService
     return new NotificationPayload(
         message[_fcmNotificationKey][_fcmNotificationTitle],
         message[_fcmNotificationKey][_fcmNotificationBody],
-        message[_fcmDataKey][_fcmDataNotificationReferencedSubjectType],
+        _getReferencedSubjectType(
+            message[_fcmDataKey][_fcmDataNotificationReferencedSubjectType]),
         message[_fcmDataKey][_fcmDataNotificationReferencedSubjectId],
         type);
+  }
+
+  @override
+  bool requiresToken() {
+    return true;
+  }
+
+  ReferencedSubjectType _getReferencedSubjectType(referencedSubjectType) {
+    return ReferencedSubjectType.values.firstWhere(
+        (element) => element.toString().split(".").last == referencedSubjectType,
+        orElse: () => ReferencedSubjectType.UNKNOWN);
   }
 }
