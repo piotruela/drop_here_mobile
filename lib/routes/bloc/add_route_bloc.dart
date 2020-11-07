@@ -59,6 +59,11 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
         event.routeRequest.products.add(RouteProductRequest(
             price: p.price, amount: p.amount, limitedAmount: !p.unlimited, productId: p.id));
       }
+      for(LocalDrop d in state.drops){
+        event.routeRequest.drops.add(RouteDropRequest(
+          name: d.name, spotId: d.spotId, description: d.description, startTime: d.startTime, endTime: d.endTime,
+        ));
+      }
       var response = await routeManagementService.createRoute(event.routeRequest);
       print(response);
       Get.back();

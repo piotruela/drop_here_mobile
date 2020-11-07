@@ -215,7 +215,7 @@ enum PickTime { START, END }
 void navigateToChooseSpotForDropPage(AddDropToRouteBloc bloc) {
   Get.to(ChooseSpotForDropPage(
     addSpot: (SpotCompanyResponse spot) {
-      bloc.add(FormChanged(spot: spot));
+      bloc.add(FormChanged(spot: spot, drop: bloc.state.drop.copyWith(spotId: spot.id)));
       //bloc.add(FormChanged(spot: spot, drop: bloc.state.drop.copyWith(spotId: spot.id)));
     },
   ));
