@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
 import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
-import 'package:drop_here_mobile/spots/ui/pages/spots_map_page.dart';
+import 'package:drop_here_mobile/spots/ui/pages/company_map_page.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:google_map_location_picker/google_map_location_picker.dart';

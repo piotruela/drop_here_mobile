@@ -1,34 +1,83 @@
 part of 'add_product_bloc.dart';
 
-abstract class AddProductEvent extends Equatable {
-  const AddProductEvent();
+abstract class ManageProductEvent extends Equatable {
+  const ManageProductEvent();
 }
 
-class FormChanged extends AddProductEvent {
-  final File photo;
-  final ProductManagementRequest productManagementRequest;
-
-  FormChanged({this.photo, this.productManagementRequest});
-
+class FormInitialized extends ManageProductEvent {
+  FormInitialized();
   @override
-  List<Object> get props => [photo, productManagementRequest];
+  List<Object> get props => [];
 }
 
-class FormSubmitted extends AddProductEvent {
-  final File photo;
-  final ProductManagementRequest productManagementRequest;
+class FormChanged extends ManageProductEvent {
+  final ProductManagementRequest product;
 
-  FormSubmitted({this.photo, this.productManagementRequest});
+  FormChanged({this.product});
 
   @override
-  List<Object> get props => [photo, productManagementRequest];
+  List<Object> get props => [product];
 }
 
-class FetchData extends AddProductEvent {
-  final List<String> categories;
+class CustomizationAdded extends ManageProductEvent {
+  final ProductCustomizationWrapperRequest customization;
 
-  FetchData({this.categories});
+  CustomizationAdded({this.customization});
 
   @override
-  List<Object> get props => [categories];
+  List<Object> get props => [customization];
+}
+
+class EditCustomization extends ManageProductEvent {
+  final int customizationIndex;
+  final ProductCustomizationWrapperRequest customization;
+
+  EditCustomization({this.customizationIndex, this.customization});
+
+  @override
+  List<Object> get props => [customizationIndex, customization];
+}
+
+class CustomizationRemoved extends ManageProductEvent {
+  final ProductCustomizationWrapperRequest customization;
+
+  CustomizationRemoved({this.customization});
+
+  @override
+  List<Object> get props => [customization];
+}
+
+class PhotoChanged extends ManageProductEvent {
+  final PickedFile photo;
+
+  PhotoChanged({this.photo});
+
+  @override
+  List<Object> get props => [photo];
+}
+
+class CategoryAdded extends ManageProductEvent {
+  final String addedCategory;
+
+  CategoryAdded({this.addedCategory});
+
+  @override
+  List<Object> get props => [addedCategory];
+}
+
+class CategoryRemoved extends ManageProductEvent {
+  CategoryRemoved();
+  @override
+  List<Object> get props => [];
+}
+
+class FormSubmitted extends ManageProductEvent {
+  final String productId;
+  final Image photo;
+  final ProductManagementRequest product;
+
+  FormSubmitted({this.productId, this.photo, this.product});
+
+  @override
+  List<Object> get props => [productId, photo, product];
 }

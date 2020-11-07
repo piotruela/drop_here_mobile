@@ -35,6 +35,7 @@ class RouteShortResponse {
   final String profileFirstName;
   final String profileLastName;
   final String profileUid;
+  final RouteStatus status;
 
   RouteShortResponse(
       {this.dropsAmount,
@@ -43,7 +44,8 @@ class RouteShortResponse {
       this.productsAmount,
       this.profileFirstName,
       this.profileLastName,
-      this.profileUid});
+      this.profileUid,
+      this.status});
 
   factory RouteShortResponse.fromJson(Map<String, dynamic> json) =>
       _$RouteShortResponseFromJson(json);

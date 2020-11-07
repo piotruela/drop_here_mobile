@@ -39,6 +39,9 @@ class AddRouteFormState extends Equatable {
       [routeRequest, isFilled, drops, products, sellerFirstName, sellerLastName];
 
   String sellerFullName() {
-    return sellerFirstName + ' ' + sellerLastName;
+    if (sellerFirstName != null && sellerLastName != null) {
+      return sellerFirstName + ' ' + sellerLastName;
+    }
+    return null;
   }
 }

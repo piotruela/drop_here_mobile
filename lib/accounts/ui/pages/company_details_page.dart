@@ -4,8 +4,10 @@ import 'package:drop_here_mobile/accounts/bloc/company_management_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/edit_company_details_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/login_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
@@ -22,38 +24,40 @@ class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
   @override
   Widget build(BuildContext context, CompanyManagementBloc bloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
-    return Column(
-      children: [
-        Padding(
-            padding: const EdgeInsets.only(top: 54.0),
-            child: BlocBuilder<CompanyManagementBloc, CompanyManagementState>(
-              buildWhen: (previous, current) => previous.runtimeType != current.runtimeType,
-              builder: (context, state) {
-                if (state is CompanyDetailsFetchingInProgress) {
-                  return CircularProgressIndicator();
-                }
-                if (state is CompanyDetailsFetched) {
-                  return SizedBox(width: 150, height: 150, child: ClipOval(child: state.image));
-                } else {
-                  return SizedBox.shrink();
-                }
-              },
-            )),
-        BlocBuilder<CompanyManagementBloc, CompanyManagementState>(
-          builder: (context, state) {
-            if (state is CompanyManagementInitial) {
-              return Center(child: CircularProgressIndicator());
-            } else if (state is CompanyDetailsFetchingInProgress) {
-              return Center(child: CircularProgressIndicator());
-            } else if (state is CompanyManagementFetchingError) {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          Padding(
+              padding: const EdgeInsets.only(top: 54.0),
+              child: BlocBuilder<CompanyManagementBloc, CompanyManagementState>(
+                buildWhen: (previous, current) => previous.runtimeType != current.runtimeType,
+                builder: (context, state) {
+                  if (state is CompanyDetailsFetchingInProgress) {
+                    return CircularProgressIndicator();
+                  }
+                  if (state is CompanyDetailsFetched) {
+                    return SizedBox(width: 150, height: 150, child: ClipOval(child: state.image));
+                  } else {
+                    return SizedBox.shrink();
+                  }
+                },
+              )),
+          BlocBuilder<CompanyManagementBloc, CompanyManagementState>(
+            builder: (context, state) {
+              if (state is CompanyManagementInitial) {
+                return Center(child: CircularProgressIndicator());
+              } else if (state is CompanyDetailsFetchingInProgress) {
+                return Center(child: CircularProgressIndicator());
+              } else if (state is CompanyManagementFetchingError) {
+                return Container();
+              } else if (state is CompanyDetailsFetched) {
+                return buildColumnWithData(locale, state, context, bloc);
+              }
               return Container();
-            } else if (state is CompanyDetailsFetched) {
-              return buildColumnWithData(locale, state, context, bloc);
-            }
-            return Container();
-          },
-        ),
-      ],
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -98,6 +102,11 @@ class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
         companyInfoTile(
             state, locale.registered, state.company.registered ? locale.yes : locale.no),
         companyInfoTile(state, locale.numberOfSellers, state.company.profilesCount.toString()),
+        ChoosableButton(
+          text: "Log out",
+          isChosen: false,
+          chooseAction: () => Get.offAll(LoginPage()),
+        )
       ],
     );
   }

@@ -1,7 +1,7 @@
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/create_new_item_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/spot_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
+import 'package:drop_here_mobile/common/ui/widgets/add_new_item_panel.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
 import 'package:drop_here_mobile/spots/bloc/company_spots_bloc.dart';
@@ -39,7 +39,7 @@ class CompanyMapPage extends BlocWidget<CompanySpotsBloc> {
             },
             fallbackBuilder: (_) => SizedBox.shrink()),
       ),
-      bottomNavigationBar: DHBottomBar(controller: addNewItemPanelController),
+      bottomNavigationBar: DHBottomBar(controller: addNewItemPanelController, selectedIndex: 2),
     );
   }
 
@@ -71,13 +71,8 @@ class CompanyMapPage extends BlocWidget<CompanySpotsBloc> {
                 widgetBuilder: (_) =>
                     _buildSpotDetailsPanel(state.spot, detailsPanelController, bloc, state.members),
                 fallbackBuilder: (_) => SizedBox.shrink())),
-        SlidingUpPanel(
+        AddNewItemPanel(
           controller: addNewItemPanelController,
-          panel: CreateNewItemPage(),
-          minHeight: 0,
-          maxHeight: 530,
-          borderRadius:
-              const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
         ),
       ],
     );

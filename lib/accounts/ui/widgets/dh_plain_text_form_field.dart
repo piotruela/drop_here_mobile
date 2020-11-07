@@ -6,8 +6,14 @@ class DhPlainTextFormField extends StatelessWidget {
   final void Function(String) onChanged;
   final VoidCallback onSuffixPressed;
   final String initialValue;
+  final bool isRequired;
   const DhPlainTextFormField(
-      {this.hintText, this.inputType, this.onChanged, this.initialValue, this.onSuffixPressed});
+      {this.hintText,
+      this.isRequired = false,
+      this.inputType,
+      this.onChanged,
+      this.initialValue,
+      this.onSuffixPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +24,8 @@ class DhPlainTextFormField extends StatelessWidget {
         onChanged: onChanged,
         keyboardType: inputType == InputType.number ? TextInputType.number : null,
         cursorColor: Colors.black,
+        validator: isRequired ? (value) => validator(value) : null,
         decoration: InputDecoration(
-          /*suffixIcon: IconButton(
-              icon: Icon(Icons.close),
-              onPressed:
-                  onSuffixPressed),*/ //TODO:Uncomment when fixed
           hintText: hintText,
           enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.grey),
@@ -33,6 +36,13 @@ class DhPlainTextFormField extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String validator(String value) {
+    if (value.isEmpty) {
+      return 'Value is required';
+    }
+    return null;
   }
 }
 

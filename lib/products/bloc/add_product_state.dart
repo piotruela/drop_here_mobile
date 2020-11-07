@@ -1,36 +1,33 @@
 part of 'add_product_bloc.dart';
 
-class AddProductFormState extends Equatable {
-  final ProductManagementRequest productManagementRequest;
-  final List<ProductCategoryResponse> categories;
-  final List<ProductUnitResponse> units;
-  final File photo;
-  const AddProductFormState(
-      {this.productManagementRequest, this.photo, this.categories, this.units});
+class ManageProductState extends Equatable {
+  final ManageProductStateType type;
+  final ProductManagementRequest product;
+  final Image photo;
+  final List<String> categories;
+  final List<String> unitTypes;
+  final String addedCategory;
 
-  AddProductFormState copyWith({
-    final ProductManagementRequest productManagementRequest,
-    final File photo,
-    final List<ProductCategoryResponse> categories,
-    final List<ProductUnitResponse> units,
-  }) {
-    return AddProductFormState(
-      photo: photo ?? this.photo,
-      productManagementRequest: productManagementRequest ?? this.productManagementRequest,
-      categories: categories ?? this.categories,
-      units: units ?? this.units,
-    );
-  }
-
-  bool isFilled() {
-    return productManagementRequest?.name != null &&
-        productManagementRequest?.unit != null &&
-        productManagementRequest?.price != null &&
-        //TODO add category
-        // productManagementRequest?.category != null &&
-        productManagementRequest?.unitFraction != null;
-  }
+  ManageProductState({this.type, this.product, this.photo, this.categories, this.unitTypes, this.addedCategory});
 
   @override
-  List<Object> get props => [productManagementRequest, photo, categories, units];
+  List<Object> get props => [type, product, photo, categories, unitTypes, addedCategory];
+
+  bool get isFormFilled =>
+      product.name != null &&
+      product.category != null &&
+      product.description != null &&
+      product.price != null &&
+      product.unit != null &&
+      product.unitFraction != null;
+}
+
+enum ManageProductStateType {
+  loading,
+  data_fetched,
+  form_changed,
+  fetching_error,
+  category_added,
+  category_removed,
+  added_successfully
 }

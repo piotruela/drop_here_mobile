@@ -99,6 +99,8 @@ abstract class LocaleBundle {
 
   String get description;
 
+  String get descriptionMandatory;
+
   String get unitTypeMandatory;
 
   String get pricePerUnitMandatory;
@@ -277,6 +279,10 @@ abstract class LocaleBundle {
 
   String get amount;
 
+  String get add;
+
+  String get addCategory;
+
   String get chooseSeller;
 
   String get date;
@@ -290,4 +296,6 @@ abstract class LocaleBundle {
   String get drops;
 
   String get pending;
+
+  String get routes;
 }

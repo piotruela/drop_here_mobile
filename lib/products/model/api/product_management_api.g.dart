@@ -75,8 +75,8 @@ ProductCustomizationWrapperRequest _$ProductCustomizationWrapperRequestFromJson(
             : ProductCustomizationRequest.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     heading: json['heading'] as String,
-    type: json['type'] as String,
-  );
+    type: _$enumDecodeNullable(_$CustomizationTypeEnumMap, json['type']),
+  )..required = json['required'] as bool;
 }
 
 Map<String, dynamic> _$ProductCustomizationWrapperRequestToJson(
@@ -84,8 +84,46 @@ Map<String, dynamic> _$ProductCustomizationWrapperRequestToJson(
     <String, dynamic>{
       'customizations': instance.customizations,
       'heading': instance.heading,
-      'type': instance.type,
+      'type': _$CustomizationTypeEnumMap[instance.type],
+      'required': instance.required,
     };
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$CustomizationTypeEnumMap = {
+  CustomizationType.SINGLE: 'SINGLE',
+  CustomizationType.MULTIPLE: 'MULTIPLE',
+};
 
 ProductCustomizationRequest _$ProductCustomizationRequestFromJson(
     Map<String, dynamic> json) {
