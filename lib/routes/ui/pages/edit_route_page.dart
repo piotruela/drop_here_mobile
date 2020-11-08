@@ -58,13 +58,15 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                   secondaryTitle(locale.nameMandatory),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
                     builder: (context, state) => DhPlainTextFormField(
-                      //hintText: locale.routeNameExample,
-                      initialValue: addRouteBloc.state.routeRequest.name,
-                      onChanged: (String name) {
-                        addRouteBloc.add(FormChanged(
-                            routeRequest: addRouteBloc.state.routeRequest.copyWith(name: name)));
-                      },
-                    ),
+                        //hintText: locale.routeNameExample,
+                        initialValue: addRouteBloc.state.routeRequest.name,
+                        onChanged: (value) => addRouteBloc.add(FormChanged(
+                            routeRequest: addRouteBloc.state.routeRequest.copyWith(name: value)))
+                        // onChanged: (String name) {
+                        //   addRouteBloc.add(FormChanged(
+                        //       routeRequest: addRouteBloc.state.routeRequest.copyWith(name: name)));
+                        // },
+                        ),
                   ),
                   secondaryTitle(locale.dateMandatory),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
@@ -98,7 +100,11 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                             fallbackBuilder: (_) => SellerCard(
                               title: state.sellerFullName(),
                               //TODO add popupOptions
-                              popupOptions: ['todo'],
+                              trailing: Icon(Icons.edit),
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                getToChoseSellerPage(addRouteBloc);
+                              },
                             ),
                           )),
                   SizedBox(height: 6.0),
@@ -144,6 +150,17 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
         ]),
       ),
     );
+  }
+
+  void getToChoseSellerPage(AddRouteBloc bloc) {
+    Get.to(ChooseSellerPage(
+      addSeller: (String profileUid, String sellerFirstName, String sellerLastName) {
+        bloc.add(FormChanged(
+            routeRequest: bloc.state.routeRequest.copyWith(profileUid: profileUid),
+            sellerFirstName: sellerFirstName,
+            sellerLastName: sellerLastName));
+      },
+    ));
   }
 
   Widget _buildDatePickerButton(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
