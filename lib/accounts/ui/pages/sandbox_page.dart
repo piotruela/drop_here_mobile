@@ -138,24 +138,18 @@ class SandboxPage extends StatelessWidget {
                 ),
                 FlatButton(
                     child: Text("Log in to company account"),
-                    onPressed: () =>
-                        authenticationService.authenticate(LoginRequest(mail: "zrobilem@g.pl", password: "12345678"))),
+                    onPressed: () => authenticationService.authenticate(LoginRequest(mail: "zrobilem@g.pl", password: "12345678"))),
                 FlatButton(
                     child: Text("Log in to admin profile"),
                     onPressed: () async {
                       List<ProfileInfoResponse> profileInfoResponse = await accountService.fetchProfiles();
                       authenticationService.loginToProfile(ProfileLoginRequest(
-                          profileUid: profileInfoResponse
-                              .firstWhere((element) => element.profileType == ProfileType.MAIN)
-                              .profileUid,
-                          password: "12345678"));
+                          profileUid: profileInfoResponse.firstWhere((element) => element.profileType == ProfileType.MAIN).profileUid, password: "12345678"));
                     }),
                 FlatButton(
                     child: Text("Log in to customer account"),
-                    onPressed: () =>
-                        authenticationService.authenticate(LoginRequest(mail: "klient@g.pl", password: "12345678"))),
-                FlatButton(
-                    child: Text("log out from account"), onPressed: () => authenticationService.logOutFromAccount()),
+                    onPressed: () => authenticationService.authenticate(LoginRequest(mail: "klient@g.pl", password: "12345678"))),
+                FlatButton(child: Text("log out from account"), onPressed: () => authenticationService.logOutFromAccount()),
                 FlatButton(child: Text("company spots map page"), onPressed: () => Get.to(CompanyMapPage())),
                 FlatButton(child: Text("customer spots map page"), onPressed: () => Get.offAll(CustomerMapPage())),
               ],

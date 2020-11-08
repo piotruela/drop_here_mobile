@@ -10,8 +10,8 @@ class LocalNotificationExecutiveService extends NotificationExecutiveService {
   FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
 
   final NotificationDetails _platformChannelSpecifics = new NotificationDetails(
-      android: new AndroidNotificationDetails('LocalNotificationsChannel1',
-          'LocalNotificationsChannel', 'Local notifications channel',
+      android: new AndroidNotificationDetails(
+          'LocalNotificationsChannel1', 'LocalNotificationsChannel', 'Local notifications channel',
           playSound: true, importance: Importance.max, priority: Priority.high),
       iOS: new IOSNotificationDetails(presentSound: true));
 
@@ -35,8 +35,7 @@ class LocalNotificationExecutiveService extends NotificationExecutiveService {
   Future<void> init(NotifyObservers notifyObserversFunction) {
     this._notifyObserversFunction = notifyObserversFunction;
 
-    var initializationSettingsAndroid =
-        new AndroidInitializationSettings('@mipmap/app_logo');
+    var initializationSettingsAndroid = new AndroidInitializationSettings('@mipmap/app_logo');
     var initializationSettingsIOS = new IOSInitializationSettings();
     var initializationSettings = new InitializationSettings(
         android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
@@ -57,10 +56,8 @@ class LocalNotificationExecutiveService extends NotificationExecutiveService {
   }
 
   Future<dynamic> onSelectNotification(String payload) async {
-    var previousNotification =
-        NotificationPayload.fromJson(jsonDecode(payload));
-    previousNotification.notificationType =
-        NotificationType.CLICKED_VIEW_NOT_DEFINED;
+    var previousNotification = NotificationPayload.fromJson(jsonDecode(payload));
+    previousNotification.notificationType = NotificationType.CLICKED_VIEW_NOT_DEFINED;
     _notifyObserversFunction.call(previousNotification);
   }
 }
