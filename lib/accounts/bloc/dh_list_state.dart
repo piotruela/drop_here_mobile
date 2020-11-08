@@ -36,8 +36,8 @@ class SellersFetched extends DhListState {
 }
 
 class ProductsFetched extends DhListState {
-  final List<ProductWithPhoto> products;
-  const ProductsFetched(this.products);
+  final List<ProductResponse> products;
+  const ProductsFetched({this.products});
 
   @override
   List<Object> get props => [products];

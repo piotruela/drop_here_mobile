@@ -58,6 +58,14 @@ class FetchProducts extends DhListEvent {
   List<Object> get props => [];
 }
 
+class DeleteProduct extends DhListEvent {
+  final int productId;
+  DeleteProduct({this.productId});
+
+  @override
+  List<Object> get props => [productId];
+}
+
 class FilterProducts extends DhListEvent {
   final String filter;
   FilterProducts({this.filter});
