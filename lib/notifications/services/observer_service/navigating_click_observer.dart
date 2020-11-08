@@ -20,7 +20,7 @@ class NavigatingClickObserver extends NotificationObserver {
         payload.notificationType == NotificationType.CLICKED_APP_TERMINATED;
   }
 
-  Future<void> handleSpotNotification(NotificationPayload payload) {
+  Future<void> _handleSpotNotification(NotificationPayload payload) {
     return Get.to(CustomerMapPage(
         spotDetailsOnLoadEvent: new FetchSpotDetailsEvent(spotUid: payload.referencedSubjectId)));
   }
@@ -28,12 +28,12 @@ class NavigatingClickObserver extends NotificationObserver {
   Future<void> _handleClickedNotification(NotificationPayload payload) {
     switch (payload.referencedSubjectType) {
       case ReferencedSubjectType.DROP:
-        //todo przekierowanie na drop (np. gdy zmienił status - notyfikacje do klienta)
+        //todo piotruela przekierowanie na drop (np. gdy zmienił status - notyfikacje do klienta)
       case ReferencedSubjectType.SHIPMENT:
-        //todo przekierowanie na shipment
+        //todo piotruela przekierowanie na shipment (dla firmy i klienta)
         break;
       case ReferencedSubjectType.SPOT:
-        return handleSpotNotification(payload);
+        return _handleSpotNotification(payload);
       case ReferencedSubjectType.UNKNOWN:
       case ReferencedSubjectType.EMPTY:
       default:

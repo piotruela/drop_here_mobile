@@ -9,22 +9,16 @@ import 'package:get/get.dart';
 class NotificationsConfigurationService {
   final NotificationExecutiveServiceFactory _executiveServiceFactory =
       Get.find<NotificationExecutiveServiceFactory>();
-  final NotificationObserverFactory _observerFactory =
-      Get.find<NotificationObserverFactory>();
-  final NotificationsService _notificationsService =
-      Get.find<NotificationsService>();
+  final NotificationObserverFactory _observerFactory = Get.find<NotificationObserverFactory>();
+  final NotificationsService _notificationsService = Get.find<NotificationsService>();
 
-  //todo use macias
-  //todo ogarnac inicjkalizacje podczas startu apki macias
   Future<void> configureNotifications() {
     return Future.wait(_executiveServiceFactory
         .getPushNotificationsExecutiveServices()
-        .map((executor) async =>
-            await configureNotificationExecutiveService(executor)));
+        .map((executor) async => await _configureNotificationExecutiveService(executor)));
   }
 
-  Future configureNotificationExecutiveService(
-      NotificationExecutiveService executor) async {
+  Future _configureNotificationExecutiveService(NotificationExecutiveService executor) async {
     return await executor
         .init(_observersNotificator)
         .asStream()
@@ -33,7 +27,9 @@ class NotificationsConfigurationService {
         .map((token) => new NotificationTokenManagementRequest(
             broadcastingServiceType: executor.getServiceType(), token: token))
         .asyncMap((request) => _notificationsService.updateToken(request))
-        .drain();
+        .drain()
+        .catchError((error) =>
+            print('Failed to configure ${executor.runtimeType} ${error.toString()}'));
   }
 
   Future<void> _observersNotificator(NotificationPayload payload) async {

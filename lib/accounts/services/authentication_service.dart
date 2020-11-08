@@ -1,14 +1,13 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:drop_here_mobile/accounts/model/api/authentication_api.dart';
+import 'package:drop_here_mobile/app_storage/app_storage_service.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
 import 'package:get/get.dart';
 
 class AuthenticationService {
   final DhHttpClient _httpClient = Get.find<DhHttpClient>();
-
-  AuthenticationService();
+  final AppStorageService _appStorageService = Get.find<AppStorageService>();
 
   Future<LoginResponse> authenticationInfo() async {
     dynamic response = await _httpClient.get(
@@ -23,26 +22,23 @@ class AuthenticationService {
           body: json.encode(loginRequest.toJson()),
           path: '/authentication',
           out: (dynamic json) => (json));
-      print(response['token']);
-      _httpClient.setHttpHeader(HttpHeaders.authorizationHeader, "Bearer ${response['token']}");
-      return LoginResponse.fromJson(response);
+      var loginResponse = LoginResponse.fromJson(response);
+      return await _appStorageService.successfullyLoggedIn(loginResponse);
     } catch (error) {
       throw Exception();
     }
   }
 
-  void logOutFromAccount() {
-    _httpClient.clearHttpHeader("authorization");
-    return;
+  Future<void> logOutFromAccount() async {
+    return await _appStorageService.loggedOut();
   }
 
   Future<LoginResponse> logOutFromProfile() async {
     try {
-      Map<String, dynamic> response = await _httpClient.delete(
+      final Map<String, dynamic> response = await _httpClient.delete(
           canRepeatRequest: true, path: '/authentication/profile', out: (dynamic json) => (json));
-      print(response['token']);
-      _httpClient.setHttpHeader(HttpHeaders.authorizationHeader, "Bearer ${response['token']}");
-      return LoginResponse.fromJson(response);
+      var loginResponse = LoginResponse.fromJson(response);
+      return await _appStorageService.successfullyLoggedIn(loginResponse);
     } catch (error) {
       return LoginResponse()..token = '-1';
     }
@@ -55,9 +51,8 @@ class AuthenticationService {
           body: json.encode(profileLoginRequest.toJson()),
           path: "/authentication/profile",
           out: (dynamic json) => json);
-      print(response['token']);
-      _httpClient.setHttpHeader(HttpHeaders.authorizationHeader, "Bearer ${response['token']}");
-      return LoginResponse.fromJson(response);
+      var loginResponse = LoginResponse.fromJson(response);
+      return await _appStorageService.successfullyLoggedIn(loginResponse);
     } catch (Error) {
       throw Exception();
     }
