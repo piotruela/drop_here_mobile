@@ -122,7 +122,14 @@ CompanyCustomerResponse _$CompanyCustomerResponseFromJson(
     ..firstName = json['firstName'] as String
     ..lastName = json['lastName'] as String
     ..relationshipStatus = _$enumDecodeNullable(
-        _$MembershipStatusEnumMap, json['relationshipStatus']);
+        _$MembershipStatusEnumMap, json['relationshipStatus'])
+    ..companyCustomerSpotMemberships =
+        (json['companyCustomerSpotMemberships'] as List)
+            ?.map((e) => e == null
+                ? null
+                : CompanyCustomerSpotMembershipResponse.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList();
 }
 
 Map<String, dynamic> _$CompanyCustomerResponseToJson(
@@ -133,6 +140,7 @@ Map<String, dynamic> _$CompanyCustomerResponseToJson(
       'lastName': instance.lastName,
       'relationshipStatus':
           _$MembershipStatusEnumMap[instance.relationshipStatus],
+      'companyCustomerSpotMemberships': instance.companyCustomerSpotMemberships,
     };
 
 const _$MembershipStatusEnumMap = {

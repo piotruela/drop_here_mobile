@@ -69,14 +69,11 @@ Map<String, dynamic> _$ProductManagementRequestToJson(
 ProductCustomizationWrapperRequest _$ProductCustomizationWrapperRequestFromJson(
     Map<String, dynamic> json) {
   return ProductCustomizationWrapperRequest(
-    customizations: (json['customizations'] as List)
-        ?.map((e) => e == null
-            ? null
-            : ProductCustomizationRequest.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
+    customizations: json['customizations'],
     heading: json['heading'] as String,
     type: _$enumDecodeNullable(_$CustomizationTypeEnumMap, json['type']),
-  )..required = json['required'] as bool;
+    required: json['required'] as bool,
+  );
 }
 
 Map<String, dynamic> _$ProductCustomizationWrapperRequestToJson(

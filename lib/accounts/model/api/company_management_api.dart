@@ -87,6 +87,7 @@ class CompanyCustomerResponse {
   String firstName;
   String lastName;
   MembershipStatus relationshipStatus;
+  List<CompanyCustomerSpotMembershipResponse> companyCustomerSpotMemberships;
 
   CompanyCustomerResponse();
 
