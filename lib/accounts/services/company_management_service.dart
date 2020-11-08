@@ -6,6 +6,7 @@ import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart'
 import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/seller.dart';
+import 'package:drop_here_mobile/app_storage/app_storage_service.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
@@ -14,6 +15,7 @@ import 'package:get/get.dart';
 
 class CompanyManagementService {
   final DhHttpClient _httpClient = Get.find<DhHttpClient>();
+  final AppStorageService _appStorage = Get.find<AppStorageService>();
 
   CompanyManagementService();
 
@@ -63,10 +65,10 @@ class CompanyManagementService {
     try {
       File loadedFile = await file;
       Dio dio = new Dio();
-      dio.options.headers[HttpHeaders.authorizationHeader] = _httpClient.token;
+      dio.options.headers[HttpHeaders.authorizationHeader] = _appStorage.authorizationHeader;
       MultipartFile multipartFile = await MultipartFile.fromFile(loadedFile.path);
       FormData formData = FormData.fromMap({"image": multipartFile});
-      await dio.post("https://drop-here.herokuapp.com/management/companies/images", data: formData);
+      await dio.post("${_httpClient.baseUrl}/management/companies/images", data: formData);
       return;
     } catch (error) {
       return;
@@ -76,8 +78,8 @@ class CompanyManagementService {
   Future<Image> getCompanyPhoto() async {
     String companyId = await getCompanyId();
     return Image.network(
-      "https://drop-here.herokuapp.com/companies/$companyId/images",
-      headers: {"authorization": "${_httpClient.token}"},
+      "${_httpClient.baseUrl}/companies/$companyId/images",
+      headers: {"authorization": "${_appStorage.authorizationHeader}"},
       errorBuilder: (context, _, __) => FittedBox(
           child: CircleAvatar(
               backgroundColor: Colors.white, child: Icon(Icons.person, color: Colors.black))),

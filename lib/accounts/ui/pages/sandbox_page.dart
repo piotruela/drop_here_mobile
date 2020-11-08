@@ -42,7 +42,6 @@ class SandboxPage extends StatelessWidget {
   final SpotsUserService spotsUserService = Get.find<SpotsUserService>();
 
   final picker = ImagePicker();
-  NetworkImage img;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +97,9 @@ class SandboxPage extends StatelessWidget {
                                   required: true,
                                   heading: "Korek",
                                   type: CustomizationType.SINGLE,
-                                  customizations: [ProductCustomizationRequest(value: "czarny", price: 20)])
+                                  customizations: [
+                                    ProductCustomizationRequest(value: "czarny", price: 20)
+                                  ])
                             ]),
                       ));
                     }),
@@ -132,12 +133,13 @@ class SandboxPage extends StatelessWidget {
                 ),
                 FlatButton(
                     child: Text("Log in to company account"),
-                    onPressed: () =>
-                        authenticationService.authenticate(LoginRequest(mail: "zrobilem@g.pl", password: "12345678"))),
+                    onPressed: () => authenticationService
+                        .authenticate(LoginRequest(mail: "zrobilem@g.pl", password: "12345678"))),
                 FlatButton(
                     child: Text("Log in to admin profile"),
                     onPressed: () async {
-                      List<ProfileInfoResponse> profileInfoResponse = await accountService.fetchProfiles();
+                      List<ProfileInfoResponse> profileInfoResponse =
+                          await accountService.fetchProfiles();
                       authenticationService.loginToProfile(ProfileLoginRequest(
                           profileUid: profileInfoResponse
                               .firstWhere((element) => element.profileType == ProfileType.MAIN)
@@ -146,12 +148,17 @@ class SandboxPage extends StatelessWidget {
                     }),
                 FlatButton(
                     child: Text("Log in to customer account"),
-                    onPressed: () =>
-                        authenticationService.authenticate(LoginRequest(mail: "klient@g.pl", password: "12345678"))),
+                    onPressed: () => authenticationService
+                        .authenticate(LoginRequest(mail: "klient@g.pl", password: "12345678"))),
                 FlatButton(
-                    child: Text("log out from account"), onPressed: () => authenticationService.logOutFromAccount()),
-                FlatButton(child: Text("company spots map page"), onPressed: () => Get.to(CompanyMapPage())),
-                FlatButton(child: Text("customer spots map page"), onPressed: () => Get.offAll(CustomerMapPage())),
+                    child: Text("log out from account"),
+                    onPressed: () => authenticationService.logOutFromAccount()),
+                FlatButton(
+                    child: Text("company spots map page"),
+                    onPressed: () => Get.to(CompanyMapPage())),
+                FlatButton(
+                    child: Text("customer spots map page"),
+                    onPressed: () => Get.offAll(CustomerMapPage())),
               ],
             ),
           ),
