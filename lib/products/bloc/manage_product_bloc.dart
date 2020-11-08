@@ -10,8 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-part 'add_product_event.dart';
-part 'add_product_state.dart';
+part 'manage_product_event.dart';
+part 'manage_product_state.dart';
 
 class ManageProductBloc extends Bloc<ManageProductEvent, ManageProductState> {
   final ProductManagementService productManagementService = Get.find<ProductManagementService>();
@@ -27,7 +27,7 @@ class ManageProductBloc extends Bloc<ManageProductEvent, ManageProductState> {
   Stream<ManageProductState> mapEventToState(ManageProductEvent event) async* {
     if (event is FormInitialized) {
       final List<String> categories = await productManagementService.getCategories();
-      final List<String> units = await productManagementService.getUnits();
+      final List<ProductUnitResponse> units = await productManagementService.getUnits();
       yield ManageProductState(
           type: ManageProductStateType.data_fetched,
           product: state.product,

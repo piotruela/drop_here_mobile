@@ -7,10 +7,9 @@ import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:drop_here_mobile/accounts/services/customer_management_service.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/add_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_route_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/home_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/manage_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/product_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
@@ -55,9 +54,30 @@ class SandboxPage extends StatelessWidget {
             child: Column(
               children: [
                 FlatButton(
-                    child: Text("add product"),
+                    child: Text("Add product"),
                     onPressed: () {
                       Get.to(AddProductPage());
+                    }),
+                FlatButton(
+                    child: Text("edit product"),
+                    onPressed: () {
+                      Get.to(EditProductPage(
+                        productIdentify: "12",
+                        initialProduct: ProductManagementRequest(
+                            category: "MOET",
+                            name: "CHAMPAGNE",
+                            description: "Desc",
+                            price: 4.0,
+                            //unit: ProductUnitResponse(name: "kg", fractionable: true),
+                            unitFraction: 1,
+                            productCustomizationWrappers: [
+                              ProductCustomizationWrapperRequest(
+                                  required: true,
+                                  heading: "Korek",
+                                  type: CustomizationType.SINGLE,
+                                  customizations: [ProductCustomizationRequest(value: "czarny", price: 20)])
+                            ]),
+                      ));
                     }),
                 FlatButton(
                     child: Text("routes list"),
@@ -81,33 +101,6 @@ class SandboxPage extends StatelessWidget {
                         addDrop: () {},
                       ));
                     }),
-                FlatButton(
-                    child: Text("edit product"),
-                    onPressed: () {
-                      Get.to(EditProductPage(
-                        productIdentify: "12",
-                        initialProduct: ProductManagementRequest(
-                            category: "MOET",
-                            name: "CHAMPAGNE",
-                            description: "Desc",
-                            price: 4.0,
-                            unit: 'kg',
-                            unitFraction: 1,
-                            productCustomizationWrappers: [
-                              ProductCustomizationWrapperRequest(
-                                  required: true,
-                                  heading: "Korek",
-                                  type: CustomizationType.SINGLE,
-                                  customizations: [ProductCustomizationRequest(value: "czarny", price: 20)])
-                            ]),
-                      ));
-                    }),
-                FlatButton(
-                  child: Text("home page"),
-                  onPressed: () {
-                    Get.to(Home());
-                  },
-                ),
                 FlatButton(
                   child: Text("product details page"),
                   onPressed: () {

@@ -1,4 +1,4 @@
-part of 'add_product_bloc.dart';
+part of 'manage_product_bloc.dart';
 
 abstract class ManageProductEvent extends Equatable {
   const ManageProductEvent();

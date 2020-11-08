@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'product_management_api.g.dart';
 
 @JsonSerializable()
-class ProductResponse extends ProductManagementRequest {
+class ProductResponse {
   final int id;
   final String category;
   final String description;
@@ -33,8 +33,8 @@ class ProductManagementRequest {
   final String description;
   final String name;
   final double price;
-  final List<ProductCustomizationWrapperRequest> productCustomizationWrappers;
-  final String unit;
+  List<ProductCustomizationWrapperRequest> productCustomizationWrappers;
+  final ProductUnitResponse unit;
   final double unitFraction;
 
   ProductManagementRequest(
@@ -55,7 +55,7 @@ class ProductManagementRequest {
       String name,
       double price,
       List<ProductCustomizationWrapperRequest> productCustomizationWrappers,
-      String unit,
+      ProductUnitResponse unit,
       double unitFraction}) {
     return ProductManagementRequest(
       category: category ?? this.category,

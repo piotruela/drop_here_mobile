@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/add_product_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/manage_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/edit_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';

@@ -9,7 +9,7 @@ import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/common/ui/widgets/info_text.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
-import 'package:drop_here_mobile/products/bloc/add_product_bloc.dart';
+import 'package:drop_here_mobile/products/bloc/manage_product_bloc.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/products/ui/widgets/customization_dialog.dart';
 import 'package:flutter/material.dart';
@@ -147,33 +147,44 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
               (value) => bloc.add(FormChanged(product: bloc.state.product.copyWith(description: value))),
               bloc.state.product.description),
           _sectionTitle(localeBundle.unitTypeMandatory),
-          DropdownButton<String>(
+          DropdownButton<ProductUnitResponse>(
               isExpanded: true,
-              onChanged: (String unit) {
+              onChanged: (ProductUnitResponse unit) {
                 FocusScope.of(context).requestFocus(FocusNode());
-                return bloc.add(FormChanged(product: bloc.state.product.copyWith(unit: unit)));
+                return bloc.add(FormChanged(
+                    product: bloc.state.product.copyWith(
+                        unit: unit,
+                        productCustomizationWrappers:
+                            unit.fractionable ? [] : bloc.state.product.productCustomizationWrappers)));
               },
               value: bloc.state.product?.unit,
               icon: Icon(Icons.arrow_drop_down),
               items: [
-                for (String unit in bloc.state.unitTypes)
-                  DropdownMenuItem<String>(
+                for (ProductUnitResponse unit in bloc.state.unitTypes)
+                  DropdownMenuItem<ProductUnitResponse>(
                     value: unit,
-                    child: Text(unit),
+                    child: Text(unit.name),
                   )
               ]),
+          Conditional.single(
+              context: context,
+              conditionBuilder: (_) => bloc.state.product?.unit != null,
+              widgetBuilder: (_) => _field(
+                  localeBundle.unitFractionMandatory,
+                  (bloc.state.product.unit.fractionable
+                      ? localeBundle.unitFractionFractionableExample
+                      : localeBundle.unitFractionNonFractionableExample),
+                  InputType.number,
+                  (value) =>
+                      bloc.add(FormChanged(product: bloc.state.product.copyWith(unitFraction: double.parse(value)))),
+                  bloc.state.product?.unitFraction?.toString() ?? ""),
+              fallbackBuilder: (_) => SizedBox.shrink()),
           _field(
               localeBundle.pricePerUnitMandatory,
               localeBundle.pricePerUnitExample,
               InputType.number,
               (value) => bloc.add(FormChanged(product: bloc.state.product.copyWith(price: double.parse(value)))),
               bloc.state.product?.price?.toString() ?? ""),
-          _field(
-              localeBundle.unitFractionMandatory,
-              localeBundle.unitFractionExample,
-              InputType.number,
-              (value) => bloc.add(FormChanged(product: bloc.state.product.copyWith(unitFraction: double.parse(value)))),
-              bloc.state.product?.unitFraction?.toString() ?? ""),
           _sectionTitle("Customizations"),
           SizedBox(
             height: 4.0,
@@ -181,19 +192,23 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
           _customizationsList(context, bloc, bloc.state.product.productCustomizationWrappers),
           Wrap(
             children: [
-              ChoosableButton(
-                text: "Add customization +",
-                isChosen: false,
-                chooseAction: () async {
-                  FocusScope.of(context).requestFocus(FocusNode());
-                  ProductCustomizationWrapperRequest customization = await showDialog(
-                      context: context,
-                      child: CustomizationDialog(customization: ProductCustomizationWrapperRequest()));
-                  if (customization != null) {
-                    bloc.add(CustomizationAdded(customization: customization));
-                  }
-                },
-              ),
+              Conditional.single(
+                  context: context,
+                  conditionBuilder: (_) => bloc.state.product?.unit?.fractionable,
+                  widgetBuilder: (_) => InfoText(text: "You cannot create customization for fractionable product"),
+                  fallbackBuilder: (_) => ChoosableButton(
+                        text: "Add customization +",
+                        isChosen: false,
+                        chooseAction: () async {
+                          FocusScope.of(context).requestFocus(FocusNode());
+                          ProductCustomizationWrapperRequest customization = await showDialog(
+                              context: context,
+                              child: CustomizationDialog(customization: ProductCustomizationWrapperRequest()));
+                          if (customization != null) {
+                            bloc.add(CustomizationAdded(customization: customization));
+                          }
+                        },
+                      ))
             ],
           ),
           BlocBuilder<ManageProductBloc, ManageProductState>(
