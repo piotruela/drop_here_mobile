@@ -113,6 +113,7 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                     buildWhen: (previous, current) =>
                         previous.routeRequest.description != current.routeRequest.description,
                     builder: (context, state) => DhTextArea(
+                      initialValue: addRouteBloc.state.routeRequest.description,
                       onChanged: (String description) {
                         addRouteBloc.add(FormChanged(
                             routeRequest: addRouteBloc.state.routeRequest
