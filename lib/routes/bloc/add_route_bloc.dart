@@ -92,6 +92,15 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
         drops: drops,
       );
     } else if (event is FormSubmitted) {
+      rewriteLists(event);
+      var response = await routeManagementService.createRoute(event.routeRequest);
+      print(response);
+      Get.back();
+    } else if (event is UpdateRoute) {}
+  }
+
+  void rewriteLists(AddRouteEvent event) {
+    if (event is FormSubmitted) {
       for (LocalProduct p in state.products) {
         event.routeRequest.products.add(RouteProductRequest(
             price: p.price, amount: p.amount, limitedAmount: !p.unlimited, productId: p.id));
@@ -105,9 +114,22 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
           endTime: d.endTime,
         ));
       }
-      var response = await routeManagementService.createRoute(event.routeRequest);
-      print(response);
-      Get.back();
+    }
+    //XDDDDDDDDDDDDDDDDDDDDDDDD
+    if (event is UpdateRoute) {
+      for (LocalProduct p in state.products) {
+        event.routeRequest.products.add(RouteProductRequest(
+            price: p.price, amount: p.amount, limitedAmount: !p.unlimited, productId: p.id));
+      }
+      for (LocalDrop d in state.drops) {
+        event.routeRequest.drops.add(RouteDropRequest(
+          name: d.name,
+          spotId: d.spotId,
+          description: d.description,
+          startTime: d.startTime,
+          endTime: d.endTime,
+        ));
+      }
     }
   }
 }

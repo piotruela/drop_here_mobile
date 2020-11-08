@@ -24,6 +24,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class EditRoutePage extends BlocWidget<AddRouteBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -55,13 +56,15 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   secondaryTitle(locale.nameMandatory),
-                  DhPlainTextFormField(
-                    hintText: locale.routeNameExample,
-                    initialValue: addRouteBloc.state.routeRequest.name,
-                    onChanged: (String name) {
-                      addRouteBloc.add(FormChanged(
-                          routeRequest: addRouteBloc.state.routeRequest.copyWith(name: name)));
-                    },
+                  BlocBuilder<AddRouteBloc, AddRouteFormState>(
+                    builder: (context, state) => DhPlainTextFormField(
+                      //hintText: locale.routeNameExample,
+                      initialValue: addRouteBloc.state.routeRequest.name,
+                      onChanged: (String name) {
+                        addRouteBloc.add(FormChanged(
+                            routeRequest: addRouteBloc.state.routeRequest.copyWith(name: name)));
+                      },
+                    ),
                   ),
                   secondaryTitle(locale.dateMandatory),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
@@ -80,8 +83,8 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                               ))),
                   secondaryTitle(locale.dropsMandatory),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
-                      builder: (context, state) => dropsCarousel(
-                          locale, addRouteBloc.state.routeRequest.drops, addRouteBloc)),
+                      builder: (context, state) =>
+                          dropsCarousel(locale, addRouteBloc.state.drops, addRouteBloc)),
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.assignedSeller),
                   SizedBox(height: 6.0),
@@ -242,7 +245,8 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                         width: 3.0,
                       ),
                       Text(
-                        drop.startTime ?? '',
+                        DateFormat.Hm().format(DateTime.parse(drop.startTime ?? '')),
+                        //drop.startTime?. ?? '',
                         style: themeConfig.textStyles.title3Annotation,
                       ),
                     ],
@@ -260,7 +264,7 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                         width: 3.0,
                       ),
                       Text(
-                        drop.endTime ?? '',
+                        DateFormat.Hm().format(DateTime.parse(drop.endTime ?? '')),
                         style: themeConfig.textStyles.title3Annotation,
                       ),
                     ],
@@ -309,31 +313,58 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
         ]);
   }
 
-  CarouselSlider productsCarousel(LocaleBundle locale, AddRouteBloc bloc) {
-    return CarouselSlider(
-        options: CarouselOptions(
-          aspectRatio: 16 / 7.4,
-          enableInfiniteScroll: false,
-          viewportFraction: 0.38,
-          initialPage: 0,
-        ),
-        items: [
-          for (LocalProduct product in bloc.state.products ?? [])
-            productCard(
-              locale: locale,
-              product: product,
-            ),
-          GestureDetector(
-            onTap: () async {
-              bloc.add(AddProducts(
-                  products: await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));
-            },
-            child: IconInCircle(
-              themeConfig: themeConfig,
-              icon: Icons.add,
-            ),
-          )
-        ]);
+  BlocBuilder productsCarousel(LocaleBundle locale, AddRouteBloc bloc) {
+    return BlocBuilder<AddRouteBloc, AddRouteFormState>(
+        buildWhen: (previous, current) => previous.products != current.products,
+        builder: (context, state) => CarouselSlider(
+                options: CarouselOptions(
+                  aspectRatio: 16 / 7.4,
+                  enableInfiniteScroll: false,
+                  viewportFraction: 0.38,
+                  initialPage: 0,
+                ),
+                items: [
+                  for (LocalProduct product in bloc.state.products ?? [])
+                    productCard(
+                      locale: locale,
+                      product: product,
+                    ),
+                  GestureDetector(
+                    onTap: () async {
+                      bloc.add(AddProducts(
+                          products:
+                              await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));
+                    },
+                    child: IconInCircle(
+                      themeConfig: themeConfig,
+                      icon: Icons.add,
+                    ),
+                  )
+                ]));
+    // return CarouselSlider(
+    //     options: CarouselOptions(
+    //       aspectRatio: 16 / 7.4,
+    //       enableInfiniteScroll: false,
+    //       viewportFraction: 0.38,
+    //       initialPage: 0,
+    //     ),
+    //     items: [
+    //       for (LocalProduct product in bloc.state.products ?? [])
+    //         productCard(
+    //           locale: locale,
+    //           product: product,
+    //         ),
+    //       GestureDetector(
+    //         onTap: () async {
+    //           bloc.add(AddProducts(
+    //               products: await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));
+    //         },
+    //         child: IconInCircle(
+    //           themeConfig: themeConfig,
+    //           icon: Icons.add,
+    //         ),
+    //       )
+    //     ]);
   }
 
   Widget productCard({File photo, LocalProduct product, LocaleBundle locale}) {
