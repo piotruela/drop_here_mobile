@@ -41,7 +41,6 @@ class SandboxPage extends StatelessWidget {
   final SpotsUserService spotsUserService = Get.find<SpotsUserService>();
 
   final picker = ImagePicker();
-  NetworkImage img;
 
   @override
   Widget build(BuildContext context) {

@@ -40,7 +40,6 @@ class Log {
 
   factory Log.nonReporting(String name) {
     final String exclusionName = "NonReporting" + name;
-//    logsExcludedFromLoggingToCrashLogger.putIfAbsent(name, () => exclusionName);
     return Log._(Logger(exclusionName));
   }
 

@@ -93,7 +93,7 @@ class ProductManagementService {
 
   Future<Image> getProductPhoto(String productId) async {
     String companyId = await _companyManagementService.getCompanyId();
-    return Image.network("https://drop-here.herokuapp.com/companies/$companyId/products/$productId/images",
+    return Image.network("${_httpClient.baseUrl}/companies/$companyId/products/$productId/images",
         errorBuilder: (context, _, __) => FittedBox(
                 child: IconInCircle(
               themeConfig: Get.find<ThemeConfig>(),
