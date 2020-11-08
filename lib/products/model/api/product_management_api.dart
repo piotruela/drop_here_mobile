@@ -1,3 +1,4 @@
+import 'package:drop_here_mobile/common/ui/utils/datetime_utils.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'product_management_api.g.dart';
@@ -9,9 +10,21 @@ class ProductResponse {
   final String description;
   final String name;
   final double price;
-  final List<ProductCustomizationWrapperRequest> productCustomizationWrappers;
+  final List<DropProductResponse> drops;
+  final List<ProductCustomizationWrapperResponse> productCustomizationWrappers;
   final String unit;
   final double unitFraction;
+
+  String get productPrice => "${price.toString()} zł";
+
+  ProductManagementRequest toRequest() => ProductManagementRequest(
+      category: category,
+      description: description,
+      name: name,
+      price: price,
+      unit: unit,
+      unitFraction: unitFraction,
+      productCustomizationWrappers: []);
 
   ProductResponse(
       {this.id,
@@ -19,6 +32,7 @@ class ProductResponse {
       this.description,
       this.name,
       this.price,
+      this.drops,
       this.productCustomizationWrappers,
       this.unit,
       this.unitFraction});
@@ -34,7 +48,7 @@ class ProductManagementRequest {
   final String name;
   final double price;
   List<ProductCustomizationWrapperRequest> productCustomizationWrappers;
-  final ProductUnitResponse unit;
+  final String unit;
   final double unitFraction;
 
   ProductManagementRequest(
@@ -55,7 +69,7 @@ class ProductManagementRequest {
       String name,
       double price,
       List<ProductCustomizationWrapperRequest> productCustomizationWrappers,
-      ProductUnitResponse unit,
+      String unit,
       double unitFraction}) {
     return ProductManagementRequest(
       category: category ?? this.category,
@@ -129,10 +143,12 @@ class Product {
 
 @JsonSerializable()
 class ProductCustomizationWrapperResponse {
+  final int id;
   final List<ProductCustomizationResponse> customizations;
   final String heading;
-  final String type;
-  ProductCustomizationWrapperResponse({this.customizations, this.heading, this.type});
+  final bool required;
+  final CustomizationType type;
+  ProductCustomizationWrapperResponse({this.id, this.customizations, this.heading, this.required, this.type});
   factory ProductCustomizationWrapperResponse.fromJson(Map<String, dynamic> json) =>
       _$ProductCustomizationWrapperResponseFromJson(json);
   Map<String, dynamic> toJson() => _$ProductCustomizationWrapperResponseToJson(this);
@@ -148,10 +164,13 @@ class ProductCustomizationWrapperResponse {
 
 @JsonSerializable()
 class ProductCustomizationResponse {
+  final int id;
   final double price;
   final String value;
 
-  ProductCustomizationResponse({this.price, this.value});
+  ProductCustomizationResponse({this.id, this.price, this.value});
+
+  String get priceWithCurrency => "$price zł";
 
   factory ProductCustomizationResponse.fromJson(Map<String, dynamic> json) =>
       _$ProductCustomizationResponseFromJson(json);
@@ -182,4 +201,60 @@ class ProductUnitResponse {
 
   factory ProductUnitResponse.fromJson(Map<String, dynamic> json) => _$ProductUnitResponseFromJson(json);
   Map<String, dynamic> toJson() => _$ProductUnitResponseToJson(this);
+}
+
+@JsonSerializable()
+class DropProductResponse {
+  String uid;
+  String name;
+  RouteProductProductResponse routeProduct;
+  String description;
+  DropStatus status;
+  DateTime startTime;
+  DateTime endTime;
+  String spotUid;
+  String spotName;
+  double spotXCoordinate;
+  double spotYCoordinate;
+  int spotEstimatedRadiusMeters;
+  String spotDescription;
+
+  DropProductResponse(
+      {this.uid,
+      this.name,
+      this.routeProduct,
+      this.description,
+      this.status,
+      this.startTime,
+      this.endTime,
+      this.spotUid,
+      this.spotName,
+      this.spotXCoordinate,
+      this.spotYCoordinate,
+      this.spotEstimatedRadiusMeters,
+      this.spotDescription});
+
+  String get durationTime => "${startTime.toTime()} - ${endTime.toTime()}";
+
+  factory DropProductResponse.fromJson(Map<String, dynamic> json) => _$DropProductResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$DropProductResponseToJson(this);
+}
+
+enum DropStatus { UNPREPARED, PREPARED, DELAYED, CANCELLED, FINISHED, LIVE }
+
+@JsonSerializable()
+class RouteProductProductResponse {
+  int id;
+  double amount;
+  bool limitedAmount;
+  int originalProductId;
+  double price;
+
+  RouteProductProductResponse({this.id, this.amount, this.limitedAmount, this.originalProductId, this.price});
+
+  String get availableAmount => "Available: ${limitedAmount ? amount : "unlimited"}";
+
+  factory RouteProductProductResponse.fromJson(Map<String, dynamic> json) =>
+      _$RouteProductProductResponseFromJson(json);
+  Map<String, dynamic> toJson() => _$RouteProductProductResponseToJson(this);
 }

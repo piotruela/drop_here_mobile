@@ -13,10 +13,15 @@ ProductResponse _$ProductResponseFromJson(Map<String, dynamic> json) {
     description: json['description'] as String,
     name: json['name'] as String,
     price: (json['price'] as num)?.toDouble(),
+    drops: (json['drops'] as List)
+        ?.map((e) => e == null
+            ? null
+            : DropProductResponse.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     productCustomizationWrappers: (json['productCustomizationWrappers'] as List)
         ?.map((e) => e == null
             ? null
-            : ProductCustomizationWrapperRequest.fromJson(
+            : ProductCustomizationWrapperResponse.fromJson(
                 e as Map<String, dynamic>))
         ?.toList(),
     unit: json['unit'] as String,
@@ -31,6 +36,7 @@ Map<String, dynamic> _$ProductResponseToJson(ProductResponse instance) =>
       'description': instance.description,
       'name': instance.name,
       'price': instance.price,
+      'drops': instance.drops,
       'productCustomizationWrappers': instance.productCustomizationWrappers,
       'unit': instance.unit,
       'unitFraction': instance.unitFraction,
@@ -49,9 +55,7 @@ ProductManagementRequest _$ProductManagementRequestFromJson(
             : ProductCustomizationWrapperRequest.fromJson(
                 e as Map<String, dynamic>))
         ?.toList(),
-    unit: json['unit'] == null
-        ? null
-        : ProductUnitResponse.fromJson(json['unit'] as Map<String, dynamic>),
+    unit: json['unit'] as String,
     unitFraction: (json['unitFraction'] as num)?.toDouble(),
   );
 }
@@ -170,27 +174,32 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
 ProductCustomizationWrapperResponse
     _$ProductCustomizationWrapperResponseFromJson(Map<String, dynamic> json) {
   return ProductCustomizationWrapperResponse(
+    id: json['id'] as int,
     customizations: (json['customizations'] as List)
         ?.map((e) => e == null
             ? null
             : ProductCustomizationResponse.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     heading: json['heading'] as String,
-    type: json['type'] as String,
+    required: json['required'] as bool,
+    type: _$enumDecodeNullable(_$CustomizationTypeEnumMap, json['type']),
   );
 }
 
 Map<String, dynamic> _$ProductCustomizationWrapperResponseToJson(
         ProductCustomizationWrapperResponse instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'customizations': instance.customizations,
       'heading': instance.heading,
-      'type': instance.type,
+      'required': instance.required,
+      'type': _$CustomizationTypeEnumMap[instance.type],
     };
 
 ProductCustomizationResponse _$ProductCustomizationResponseFromJson(
     Map<String, dynamic> json) {
   return ProductCustomizationResponse(
+    id: json['id'] as int,
     price: (json['price'] as num)?.toDouble(),
     value: json['value'] as String,
   );
@@ -199,6 +208,7 @@ ProductCustomizationResponse _$ProductCustomizationResponseFromJson(
 Map<String, dynamic> _$ProductCustomizationResponseToJson(
         ProductCustomizationResponse instance) =>
     <String, dynamic>{
+      'id': instance.id,
       'price': instance.price,
       'value': instance.value,
     };
@@ -228,4 +238,77 @@ Map<String, dynamic> _$ProductUnitResponseToJson(
     <String, dynamic>{
       'name': instance.name,
       'fractionable': instance.fractionable,
+    };
+
+DropProductResponse _$DropProductResponseFromJson(Map<String, dynamic> json) {
+  return DropProductResponse(
+    uid: json['uid'] as String,
+    name: json['name'] as String,
+    routeProduct: json['routeProduct'] == null
+        ? null
+        : RouteProductProductResponse.fromJson(
+            json['routeProduct'] as Map<String, dynamic>),
+    description: json['description'] as String,
+    status: _$enumDecodeNullable(_$DropStatusEnumMap, json['status']),
+    startTime: json['startTime'] == null
+        ? null
+        : DateTime.parse(json['startTime'] as String),
+    endTime: json['endTime'] == null
+        ? null
+        : DateTime.parse(json['endTime'] as String),
+    spotUid: json['spotUid'] as String,
+    spotName: json['spotName'] as String,
+    spotXCoordinate: (json['spotXCoordinate'] as num)?.toDouble(),
+    spotYCoordinate: (json['spotYCoordinate'] as num)?.toDouble(),
+    spotEstimatedRadiusMeters: json['spotEstimatedRadiusMeters'] as int,
+    spotDescription: json['spotDescription'] as String,
+  );
+}
+
+Map<String, dynamic> _$DropProductResponseToJson(
+        DropProductResponse instance) =>
+    <String, dynamic>{
+      'uid': instance.uid,
+      'name': instance.name,
+      'routeProduct': instance.routeProduct,
+      'description': instance.description,
+      'status': _$DropStatusEnumMap[instance.status],
+      'startTime': instance.startTime?.toIso8601String(),
+      'endTime': instance.endTime?.toIso8601String(),
+      'spotUid': instance.spotUid,
+      'spotName': instance.spotName,
+      'spotXCoordinate': instance.spotXCoordinate,
+      'spotYCoordinate': instance.spotYCoordinate,
+      'spotEstimatedRadiusMeters': instance.spotEstimatedRadiusMeters,
+      'spotDescription': instance.spotDescription,
+    };
+
+const _$DropStatusEnumMap = {
+  DropStatus.UNPREPARED: 'UNPREPARED',
+  DropStatus.PREPARED: 'PREPARED',
+  DropStatus.DELAYED: 'DELAYED',
+  DropStatus.CANCELLED: 'CANCELLED',
+  DropStatus.FINISHED: 'FINISHED',
+  DropStatus.LIVE: 'LIVE',
+};
+
+RouteProductProductResponse _$RouteProductProductResponseFromJson(
+    Map<String, dynamic> json) {
+  return RouteProductProductResponse(
+    id: json['id'] as int,
+    amount: (json['amount'] as num)?.toDouble(),
+    limitedAmount: json['limitedAmount'] as bool,
+    originalProductId: json['originalProductId'] as int,
+    price: (json['price'] as num)?.toDouble(),
+  );
+}
+
+Map<String, dynamic> _$RouteProductProductResponseToJson(
+        RouteProductProductResponse instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'amount': instance.amount,
+      'limitedAmount': instance.limitedAmount,
+      'originalProductId': instance.originalProductId,
+      'price': instance.price,
     };

@@ -72,7 +72,7 @@ class CategoryRemoved extends ManageProductEvent {
 }
 
 class FormSubmitted extends ManageProductEvent {
-  final String productId;
+  final int productId;
   final Image photo;
   final ProductManagementRequest product;
 

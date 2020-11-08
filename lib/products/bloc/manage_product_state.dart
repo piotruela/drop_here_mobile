@@ -20,6 +20,9 @@ class ManageProductState extends Equatable {
       product.price != null &&
       product.unit != null &&
       product.unitFraction != null;
+
+  ProductUnitResponse get selectedUnitType =>
+      unitTypes?.firstWhere((element) => element.name == product?.unit, orElse: () => null);
 }
 
 enum ManageProductStateType {

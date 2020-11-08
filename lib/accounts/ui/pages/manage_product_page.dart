@@ -21,7 +21,7 @@ import 'package:image_picker/image_picker.dart';
 class EditProductPage extends ManageProductPage {
   final ProductManagementRequest initialProduct;
   final Image initialPhoto;
-  final String productIdentify;
+  final int productIdentify;
 
   EditProductPage({this.initialProduct, this.initialPhoto, this.productIdentify});
 
@@ -31,13 +31,16 @@ class EditProductPage extends ManageProductPage {
   @override
   bool get isEditing => false;
 
-  String get productId => productIdentify;
+  int get productId => productIdentify;
 
   @override
   ProductManagementRequest get product => initialProduct;
 
   @override
   Image get photo => initialPhoto;
+
+  @override
+  get successAction => () => Get.to(ProductsListPage());
 }
 
 class AddProductPage extends ManageProductPage {
@@ -47,13 +50,16 @@ class AddProductPage extends ManageProductPage {
   @override
   bool get isEditing => false;
 
-  String get productId => null;
+  int get productId => null;
 
   @override
   Image get photo => null;
 
   @override
   ProductManagementRequest get product => ProductManagementRequest(productCustomizationWrappers: []);
+
+  @override
+  get successAction => () => Get.to(ProductsListPage());
 }
 
 abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
@@ -73,7 +79,9 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
 
   bool get isEditing;
 
-  String get productId;
+  int get productId;
+
+  VoidCallback get successAction;
 
   @override
   Widget build(BuildContext context, ManageProductBloc bloc, _) {
@@ -82,7 +90,8 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
         body: BlocConsumer<ManageProductBloc, ManageProductState>(
       buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
-        if (bloc.state.type == ManageProductStateType.loading) {
+        if (bloc.state.type == ManageProductStateType.loading ||
+            bloc.state.type == ManageProductStateType.added_successfully) {
           return Center(child: CircularProgressIndicator());
         } else if (state.type == ManageProductStateType.fetching_error) {
           return Text("ERROR");
@@ -92,7 +101,7 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
       },
       listenWhen: (previous, current) => previous.type != current.type,
       listener: (context, state) {
-        if (state.type == ManageProductStateType.added_successfully) {
+        if (bloc.state.type == ManageProductStateType.added_successfully) {
           Get.to(ProductsListPage());
         } else {}
       },
@@ -153,11 +162,11 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
                 FocusScope.of(context).requestFocus(FocusNode());
                 return bloc.add(FormChanged(
                     product: bloc.state.product.copyWith(
-                        unit: unit,
+                        unit: unit.name,
                         productCustomizationWrappers:
                             unit.fractionable ? [] : bloc.state.product.productCustomizationWrappers)));
               },
-              value: bloc.state.product?.unit,
+              value: bloc.state?.selectedUnitType,
               icon: Icon(Icons.arrow_drop_down),
               items: [
                 for (ProductUnitResponse unit in bloc.state.unitTypes)
@@ -171,9 +180,7 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
               conditionBuilder: (_) => bloc.state.product?.unit != null,
               widgetBuilder: (_) => _field(
                   localeBundle.unitFractionMandatory,
-                  (bloc.state.product.unit.fractionable
-                      ? localeBundle.unitFractionFractionableExample
-                      : localeBundle.unitFractionNonFractionableExample),
+                  localeBundle.unitFractionNonFractionableExample,
                   InputType.number,
                   (value) =>
                       bloc.add(FormChanged(product: bloc.state.product.copyWith(unitFraction: double.parse(value)))),
@@ -194,7 +201,7 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
             children: [
               Conditional.single(
                   context: context,
-                  conditionBuilder: (_) => bloc.state.product?.unit?.fractionable,
+                  conditionBuilder: (_) => bloc.state.selectedUnitType?.fractionable,
                   widgetBuilder: (_) => InfoText(text: "You cannot create customization for fractionable product"),
                   fallbackBuilder: (_) => ChoosableButton(
                         text: "Add customization +",

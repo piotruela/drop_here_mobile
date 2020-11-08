@@ -62,13 +62,13 @@ class SandboxPage extends StatelessWidget {
                     child: Text("edit product"),
                     onPressed: () {
                       Get.to(EditProductPage(
-                        productIdentify: "12",
+                        productIdentify: 12,
                         initialProduct: ProductManagementRequest(
                             category: "MOET",
                             name: "CHAMPAGNE",
                             description: "Desc",
                             price: 4.0,
-                            //unit: ProductUnitResponse(name: "kg", fractionable: true),
+                            unit: "kg",
                             unitFraction: 1,
                             productCustomizationWrappers: [
                               ProductCustomizationWrapperRequest(
@@ -76,6 +76,37 @@ class SandboxPage extends StatelessWidget {
                                   heading: "Korek",
                                   type: CustomizationType.SINGLE,
                                   customizations: [ProductCustomizationRequest(value: "czarny", price: 20)])
+                            ]),
+                      ));
+                    }),
+                FlatButton(
+                    child: Text("Product details page"),
+                    onPressed: () {
+                      Get.to(ProductDetailsPage(
+                        product: ProductResponse(
+                            name: "Hot dog",
+                            description: "Hot dog, hot dog, hot dog nanana",
+                            category: "FOOD",
+                            price: 4.99,
+                            unit: "piece",
+                            unitFraction: 1,
+                            drops: [
+                              DropProductResponse(
+                                  name: "Drop No. 2",
+                                  startTime: DateTime(2020, 02, 02, 12, 30),
+                                  endTime: DateTime(2020, 02, 02, 13, 30),
+                                  routeProduct:
+                                      RouteProductProductResponse(limitedAmount: false, price: 3.9, amount: 15))
+                            ],
+                            productCustomizationWrappers: [
+                              ProductCustomizationWrapperResponse(
+                                  heading: "Roll type",
+                                  required: true,
+                                  type: CustomizationType.SINGLE,
+                                  customizations: [
+                                    ProductCustomizationResponse(value: "Classic", price: 0.0),
+                                    ProductCustomizationResponse(value: "Wholemeal", price: 0.70)
+                                  ])
                             ]),
                       ));
                     }),
@@ -101,16 +132,6 @@ class SandboxPage extends StatelessWidget {
                         addDrop: () {},
                       ));
                     }),
-                FlatButton(
-                  child: Text("product details page"),
-                  onPressed: () {
-                    Get.to(ProductDetailsPage(
-                      photo: File(
-                          //TODO change this file
-                          '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'),
-                    ));
-                  },
-                ),
                 FlatButton(
                   child: Text("choose profile page"),
                   onPressed: () {

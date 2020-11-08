@@ -1,24 +1,22 @@
+import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/product_details_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'dh_shadow.dart';
 
 class ProductCard extends StatelessWidget {
-  final String title;
-  final String category;
-  final double price;
-  final String unit;
+  final ProductResponse product;
   final List<String> popupOptions;
-  final Image photo;
+  final DhListBloc bloc;
 
-  const ProductCard(
-      {this.title, this.category, this.price, this.unit, this.popupOptions, this.photo});
+  const ProductCard({this.product, this.popupOptions, this.bloc});
 
   @override
-  //TODO add shadow and change dots icon
   Widget build(BuildContext context) {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
     final LocaleBundle locale = Localization.of(context).bundle;
@@ -26,9 +24,10 @@ class ProductCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
       child: Container(
         child: ListTile(
+          onTap: () => Get.to(ProductDetailsPage(product: product)),
           leading: productPhoto(context),
           title: Text(
-            title,
+            product.name,
             style: themeConfig.textStyles.secondaryTitle,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
@@ -40,7 +39,7 @@ class ProductCard extends StatelessWidget {
                 height: 5.0,
               ),
               Text(
-                '${locale.category}: $category',
+                '${locale.category}: ${product.category}',
                 style: themeConfig.textStyles.cardSubtitle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -49,7 +48,7 @@ class ProductCard extends StatelessWidget {
                 height: 6.0,
               ),
               Text(
-                '${locale.price}: ${price.toString()}${locale.currency}/$unit',
+                '${locale.price}: ${product.price.toString()}${locale.currency}/${product.unit}',
                 style: themeConfig.textStyles.cardSubtitle,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
@@ -62,7 +61,7 @@ class ProductCard extends StatelessWidget {
               color: themeConfig.colors.black,
               size: 30.0,
             ),
-            onSelected: (_) {},
+            onSelected: (value) => bloc.add(DeleteProduct(productId: product.id)),
             itemBuilder: (BuildContext context) {
               return popupOptions.map((String choice) {
                 return PopupMenuItem<String>(
@@ -97,7 +96,7 @@ class ProductCard extends StatelessWidget {
           maxWidth: 74,
           maxHeight: 84,
         ),
-        child: ClipRRect(borderRadius: BorderRadius.circular(10.0), child: photo),
+        child: ClipRRect(borderRadius: BorderRadius.circular(10.0), child: Icon(Icons.shopping_basket)),
       ),
     );
   }

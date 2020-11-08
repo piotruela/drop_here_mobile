@@ -1,196 +1,235 @@
-import 'dart:io';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/manage_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/edit_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/common/full_width_photo.dart';
+import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
+import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
+import 'package:drop_here_mobile/common/ui/widgets/info_text.dart';
+import 'package:drop_here_mobile/common/ui/widgets/labeled_circled_info.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/products/model/units.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:get/get.dart';
-import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class ProductDetailsPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-  //TODO add final
-  Product product;
-  final File photo;
+  final ProductResponse product;
 
-  ProductDetailsPage({this.product, this.photo});
+  ProductDetailsPage({this.product});
 
   @override
   Widget build(BuildContext context) {
-    //TODO delete product
-    product = Product();
-    product.name = 'abc';
-    product.unitFraction = 0.5;
-    product.unit = "kilogram";
-    product.description = "description";
-    product.price = 5;
-    product.category = "fruits";
-
-    final LocaleBundle locale = Localization.of(context).bundle;
+    final LocaleBundle localeBundle = Localization.of(context).bundle;
     return Scaffold(
-        body: SlidingUpPanel(
-      panel: buildColumnWithData(locale, context),
-      //TODO change body
-      body: Center(child: Text('background')),
-    ));
-  }
-
-  SafeArea buildColumnWithData(LocaleBundle locale, BuildContext context) {
-    return SafeArea(
-      child: ListView(
-        children: [
-          productTitle(),
-          productSubtitle(),
-          fullWidthPhoto(context, photo),
-          Padding(
-            padding: const EdgeInsets.only(left: 25.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                descriptionAndData(locale, locale.description, product.description),
-                descriptionAndData(locale, locale.unitType, product.unit),
-                descriptionAndData(locale, locale.pricePerUnit, product.price.toString()),
-                descriptionAndData(locale, locale.unitFraction, product.unitFraction.toString()),
-                Padding(
-                  padding: const EdgeInsets.only(top: 10.0, bottom: 12.0),
-                  child: Text(
-                    locale.availableInDrops,
-                    style: themeConfig.textStyles.title2,
-                  ),
-                ),
-                carousel(),
-                SizedBox(
-                  height: 50,
-                )
-              ],
-            ),
-          ),
-        ],
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0),
+        child: ListView(
+          children: [
+            pageTitle(product.name),
+            pageSubtitle(product.category),
+            buildInfoWithLabel(localeBundle, localeBundle.description, product.description),
+            LabeledCircledInfo(label: localeBundle.unitType, text: product.unit),
+            Divider(),
+            LabeledCircledInfo(label: localeBundle.price, text: product.productPrice),
+            Divider(),
+            LabeledCircledInfo(label: localeBundle.unitFraction, text: product.unitFraction.toString()),
+            sectionTitle("Customizations"),
+            Conditional.single(
+                context: context,
+                conditionBuilder: (_) => Units.isUnitFractionable[product.unit] ?? false,
+                widgetBuilder: (_) => InfoText(
+                      text: "This product cannot have any customizations",
+                    ),
+                fallbackBuilder: (_) => customizationsList(context, product.productCustomizationWrappers)),
+            sectionTitle(localeBundle.availableInDrops),
+            dropsCarousel()
+          ],
+        ),
       ),
     );
   }
 
-  CarouselSlider carousel() {
+  Widget pageTitle(String text) {
+    return Wrap(
+      children: [
+        Text(
+          text,
+          style: themeConfig.textStyles.primaryTitle,
+        ),
+        SizedBox(
+          width: 10.0,
+        ),
+        editButton(onPressed: () {
+          Get.to(EditProductPage(
+            initialProduct: product.toRequest(),
+            productIdentify: product.id,
+          ));
+        }),
+      ],
+    );
+  }
+
+  Widget pageSubtitle(String text) {
+    return Text(
+      text,
+      style: themeConfig.textStyles.category,
+    );
+  }
+
+  Widget sectionTitle(String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Text(
+        text,
+        style: themeConfig.textStyles.title2,
+      ),
+    );
+  }
+
+  Widget buildInfoWithLabel(LocaleBundle localeBundle, String label, String content) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(
+          label,
+          style: themeConfig.textStyles.dataAnnotation,
+        ),
+        Text(
+          content ?? localeBundle.noContent,
+          style: themeConfig.textStyles.data,
+        )
+      ]),
+    );
+  }
+
+  Widget customizationsList(BuildContext context, List<ProductCustomizationWrapperResponse> customizations) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InfoText(text: "- is obligatory", iconType: Icons.star),
+        for (ProductCustomizationWrapperResponse customization in customizations)
+          buildCustomizationTile(context, customization)
+      ],
+    );
+  }
+
+  Widget buildCustomizationTile(BuildContext context, ProductCustomizationWrapperResponse customization) {
+    return ChoosableButtonWithSubText(
+        text: customization.heading,
+        subText: "${describeEnum(customization.type)} type, ${customization.customizations.length} options",
+        chooseAction: () async =>
+            await showDialog(context: context, child: customizationDetailsDialog(context, customization)),
+        isChosen: false,
+        trailing: customization.required ? Icon(Icons.star, size: 30.0) : SizedBox.shrink());
+  }
+
+  Widget customizationDetailsDialog(BuildContext context, ProductCustomizationWrapperResponse customization) {
+    return AlertDialog(
+      title: Align(
+          child: Text(
+        customization.heading,
+        style: themeConfig.textStyles.title2,
+      )),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          LabeledCircledInfo(label: "Type", text: describeEnum(customization.type)),
+          Divider(),
+          LabeledCircledInfo(label: "Obligatory", text: customization.required ? "YES" : "NO"),
+          Align(
+              child: Text(
+            "Values",
+            style: themeConfig.textStyles.title2,
+          )),
+          for (ProductCustomizationResponse option in customization.customizations)
+            LabeledCircledInfo(label: option.value, text: option.priceWithCurrency)
+        ],
+      ),
+      actions: [
+        GestureDetector(
+          child: Text(
+            "Close",
+            style: themeConfig.textStyles.blocked.copyWith(fontSize: 20.0),
+          ),
+          onTap: () => Navigator.pop(context, null),
+        ),
+      ],
+    );
+  }
+
+  Widget dropsCarousel() {
     return CarouselSlider(
         options: CarouselOptions(
           aspectRatio: 16 / 7.4,
           enableInfiniteScroll: false,
           viewportFraction: 0.5,
-          initialPage: 0,
         ),
-        items: [mapCard(), mapCard(), mapCard()]);
+        items: product.drops.map((drop) => DropCard(drop: drop)).toList());
   }
+}
 
-  Padding productSubtitle() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 19.0, top: 2.0),
-      child: Text(
-        product.category,
-        style: themeConfig.textStyles.category,
-      ),
-    );
-  }
+class DropCard extends StatelessWidget {
+  final DropProductResponse drop;
 
-  Padding productTitle() {
-    return Padding(
-      padding: const EdgeInsets.only(left: 19.0, top: 10.0),
-      child: Row(
-        children: [
-          Text(
-            product.name,
-            style: themeConfig.textStyles.primaryTitle,
+  const DropCard({this.drop});
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+    return GestureDetector(
+      onTap: () => {}, //TODO:Get to drop details page
+      child: Padding(
+        padding: const EdgeInsets.only(right: 22.0, bottom: 6.0),
+        child: Container(
+          decoration: BoxDecoration(
+            color: themeConfig.colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              dhShadow(),
+            ],
           ),
-          SizedBox(
-            width: 10.0,
-          ),
-          //TODO change onPressed
-          editButton(onPressed: () {
-            Get.to(EditProductPage());
-          }),
-        ],
-      ),
-    );
-  }
-
-  Widget mapCard() {
-    return Padding(
-      padding: const EdgeInsets.only(right: 22.0, bottom: 6.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: themeConfig.colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            dhShadow(),
-          ],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              width: 154,
-              height: 96,
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-                child: Image.file(
-                  photo,
-                  fit: BoxFit.cover,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 154,
+                height: 96,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                    child: Icon(Icons.dashboard)),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      drop.name,
+                      style: themeConfig.textStyles.title3,
+                    ),
+                    SizedBox(height: 4.0),
+                    Text(
+                      drop.durationTime,
+                      style: themeConfig.textStyles.title3Annotation,
+                    ),
+                    SizedBox(height: 6.0),
+                    Text(
+                      drop.routeProduct.availableAmount,
+                      style: themeConfig.textStyles.title3Annotation,
+                    ),
+                    //SizedBox(height: 5.0)
+                  ],
                 ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(4.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Drop No. 2',
-                    style: themeConfig.textStyles.title3,
-                  ),
-                  SizedBox(height: 4.0),
-                  Text(
-                    'Monaday, 8 am - 1pm',
-                    style: themeConfig.textStyles.title3Annotation,
-                  ),
-                  SizedBox(height: 6.0),
-                  Text(
-                    'Available: 30kg',
-                    style: themeConfig.textStyles.title3Annotation,
-                  ),
-                  //SizedBox(height: 5.0)
-                ],
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
-    );
-  }
-
-  Column descriptionAndData(LocaleBundle locale, String description, String data) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 9.0,
-        ),
-        Text(
-          description,
-          style: themeConfig.textStyles.dataAnnotation,
-        ),
-        SizedBox(
-          height: 5.0,
-        ),
-        Text(
-          data,
-          style: themeConfig.textStyles.data,
-        ),
-      ],
     );
   }
 }

@@ -106,13 +106,14 @@ class ManageProductBloc extends Bloc<ManageProductEvent, ManageProductState> {
     } else if (event is FormSubmitted) {
       ResourceOperationResponse response;
       if (event.productId != null) {
-        response = await productManagementService.updateProduct(event.product, event.productId);
+        response = await productManagementService.updateProduct(event.product, event.productId.toString());
       } else {
         response = await productManagementService.addProduct(event.product);
       }
       if (event.photo != null) {
         await productManagementService.uploadProductPhoto(event.photo, response.id.toString());
       }
+      yield ManageProductState(type: ManageProductStateType.added_successfully);
     }
   }
 }

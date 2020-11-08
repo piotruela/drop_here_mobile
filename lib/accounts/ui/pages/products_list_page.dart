@@ -8,7 +8,7 @@ import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
-import 'package:drop_here_mobile/products/model/product_with_photo.dart';
+import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -72,21 +72,17 @@ class ProductsListPage extends BlocWidget<DhListBloc> {
     );
   }
 
-  Widget buildColumnWithData(
-      LocaleBundle locale, ProductsFetched state, BuildContext context, DhListBloc bloc) {
+  Widget buildColumnWithData(LocaleBundle locale, ProductsFetched state, BuildContext context, DhListBloc bloc) {
     return Expanded(
       child: ListView.builder(
           shrinkWrap: true,
           itemCount: state.products.length,
           itemBuilder: (BuildContext context, int index) {
-            final ProductWithPhoto product = state.products[index];
+            final ProductResponse product = state.products[index];
             return ProductCard(
-              title: product.name,
-              category: product.category,
-              price: product.price,
-              unit: product.unit,
-              popupOptions: [locale.delete, locale.edit],
-              photo: product.photo,
+              product: product,
+              popupOptions: [locale.delete],
+              bloc: bloc,
             );
           }),
     );
