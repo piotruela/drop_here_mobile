@@ -103,13 +103,17 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                           )),
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.description),
-                  DhTextArea(
-                    onChanged: (String description) {
-                      addRouteBloc.add(FormChanged(
-                          routeRequest:
-                              addRouteBloc.state.routeRequest.copyWith(description: description)));
-                    },
-                    value: addRouteBloc.state.routeRequest.description,
+                  BlocBuilder<AddRouteBloc, AddRouteFormState>(
+                    buildWhen: (previous, current) =>
+                        previous.routeRequest.description != current.routeRequest.description,
+                    builder: (context, state) => DhTextArea(
+                      onChanged: (String description) {
+                        addRouteBloc.add(FormChanged(
+                            routeRequest: addRouteBloc.state.routeRequest
+                                .copyWith(description: description)));
+                      },
+                      value: addRouteBloc.state.routeRequest.description,
+                    ),
                   ),
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.productsMandatory),
@@ -122,7 +126,7 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                     buildWhen: (previous, current) => previous.isFilled != current.isFilled,
                     builder: (context, state) => Center(
                       child: SubmitFormButton(
-                          text: locale.addRoute,
+                          text: locale.submit,
                           isActive: state.isFilled,
                           //TODO check this function
                           onTap: () {
@@ -381,20 +385,25 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              width: 154,
-              height: 96,
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-                child: product.photo != null
-                    ? productPhoto(product.photo)
-                    : IconInCircle(
+            product.photo != null
+                ? Container(
+                    width: 154,
+                    height: 96,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                        child: productPhoto(product.photo)),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Container(
+                      width: 114.0,
+                      child: IconInCircle(
                         themeConfig: themeConfig,
                         icon: Icons.shopping_basket,
                       ),
-              ),
-            ),
+                    ),
+                  ),
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Column(
