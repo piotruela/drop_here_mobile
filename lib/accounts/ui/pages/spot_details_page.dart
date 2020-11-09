@@ -79,11 +79,10 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
           isActive: true,
           onTap: () async {
             SpotJoinRequest request = await showDialog(
-                context: context,
-                child: _joiningDialog(context, spot.requiresPassword, spot.requiresAccept));
+                context: context, child: _joiningDialog(context, spot.requiresPassword, spot.requiresAccept));
             if (request != null) {
-              customerSpotsBloc.add(SendSpotJoiningRequest(
-                  spotUid: spot.uid, companyUid: spot.companyUid, request: request));
+              customerSpotsBloc
+                  .add(SendSpotJoiningRequest(spotUid: spot.uid, companyUid: spot.companyUid, request: request));
             }
           },
           text: "Join");
@@ -146,8 +145,7 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
                     onChanged: (String password) => request.password = password)
                 : SizedBox.shrink(),
             acceptRequired
-                ? warningText(
-                    themeConfig.colors.black, "Your joining must be\napproved by the owner")
+                ? warningText(themeConfig.colors.black, "Your joining must be\napproved by the owner")
                 : SizedBox.shrink(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -176,8 +174,7 @@ class CompanySpotDetailsPage extends AbsSpotDetailsPage {
   final SpotMembershipPage members;
   final ScrollController scrollController;
 
-  CompanySpotDetailsPage(
-      {this.spot, this.controller, this.bloc, this.members, this.scrollController});
+  CompanySpotDetailsPage({this.spot, this.controller, this.bloc, this.members, this.scrollController});
 
   @override
   String get name => spot.name;
@@ -216,8 +213,7 @@ class CompanySpotDetailsPage extends AbsSpotDetailsPage {
           closeIcon(controller),
           buildSpotTitle(),
           buildLocationInfo(),
-          textAndFlatButton(
-              locale.passwordRequired, spot.requiresPassword ? locale.yes : locale.no),
+          textAndFlatButton(locale.passwordRequired, spot.requiresPassword ? locale.yes : locale.no),
           spot.requiresPassword ? _PasswordInfo(password: spot.password) : SizedBox.shrink(),
           Divider(),
           textAndFlatButton(locale.acceptRequired, requiresAccept ? locale.yes : locale.no),
@@ -248,12 +244,11 @@ class CompanySpotDetailsPage extends AbsSpotDetailsPage {
           status: member.membershipStatus,
           padding: EdgeInsets.symmetric(vertical: 7.0),
           popupOptions: MembershipStatus.values
-              .where((element) =>
-                  element != member.membershipStatus && element != MembershipStatus.PENDING)
+              .where((element) => element != member.membershipStatus && element != MembershipStatus.PENDING)
               .map((e) => describeEnum(e))
               .toList(),
-          onItemSelected: (string) => bloc.add(UpdateMembershipStatus(
-              spotId: spot.id, status: string, spotMembershipId: member.spotMembershipId)),
+          onItemSelected: (string) => bloc
+              .add(UpdateMembershipStatus(spotId: spot.id, status: string, spotMembershipId: member.spotMembershipId)),
         );
       },
     );
@@ -283,8 +278,7 @@ abstract class AbsSpotDetailsPage extends StatelessWidget {
 
   BoxDecoration get _panelDecoration => BoxDecoration(
       color: themeConfig.colors.white,
-      borderRadius:
-          const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)));
+      borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)));
 
   @override
   Widget build(BuildContext context) {
@@ -309,7 +303,6 @@ abstract class AbsSpotDetailsPage extends StatelessWidget {
     );
   }
 
-/*iconButton ?? SizedBox.shrink()*/
   @protected
   Widget buildLocationInfo() {
     return Row(
@@ -437,9 +430,7 @@ class _PasswordInfoState extends State<_PasswordInfo> {
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
-                show
-                    ? widget.password
-                    : List.generate(widget.password.length, (index) => "*").join(),
+                show ? widget.password : List.generate(widget.password.length, (index) => "*").join(),
                 style: themeConfig.textStyles.data,
               ),
             ),

@@ -1,14 +1,13 @@
 part of 'spot_details_bloc.dart';
 
-abstract class SpotDetailsEvent extends Equatable {
-  const SpotDetailsEvent();
+abstract class SpotDetailsEvent {}
+
+class FetchSpotDetailsEvent extends SpotDetailsEvent {
+  final String spotUid;
+
+  FetchSpotDetailsEvent({this.spotUid});
 }
 
-class FetchSpotDetails extends SpotDetailsEvent {
-  final SpotCompanyResponse spot;
+class CloseSpotDetailsPanel extends SpotDetailsEvent {}
 
-  const FetchSpotDetails({this.spot});
-
-  @override
-  List<Object> get props => [];
-}
+class WrongSpotPassword extends SpotDetailsEvent {}

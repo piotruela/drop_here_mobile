@@ -6,10 +6,8 @@ import 'package:drop_here_mobile/accounts/ui/pages/company_details_registration_
 import 'package:drop_here_mobile/accounts/ui/pages/company_registration_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/customer_registration_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/home_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/log_on_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/login_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/map_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/sandbox_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/splash_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/welcome_page.dart';
@@ -30,10 +28,8 @@ class LoginPages {
     GetPage(name: '/companyDetails', page: () => CompanyDetailsPage()),
     GetPage(name: '/customerDetails', page: () => ClientDetailsPage()),
     GetPage(name: '/sandbox', page: () => SandboxPage()),
-    GetPage(name: '/homePage', page: () => Home()),
     GetPage(name: '/chooseProfile', page: () => ChooseProfilePage()),
     GetPage(name: '/profileLoginPage', page: () => LogOnProfilePage()),
-    GetPage(name: '/mapPage', page: () => MapPage()),
     GetPage(name: '/spotsMapPage', page: () => CompanyMapPage()),
     GetPage(name: '/customerSpotsMapPage', page: () => CustomerMapPage()),
   ];

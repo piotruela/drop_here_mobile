@@ -7,10 +7,9 @@ import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:drop_here_mobile/accounts/services/customer_management_service.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/add_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_route_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/home_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/manage_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/product_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
@@ -42,7 +41,6 @@ class SandboxPage extends StatelessWidget {
   final SpotsUserService spotsUserService = Get.find<SpotsUserService>();
 
   final picker = ImagePicker();
-  NetworkImage img;
 
   @override
   Widget build(BuildContext context) {
@@ -55,9 +53,61 @@ class SandboxPage extends StatelessWidget {
             child: Column(
               children: [
                 FlatButton(
-                    child: Text("add product"),
+                    child: Text("Add product"),
                     onPressed: () {
                       Get.to(AddProductPage());
+                    }),
+                FlatButton(
+                    child: Text("edit product"),
+                    onPressed: () {
+                      Get.to(EditProductPage(
+                        productIdentify: 12,
+                        initialProduct: ProductManagementRequest(
+                            category: "MOET",
+                            name: "CHAMPAGNE",
+                            description: "Desc",
+                            price: 4.0,
+                            unit: "kg",
+                            unitFraction: 1,
+                            productCustomizationWrappers: [
+                              ProductCustomizationWrapperRequest(
+                                  required: true,
+                                  heading: "Korek",
+                                  type: CustomizationType.SINGLE,
+                                  customizations: [ProductCustomizationRequest(value: "czarny", price: 20)])
+                            ]),
+                      ));
+                    }),
+                FlatButton(
+                    child: Text("Product details page"),
+                    onPressed: () {
+                      Get.to(ProductDetailsPage(
+                        product: ProductResponse(
+                            name: "Hot dog",
+                            description: "Hot dog, hot dog, hot dog nanana",
+                            category: "FOOD",
+                            price: 4.99,
+                            unit: "piece",
+                            unitFraction: 1,
+                            drops: [
+                              DropProductResponse(
+                                  name: "Drop No. 2",
+                                  startTime: DateTime(2020, 02, 02, 12, 30),
+                                  endTime: DateTime(2020, 02, 02, 13, 30),
+                                  routeProduct:
+                                      RouteProductProductResponse(limitedAmount: false, price: 3.9, amount: 15))
+                            ],
+                            productCustomizationWrappers: [
+                              ProductCustomizationWrapperResponse(
+                                  heading: "Roll type",
+                                  required: true,
+                                  type: CustomizationType.SINGLE,
+                                  customizations: [
+                                    ProductCustomizationResponse(value: "Classic", price: 0.0),
+                                    ProductCustomizationResponse(value: "Wholemeal", price: 0.70)
+                                  ])
+                            ]),
+                      ));
                     }),
                 FlatButton(
                     child: Text("routes list"),
@@ -81,43 +131,6 @@ class SandboxPage extends StatelessWidget {
                         addDrop: () {},
                       ));
                     }),
-                FlatButton(
-                    child: Text("edit product"),
-                    onPressed: () {
-                      Get.to(EditProductPage(
-                        productIdentify: "12",
-                        initialProduct: ProductManagementRequest(
-                            category: "MOET",
-                            name: "CHAMPAGNE",
-                            description: "Desc",
-                            price: 4.0,
-                            unit: 'kg',
-                            unitFraction: 1,
-                            productCustomizationWrappers: [
-                              ProductCustomizationWrapperRequest(
-                                  required: true,
-                                  heading: "Korek",
-                                  type: CustomizationType.SINGLE,
-                                  customizations: [ProductCustomizationRequest(value: "czarny", price: 20)])
-                            ]),
-                      ));
-                    }),
-                FlatButton(
-                  child: Text("home page"),
-                  onPressed: () {
-                    Get.to(Home());
-                  },
-                ),
-                FlatButton(
-                  child: Text("product details page"),
-                  onPressed: () {
-                    Get.to(ProductDetailsPage(
-                      photo: File(
-                          //TODO change this file
-                          '/data/user/0/com.example.drop_here_mobile/cache/image_picker5158575234322302316.jpg'),
-                    ));
-                  },
-                ),
                 FlatButton(
                   child: Text("choose profile page"),
                   onPressed: () {

@@ -11,6 +11,7 @@ part 'create_profile_state.dart';
 
 class CreateProfileBloc extends Bloc<CreateProfileEvent, CreateProfileState> {
   final AccountService accountsService = Get.find<AccountService>();
+
   CreateProfileBloc() : super(CreateProfileState(form: AccountProfileCreationRequest()));
 
   @override
@@ -22,20 +23,14 @@ class CreateProfileBloc extends Bloc<CreateProfileEvent, CreateProfileState> {
       yield state.copyWith(form: form);
     } else if (event is FormSubmitted) {
       yield LoadingState();
-      if (event.profileRole == ProfileRole.ADMIN) {
-        try {
-          await accountsService.createAdminProfile(event.form);
-          yield SuccessState();
-        } on Exception {
-          yield ErrorState(form: event.form);
-        }
-      } else {
-        try {
-          await accountsService.createBasicProfile(event.form);
-          yield SuccessState();
-        } on Exception {
-          yield ErrorState(form: event.form);
-        }
+      var creatingProfileFunction = event.profileRole == ProfileRole.ADMIN
+          ? () => accountsService.createAdminProfile(event.form)
+          : () => accountsService.createBasicProfile(event.form);
+      try {
+        await creatingProfileFunction.call();
+        yield SuccessState();
+      } on Exception {
+        yield ErrorState(form: event.form);
       }
     }
   }

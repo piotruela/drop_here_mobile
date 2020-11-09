@@ -47,7 +47,8 @@ class ProductManagementService {
     return ResourceOperationResponse.fromJson(response);
   }
 
-  Future<ResourceOperationResponse> updateProduct(ProductManagementRequest productManagementRequest, String productId) async {
+  Future<ResourceOperationResponse> updateProduct(
+      ProductManagementRequest productManagementRequest, String productId) async {
     String companyId = await _companyManagementService.getCompanyId();
     dynamic response = await _httpClient.put(
         body: json.encode(productManagementRequest.toJson()),
@@ -58,11 +59,11 @@ class ProductManagementService {
     return ResourceOperationResponse.fromJson(response);
   }
 
-  Future<List<String>> getUnits() async {
+  Future<List<ProductUnitResponse>> getUnits() async {
     List<dynamic> response = await _httpClient.get(canRepeatRequest: true, path: "/units", out: (dynamic json) => json);
-    List<String> units = [];
+    List<ProductUnitResponse> units = [];
     for (dynamic element in response) {
-      units.add(ProductUnitResponse.fromJson(element).name);
+      units.add(ProductUnitResponse.fromJson(element));
     }
     return units;
   }
@@ -92,7 +93,7 @@ class ProductManagementService {
 
   Future<Image> getProductPhoto(String productId) async {
     String companyId = await _companyManagementService.getCompanyId();
-    return Image.network("https://drop-here.herokuapp.com/companies/$companyId/products/$productId/images",
+    return Image.network("${_httpClient.baseUrl}/companies/$companyId/products/$productId/images",
         errorBuilder: (context, _, __) => FittedBox(
                 child: IconInCircle(
               themeConfig: Get.find<ThemeConfig>(),
