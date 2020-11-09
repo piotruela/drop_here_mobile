@@ -462,4 +462,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get spotsMemberships => "Spots memberships";
+
+  @override
+  String get blockUser => "Block user";
 }

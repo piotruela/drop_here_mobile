@@ -304,4 +304,6 @@ abstract class LocaleBundle {
   String get relationshipStatus;
 
   String get spotsMemberships;
+
+  String get blockUser;
 }

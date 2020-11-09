@@ -1,6 +1,7 @@
 import 'package:drop_here_mobile/accounts/bloc/client_details_management_bloc/client_details_management_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_products_to_route.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
@@ -59,6 +60,7 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
           ),
         ),
         _spotsList(),
+        addSellerButton(locale),
       ],
     ));
   }
@@ -133,6 +135,32 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
             border: Border(
                 bottom: BorderSide(
                     width: 1.0, color: themeConfig.colors.white, style: BorderStyle.solid))),
+      ),
+    );
+  }
+
+  Widget addSellerButton(LocaleBundle locale) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 4.0, bottom: 12.0),
+        child: FlatButton(
+          onPressed: () => {},
+          child: Container(
+            height: 30.0,
+            width: 120.0,
+            margin: const EdgeInsets.all(5.0),
+            padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+            decoration: BoxDecoration(
+                color: themeConfig.colors.white,
+                boxShadow: [
+                  dhShadow(),
+                ],
+                borderRadius: BorderRadius.all(Radius.circular(20.0))),
+            child: Center(
+              child: Text(locale.blockUser, style: themeConfig.textStyles.blocked),
+            ),
+          ),
+        ),
       ),
     );
   }
