@@ -10,6 +10,7 @@ class LocalDrop extends RouteDropRequest {
           endTime: routeDropRequest.endTime,
           spotId: routeDropRequest.spotId,
         );
+
   LocalDrop copyWith({
     String description,
     String endTime,

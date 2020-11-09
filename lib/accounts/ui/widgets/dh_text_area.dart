@@ -4,7 +4,8 @@ class DhTextArea extends StatelessWidget {
   final String hintText;
   final void Function(String) onChanged;
   final String value;
-  DhTextArea({this.hintText, this.onChanged, this.value});
+  final String initialValue;
+  DhTextArea({this.hintText, this.onChanged, this.value, this.initialValue});
 
   final _controller = TextEditingController();
   @override
@@ -12,6 +13,7 @@ class DhTextArea extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 13.0),
       child: TextFormField(
+        initialValue: initialValue,
         //controller: _controller,
         //TODO add controller
         onChanged: onChanged,
