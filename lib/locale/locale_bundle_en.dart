@@ -456,4 +456,10 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get routes => "Routes";
+
+  @override
+  String get endTimeBeforeStartTime => "End Time must be after Start Time";
+
+  @override
+  String get dropStartTimeBeforePreviousDropEndTime => "Start time is before last drop end time";
 }

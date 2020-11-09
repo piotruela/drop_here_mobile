@@ -41,45 +41,47 @@ class ChooseSellerPage extends BlocWidget<ChooseSellerBloc> {
         },
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
-              child: Text(
-                locale.chooseSeller,
-                style: themeConfig.textStyles.primaryTitle,
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
+                child: Text(
+                  locale.chooseSeller,
+                  style: themeConfig.textStyles.primaryTitle,
+                ),
               ),
-            ),
-            DhSearchBar(bloc),
-            Padding(
-              padding: const EdgeInsets.only(left: 25.0),
-              child: FiltersFlatButton(
-                themeConfig: themeConfig,
-                locale: locale,
-                bloc: bloc,
+              DhSearchBar(bloc),
+              Padding(
+                padding: const EdgeInsets.only(left: 25.0),
+                child: FiltersFlatButton(
+                  themeConfig: themeConfig,
+                  locale: locale,
+                  bloc: bloc,
+                ),
               ),
-            ),
-            BlocBuilder<ChooseSellerBloc, ChooseSellerState>(
-              builder: (context, state) {
-                if (state is ChooseSellerInitial) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (state is SellersFetchingError) {
-                  return Container(
-                      child: Column(
-                    children: [
-                      Text('try again'),
-                      RaisedButton(onPressed: () => bloc.add(FetchSellers()))
-                    ],
-                  ));
-                } else if (state is SellersFetched) {
-                  return buildColumnWithData(locale, context, bloc, state);
-                }
-                return Container();
-              },
-            ),
-          ],
+              BlocBuilder<ChooseSellerBloc, ChooseSellerState>(
+                builder: (context, state) {
+                  if (state is ChooseSellerInitial) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (state is SellersFetchingError) {
+                    return Container(
+                        child: Column(
+                      children: [
+                        Text('try again'),
+                        RaisedButton(onPressed: () => bloc.add(FetchSellers()))
+                      ],
+                    ));
+                  } else if (state is SellersFetched) {
+                    return buildColumnWithData(locale, context, bloc, state);
+                  }
+                  return Container();
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -88,22 +90,24 @@ class ChooseSellerPage extends BlocWidget<ChooseSellerBloc> {
   SafeArea buildColumnWithData(
       LocaleBundle locale, BuildContext context, ChooseSellerBloc bloc, SellersFetched state) {
     return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ListView.builder(
-                shrinkWrap: true,
-                itemCount: state.sellers.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return SellerCard(
-                    state: state,
-                    bloc: bloc,
-                    index: index,
-                  );
-                }),
-          ],
+      child: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 25.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: state.sellers.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return SellerCard(
+                      state: state,
+                      bloc: bloc,
+                      index: index,
+                    );
+                  }),
+            ],
+          ),
         ),
       ),
     );
@@ -121,35 +125,39 @@ class SellerCard extends StatelessWidget {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 7.0),
-      child: Container(
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 30,
-          ),
-          title: Text(
-            state.sellers[index].sellerFullName,
-            style: themeConfig.textStyles.secondaryTitle,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [],
-          ),
-          trailing: Radio(
+      child: GestureDetector(
+        onTap: () {
+          bloc.add(ChangeGroupValue(index, state.sellers));
+        },
+        child: Container(
+          child: RadioListTile(
+            controlAffinity: ListTileControlAffinity.trailing,
             groupValue: state.radioValue,
             value: index,
+            secondary: CircleAvatar(
+              radius: 30,
+            ),
+            title: Text(
+              state.sellers[index].sellerFullName,
+              style: themeConfig.textStyles.secondaryTitle,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [],
+            ),
             onChanged: (_) {
               bloc.add(ChangeGroupValue(index, state.sellers));
             },
           ),
-        ),
-        decoration: BoxDecoration(
-          color: themeConfig.colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            dhShadow(),
-          ],
+          decoration: BoxDecoration(
+            color: themeConfig.colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              dhShadow(),
+            ],
+          ),
         ),
       ),
     );
