@@ -60,8 +60,8 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                     builder: (context, state) => DhPlainTextFormField(
                         //hintText: locale.routeNameExample,
                         initialValue: addRouteBloc.state.routeRequest.name,
-                        onChanged: (value) => addRouteBloc.add(FormChanged(
-                            routeRequest: addRouteBloc.state.routeRequest.copyWith(name: value)))
+                        onChanged: (value) => addRouteBloc
+                            .add(FormChanged(routeRequest: addRouteBloc.state.routeRequest.copyWith(name: value)))
                         // onChanged: (String name) {
                         //   addRouteBloc.add(FormChanged(
                         //       routeRequest: addRouteBloc.state.routeRequest.copyWith(name: name)));
@@ -70,13 +70,11 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                   ),
                   secondaryTitle(locale.dateMandatory),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
-                      buildWhen: (previous, current) =>
-                          previous.routeRequest.date != current.routeRequest.date,
+                      buildWhen: (previous, current) => previous.routeRequest.date != current.routeRequest.date,
                       builder: (context, state) => Conditional.single(
                           context: context,
                           conditionBuilder: (_) => state.routeRequest.date == null,
-                          widgetBuilder: (_) =>
-                              _buildDatePickerButton(locale, context, addRouteBloc),
+                          widgetBuilder: (_) => _buildDatePickerButton(locale, context, addRouteBloc),
                           fallbackBuilder: (_) => ValuePickedFlatButton(
                                 text: state.routeRequest.date.toString().substring(0, 10),
                                 onTap: () {
@@ -85,20 +83,18 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                               ))),
                   secondaryTitle(locale.dropsMandatory),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
-                      builder: (context, state) =>
-                          dropsCarousel(locale, addRouteBloc.state.drops, addRouteBloc)),
+                      builder: (context, state) => dropsCarousel(locale, addRouteBloc.state.drops, addRouteBloc)),
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.assignedSeller),
                   SizedBox(height: 6.0),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
-                      buildWhen: (previous, current) =>
-                          previous.sellerFullName() != current.sellerFullName(),
+                      buildWhen: (previous, current) => previous.fullName() != current.fullName(),
                       builder: (context, state) => Conditional.single(
                             context: context,
-                            conditionBuilder: (_) => state.sellerFullName() == null,
+                            conditionBuilder: (_) => state.fullName() == null,
                             widgetBuilder: (_) => _chooseSeller(locale, context, addRouteBloc),
                             fallbackBuilder: (_) => SellerCard(
-                              title: state.sellerFullName(),
+                              title: state.fullName(),
                               //TODO add popupOptions
                               trailing: Icon(Icons.edit),
                               onTap: () {
@@ -116,8 +112,7 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                       initialValue: addRouteBloc.state.routeRequest.description,
                       onChanged: (String description) {
                         addRouteBloc.add(FormChanged(
-                            routeRequest: addRouteBloc.state.routeRequest
-                                .copyWith(description: description)));
+                            routeRequest: addRouteBloc.state.routeRequest.copyWith(description: description)));
                       },
                       value: addRouteBloc.state.routeRequest.description,
                     ),
@@ -138,8 +133,7 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                           //TODO check this function
                           onTap: () {
                             if (state.isFilled) {
-                              addRouteBloc.add(
-                                  FormSubmitted(routeRequest: addRouteBloc.state.routeRequest));
+                              addRouteBloc.add(FormSubmitted(routeRequest: addRouteBloc.state.routeRequest));
                             }
                           }),
                     ),
@@ -197,7 +191,7 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
         firstDate: DateTime.now(),
         lastDate: DateTime(DateTime.now().year + 10, 1, 1));
     bloc.add(FormChanged(
-      routeRequest: bloc.state.routeRequest.copyWith(date: dateTime.toString().substring(0, 10)),
+      routeRequest: bloc.state.routeRequest.copyWith(date: dateTime),
     ));
   }
 
@@ -304,8 +298,7 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
     );
   }
 
-  CarouselSlider dropsCarousel(
-      LocaleBundle locale, List<RouteDropRequest> drops, AddRouteBloc bloc) {
+  CarouselSlider dropsCarousel(LocaleBundle locale, List<RouteDropRequest> drops, AddRouteBloc bloc) {
     return CarouselSlider(
         options: CarouselOptions(
           aspectRatio: 16 / 7.4,
@@ -321,8 +314,7 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                 addDrop: (RouteDropRequest drop) {
                   bloc.add(FormChanged(
                       routeRequest: bloc.state.routeRequest.drops != null
-                          ? bloc.state.routeRequest
-                              .copyWith(drops: bloc.state.routeRequest.drops..add(drop))
+                          ? bloc.state.routeRequest.copyWith(drops: bloc.state.routeRequest.drops..add(drop))
                           : bloc.state.routeRequest.copyWith(drops: [drop])));
                 },
               ));
@@ -353,9 +345,8 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                     ),
                   GestureDetector(
                     onTap: () async {
-                      bloc.add(AddProducts(
-                          products:
-                              await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));
+                      bloc.add(
+                          AddProducts(products: await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));
                     },
                     child: IconInCircle(
                       themeConfig: themeConfig,
@@ -408,8 +399,8 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                     width: 154,
                     height: 96,
                     child: ClipRRect(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                        borderRadius:
+                            BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
                         child: productPhoto(product.photo)),
                   )
                 : Padding(

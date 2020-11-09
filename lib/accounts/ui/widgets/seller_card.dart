@@ -22,6 +22,10 @@ class SellerCard extends StatelessWidget {
           child: ListTile(
             leading: CircleAvatar(
               radius: 30,
+              child: Icon(
+                Icons.person,
+                size: 40.0,
+              ),
             ),
             title: Text(
               title,

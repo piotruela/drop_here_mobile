@@ -133,3 +133,25 @@ Map<String, dynamic> _$SpotJoinRequestToJson(SpotJoinRequest instance) =>
       'receiveLiveNotifications': instance.receiveLiveNotifications,
       'receivePreparedNotifications': instance.receivePreparedNotifications,
     };
+
+SpotMembershipManagementRequest _$SpotMembershipManagementRequestFromJson(
+    Map<String, dynamic> json) {
+  return SpotMembershipManagementRequest(
+    receiveCancelledNotifications:
+        json['receiveCancelledNotifications'] as bool,
+    receiveDelayedNotifications: json['receiveDelayedNotifications'] as bool,
+    receiveFinishedNotifications: json['receiveFinishedNotifications'] as bool,
+    receiveLiveNotifications: json['receiveLiveNotifications'] as bool,
+    receivePreparedNotifications: json['receivePreparedNotifications'] as bool,
+  );
+}
+
+Map<String, dynamic> _$SpotMembershipManagementRequestToJson(
+        SpotMembershipManagementRequest instance) =>
+    <String, dynamic>{
+      'receiveCancelledNotifications': instance.receiveCancelledNotifications,
+      'receiveDelayedNotifications': instance.receiveDelayedNotifications,
+      'receiveFinishedNotifications': instance.receiveFinishedNotifications,
+      'receiveLiveNotifications': instance.receiveLiveNotifications,
+      'receivePreparedNotifications': instance.receivePreparedNotifications,
+    };

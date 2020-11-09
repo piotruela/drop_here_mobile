@@ -5,33 +5,32 @@ part 'route_request_api.g.dart';
 
 @JsonSerializable()
 class UnpreparedRouteRequest {
-  final String date;
+  final DateTime date;
   final String description;
   final String name;
   final String profileUid;
   final List<RouteProductRequest> products;
   final List<RouteDropRequest> drops;
 
-  UnpreparedRouteRequest(
-      {this.date, this.description, this.name, this.profileUid, this.products, this.drops});
+  UnpreparedRouteRequest({this.date, this.description, this.name, this.profileUid, this.products, this.drops});
 
-  factory UnpreparedRouteRequest.fromJson(Map<String, dynamic> json) =>
-      _$UnpreparedRouteRequestFromJson(json);
+  factory UnpreparedRouteRequest.fromJson(Map<String, dynamic> json) => _$UnpreparedRouteRequestFromJson(json);
   Map<String, dynamic> toJson() => _$UnpreparedRouteRequestToJson(this);
 
   UnpreparedRouteRequest copyWith({
-    String date,
+    DateTime date,
     String description,
     String name,
     String profileUid,
     List<RouteProductRequest> products,
     List<RouteDropRequest> drops,
+    bool sellerNull = false,
   }) {
     return UnpreparedRouteRequest(
       date: date ?? this.date,
       description: description ?? this.description,
       name: name ?? this.name,
-      profileUid: profileUid ?? this.profileUid,
+      profileUid: sellerNull ? null : profileUid ?? this.profileUid,
       products: products ?? this.products,
       drops: drops ?? this.drops,
     );
@@ -47,8 +46,7 @@ class RouteProductRequest {
 
   RouteProductRequest({this.amount, this.limitedAmount, this.price, this.productId});
 
-  factory RouteProductRequest.fromJson(Map<String, dynamic> json) =>
-      _$RouteProductRequestFromJson(json);
+  factory RouteProductRequest.fromJson(Map<String, dynamic> json) => _$RouteProductRequestFromJson(json);
   Map<String, dynamic> toJson() => _$RouteProductRequestToJson(this);
 
   RouteProductRequest copyWith({
@@ -102,7 +100,6 @@ class RouteStateChangeRequest {
 
   RouteStateChangeRequest({this.changedProfileUid, this.newStatus});
 
-  factory RouteStateChangeRequest.fromJson(Map<String, dynamic> json) =>
-      _$RouteStateChangeRequestFromJson(json);
+  factory RouteStateChangeRequest.fromJson(Map<String, dynamic> json) => _$RouteStateChangeRequestFromJson(json);
   Map<String, dynamic> toJson() => _$RouteStateChangeRequestToJson(this);
 }

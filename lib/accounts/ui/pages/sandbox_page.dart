@@ -170,7 +170,7 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                     child: Text("log out from account"), onPressed: () => authenticationService.logOutFromAccount()),
                 FlatButton(child: Text("company spots map page"), onPressed: () => Get.to(CompanyMapPage())),
-                FlatButton(child: Text("customer spots map page"), onPressed: () => Get.offAll(CustomerMapPage())),
+                FlatButton(child: Text("customer spots map page"), onPressed: () => Get.to(CustomerMapPage())),
               ],
             ),
           ),

@@ -1,31 +1,175 @@
-import 'dart:io';
-
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:drop_here_mobile/accounts/model/local_product.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/add_drop_to_route_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/add_products_to_route.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/choose_seller_page.dart' hide SellerCard;
-import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/secondary_title.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/seller_card.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/value_picked_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/ui/utils/datetime_utils.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
-import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
-import 'package:drop_here_mobile/drops/model/localDrop.dart';
+import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
-import 'package:drop_here_mobile/routes/bloc/add_route_bloc.dart';
+import 'package:drop_here_mobile/routes/bloc/manage_route_bloc.dart';
+import 'package:drop_here_mobile/routes/model/route_request_api.dart';
+import 'package:drop_here_mobile/routes/routes_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
+class AddRoutePage extends ManageRoutePage {
+  @override
+  String get pageTitle => "Create route";
+
+  @override
+  UnpreparedRouteRequest get initialRoute => UnpreparedRouteRequest();
+}
+
+abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
+  final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+
+  @override
+  bloc() => ManageRouteBloc()..add(InitializeForm(routeRequest: initialRoute));
+
+  String get pageTitle;
+
+  UnpreparedRouteRequest get initialRoute;
+
+  @override
+  Widget build(BuildContext context, ManageRouteBloc bloc, _) {
+    final LocaleBundle localeBundle = Localization.of(context).bundle;
+    return Scaffold(
+        body: BlocConsumer<ManageRouteBloc, ManageRouteState>(
+      buildWhen: (previous, current) => previous != current,
+      builder: (context, state) {
+        if (bloc.state.type == ManageRouteStateType.loading) {
+          return Center(child: CircularProgressIndicator());
+        } else if (state.type == ManageRouteStateType.error) {
+          return Text("ERROR");
+        } else {
+          return _buildContent(context, bloc, localeBundle);
+        }
+      },
+      listenWhen: (previous, current) => previous.type != current.type,
+      listener: (context, state) {
+        if (bloc.state.type == ManageRouteStateType.added_successfully) {
+          Get.to(RoutesListPage());
+        } else {}
+      },
+    ));
+  }
+
+  Widget _buildContent(BuildContext context, ManageRouteBloc bloc, LocaleBundle localeBundle) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+      child: ListView(
+        shrinkWrap: true,
+        children: [
+          Text(
+            pageTitle,
+            style: themeConfig.textStyles.primaryTitle,
+          ),
+          _field(
+              label: localeBundle.nameMandatory,
+              hint: localeBundle.routeNameExample,
+              inputType: InputType.text,
+              onChanged: (String name) =>
+                  bloc.add(FormChanged2(routeRequest: bloc.state.routeRequest.copyWith(name: name))),
+              initialValue: bloc.state.routeRequest?.name ?? ""),
+          secondaryTitle(localeBundle.dateMandatory),
+          BlocBuilder<ManageRouteBloc, ManageRouteState>(
+              buildWhen: (previous, current) => previous.routeRequest.date != current.routeRequest.date,
+              builder: (context, state) => Conditional.single(
+                  context: context,
+                  conditionBuilder: (_) => state.routeRequest?.date != null,
+                  widgetBuilder: (_) => ChoosableButton(
+                      text: state.routeRequest.date.toStringWithoutTime(),
+                      chooseAction: () async => chooseDate(context, bloc)),
+                  fallbackBuilder: (_) =>
+                      ChoosableButton(text: "Add date +", chooseAction: () async => chooseDate(context, bloc)))),
+          secondaryTitle(localeBundle.assignedSeller),
+          BlocBuilder<ManageRouteBloc, ManageRouteState>(
+              buildWhen: (previous, current) => previous.routeRequest.profileUid != current.routeRequest.profileUid,
+              builder: (context, state) => Conditional.single(
+                    context: context,
+                    conditionBuilder: (_) => state.routeRequest.profileUid == null,
+                    widgetBuilder: (_) => ChoosableButton(
+                        text: "Asign seller +",
+                        chooseAction: () {
+                          FocusScope.of(context).unfocus();
+                          bloc.add(FormChanged2(
+                              routeRequest: bloc.state.routeRequest
+                                  .copyWith(profileUid: bloc.state.sellerProfiles.first.profileUid)));
+                        }),
+                    fallbackBuilder: (_) => SellerCard(
+                      title: state.sellerFullName ?? "",
+                      trailing: Icon(Icons.edit),
+                      onTap: () {
+                        FocusScope.of(context).unfocus();
+                        bloc.add(RemoveSeller());
+                      },
+                    ),
+                  )),
+          _field(
+              label: localeBundle.description,
+              hint: "This route is the best opportunity to get vegetables straight from",
+              inputType: InputType.text,
+              onChanged: (String description) =>
+                  bloc.add(FormChanged2(routeRequest: bloc.state.routeRequest.copyWith(description: description))),
+              initialValue: bloc.state.routeRequest?.description ?? ""),
+          secondaryTitle("Products"),
+          productsCarousel(context, localeBundle, bloc)
+        ],
+      ),
+    );
+  }
+
+  void chooseDate(BuildContext context, ManageRouteBloc bloc) async {
+    FocusScope.of(context).unfocus();
+    DateTime dateTime = await showDatePicker(
+        context: context,
+        initialDate: bloc.state.routeRequest?.date ?? DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(DateTime.now().year + 10, 1, 1));
+    bloc.add(FormChanged2(
+      routeRequest: bloc.state.routeRequest.copyWith(date: dateTime),
+    ));
+  }
+
+  Widget _field({String label, String hint, InputType inputType, Function(String) onChanged, String initialValue}) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          label,
+          style: themeConfig.textStyles.secondaryTitle,
+        ),
+        DhPlainTextFormField(hintText: hint, inputType: inputType, onChanged: onChanged, initialValue: initialValue)
+      ],
+    );
+  }
+
+  CarouselSlider productsCarousel(BuildContext context, LocaleBundle localeBundle, ManageRouteBloc bloc) {
+    return CarouselSlider(
+        options: CarouselOptions(
+          aspectRatio: 16 / 7.4,
+          enableInfiniteScroll: false,
+          viewportFraction: 0.38,
+          initialPage: 0,
+        ),
+        items: [
+          //for (RouteProductRequest product in bloc.state.routeRequest.products ?? [])
+          ChoosableButton(
+            text: "Add product +",
+            chooseAction: () async {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+          )
+        ]);
+  }
+}
+
+/*
 class AddRoutePage extends BlocWidget<AddRouteBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   @override
@@ -56,19 +200,16 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   DhPlainTextFormField(
                     hintText: locale.routeNameExample,
                     onChanged: (String name) {
-                      addRouteBloc.add(FormChanged(
-                          routeRequest: addRouteBloc.state.routeRequest.copyWith(name: name)));
+                      addRouteBloc.add(FormChanged(routeRequest: addRouteBloc.state.routeRequest.copyWith(name: name)));
                     },
                   ),
                   secondaryTitle(locale.dateMandatory),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
-                      buildWhen: (previous, current) =>
-                          previous.routeRequest.date != current.routeRequest.date,
+                      buildWhen: (previous, current) => previous.routeRequest.date != current.routeRequest.date,
                       builder: (context, state) => Conditional.single(
                           context: context,
                           conditionBuilder: (_) => state.routeRequest.date == null,
-                          widgetBuilder: (_) =>
-                              _buildDatePickerButton(locale, context, addRouteBloc),
+                          widgetBuilder: (_) => _buildDatePickerButton(locale, context, addRouteBloc),
                           fallbackBuilder: (_) => ValuePickedFlatButton(
                                 text: state.routeRequest.date.toString().substring(0, 10),
                                 onTap: () {
@@ -83,14 +224,13 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   secondaryTitle(locale.assignedSeller),
                   SizedBox(height: 6.0),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
-                      buildWhen: (previous, current) =>
-                          previous.sellerFullName() != current.sellerFullName(),
+                      buildWhen: (previous, current) => previous.fullName() != current.fullName(),
                       builder: (context, state) => Conditional.single(
                             context: context,
-                            conditionBuilder: (_) => state.sellerFullName() == null,
+                            conditionBuilder: (_) => state.fullName() == null,
                             widgetBuilder: (_) => _chooseSeller(locale, context, addRouteBloc),
                             fallbackBuilder: (_) => SellerCard(
-                              title: state.sellerFullName(),
+                              title: state.fullName(),
                               //TODO add popupOptions
                               trailing: Icon(Icons.edit),
                               onTap: () {
@@ -104,8 +244,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   DhTextArea(
                     onChanged: (String description) {
                       addRouteBloc.add(FormChanged(
-                          routeRequest:
-                              addRouteBloc.state.routeRequest.copyWith(description: description)));
+                          routeRequest: addRouteBloc.state.routeRequest.copyWith(description: description)));
                     },
                     value: addRouteBloc.state.routeRequest.description,
                   ),
@@ -125,8 +264,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                           //TODO check this function
                           onTap: () {
                             if (state.isFilled) {
-                              addRouteBloc.add(
-                                  FormSubmitted(routeRequest: addRouteBloc.state.routeRequest));
+                              addRouteBloc.add(FormSubmitted(routeRequest: addRouteBloc.state.routeRequest));
                             }
                           }),
                     ),
@@ -149,6 +287,19 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     );
   }
 
+  void chooseDate(BuildContext context, AddRouteBloc bloc) async {
+    FocusScope.of(context).unfocus();
+    DateTime dateTime = await showDatePicker(
+        context: context,
+        initialDate:
+            bloc.state.routeRequest.date != null ? DateTime.parse(bloc.state.routeRequest.date) : DateTime.now(),
+        firstDate: DateTime.now(),
+        lastDate: DateTime(DateTime.now().year + 10, 1, 1));
+    bloc.add(FormChanged(
+      routeRequest: bloc.state.routeRequest.copyWith(date: dateTime.toString().substring(0, 10)),
+    ));
+  }
+
   Widget _chooseSeller(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
     FocusScope.of(context).unfocus();
     return ColoredRoundedFlatButton(
@@ -168,20 +319,6 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
             sellerFirstName: sellerFirstName,
             sellerLastName: sellerLastName));
       },
-    ));
-  }
-
-  void chooseDate(BuildContext context, AddRouteBloc bloc) async {
-    FocusScope.of(context).unfocus();
-    DateTime dateTime = await showDatePicker(
-        context: context,
-        initialDate: bloc.state.routeRequest.date != null
-            ? DateTime.parse(bloc.state.routeRequest.date)
-            : DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime(DateTime.now().year + 10, 1, 1));
-    bloc.add(FormChanged(
-      routeRequest: bloc.state.routeRequest.copyWith(date: dateTime.toString().substring(0, 10)),
     ));
   }
 
@@ -328,8 +465,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
           initialPage: 0,
         ),
         items: [
-          for (LocalDrop drop in bloc.state.drops ?? [])
-            dropCard(locale: locale, drop: drop, bloc: bloc),
+          for (LocalDrop drop in bloc.state.drops ?? []) dropCard(locale: locale, drop: drop, bloc: bloc),
           GestureDetector(
             onTap: () {
               FocusScope.of(context).unfocus();
@@ -369,8 +505,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
             ),
           GestureDetector(
             onTap: () async {
-              bloc.add(AddProducts(
-                  products: await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));
+              bloc.add(AddProducts(products: await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));
               FocusScope.of(context).requestFocus(FocusNode());
             },
             child: IconInCircle(
@@ -399,8 +534,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
               width: 154,
               height: 96,
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
                 child: product.photo != null
                     ? productPhoto(product.photo)
                     : IconInCircle(
@@ -453,3 +587,4 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     );
   }
 }
+*/

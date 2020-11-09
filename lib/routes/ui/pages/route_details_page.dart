@@ -70,7 +70,7 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5.0),
                   child: SellerCard(
-                    title: state.route.sellerFullName(),
+                    title: state.route.fullName(),
                   ),
                 ),
                 SizedBox(height: 8.0),

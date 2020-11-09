@@ -10,4 +10,4 @@ class CustomerSpotsState extends Equatable {
   List<Object> get props => [spots, type];
 }
 
-enum CustomerSpotsStateType { loading, success, failure, join_request_sent }
+enum CustomerSpotsStateType { loading, success, failure, spot_managed }

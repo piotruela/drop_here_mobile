@@ -32,9 +32,7 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
     if (event is FormChanged) {
       UnpreparedRouteRequest form = event.routeRequest;
       yield state.copyWith(
-          routeRequest: form,
-          sellerFirstName: event.sellerFirstName,
-          sellerLastName: event.sellerLastName);
+          routeRequest: form, sellerFirstName: event.sellerFirstName, sellerLastName: event.sellerLastName);
     } else if (event is AddProducts) {
       yield state.copyWith(products: event.products.toList());
     } else if (event is AddDrop) {
@@ -85,7 +83,7 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
             name: response.name,
             description: response.description,
             profileUid: response.profileUid,
-            date: response.routeDate.toString()),
+            date: response.routeDate),
         sellerFirstName: response.profileFirstName,
         sellerLastName: response.profileLastName,
         products: products,
@@ -102,8 +100,8 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
   void rewriteLists(AddRouteEvent event) {
     if (event is FormSubmitted) {
       for (LocalProduct p in state.products) {
-        event.routeRequest.products.add(RouteProductRequest(
-            price: p.price, amount: p.amount, limitedAmount: !p.unlimited, productId: p.id));
+        event.routeRequest.products
+            .add(RouteProductRequest(price: p.price, amount: p.amount, limitedAmount: !p.unlimited, productId: p.id));
       }
       for (LocalDrop d in state.drops) {
         event.routeRequest.drops.add(RouteDropRequest(
@@ -118,8 +116,8 @@ class AddRouteBloc extends Bloc<AddRouteEvent, AddRouteFormState> {
     //XDDDDDDDDDDDDDDDDDDDDDDDD
     if (event is UpdateRoute) {
       for (LocalProduct p in state.products) {
-        event.routeRequest.products.add(RouteProductRequest(
-            price: p.price, amount: p.amount, limitedAmount: !p.unlimited, productId: p.id));
+        event.routeRequest.products
+            .add(RouteProductRequest(price: p.price, amount: p.amount, limitedAmount: !p.unlimited, productId: p.id));
       }
       for (LocalDrop d in state.drops) {
         event.routeRequest.drops.add(RouteDropRequest(

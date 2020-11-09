@@ -47,8 +47,7 @@ class RouteShortResponse {
       this.profileUid,
       this.status});
 
-  factory RouteShortResponse.fromJson(Map<String, dynamic> json) =>
-      _$RouteShortResponseFromJson(json);
+  factory RouteShortResponse.fromJson(Map<String, dynamic> json) => _$RouteShortResponseFromJson(json);
   Map<String, dynamic> toJson() => _$RouteShortResponseToJson(this);
 }
 
@@ -84,7 +83,7 @@ class RouteResponse {
   factory RouteResponse.fromJson(Map<String, dynamic> json) => _$RouteResponseFromJson(json);
   Map<String, dynamic> toJson() => _$RouteResponseToJson(this);
 
-  String sellerFullName() {
+  String fullName() {
     return profileFirstName + ' ' + profileLastName;
   }
 }
@@ -99,17 +98,9 @@ class DropRouteResponse {
   final DropStatus status;
   final String uid;
 
-  DropRouteResponse(
-      {this.description,
-      this.endTime,
-      this.name,
-      this.spot,
-      this.startTime,
-      this.status,
-      this.uid});
+  DropRouteResponse({this.description, this.endTime, this.name, this.spot, this.startTime, this.status, this.uid});
 
-  factory DropRouteResponse.fromJson(Map<String, dynamic> json) =>
-      _$DropRouteResponseFromJson(json);
+  factory DropRouteResponse.fromJson(Map<String, dynamic> json) => _$DropRouteResponseFromJson(json);
   Map<String, dynamic> toJson() => _$DropRouteResponseToJson(this);
 }
 
@@ -121,11 +112,9 @@ class RouteProductRouteResponse {
   final double price;
   final ProductResponse productResponse;
 
-  RouteProductRouteResponse(
-      {this.amount, this.id, this.limitedAmount, this.price, this.productResponse});
+  RouteProductRouteResponse({this.amount, this.id, this.limitedAmount, this.price, this.productResponse});
 
-  factory RouteProductRouteResponse.fromJson(Map<String, dynamic> json) =>
-      _$RouteProductRouteResponseFromJson(json);
+  factory RouteProductRouteResponse.fromJson(Map<String, dynamic> json) => _$RouteProductRouteResponseFromJson(json);
   Map<String, dynamic> toJson() => _$RouteProductRouteResponseToJson(this);
 
   String toPricePerUnit(LocaleBundle locale) {

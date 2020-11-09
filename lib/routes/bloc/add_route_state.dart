@@ -35,10 +35,9 @@ class AddRouteFormState extends Equatable {
       routeRequest != null && routeRequest.name != null && routeRequest.date != null;
 
   @override
-  List<Object> get props =>
-      [routeRequest, isFilled, drops, products, sellerFirstName, sellerLastName];
+  List<Object> get props => [routeRequest, isFilled, drops, products, sellerFirstName, sellerLastName];
 
-  String sellerFullName() {
+  String fullName() {
     if (sellerFirstName != null && sellerLastName != null) {
       return sellerFirstName + ' ' + sellerLastName;
     }

@@ -29,9 +29,7 @@ class ChooseSellerPage extends BlocWidget<ChooseSellerBloc> {
         onTap: () {
           if (bloc.state is SellersFetched) {
             SellersFetched state = bloc.state;
-            addSeller(
-                state.sellers[state.radioValue].profileUid,
-                state.sellers[state.radioValue].firstName,
+            addSeller(state.sellers[state.radioValue].profileUid, state.sellers[state.radioValue].firstName,
                 state.sellers[state.radioValue].lastName);
           }
           //TODO add action
@@ -69,10 +67,7 @@ class ChooseSellerPage extends BlocWidget<ChooseSellerBloc> {
                   } else if (state is SellersFetchingError) {
                     return Container(
                         child: Column(
-                      children: [
-                        Text('try again'),
-                        RaisedButton(onPressed: () => bloc.add(FetchSellers()))
-                      ],
+                      children: [Text('try again'), RaisedButton(onPressed: () => bloc.add(FetchSellers()))],
                     ));
                   } else if (state is SellersFetched) {
                     return buildColumnWithData(locale, context, bloc, state);
@@ -87,8 +82,7 @@ class ChooseSellerPage extends BlocWidget<ChooseSellerBloc> {
     );
   }
 
-  SafeArea buildColumnWithData(
-      LocaleBundle locale, BuildContext context, ChooseSellerBloc bloc, SellersFetched state) {
+  SafeArea buildColumnWithData(LocaleBundle locale, BuildContext context, ChooseSellerBloc bloc, SellersFetched state) {
     return SafeArea(
       child: SingleChildScrollView(
         child: Padding(
@@ -138,7 +132,7 @@ class SellerCard extends StatelessWidget {
               radius: 30,
             ),
             title: Text(
-              state.sellers[index].sellerFullName,
+              state.sellers[index].fullName,
               style: themeConfig.textStyles.secondaryTitle,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,

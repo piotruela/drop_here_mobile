@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
-import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/client.dart';
 import 'package:drop_here_mobile/accounts/model/seller.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
@@ -66,8 +65,7 @@ class DhListBloc extends Bloc<DhListEvent, DhListState> {
       final ProductsPage products = await productManagementService.getCompanyProducts();
       yield ProductsFetched(products: products.content);
     } else if (event is DeleteProduct) {
-      final ResourceOperationResponse response =
-          await productManagementService.deleteProduct(event.productId.toString());
+      await productManagementService.deleteProduct(event.productId.toString());
       final ProductsPage products = await productManagementService.getCompanyProducts();
       yield ProductsFetched(products: products.content);
     }

@@ -17,16 +17,39 @@ class SpotsUserService {
   }
 
   Future<SpotDetailedCustomerResponse> getSpotDetails(String spotUid) async {
-    dynamic response = await _httpClient.get(
-        canRepeatRequest: true, path: "/spots/$spotUid", out: (dynamic json) => json);
+    dynamic response =
+        await _httpClient.get(canRepeatRequest: true, path: "/spots/$spotUid", out: (dynamic json) => json);
     return SpotDetailedCustomerResponse.fromJson(response);
   }
 
-  Future<ResourceOperationResponse> joinSpot(
-      String spotUid, String companyUid, SpotJoinRequest spotJoinRequest) async {
+  Future<ResourceOperationResponse> joinSpot(String spotUid, String companyUid, SpotJoinRequest spotJoinRequest) async {
     try {
       return await _httpClient.post(
           body: json.encode(spotJoinRequest.toJson()),
+          canRepeatRequest: true,
+          path: "/spots/$spotUid/companies/$companyUid/memberships",
+          out: (dynamic response) => ResourceOperationResponse.fromJson(response));
+    } on HttpStatusException {
+      return ResourceOperationResponse()..operationStatus = OperationStatus.ERROR;
+    }
+  }
+
+  Future<ResourceOperationResponse> updateSpotSettings(
+      String spotUid, String companyUid, SpotMembershipManagementRequest managementRequest) async {
+    try {
+      return await _httpClient.put(
+          body: json.encode(managementRequest.toJson()),
+          canRepeatRequest: true,
+          path: "/spots/$spotUid/companies/$companyUid/memberships",
+          out: (dynamic response) => ResourceOperationResponse.fromJson(response));
+    } on HttpStatusException {
+      return ResourceOperationResponse()..operationStatus = OperationStatus.ERROR;
+    }
+  }
+
+  Future<ResourceOperationResponse> leavingSpot(String spotUid, String companyUid) async {
+    try {
+      return await _httpClient.delete(
           canRepeatRequest: true,
           path: "/spots/$spotUid/companies/$companyUid/memberships",
           out: (dynamic response) => ResourceOperationResponse.fromJson(response));

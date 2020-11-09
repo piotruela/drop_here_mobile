@@ -3,7 +3,6 @@ import 'package:drop_here_mobile/accounts/ui/pages/spot_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
-import 'package:drop_here_mobile/routes/model/api/drop_customer_spot_response_api.dart';
 import 'package:drop_here_mobile/spots/bloc/customer_spots_bloc.dart';
 import 'package:drop_here_mobile/spots/bloc/spot_details_bloc.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_user_api.dart';
@@ -20,9 +19,7 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
   final PanelController panelController = PanelController();
 
   CustomerMapPage(
-      {this.initialXCoordinate = 54.397498,
-      this.initialYCoordinate = 18.589627,
-      this.spotDetailsOnLoadEvent});
+      {this.initialXCoordinate = 54.397498, this.initialYCoordinate = 18.589627, this.spotDetailsOnLoadEvent});
 
   final double initialXCoordinate;
   final double initialYCoordinate;
@@ -32,8 +29,7 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
   @override
   CustomerSpotsBloc bloc() {
     return CustomerSpotsBloc()
-      ..add(FetchSpotsEvent(
-          radius: _radius, xCoordinate: initialXCoordinate, yCoordinate: initialYCoordinate));
+      ..add(FetchSpotsEvent(radius: _radius, xCoordinate: initialXCoordinate, yCoordinate: initialYCoordinate));
   }
 
   @override
@@ -53,32 +49,27 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
             valueBuilder: (_) => state.type,
             caseBuilders: {
               CustomerSpotsStateType.failure: (_) {
-                bloc.add(FetchSpotsEvent(
-                    radius: _radius,
-                    xCoordinate: initialXCoordinate,
-                    yCoordinate: initialYCoordinate));
+                bloc.add(
+                    FetchSpotsEvent(radius: _radius, xCoordinate: initialXCoordinate, yCoordinate: initialYCoordinate));
 
                 return Center(child: CircularProgressIndicator());
               },
-              CustomerSpotsStateType.join_request_sent: (_) {
-                bloc.add(FetchSpotsEvent(
-                    radius: _radius,
-                    xCoordinate: initialXCoordinate,
-                    yCoordinate: initialYCoordinate));
+              CustomerSpotsStateType.spot_managed: (_) {
+                bloc.add(
+                    FetchSpotsEvent(radius: _radius, xCoordinate: initialXCoordinate, yCoordinate: initialYCoordinate));
                 BlocProvider.of<SpotDetailsBloc>(context).add(CloseSpotDetailsPanel());
                 return Center(child: CircularProgressIndicator());
               },
               CustomerSpotsStateType.loading: (_) => Center(child: CircularProgressIndicator()),
-              CustomerSpotsStateType.success: (_) =>
-                  _buildPageContent(context, bloc, state.spots, panelController)
+              CustomerSpotsStateType.success: (_) => _buildPageContent(context, bloc, state.spots, panelController)
             },
             fallbackBuilder: (_) => SizedBox.shrink()),
       )),
     );
   }
 
-  Widget _buildPageContent(BuildContext context, CustomerSpotsBloc bloc,
-      List<SpotBaseCustomerResponse> spots, PanelController controller) {
+  Widget _buildPageContent(
+      BuildContext context, CustomerSpotsBloc bloc, List<SpotBaseCustomerResponse> spots, PanelController controller) {
     final SpotDetailsBloc spotDetailsBloc = BlocProvider.of<SpotDetailsBloc>(context);
     final Set<Marker> spotsSet = _convertSpotsToMarkers(context, spotDetailsBloc, spots);
     return Stack(
@@ -86,8 +77,7 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
         GoogleMap(
           padding: EdgeInsets.only(bottom: 50.0),
           markers: spotsSet,
-          initialCameraPosition:
-             CameraPosition(zoom: 15, target: LatLng(initialXCoordinate, initialYCoordinate)),
+          initialCameraPosition: CameraPosition(zoom: 15, target: LatLng(initialXCoordinate, initialYCoordinate)),
         ),
         DraggableScrollableSheet(
             initialChildSize: 0.15,
@@ -100,32 +90,27 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
             builder: (context, state) => Conditional.single(
                 context: context,
                 conditionBuilder: (_) => state.type == SpotDetailsStateType.success,
-                widgetBuilder: (_) =>
-                    _buildSpotDetailsPanel(state.spot.spot, state.spot.drops, controller, bloc),
+                widgetBuilder: (_) => _buildSpotDetailsPanel(state.spot, controller, bloc),
                 fallbackBuilder: (_) => SizedBox.shrink()))
       ],
     );
   }
 
-  Widget _buildSpotDetailsPanel(SpotBaseCustomerResponse spot, List<DropCustomerSpotResponse> drops,
-      PanelController controller, CustomerSpotsBloc bloc) {
+  Widget _buildSpotDetailsPanel(SpotDetailedCustomerResponse spot, PanelController controller, CustomerSpotsBloc bloc) {
     return SlidingUpPanel(
         minHeight: 300,
         maxHeight: 630,
         controller: controller,
-        borderRadius:
-            const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
         panelBuilder: (myScrollController) => ListView(
               controller: myScrollController,
               shrinkWrap: true,
-              children: [
-                CustomerSpotDetailsPage(spot: spot, controller: controller, customerSpotsBloc: bloc)
-              ],
+              children: [CustomerSpotDetailsPage(spotAndDrops: spot, controller: controller, customerSpotsBloc: bloc)],
             ));
   }
 
-  Set<Marker> _convertSpotsToMarkers(BuildContext context, SpotDetailsBloc spotDetailsBloc,
-          List<SpotBaseCustomerResponse> spots) =>
+  Set<Marker> _convertSpotsToMarkers(
+          BuildContext context, SpotDetailsBloc spotDetailsBloc, List<SpotBaseCustomerResponse> spots) =>
       spots
           .map((spot) => Marker(
               onTap: () => spotDetailsBloc.add(FetchSpotDetailsEvent(spotUid: spot.uid)),
@@ -134,30 +119,27 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
               markerId: MarkerId(spot.uid)))
           .toSet();
 
-  Widget _spotsPanel(BuildContext context, SpotDetailsBloc bloc,
-      List<SpotBaseCustomerResponse> spots, ScrollController controller) {
+  Widget _spotsPanel(
+      BuildContext context, SpotDetailsBloc bloc, List<SpotBaseCustomerResponse> spots, ScrollController controller) {
     return Container(
       child: _spotsList(context, bloc, spots, controller),
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius:
-              const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
     );
   }
 
-  Widget _spotsList(BuildContext context, SpotDetailsBloc bloc,
-      List<SpotBaseCustomerResponse> spots, ScrollController controller) {
+  Widget _spotsList(
+      BuildContext context, SpotDetailsBloc bloc, List<SpotBaseCustomerResponse> spots, ScrollController controller) {
     return ListView(
-        controller: controller,
-        shrinkWrap: true,
-        children: [DhSearchBar(DhListBloc()), spotsCards(spots, bloc)]);
+        controller: controller, shrinkWrap: true, children: [DhSearchBar(DhListBloc()), spotsCards(spots, bloc)]);
   }
 
   Widget spotsCards(List<SpotBaseCustomerResponse> spots, SpotDetailsBloc bloc) {
     return Column(
         children: spots
-            .map((spot) => CustomerSpotCard(
-                spot: spot, onTap: () => bloc.add(FetchSpotDetailsEvent(spotUid: spot.uid))))
+            .map(
+                (spot) => CustomerSpotCard(spot: spot, onTap: () => bloc.add(FetchSpotDetailsEvent(spotUid: spot.uid))))
             .toList());
   }
 
@@ -175,9 +157,8 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
                 padding: const EdgeInsets.all(13.0),
                 child: Container(
                   child: RaisedButton(onPressed: () => {}),
-                  decoration: BoxDecoration(
-                      color: themeConfig.colors.textFieldHint,
-                      borderRadius: BorderRadius.circular(5)),
+                  decoration:
+                      BoxDecoration(color: themeConfig.colors.textFieldHint, borderRadius: BorderRadius.circular(5)),
                 ),
               ),
             ))),
