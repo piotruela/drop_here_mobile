@@ -1,4 +1,4 @@
-part of 'add_product_bloc.dart';
+part of 'manage_product_bloc.dart';
 
 abstract class ManageProductEvent extends Equatable {
   const ManageProductEvent();
@@ -72,7 +72,7 @@ class CategoryRemoved extends ManageProductEvent {
 }
 
 class FormSubmitted extends ManageProductEvent {
-  final String productId;
+  final int productId;
   final Image photo;
   final ProductManagementRequest product;
 

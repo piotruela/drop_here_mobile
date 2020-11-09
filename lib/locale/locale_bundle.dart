@@ -109,7 +109,9 @@ abstract class LocaleBundle {
 
   String get unitFractionMandatory;
 
-  String get unitFractionExample;
+  String get unitFractionNonFractionableExample;
+
+  String get unitFractionFractionableExample;
 
   String get persons;
 
