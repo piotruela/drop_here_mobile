@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/authentication_api.dart';
+import 'package:drop_here_mobile/accounts/model/api/company_customers_request.dart';
 import 'package:drop_here_mobile/accounts/services/account_service.dart';
 import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
@@ -14,6 +15,7 @@ import 'package:drop_here_mobile/accounts/ui/pages/product_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
 import 'package:drop_here_mobile/routes/routes_list_page.dart';
@@ -22,8 +24,8 @@ import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
 import 'package:drop_here_mobile/spots/services/spots_user_service.dart';
 import 'package:drop_here_mobile/spots/ui/pages/company_map_page.dart';
 import 'package:drop_here_mobile/spots/ui/pages/customer_map_page.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart' hide Page;
+import 'package:flutter/material.dart' hide Page;
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -55,8 +57,10 @@ class SandboxPage extends StatelessWidget {
               children: [
                 FlatButton(
                     child: Text("client details management"),
-                    onPressed: () {
-                      Get.to(ClientDetailsManagementPage());
+                    onPressed: () async {
+                      Page page = await companyManagementService
+                          .getCompanyCustomers(CompanyCustomersRequest());
+                      Get.to(ClientDetailsManagementPage(page.content.first));
                     }),
                 FlatButton(
                     child: Text("add product"),

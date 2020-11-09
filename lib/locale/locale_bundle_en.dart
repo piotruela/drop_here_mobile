@@ -456,4 +456,10 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get routes => "Routes";
+
+  @override
+  String get relationshipStatus => "Relationship status";
+
+  @override
+  String get spotsMemberships => "Spots memberships";
 }

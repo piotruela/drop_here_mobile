@@ -98,6 +98,8 @@ class CompanyCustomerResponse {
   factory CompanyCustomerResponse.fromJson(Map<String, dynamic> json) =>
       _$CompanyCustomerResponseFromJson(json);
   Map<String, dynamic> toJson() => _$CompanyCustomerResponseToJson(this);
+
+  String get fullName => firstName + ' ' + lastName;
 }
 
 @JsonSerializable()

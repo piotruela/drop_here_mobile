@@ -11,3 +11,11 @@ class ClientDetailsInitial extends ClientDetailsManagementEvent {
   @override
   List<Object> get props => [];
 }
+
+class FetchClientDetails extends ClientDetailsManagementEvent {
+  final CompanyCustomerResponse customerResponse;
+
+  FetchClientDetails(this.customerResponse);
+  @override
+  List<Object> get props => [];
+}

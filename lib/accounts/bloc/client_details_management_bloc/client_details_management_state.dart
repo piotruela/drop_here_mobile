@@ -2,7 +2,8 @@ part of 'client_details_management_bloc.dart';
 
 class ClientDetailsManagementState extends Equatable {
   final CompanyCustomerResponse customerResponse;
-  const ClientDetailsManagementState({this.customerResponse});
+  final ClientDetailsManagementStateType type;
+  const ClientDetailsManagementState({this.customerResponse, this.type});
 
   // ClientDetailsManagementState copyWith({
   //   final CompanyCustomerResponse customerResponse,
@@ -13,7 +14,7 @@ class ClientDetailsManagementState extends Equatable {
   // }
 
   @override
-  List<Object> get props => [customerResponse];
+  List<Object> get props => [customerResponse, type];
 }
 
 enum ClientDetailsManagementStateType { initial, clientUpdated, loading, error }
