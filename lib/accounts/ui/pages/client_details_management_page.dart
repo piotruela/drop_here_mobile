@@ -35,23 +35,25 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
               caseBuilders: {
                 ClientDetailsManagementStateType.loading: (_) =>
                     Center(child: CircularProgressIndicator()),
-                ClientDetailsManagementStateType.initial: (_) => _buildPageContent(locale),
+                ClientDetailsManagementStateType.initial: (_) =>
+                    _buildPageContent(locale, bloc.state),
               },
               fallbackBuilder: (_) => SizedBox.shrink()),
         ));
   }
 
-  Widget _buildPageContent(LocaleBundle locale) {
+  Widget _buildPageContent(LocaleBundle locale, ClientDetailsManagementState state) {
     return SafeArea(
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _userName(),
+        _userName(state.customerResponse.fullName),
         _avatar(),
         SizedBox(
           height: 15.0,
         ),
-        companyInfoTile(locale.relationshipStatus, describeEnum(customer.relationshipStatus)),
+        companyInfoTile(
+            locale.relationshipStatus, describeEnum(state.customerResponse.relationshipStatus)),
         Padding(
           padding: const EdgeInsets.only(left: 25.0, bottom: 8.0),
           child: Text(
@@ -59,17 +61,17 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
             style: themeConfig.textStyles.secondaryTitle,
           ),
         ),
-        _spotsList(),
+        _spotsList(state.customerResponse.companyCustomerSpotMemberships),
         addSellerButton(locale),
       ],
     ));
   }
 
-  Padding _userName() {
+  Padding _userName(String userName) {
     return Padding(
       padding: const EdgeInsets.only(left: 25.0),
       child: Text(
-        customer.fullName,
+        userName,
         style: themeConfig.textStyles.primaryTitle,
       ),
     );
@@ -91,19 +93,18 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
     );
   }
 
-  Expanded _spotsList() {
+  Expanded _spotsList(List<CompanyCustomerSpotMembershipResponse> spots) {
     return Expanded(
       child: SingleChildScrollView(
         physics: ScrollPhysics(),
         child: Column(
           children: <Widget>[
-            SpotTile(customer.companyCustomerSpotMemberships.first),
             ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: customer.companyCustomerSpotMemberships.length,
+                itemCount: spots.length,
                 itemBuilder: (context, index) {
-                  return SpotTile(customer.companyCustomerSpotMemberships[index]);
+                  return SpotTile(spots[index]);
                 })
           ],
         ),

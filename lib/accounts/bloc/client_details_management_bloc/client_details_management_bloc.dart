@@ -30,6 +30,9 @@ class ClientDetailsManagementBloc
       yield ClientDetailsManagementState(
           customerResponse: event.customerResponse,
           type: ClientDetailsManagementStateType.clientUpdated);
+    } else if (event is BlockUser) {
+      //TODO implement
+      yield ClientDetailsManagementState(type: ClientDetailsManagementStateType.clientUpdated);
     }
   }
 }
