@@ -2,6 +2,7 @@ import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.da
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
 import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
+import 'package:drop_here_mobile/common/ui/widgets/info_text.dart';
 import 'package:drop_here_mobile/common/ui/widgets/labeled_switch.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:flutter/material.dart';
@@ -85,18 +86,7 @@ class _CustomizationDialogState extends State<CustomizationDialog> {
                 ],
               ),
               _sectionTitle("Values"),
-              Row(
-                children: [
-                  Icon(
-                    Icons.info,
-                    size: 15.0,
-                  ),
-                  Text(
-                    "Click on customization to delete it",
-                    style: themeConfig.textStyles.cardSubtitle,
-                  )
-                ],
-              ),
+              InfoText(text: "Click on customization to delete it"),
               _customizationsList(customizationValues),
               ChoosableButton(
                   text: "Add value +",

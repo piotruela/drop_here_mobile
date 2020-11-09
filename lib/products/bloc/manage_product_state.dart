@@ -1,11 +1,11 @@
-part of 'add_product_bloc.dart';
+part of 'manage_product_bloc.dart';
 
 class ManageProductState extends Equatable {
   final ManageProductStateType type;
   final ProductManagementRequest product;
   final Image photo;
   final List<String> categories;
-  final List<String> unitTypes;
+  final List<ProductUnitResponse> unitTypes;
   final String addedCategory;
 
   ManageProductState({this.type, this.product, this.photo, this.categories, this.unitTypes, this.addedCategory});
@@ -20,6 +20,9 @@ class ManageProductState extends Equatable {
       product.price != null &&
       product.unit != null &&
       product.unitFraction != null;
+
+  ProductUnitResponse get selectedUnitType =>
+      unitTypes?.firstWhere((element) => element.name == product?.unit, orElse: () => null);
 }
 
 enum ManageProductStateType {

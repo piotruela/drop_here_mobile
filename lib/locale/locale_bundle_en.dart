@@ -167,7 +167,10 @@ class LocaleBundleEn extends LocaleBundle {
   String get unitFractionMandatory => "Unit fraction*";
 
   @override
-  String get unitFractionExample => "minimum value: 0.1";
+  String get unitFractionFractionableExample => "minimum value: 0.1";
+
+  @override
+  String get unitFractionNonFractionableExample => "minimum value: 1";
 
   @override
   String get unitTypeMandatory => "Unit type*";

@@ -1,7 +1,7 @@
-import 'package:drop_here_mobile/accounts/ui/pages/add_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_route_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_spot_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_profile_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/manage_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
@@ -36,9 +36,7 @@ class CreateNewItemPage extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 15.0, bottom: 10.0),
                   child: Align(
                       alignment: Alignment.topRight,
-                      child: IconButton(
-                          onPressed: () => controller.close(),
-                          icon: Icon(Icons.close, size: 40.0))),
+                      child: IconButton(onPressed: () => controller.close(), icon: Icon(Icons.close, size: 40.0))),
                 )
               ],
             ),

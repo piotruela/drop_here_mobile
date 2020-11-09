@@ -2,9 +2,10 @@ import 'dart:io';
 
 import 'package:drop_here_mobile/accounts/bloc/company_management_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
+import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/edit_company_details_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/login_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/splash_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
@@ -18,6 +19,8 @@ import 'package:image_picker/image_picker.dart';
 class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final CompanyManagementService companyManagementService = Get.find<CompanyManagementService>();
+  final AuthenticationService authenticationService = Get.find<AuthenticationService>();
+
   @override
   CompanyManagementBloc bloc() => CompanyManagementBloc()..add(FetchCompanyDetails());
 
@@ -82,8 +85,7 @@ class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
                     Icons.edit,
                   ),
                   shape: CircleBorder(),
-                  onPressed: () => Get.to(
-                      EditCompanyDetailsPage(company: state.company, companyImage: state.image)),
+                  onPressed: () => Get.to(EditCompanyDetailsPage(company: state.company, companyImage: state.image)),
                 ),
               )),
             ],
@@ -93,19 +95,17 @@ class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
           height: 20.0,
         ),
         companyInfoTile(state, locale.country, state.company.country),
-        companyInfoTile(
-            state,
-            locale.visibilityStatus,
-            state.company.visibilityStatus == VisibilityStatus.VISIBLE
-                ? locale.visible
-                : locale.hidden),
-        companyInfoTile(
-            state, locale.registered, state.company.registered ? locale.yes : locale.no),
+        companyInfoTile(state, locale.visibilityStatus,
+            state.company.visibilityStatus == VisibilityStatus.VISIBLE ? locale.visible : locale.hidden),
+        companyInfoTile(state, locale.registered, state.company.registered ? locale.yes : locale.no),
         companyInfoTile(state, locale.numberOfSellers, state.company.profilesCount.toString()),
         ChoosableButton(
           text: "Log out",
           isChosen: false,
-          chooseAction: () => Get.offAll(LoginPage()),
+          chooseAction: () {
+            authenticationService.logOutFromAccount();
+            Get.offAll(SplashPage());
+          },
         )
       ],
     );
@@ -132,9 +132,7 @@ class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
           ),
         ),
         decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    width: 1.0, color: themeConfig.colors.white, style: BorderStyle.solid))),
+            border: Border(bottom: BorderSide(width: 1.0, color: themeConfig.colors.white, style: BorderStyle.solid))),
       ),
     );
   }
