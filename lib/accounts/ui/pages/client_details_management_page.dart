@@ -62,7 +62,7 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
             style: themeConfig.textStyles.secondaryTitle,
           ),
         ),
-        _spotsList(bloc.state.customerResponse.companyCustomerSpotMemberships),
+        _spotsList(bloc.state.customerResponse.companyCustomerSpotMemberships, locale, bloc),
         _blockUserButton(
             locale, () => {bloc.add(BlockUser(bloc.state.customerResponse.customerId))}),
       ],
@@ -95,7 +95,8 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
     );
   }
 
-  Expanded _spotsList(List<CompanyCustomerSpotMembershipResponse> spots) {
+  Expanded _spotsList(List<CompanyCustomerSpotMembershipResponse> spots, LocaleBundle locale,
+      ClientDetailsManagementBloc bloc) {
     return Expanded(
       child: SingleChildScrollView(
         physics: ScrollPhysics(),
@@ -106,7 +107,7 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
                 shrinkWrap: true,
                 itemCount: spots.length,
                 itemBuilder: (context, index) {
-                  return SpotTile(spots[index]);
+                  return SpotTile(spots[index], locale, bloc);
                 })
           ],
         ),
@@ -171,13 +172,13 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
 
 class SpotTile extends DhTile {
   final CompanyCustomerSpotMembershipResponse spot;
+  final LocaleBundle locale;
+  final ClientDetailsManagementBloc bloc;
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-
-  SpotTile(this.spot);
+  SpotTile(this.spot, this.locale, this.bloc);
 
   @override
   onTap(BuildContext context) {
-    print('a');
     return () {};
   }
 
@@ -197,5 +198,44 @@ class SpotTile extends DhTile {
   String get title => spot.spotName;
 
   @override
-  Widget get trailing => Icon(Icons.more_vert);
+  Widget get trailing {
+    final List<PopupItem> popupOptions = [];
+    if (spot.membershipStatus == MembershipStatus.BLOCKED ||
+        spot.membershipStatus == MembershipStatus.PENDING) {
+      popupOptions.add(PopupItem(locale.acceptUserOnSpot, () {
+        bloc.add(ToggleSpotMembershipStatus(true, spot.spotUid));
+      }));
+    }
+    if (spot.membershipStatus == MembershipStatus.ACTIVE ||
+        spot.membershipStatus == MembershipStatus.PENDING) {
+      popupOptions.add(PopupItem(locale.blockUserOnSpot, () {
+        bloc.add(ToggleSpotMembershipStatus(false, spot.spotUid));
+      }));
+    }
+    return PopupMenuButton<String>(
+      icon: Icon(
+        Icons.more_vert,
+        color: themeConfig.colors.black,
+        size: 30.0,
+      ),
+      onSelected: (value) => print(value),
+      itemBuilder: (BuildContext context) {
+        return popupOptions.map((PopupItem choice) {
+          return PopupMenuItem<String>(
+            value: choice.value,
+            child: Text(
+              choice.value,
+              style: themeConfig.textStyles.popupMenu,
+            ),
+          );
+        }).toList();
+      },
+    );
+  }
+}
+
+class PopupItem {
+  final String value;
+  final Function onTap;
+  PopupItem(this.value, this.onTap);
 }

@@ -27,7 +27,9 @@ class BlockUser extends ClientDetailsManagementEvent {
 }
 
 class ToggleSpotMembershipStatus extends ClientDetailsManagementEvent {
-  const ToggleSpotMembershipStatus();
+  final bool toggleToActive;
+  final String spotUid;
+  const ToggleSpotMembershipStatus(this.toggleToActive, this.spotUid);
   @override
-  List<Object> get props => [];
+  List<Object> get props => [toggleToActive, spotUid];
 }

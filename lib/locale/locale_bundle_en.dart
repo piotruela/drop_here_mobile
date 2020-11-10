@@ -465,4 +465,10 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get blockUser => "Block user";
+
+  @override
+  String get acceptUserOnSpot => "Accept";
+
+  @override
+  String get blockUserOnSpot => "Block";
 }

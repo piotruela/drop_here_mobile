@@ -42,6 +42,14 @@ class ClientDetailsManagementBloc
           customerResponse:
               page.content.firstWhere((customer) => customer.customerId == event.userId),
           type: ClientDetailsManagementStateType.clientUpdated);
-    } else if (event is ToggleSpotMembershipStatus) {}
+    } else if (event is ToggleSpotMembershipStatus) {
+      //TODO add spotMembershipId
+      //spotManagementService.updateMembership(SpotCompanyMembershipManagementRequest(), event.spotUid, spotMembershipId)
+      Page page = await companyManagementService.getCompanyCustomers(CompanyCustomersRequest());
+      yield ClientDetailsManagementState(
+          customerResponse: page.content
+              .firstWhere((customer) => customer.customerId == state.customerResponse.customerId),
+          type: ClientDetailsManagementStateType.clientUpdated);
+    }
   }
 }
