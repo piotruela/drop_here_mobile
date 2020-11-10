@@ -13,15 +13,15 @@ class ClientDetailsInitial extends ClientDetailsManagementEvent {
 }
 
 class FetchClientDetails extends ClientDetailsManagementEvent {
-  final CompanyCustomerResponse customerResponse;
-
-  FetchClientDetails(this.customerResponse);
+  final int customerId;
+  FetchClientDetails(this.customerId);
   @override
-  List<Object> get props => [customerResponse];
+  List<Object> get props => [customerId];
 }
 
 class BlockUser extends ClientDetailsManagementEvent {
-  const BlockUser();
+  final int userId;
+  const BlockUser(this.userId);
   @override
-  List<Object> get props => [];
+  List<Object> get props => [userId];
 }

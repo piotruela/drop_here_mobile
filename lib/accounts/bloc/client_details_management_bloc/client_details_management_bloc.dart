@@ -24,15 +24,22 @@ class ClientDetailsManagementBloc
       yield ClientDetailsManagementState(
           customerResponse: event.customerResponse, type: ClientDetailsManagementStateType.initial);
     } else if (event is FetchClientDetails) {
+      yield ClientDetailsManagementState(type: ClientDetailsManagementStateType.loading);
       //TODO add parameters to request
       Page page = await companyManagementService.getCompanyCustomers(CompanyCustomersRequest());
-      //page.content.
       yield ClientDetailsManagementState(
-          customerResponse: event.customerResponse,
+          customerResponse:
+              page.content.firstWhere((customer) => customer.customerId == event.customerId),
           type: ClientDetailsManagementStateType.clientUpdated);
     } else if (event is BlockUser) {
-      //TODO implement
-      yield ClientDetailsManagementState(type: ClientDetailsManagementStateType.clientUpdated);
+      CompanyCustomerManagementRequest request = CompanyCustomerManagementRequest(block: true);
+      ResourceOperationResponse response =
+          await companyManagementService.updateCustomer(request, event.userId.toString());
+      Page page = await companyManagementService.getCompanyCustomers(CompanyCustomersRequest());
+      yield ClientDetailsManagementState(
+          customerResponse:
+              page.content.firstWhere((customer) => customer.customerId == event.userId),
+          type: ClientDetailsManagementStateType.clientUpdated);
     }
   }
 }

@@ -58,7 +58,7 @@ class CompanyManagementRequest {
 class CompanyCustomerManagementRequest {
   bool block;
 
-  CompanyCustomerManagementRequest({bool block});
+  CompanyCustomerManagementRequest({this.block});
 
   factory CompanyCustomerManagementRequest.fromJson(Map<String, dynamic> json) =>
       _$CompanyCustomerManagementRequestFromJson(json);

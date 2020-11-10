@@ -35,25 +35,26 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
               caseBuilders: {
                 ClientDetailsManagementStateType.loading: (_) =>
                     Center(child: CircularProgressIndicator()),
-                ClientDetailsManagementStateType.initial: (_) =>
-                    _buildPageContent(locale, bloc.state),
+                ClientDetailsManagementStateType.initial: (_) => _buildPageContent(locale, bloc),
+                ClientDetailsManagementStateType.clientUpdated: (_) =>
+                    _buildPageContent(locale, bloc),
               },
               fallbackBuilder: (_) => SizedBox.shrink()),
         ));
   }
 
-  Widget _buildPageContent(LocaleBundle locale, ClientDetailsManagementState state) {
+  Widget _buildPageContent(LocaleBundle locale, ClientDetailsManagementBloc bloc) {
     return SafeArea(
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _userName(state.customerResponse.fullName),
+        _userName(bloc.state.customerResponse.fullName),
         _avatar(),
         SizedBox(
           height: 15.0,
         ),
-        companyInfoTile(
-            locale.relationshipStatus, describeEnum(state.customerResponse.relationshipStatus)),
+        companyInfoTile(locale.relationshipStatus,
+            describeEnum(bloc.state.customerResponse.relationshipStatus)),
         Padding(
           padding: const EdgeInsets.only(left: 25.0, bottom: 8.0),
           child: Text(
@@ -61,8 +62,9 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
             style: themeConfig.textStyles.secondaryTitle,
           ),
         ),
-        _spotsList(state.customerResponse.companyCustomerSpotMemberships),
-        addSellerButton(locale),
+        _spotsList(bloc.state.customerResponse.companyCustomerSpotMemberships),
+        _blockUserButton(
+            locale, () => {bloc.add(BlockUser(bloc.state.customerResponse.customerId))}),
       ],
     ));
   }
@@ -140,12 +142,12 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
     );
   }
 
-  Widget addSellerButton(LocaleBundle locale) {
+  Widget _blockUserButton(LocaleBundle locale, Function onTap) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(top: 4.0, bottom: 12.0),
         child: FlatButton(
-          onPressed: () => {},
+          onPressed: onTap,
           child: Container(
             height: 30.0,
             width: 120.0,
