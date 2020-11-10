@@ -19,12 +19,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final Function addDrop;
+  final DateTime lastDropEndTime;
 
-  AddDropToRoutePage({@required this.addDrop});
+  AddDropToRoutePage({@required this.addDrop, this.lastDropEndTime});
   @override
   bloc() => AddDropToRouteBloc();
 
@@ -68,7 +70,6 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
                                   _buildSpotAddButton(locale, context, addDropToRouteBloc),
                               fallbackBuilder: (_) => SpotCard(state.spot, addDropToRouteBloc),
                             )),
-                    //TODO add check if endTime is after startTime
                     secondaryTitle(locale.startTimeMandatory),
                     startTimeButton(locale, addDropToRouteBloc),
                     secondaryTitle(locale.endTimeMandatory),
@@ -88,18 +89,32 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
                     BlocBuilder<AddDropToRouteBloc, AddDropToRouteFormState>(
                       buildWhen: (previous, current) => previous.isFilled != current.isFilled,
                       builder: (context, state) => Center(
-                        child: SubmitFormButton(
-                            text: locale.addDrop,
-                            isActive: state.isFilled,
-                            //TODO check this function
-                            onTap: () {
-                              if (state.isFilled) {
-                                addDropToRouteBloc.add(FormSubmitted());
-                                addDrop(addDropToRouteBloc.state.drop);
-                                Get.back();
-                              }
-                            }),
-                      ),
+                          child: SubmitFormButton(
+                              text: locale.addDrop,
+                              isActive: state.isFilled,
+                              onTap: () {
+                                if (state.isFilled) {
+                                  DateFormat format = DateFormat("HH:mm");
+                                  DateTime start =
+                                      format.parse(addDropToRouteBloc.state.drop.startTime);
+                                  DateTime end =
+                                      format.parse(addDropToRouteBloc.state.drop.endTime);
+                                  if (end.isBefore(start)) {
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                      content: Text(locale.endTimeBeforeStartTime),
+                                    ));
+                                  } else if (lastDropEndTime != null &&
+                                      start.isBefore(lastDropEndTime)) {
+                                    Scaffold.of(context).showSnackBar(SnackBar(
+                                      content: Text(locale.dropStartTimeBeforePreviousDropEndTime),
+                                    ));
+                                  } else {
+                                    addDropToRouteBloc.add(FormSubmitted());
+                                    addDrop(addDropToRouteBloc.state.drop);
+                                    Get.back();
+                                  }
+                                }
+                              })),
                     ),
                   ],
                 ),
@@ -145,6 +160,7 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
 
   ColoredRoundedFlatButton _buildSpotAddButton(
       LocaleBundle locale, BuildContext context, AddDropToRouteBloc bloc) {
+    FocusScope.of(context).unfocus();
     return ColoredRoundedFlatButton(
       text: locale.addSpotButton,
       onTap: () => navigateToChooseSpotForDropPage(bloc),
@@ -162,10 +178,12 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
   }
 
   void chooseTime(BuildContext context, AddDropToRouteBloc bloc, PickTime pickTime) async {
+    FocusScope.of(context).unfocus();
     TimeOfDay timeOfDay = await showTimePicker(
       context: context,
       initialTime: TimeOfDay.now(),
     );
+
     //TODO add with another state
     bloc.add(FormChanged(
         drop: pickTime == PickTime.START
@@ -199,6 +217,7 @@ void navigateToChooseSpotForDropPage(AddDropToRouteBloc bloc) {
   Get.to(ChooseSpotForDropPage(
     addSpot: (SpotCompanyResponse spot) {
       bloc.add(FormChanged(spot: spot, drop: bloc.state.drop.copyWith(spotId: spot.id)));
+      //bloc.add(FormChanged(spot: spot, drop: bloc.state.drop.copyWith(spotId: spot.id)));
     },
   ));
 }
@@ -212,7 +231,10 @@ class SpotCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
     return GestureDetector(
-      onTap: () => navigateToChooseSpotForDropPage(bloc),
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        navigateToChooseSpotForDropPage(bloc);
+      },
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 7.0),
         child: Container(

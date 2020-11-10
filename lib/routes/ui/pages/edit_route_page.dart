@@ -16,20 +16,23 @@ import 'package:drop_here_mobile/accounts/ui/widgets/value_picked_flat_button.da
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
-import 'package:drop_here_mobile/drops/model/localDrop.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/routes/bloc/add_route_bloc.dart';
+import 'package:drop_here_mobile/routes/model/route_request_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-class AddRoutePage extends BlocWidget<AddRouteBloc> {
+class EditRoutePage extends BlocWidget<AddRouteBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+  final int routeId;
+
+  EditRoutePage({@required this.routeId});
   @override
-  bloc() => AddRouteBloc();
+  bloc() => AddRouteBloc()..add(FetchRoute(routeId));
 
   @override
   Widget build(BuildContext context, AddRouteBloc addRouteBloc, _) {
@@ -53,12 +56,17 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   secondaryTitle(locale.nameMandatory),
-                  DhPlainTextFormField(
-                    hintText: locale.routeNameExample,
-                    onChanged: (String name) {
-                      addRouteBloc.add(FormChanged(
-                          routeRequest: addRouteBloc.state.routeRequest.copyWith(name: name)));
-                    },
+                  BlocBuilder<AddRouteBloc, AddRouteFormState>(
+                    builder: (context, state) => DhPlainTextFormField(
+                        //hintText: locale.routeNameExample,
+                        initialValue: addRouteBloc.state.routeRequest.name,
+                        onChanged: (value) => addRouteBloc.add(FormChanged(
+                            routeRequest: addRouteBloc.state.routeRequest.copyWith(name: value)))
+                        // onChanged: (String name) {
+                        //   addRouteBloc.add(FormChanged(
+                        //       routeRequest: addRouteBloc.state.routeRequest.copyWith(name: name)));
+                        // },
+                        ),
                   ),
                   secondaryTitle(locale.dateMandatory),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
@@ -77,8 +85,8 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                               ))),
                   secondaryTitle(locale.dropsMandatory),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
-                      buildWhen: (previous, current) => previous != current,
-                      builder: (context, state) => dropsCarousel(locale, addRouteBloc, context)),
+                      builder: (context, state) =>
+                          dropsCarousel(locale, addRouteBloc.state.drops, addRouteBloc)),
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.assignedSeller),
                   SizedBox(height: 6.0),
@@ -101,18 +109,23 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                           )),
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.description),
-                  DhTextArea(
-                    onChanged: (String description) {
-                      addRouteBloc.add(FormChanged(
-                          routeRequest:
-                              addRouteBloc.state.routeRequest.copyWith(description: description)));
-                    },
-                    value: addRouteBloc.state.routeRequest.description,
+                  BlocBuilder<AddRouteBloc, AddRouteFormState>(
+                    buildWhen: (previous, current) =>
+                        previous.routeRequest.description != current.routeRequest.description,
+                    builder: (context, state) => DhTextArea(
+                      initialValue: addRouteBloc.state.routeRequest.description,
+                      onChanged: (String description) {
+                        addRouteBloc.add(FormChanged(
+                            routeRequest: addRouteBloc.state.routeRequest
+                                .copyWith(description: description)));
+                      },
+                      value: addRouteBloc.state.routeRequest.description,
+                    ),
                   ),
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.productsMandatory),
                   SizedBox(height: 6.0),
-                  productsCarousel(locale, addRouteBloc, context),
+                  productsCarousel(locale, addRouteBloc),
                   SizedBox(
                     height: 40.0,
                   ),
@@ -120,7 +133,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                     buildWhen: (previous, current) => previous.isFilled != current.isFilled,
                     builder: (context, state) => Center(
                       child: SubmitFormButton(
-                          text: locale.addRoute,
+                          text: locale.submit,
                           isActive: state.isFilled,
                           //TODO check this function
                           onTap: () {
@@ -140,26 +153,6 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     );
   }
 
-  Widget _buildDatePickerButton(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
-    return ColoredRoundedFlatButton(
-      text: locale.pickADate,
-      onTap: () {
-        chooseDate(context, bloc);
-      },
-    );
-  }
-
-  Widget _chooseSeller(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
-    FocusScope.of(context).unfocus();
-    return ColoredRoundedFlatButton(
-      text: locale.chooseSeller,
-      onTap: () {
-        getToChoseSellerPage(bloc);
-        //TODO add function
-      },
-    );
-  }
-
   void getToChoseSellerPage(AddRouteBloc bloc) {
     Get.to(ChooseSellerPage(
       addSeller: (String profileUid, String sellerFirstName, String sellerLastName) {
@@ -171,13 +164,36 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     ));
   }
 
+  Widget _buildDatePickerButton(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
+    return ColoredRoundedFlatButton(
+      text: locale.pickADate,
+      onTap: () {
+        chooseDate(context, bloc);
+      },
+    );
+  }
+
+  Widget _chooseSeller(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
+    return ColoredRoundedFlatButton(
+      text: locale.chooseSeller,
+      onTap: () {
+        Get.to(ChooseSellerPage(
+          addSeller: (String profileUid, String sellerFirstName, String sellerLastName) {
+            bloc.add(FormChanged(
+                routeRequest: bloc.state.routeRequest.copyWith(profileUid: profileUid),
+                sellerFirstName: sellerFirstName,
+                sellerLastName: sellerLastName));
+          },
+        ));
+        //TODO add function
+      },
+    );
+  }
+
   void chooseDate(BuildContext context, AddRouteBloc bloc) async {
-    FocusScope.of(context).unfocus();
     DateTime dateTime = await showDatePicker(
         context: context,
-        initialDate: bloc.state.routeRequest.date != null
-            ? DateTime.parse(bloc.state.routeRequest.date)
-            : DateTime.now(),
+        initialDate: DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime(DateTime.now().year + 10, 1, 1));
     bloc.add(FormChanged(
@@ -185,7 +201,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     ));
   }
 
-  Widget dropCard({LocaleBundle locale, LocalDrop drop, AddRouteBloc bloc}) {
+  Widget dropCard({LocaleBundle locale, RouteDropRequest drop}) {
     return Padding(
       padding: const EdgeInsets.only(right: 22.0, bottom: 6.0),
       child: Container(
@@ -202,27 +218,12 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
             SizedBox(
               height: 6.0,
             ),
-            Stack(
-              children: [
-                Container(
-                  width: 114.0,
-                  child: IconInCircle(
-                    themeConfig: themeConfig,
-                    icon: Icons.thumbs_up_down,
-                  ),
-                ),
-                Positioned(
-                  top: 0,
-                  right: 2,
-                  child: GestureDetector(
-                    onTap: () {
-                      print('cli');
-                      bloc.add(RemoveDrop(drop));
-                    },
-                    child: Icon(Icons.close),
-                  ),
-                )
-              ],
+            Container(
+              width: 114.0,
+              child: IconInCircle(
+                themeConfig: themeConfig,
+                icon: Icons.thumbs_up_down,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
@@ -235,22 +236,6 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                     overflow: TextOverflow.ellipsis,
                   ),
                   SizedBox(height: 4.0),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.pin_drop,
-                        color: themeConfig.colors.primary1,
-                        size: 10.0,
-                      ),
-                      SizedBox(
-                        width: 3.0,
-                      ),
-                      Text(
-                        drop.spotName ?? '',
-                        style: themeConfig.textStyles.title3Annotation,
-                      ),
-                    ],
-                  ),
                   //TODO add when drop localization available
                   // FutureBuilder(
                   //     future: getAddressFromCoordinates(drop., spot.ycoordinate) ?? '',
@@ -282,7 +267,8 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                         width: 3.0,
                       ),
                       Text(
-                        drop.startTime ?? '',
+                        DateFormat.Hm().format(DateTime.parse(drop.startTime ?? '')),
+                        //drop.startTime?. ?? '',
                         style: themeConfig.textStyles.title3Annotation,
                       ),
                     ],
@@ -300,7 +286,7 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                         width: 3.0,
                       ),
                       Text(
-                        drop.endTime ?? '',
+                        DateFormat.Hm().format(DateTime.parse(drop.endTime ?? '')),
                         style: themeConfig.textStyles.title3Annotation,
                       ),
                     ],
@@ -308,7 +294,6 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
                   SizedBox(
                     height: 4.0,
                   ),
-
                   //SizedBox(height: 5.0)
                 ],
               ),
@@ -319,7 +304,8 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
     );
   }
 
-  CarouselSlider dropsCarousel(LocaleBundle locale, AddRouteBloc bloc, BuildContext context) {
+  CarouselSlider dropsCarousel(
+      LocaleBundle locale, List<RouteDropRequest> drops, AddRouteBloc bloc) {
     return CarouselSlider(
         options: CarouselOptions(
           aspectRatio: 16 / 7.4,
@@ -328,22 +314,18 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
           initialPage: 0,
         ),
         items: [
-          for (LocalDrop drop in bloc.state.drops ?? [])
-            dropCard(locale: locale, drop: drop, bloc: bloc),
+          for (RouteDropRequest drop in drops ?? []) dropCard(locale: locale, drop: drop),
           GestureDetector(
             onTap: () {
-              FocusScope.of(context).unfocus();
               Get.to(AddDropToRoutePage(
-                  addDrop: (LocalDrop drop) {
-                    bloc.add(AddDrop(
-                      drop,
-                    ));
-                  },
-                  lastDropEndTime: bloc.state.drops?.length != 0
-                      ? DateFormat("HH:mm").parse(
-                          bloc.state.drops.last.endTime,
-                        )
-                      : null));
+                addDrop: (RouteDropRequest drop) {
+                  bloc.add(FormChanged(
+                      routeRequest: bloc.state.routeRequest.drops != null
+                          ? bloc.state.routeRequest
+                              .copyWith(drops: bloc.state.routeRequest.drops..add(drop))
+                          : bloc.state.routeRequest.copyWith(drops: [drop])));
+                },
+              ));
             },
             child: IconInCircle(
               themeConfig: themeConfig,
@@ -353,32 +335,58 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
         ]);
   }
 
-  CarouselSlider productsCarousel(LocaleBundle locale, AddRouteBloc bloc, BuildContext context) {
-    return CarouselSlider(
-        options: CarouselOptions(
-          aspectRatio: 16 / 7.4,
-          enableInfiniteScroll: false,
-          viewportFraction: 0.38,
-          initialPage: 0,
-        ),
-        items: [
-          for (LocalProduct product in bloc.state.products ?? [])
-            productCard(
-              locale: locale,
-              product: product,
-            ),
-          GestureDetector(
-            onTap: () async {
-              bloc.add(AddProducts(
-                  products: await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));
-              FocusScope.of(context).requestFocus(FocusNode());
-            },
-            child: IconInCircle(
-              themeConfig: themeConfig,
-              icon: Icons.add,
-            ),
-          )
-        ]);
+  BlocBuilder productsCarousel(LocaleBundle locale, AddRouteBloc bloc) {
+    return BlocBuilder<AddRouteBloc, AddRouteFormState>(
+        buildWhen: (previous, current) => previous.products != current.products,
+        builder: (context, state) => CarouselSlider(
+                options: CarouselOptions(
+                  aspectRatio: 16 / 7.4,
+                  enableInfiniteScroll: false,
+                  viewportFraction: 0.38,
+                  initialPage: 0,
+                ),
+                items: [
+                  for (LocalProduct product in bloc.state.products ?? [])
+                    productCard(
+                      locale: locale,
+                      product: product,
+                    ),
+                  GestureDetector(
+                    onTap: () async {
+                      bloc.add(AddProducts(
+                          products:
+                              await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));
+                    },
+                    child: IconInCircle(
+                      themeConfig: themeConfig,
+                      icon: Icons.add,
+                    ),
+                  )
+                ]));
+    // return CarouselSlider(
+    //     options: CarouselOptions(
+    //       aspectRatio: 16 / 7.4,
+    //       enableInfiniteScroll: false,
+    //       viewportFraction: 0.38,
+    //       initialPage: 0,
+    //     ),
+    //     items: [
+    //       for (LocalProduct product in bloc.state.products ?? [])
+    //         productCard(
+    //           locale: locale,
+    //           product: product,
+    //         ),
+    //       GestureDetector(
+    //         onTap: () async {
+    //           bloc.add(AddProducts(
+    //               products: await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));
+    //         },
+    //         child: IconInCircle(
+    //           themeConfig: themeConfig,
+    //           icon: Icons.add,
+    //         ),
+    //       )
+    //     ]);
   }
 
   Widget productCard({File photo, LocalProduct product, LocaleBundle locale}) {
@@ -395,20 +403,25 @@ class AddRoutePage extends BlocWidget<AddRouteBloc> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Container(
-              width: 154,
-              height: 96,
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-                child: product.photo != null
-                    ? productPhoto(product.photo)
-                    : IconInCircle(
+            product.photo != null
+                ? Container(
+                    width: 154,
+                    height: 96,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                        child: productPhoto(product.photo)),
+                  )
+                : Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10.0),
+                    child: Container(
+                      width: 114.0,
+                      child: IconInCircle(
                         themeConfig: themeConfig,
                         icon: Icons.shopping_basket,
                       ),
-              ),
-            ),
+                    ),
+                  ),
             Padding(
               padding: const EdgeInsets.all(4.0),
               child: Column(

@@ -310,4 +310,8 @@ abstract class LocaleBundle {
   String get acceptUserOnSpot;
 
   String get blockUserOnSpot;
+
+  String get endTimeBeforeStartTime;
+
+  String get dropStartTimeBeforePreviousDropEndTime;
 }

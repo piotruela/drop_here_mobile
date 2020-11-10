@@ -36,44 +36,46 @@ class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SafeArea(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
-              child: Text(
-                locale.chooseSpotForDrop,
-                style: themeConfig.textStyles.primaryTitle,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
+                child: Text(
+                  locale.chooseSpotForDrop,
+                  style: themeConfig.textStyles.primaryTitle,
+                ),
               ),
-            ),
-            DhSearchBar(bloc),
-            Padding(
-              padding: const EdgeInsets.only(left: 25.0),
-              child: FiltersFlatButton(
-                themeConfig: themeConfig,
-                locale: locale,
-                bloc: bloc,
+              DhSearchBar(bloc),
+              Padding(
+                padding: const EdgeInsets.only(left: 25.0),
+                child: FiltersFlatButton(
+                  themeConfig: themeConfig,
+                  locale: locale,
+                  bloc: bloc,
+                ),
               ),
-            ),
-            BlocBuilder<ChooseSpotForDropBloc, ChooseSpotForDropState>(
-              builder: (context, state) {
-                if (state is ChooseSpotForDropInitial) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (state is FetchingError) {
-                  return Container(
-                      child: Column(
-                    children: [
-                      Text('try again'),
-                      RaisedButton(onPressed: () => bloc.add(FetchSpotsForDrop()))
-                    ],
-                  ));
-                } else if (state is SpotsForDropFetched) {
-                  return buildColumnWithData(locale, context, bloc);
-                }
-                return Container();
-              },
-            ),
-          ],
+              BlocBuilder<ChooseSpotForDropBloc, ChooseSpotForDropState>(
+                builder: (context, state) {
+                  if (state is ChooseSpotForDropInitial) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (state is FetchingError) {
+                    return Container(
+                        child: Column(
+                      children: [
+                        Text('try again'),
+                        RaisedButton(onPressed: () => bloc.add(FetchSpotsForDrop()))
+                      ],
+                    ));
+                  } else if (state is SpotsForDropFetched) {
+                    return buildColumnWithData(locale, context, bloc);
+                  }
+                  return Container();
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -82,19 +84,22 @@ class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
   SafeArea buildColumnWithData(
       LocaleBundle locale, BuildContext context, ChooseSpotForDropBloc bloc) {
     return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: bloc.state.spots.length,
-              itemBuilder: (BuildContext context, int index) {
-                return SpotRadioCard(
-                  bloc: bloc,
-                  index: index,
-                );
-              }),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: bloc.state.spots.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return SpotRadioCard(
+                    bloc: bloc,
+                    index: index,
+                  );
+                }),
+          ],
+        ),
       ),
     );
   }
@@ -115,8 +120,9 @@ class SpotRadioCard extends StatelessWidget {
           bloc.add(ChangeGroupValue(index, bloc.state.spots));
         },
         child: Container(
-          child: ListTile(
-            leading: IconInCircle(
+          child: RadioListTile(
+            controlAffinity: ListTileControlAffinity.trailing,
+            secondary: IconInCircle(
               themeConfig: themeConfig,
               icon: Icons.store,
             ),
@@ -129,12 +135,6 @@ class SpotRadioCard extends StatelessWidget {
             subtitle: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  bloc.state.spots[index].description ?? '',
-                  style: themeConfig.textStyles.cardSubtitle,
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 1,
-                ),
                 FutureBuilder(
                     future: getAddressFromCoordinates(bloc.state.spots[index].xcoordinate,
                             bloc.state.spots[index].ycoordinate) ??
@@ -150,14 +150,11 @@ class SpotRadioCard extends StatelessWidget {
                     }),
               ],
             ),
-            trailing: Radio(
-              groupValue: bloc.state.radioValue,
-              value: index,
-              //onChanged: (_) {},
-              // onChanged: (_) {
-              //   bloc.add(ChangeGroupValue(index, bloc.state.spots));
-              // },
-            ),
+            groupValue: bloc.state.radioValue,
+            value: index,
+            onChanged: (_) {
+              bloc.add(ChangeGroupValue(index, bloc.state.spots));
+            },
           ),
           decoration: BoxDecoration(
             color: themeConfig.colors.white,

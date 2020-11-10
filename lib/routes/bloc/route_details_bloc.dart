@@ -19,7 +19,6 @@ class RouteDetailsBloc extends Bloc<RouteDetailsEvent, RouteDetailsState> {
   ) async* {
     yield RouteDetailsInitial();
     if (event is FetchRouteDetails) {
-      //TODO change ID
       RouteResponse response = await routeManagementService.fetchRoute(event.routeId);
       yield RouteDetailsFetched(response);
     }

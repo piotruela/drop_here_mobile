@@ -7,54 +7,39 @@ import 'dh_shadow.dart';
 class SellerCard extends StatelessWidget {
   final String title;
   final List<String> popupOptions;
-  const SellerCard({this.title, this.popupOptions});
+  final Icon trailing;
+  final Function onTap;
+  const SellerCard({this.title, this.popupOptions, this.trailing, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 7.0),
-      child: Container(
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 30,
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          child: ListTile(
+            leading: CircleAvatar(
+              radius: 30,
+            ),
+            title: Text(
+              title,
+              style: themeConfig.textStyles.secondaryTitle,
+            ),
+            subtitle: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [],
+            ),
+            trailing: trailing,
           ),
-          title: Text(
-            title,
-            style: themeConfig.textStyles.secondaryTitle,
+          decoration: BoxDecoration(
+            color: themeConfig.colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              dhShadow(),
+            ],
           ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [],
-          ),
-          trailing: popupOptions != null
-              ? PopupMenuButton<String>(
-                  icon: Icon(
-                    Icons.more_vert,
-                    color: themeConfig.colors.black,
-                    size: 30.0,
-                  ),
-                  onSelected: (_) {},
-                  itemBuilder: (BuildContext context) {
-                    return popupOptions.map((String choice) {
-                      return PopupMenuItem<String>(
-                        value: choice,
-                        child: Text(
-                          choice,
-                          style: themeConfig.textStyles.popupMenu,
-                        ),
-                      );
-                    }).toList();
-                  },
-                )
-              : SizedBox.shrink(),
-        ),
-        decoration: BoxDecoration(
-          color: themeConfig.colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            dhShadow(),
-          ],
         ),
       ),
     );
