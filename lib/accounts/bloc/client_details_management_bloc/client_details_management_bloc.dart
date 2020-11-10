@@ -5,6 +5,7 @@ import 'package:drop_here_mobile/accounts/model/api/company_customers_request.da
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
+import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 
@@ -15,6 +16,7 @@ class ClientDetailsManagementBloc
     extends Bloc<ClientDetailsManagementEvent, ClientDetailsManagementState> {
   ClientDetailsManagementBloc() : super(ClientDetailsManagementState());
   final CompanyManagementService companyManagementService = Get.find<CompanyManagementService>();
+  final SpotManagementService spotManagementService = Get.find<SpotManagementService>();
 
   @override
   Stream<ClientDetailsManagementState> mapEventToState(
@@ -40,6 +42,6 @@ class ClientDetailsManagementBloc
           customerResponse:
               page.content.firstWhere((customer) => customer.customerId == event.userId),
           type: ClientDetailsManagementStateType.clientUpdated);
-    }
+    } else if (event is ToggleSpotMembershipStatus) {}
   }
 }

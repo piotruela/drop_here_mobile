@@ -25,3 +25,9 @@ class BlockUser extends ClientDetailsManagementEvent {
   @override
   List<Object> get props => [userId];
 }
+
+class ToggleSpotMembershipStatus extends ClientDetailsManagementEvent {
+  const ToggleSpotMembershipStatus();
+  @override
+  List<Object> get props => [];
+}
