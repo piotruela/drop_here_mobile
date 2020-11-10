@@ -304,4 +304,6 @@ abstract class LocaleBundle {
   String get endTimeBeforeStartTime;
 
   String get dropStartTimeBeforePreviousDropEndTime;
+
+  String get placeOrder;
 }

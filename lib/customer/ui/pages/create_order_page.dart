@@ -19,12 +19,31 @@ class CreateOrderPage extends BlocWidget<CreateOrderBloc> {
     return Scaffold(
       body: BlocBuilder<CreateOrderBloc, CreateOrderState>(
           buildWhen: (previous, current) => previous != current,
-          builder: (context, state) => _buildPageContent()),
+          builder: (context, state) => _buildPageContent(locale, createOrderBloc)),
     );
   }
 
-  SafeArea _buildPageContent() => SafeArea(
+  SafeArea _buildPageContent(LocaleBundle locale, CreateOrderBloc bloc) => SafeArea(
           child: Column(
-        children: [],
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 5.0, left: 25.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  locale.placeOrder,
+                  style: themeConfig.textStyles.primaryTitle,
+                ),
+                SizedBox(height: 19.0),
+                Text(
+                  locale.productsMandatory,
+                  style: themeConfig.textStyles.secondaryTitle,
+                ),
+              ],
+            ),
+          ),
+        ],
       ));
 }

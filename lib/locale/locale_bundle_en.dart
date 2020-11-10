@@ -462,4 +462,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get dropStartTimeBeforePreviousDropEndTime => "Start time is before last drop end time";
+
+  @override
+  String get placeOrder => "Place order";
 }
