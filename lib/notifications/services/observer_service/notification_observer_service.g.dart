@@ -71,5 +71,6 @@ const _$ReferencedSubjectTypeEnumMap = {
 const _$NotificationTypeEnumMap = {
   NotificationType.CLICKED_APP_TERMINATED: 'CLICKED_APP_TERMINATED',
   NotificationType.CLICKED_APP_BACKGROUND: 'CLICKED_APP_BACKGROUND',
+  NotificationType.CLICKED_VIEW_NOT_DEFINED: 'CLICKED_VIEW_NOT_DEFINED',
   NotificationType.HIDDEN_APP_FOREGROUND: 'HIDDEN_APP_FOREGROUND',
 };

@@ -301,6 +301,16 @@ abstract class LocaleBundle {
 
   String get routes;
 
+  String get relationshipStatus;
+
+  String get spotsMemberships;
+
+  String get blockUser;
+
+  String get acceptUserOnSpot;
+
+  String get blockUserOnSpot;
+
   String get endTimeBeforeStartTime;
 
   String get dropStartTimeBeforePreviousDropEndTime;

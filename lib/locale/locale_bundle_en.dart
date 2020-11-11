@@ -458,6 +458,21 @@ class LocaleBundleEn extends LocaleBundle {
   String get routes => "Routes";
 
   @override
+  String get relationshipStatus => "Relationship status";
+
+  @override
+  String get spotsMemberships => "Spots memberships";
+
+  @override
+  String get blockUser => "Block user";
+
+  @override
+  String get acceptUserOnSpot => "Accept";
+
+  @override
+  String get blockUserOnSpot => "Block";
+
+  @override
   String get endTimeBeforeStartTime => "End Time must be after Start Time";
 
   @override
