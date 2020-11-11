@@ -35,6 +35,8 @@ class EditRoutePage extends ManageRoutePage {
 
   @override
   UnpreparedRouteRequest get initialRoute => route.toRouteRequest;
+
+  int get routeId => route.id;
 }
 
 class AddRoutePage extends ManageRoutePage {
@@ -44,6 +46,8 @@ class AddRoutePage extends ManageRoutePage {
   @override
   UnpreparedRouteRequest get initialRoute =>
       UnpreparedRouteRequest(drops: [], acceptShipmentsAutomatically: false, products: []);
+
+  int get routeId => null;
 }
 
 abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
@@ -55,6 +59,8 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
   String get pageTitle;
 
   UnpreparedRouteRequest get initialRoute;
+
+  int get routeId;
 
   @override
   Widget build(BuildContext context, ManageRouteBloc bloc, _) {
@@ -155,7 +161,7 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
               builder: (context, state) => SubmitFormButton(
                     text: localeBundle.addRouteButton,
                     isActive: state.isFilled,
-                    onTap: () => bloc.add(FormSubmitted()),
+                    onTap: () => bloc.add(FormSubmitted(routeId: routeId)),
                   ))
         ],
       ),
@@ -169,9 +175,11 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
         initialDate: bloc.state.routeRequest?.date?.toDateTime ?? DateTime.now(),
         firstDate: DateTime.now(),
         lastDate: DateTime(DateTime.now().year + 10, 1, 1));
-    bloc.add(FormChanged(
-      routeRequest: bloc.state.routeRequest.copyWith(date: dateTime.toStringWithoutTime()),
-    ));
+    if (dateTime != null) {
+      bloc.add(FormChanged(
+        routeRequest: bloc.state.routeRequest.copyWith(date: dateTime.toStringWithoutTime()),
+      ));
+    }
   }
 
   Widget _field({String label, String hint, InputType inputType, Function(String) onChanged, String initialValue}) {
@@ -216,9 +224,12 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
       ChoosableButton(
         text: "Add drop +",
         chooseAction: () async {
+          final TimeOfDay minTime = bloc.state.routeRequest.drops.isNotEmpty
+              ? bloc.state.routeRequest.drops.last.endTime.toTimeOfDay
+              : TimeOfDay(hour: 00, minute: 00);
           RouteDropRequest drop = await Get.to(AddDropToRoutePage(
             drop: RouteDropRequest(),
-            minTime: TimeOfDay(hour: 00, minute: 00),
+            minTime: minTime,
           ));
           if (drop != null) {
             bloc.add(AddDrop(drop: drop));

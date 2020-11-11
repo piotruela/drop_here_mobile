@@ -50,7 +50,9 @@ class RemoveDrop extends ManageRouteEvent {
 }
 
 class FormSubmitted extends ManageRouteEvent {
-  FormSubmitted();
+  final int routeId;
+
+  FormSubmitted({this.routeId});
 
   @override
   List<Object> get props => [];

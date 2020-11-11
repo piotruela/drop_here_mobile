@@ -74,8 +74,15 @@ class ManageRouteBloc extends Bloc<ManageRouteEvent, ManageRouteState> {
           products: state.products,
           spots: state.spots);
     } else if (event is FormSubmitted) {
-      final ResourceOperationResponse response = await routeManagementService.createRoute(state.routeRequest);
-      print(response);
+      ResourceOperationResponse response;
+      if (event?.routeId != null) {
+        response = await routeManagementService.updateRoute(state.routeRequest, event.routeId);
+      } else {
+        response = await routeManagementService.createRoute(state.routeRequest);
+      }
+      if (response.operationStatus != OperationStatus.ERROR) {
+        yield ManageRouteState(type: ManageRouteStateType.added_successfully);
+      }
     }
   }
 }

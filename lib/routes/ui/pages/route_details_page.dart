@@ -1,7 +1,9 @@
+import 'package:drop_here_mobile/accounts/ui/pages/manage_route_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/seller_card.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
 import 'package:drop_here_mobile/drops/ui/widgets/drops_carousel.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
@@ -49,6 +51,7 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
         padding: const EdgeInsets.only(left: 25.0, top: 15.0, right: 25.0),
         child: ListView(
           children: [
+            ChoosableButton(text: "Edit", chooseAction: () => Get.to(EditRoutePage(route: state.route))),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

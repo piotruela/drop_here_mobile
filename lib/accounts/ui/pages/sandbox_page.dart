@@ -7,9 +7,9 @@ import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:drop_here_mobile/accounts/services/customer_management_service.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/add_route_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/manage_product_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/manage_route_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/product_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
@@ -108,6 +108,11 @@ class SandboxPage extends StatelessWidget {
                       ));
                     }),
                 FlatButton(
+                    child: Text("Add route"),
+                    onPressed: () {
+                      Get.to(AddRoutePage());
+                    }),
+                FlatButton(
                     child: Text("routes list"),
                     onPressed: () {
                       Get.to(RoutesListPage());
@@ -115,12 +120,7 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                     child: Text("route details"),
                     onPressed: () {
-                      Get.to(RouteDetailsPage(routeId: 2));
-                    }),
-                FlatButton(
-                    child: Text("add route"),
-                    onPressed: () {
-                      Get.to(AddRoutePage());
+                      Get.to(RouteDetailsPage(routeId: 12));
                     }),
                 FlatButton(
                   child: Text("choose profile page"),

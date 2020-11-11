@@ -1,3 +1,4 @@
+import 'package:drop_here_mobile/common/ui/utils/datetime_utils.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
@@ -103,10 +104,10 @@ class RouteResponse {
 @JsonSerializable()
 class DropRouteResponse {
   final String description;
-  final String endTime;
+  final DateTime endTime;
   final String name;
   final SpotCompanyResponse spot;
-  final String startTime;
+  final DateTime startTime;
   final DropStatus status;
   final String uid;
 
@@ -115,8 +116,8 @@ class DropRouteResponse {
   factory DropRouteResponse.fromJson(Map<String, dynamic> json) => _$DropRouteResponseFromJson(json);
   Map<String, dynamic> toJson() => _$DropRouteResponseToJson(this);
 
-  RouteDropRequest get toRouteDropRequest =>
-      RouteDropRequest(description: description, startTime: startTime, endTime: endTime, spotId: spot.id, name: name);
+  RouteDropRequest get toRouteDropRequest => RouteDropRequest(
+      description: description, startTime: startTime.toTime(), endTime: endTime.toTime(), spotId: spot.id, name: name);
 }
 
 @JsonSerializable()
@@ -137,7 +138,7 @@ class RouteProductRouteResponse {
   }
 
   RouteProductRequest get toRouteProductRequest =>
-      RouteProductRequest(amount: amount, limitedAmount: limitedAmount, price: price, productId: id);
+      RouteProductRequest(amount: amount, limitedAmount: limitedAmount, price: price, productId: productResponse.id);
 }
 
 enum RouteStatus { UNPREPARED, PREPARED, ONGOING, FINISHED }

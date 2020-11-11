@@ -10,7 +10,7 @@ import 'package:get/get.dart';
 CarouselSlider dropsCarousel(List<DropRouteResponse> drops) {
   return CarouselSlider(
       options: CarouselOptions(
-        aspectRatio: 16 / 7.4,
+        aspectRatio: 14 / 7.4,
         enableInfiniteScroll: false,
         viewportFraction: 0.5,
         initialPage: 0,
@@ -38,16 +38,11 @@ Widget mapCard(DropRouteResponse drop, {File photo}) {
             height: 96,
             child: ClipRRect(
               borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-              child: photo != null
-                  ? Image.file(
-                      photo,
-                      fit: BoxFit.cover,
-                    )
-                  : Icon(
-                      Icons.map,
-                      size: 60,
-                      color: themeConfig.colors.primary1,
-                    ),
+              child: Icon(
+                Icons.map,
+                size: 60,
+                color: themeConfig.colors.primary1,
+              ),
             ),
           ),
           Padding(
