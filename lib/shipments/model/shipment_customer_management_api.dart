@@ -30,7 +30,7 @@ class ShipmentCustomerSubmissionRequest {
 @JsonSerializable()
 class ShipmentProductRequest {
   List<ShipmentCustomizationRequest> customizations;
-  int quantity;
+  double quantity;
   int routeProductId;
 
   ShipmentProductRequest({this.customizations, this.quantity, this.routeProductId});
