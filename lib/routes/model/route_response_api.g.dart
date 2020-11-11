@@ -109,6 +109,7 @@ const _$RouteStatusEnumMap = {
 
 RouteResponse _$RouteResponseFromJson(Map<String, dynamic> json) {
   return RouteResponse(
+    acceptShipmentsAutomatically: json['acceptShipmentsAutomatically'] as bool,
     description: json['description'] as String,
     drops: (json['drops'] as List)
         ?.map((e) => e == null
@@ -127,15 +128,14 @@ RouteResponse _$RouteResponseFromJson(Map<String, dynamic> json) {
     profileFirstName: json['profileFirstName'] as String,
     profileLastName: json['profileLastName'] as String,
     profileUid: json['profileUid'] as String,
-    routeDate: json['routeDate'] == null
-        ? null
-        : DateTime.parse(json['routeDate'] as String),
+    routeDate: json['routeDate'] as String,
     status: _$enumDecodeNullable(_$RouteStatusEnumMap, json['status']),
   );
 }
 
 Map<String, dynamic> _$RouteResponseToJson(RouteResponse instance) =>
     <String, dynamic>{
+      'acceptShipmentsAutomatically': instance.acceptShipmentsAutomatically,
       'description': instance.description,
       'drops': instance.drops,
       'dropsAmount': instance.dropsAmount,
@@ -146,7 +146,7 @@ Map<String, dynamic> _$RouteResponseToJson(RouteResponse instance) =>
       'profileFirstName': instance.profileFirstName,
       'profileLastName': instance.profileLastName,
       'profileUid': instance.profileUid,
-      'routeDate': instance.routeDate?.toIso8601String(),
+      'routeDate': instance.routeDate,
       'status': _$RouteStatusEnumMap[instance.status],
     };
 

@@ -69,8 +69,7 @@ class SpotBaseCustomerResponse {
 
   SpotBaseCustomerResponse();
 
-  factory SpotBaseCustomerResponse.fromJson(Map<String, dynamic> json) =>
-      _$SpotBaseCustomerResponseFromJson(json);
+  factory SpotBaseCustomerResponse.fromJson(Map<String, dynamic> json) => _$SpotBaseCustomerResponseFromJson(json);
   Map<String, dynamic> toJson() => _$SpotBaseCustomerResponseToJson(this);
 }
 
@@ -84,6 +83,13 @@ class SpotDetailedCustomerResponse {
   factory SpotDetailedCustomerResponse.fromJson(Map<String, dynamic> json) =>
       _$SpotDetailedCustomerResponseFromJson(json);
   Map<String, dynamic> toJson() => _$SpotDetailedCustomerResponseToJson(this);
+
+  SpotMembershipManagementRequest get currentNotificationSettings => SpotMembershipManagementRequest(
+      receiveCancelledNotifications: spot.receiveCancelledNotifications,
+      receiveDelayedNotifications: spot.receiveDelayedNotifications,
+      receiveFinishedNotifications: spot.receiveFinishedNotifications,
+      receiveLiveNotifications: spot.receiveLiveNotifications,
+      receivePreparedNotifications: spot.receivePreparedNotifications);
 }
 
 @JsonSerializable()
@@ -106,4 +112,23 @@ class SpotJoinRequest {
   factory SpotJoinRequest.fromJson(Map<String, dynamic> json) => _$SpotJoinRequestFromJson(json);
   Map<String, dynamic> toJson() => _$SpotJoinRequestToJson(this);
 }
-/*flutter packages pub run build_runner build --delete-conflicting-outputs*/
+
+@JsonSerializable()
+class SpotMembershipManagementRequest {
+  bool receiveCancelledNotifications;
+  bool receiveDelayedNotifications;
+  bool receiveFinishedNotifications;
+  bool receiveLiveNotifications;
+  bool receivePreparedNotifications;
+
+  SpotMembershipManagementRequest(
+      {this.receiveCancelledNotifications = false,
+      this.receiveDelayedNotifications = false,
+      this.receiveFinishedNotifications = false,
+      this.receiveLiveNotifications = false,
+      this.receivePreparedNotifications = false});
+
+  factory SpotMembershipManagementRequest.fromJson(Map<String, dynamic> json) =>
+      _$SpotMembershipManagementRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$SpotMembershipManagementRequestToJson(this);
+}

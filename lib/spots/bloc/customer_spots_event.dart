@@ -16,3 +16,16 @@ class SendSpotJoiningRequest extends CustomerSpotsEvent {
   final SpotJoinRequest request;
   SendSpotJoiningRequest({this.spotUid, this.companyUid, this.request});
 }
+
+class UpdateSpotSettings extends CustomerSpotsEvent {
+  final String spotUid;
+  final String companyUid;
+  final SpotMembershipManagementRequest request;
+  UpdateSpotSettings({this.spotUid, this.companyUid, this.request});
+}
+
+class LeaveSpot extends CustomerSpotsEvent {
+  final String spotUid;
+  final String companyUid;
+  LeaveSpot({this.spotUid, this.companyUid});
+}

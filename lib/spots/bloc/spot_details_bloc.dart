@@ -20,8 +20,7 @@ class SpotDetailsBloc extends Bloc<SpotDetailsEvent, SpotDetailsState> {
   ) async* {
     if (event is FetchSpotDetailsEvent) {
       yield SpotDetailsState(spot: null, type: SpotDetailsStateType.loading);
-      final SpotDetailedCustomerResponse spot =
-          await spotsUserService.getSpotDetails(event.spotUid);
+      final SpotDetailedCustomerResponse spot = await spotsUserService.getSpotDetails(event.spotUid);
       yield SpotDetailsState(spot: spot, type: SpotDetailsStateType.success);
     } else if (event is CloseSpotDetailsPanel) {
       yield SpotDetailsState(spot: null, type: SpotDetailsStateType.panel_closed);

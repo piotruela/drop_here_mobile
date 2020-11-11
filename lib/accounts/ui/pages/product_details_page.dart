@@ -111,6 +111,19 @@ class ProductDetailsPage extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         InfoText(text: "- is obligatory", iconType: Icons.star),
+        Conditional.single(
+            context: context,
+            conditionBuilder: (_) => customizations != null,
+            widgetBuilder: (_) => buildCustomizationsTilesList(context, customizations),
+            fallbackBuilder: (_) => SizedBox.shrink())
+      ],
+    );
+  }
+
+  Widget buildCustomizationsTilesList(BuildContext context, List<ProductCustomizationWrapperResponse> customizations) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         for (ProductCustomizationWrapperResponse customization in customizations)
           buildCustomizationTile(context, customization)
       ],

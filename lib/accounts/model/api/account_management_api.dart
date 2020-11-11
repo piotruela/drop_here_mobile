@@ -24,8 +24,7 @@ class AccountInfoResponse {
 
   AccountInfoResponse();
 
-  factory AccountInfoResponse.fromJson(Map<String, dynamic> json) =>
-      _$AccountInfoResponseFromJson(json);
+  factory AccountInfoResponse.fromJson(Map<String, dynamic> json) => _$AccountInfoResponseFromJson(json);
   Map<String, dynamic> toJson() => _$AccountInfoResponseToJson(this);
 }
 
@@ -39,8 +38,7 @@ class ProfileInfoResponse {
 
   ProfileInfoResponse();
 
-  Seller convertFromApiModel() =>
-      Seller(name: this.firstName, surname: this.lastName, status: toMembershipStatus());
+  Seller convertFromApiModel() => Seller(name: this.firstName, surname: this.lastName, status: toMembershipStatus());
 
   MembershipStatus toMembershipStatus() {
     switch (this.status) {
@@ -63,11 +61,10 @@ class ProfileInfoResponse {
 
   bool isAdmin() => profileType == ProfileType.MAIN;
 
-  factory ProfileInfoResponse.fromJson(Map<String, dynamic> json) =>
-      _$ProfileInfoResponseFromJson(json);
+  factory ProfileInfoResponse.fromJson(Map<String, dynamic> json) => _$ProfileInfoResponseFromJson(json);
   Map<String, dynamic> toJson() => _$ProfileInfoResponseToJson(this);
 
-  String get sellerFullName => "$firstName $lastName";
+  String get fullName => "$firstName $lastName";
 }
 
 @JsonSerializable()
@@ -78,15 +75,12 @@ class AccountCreationRequest {
 
   AccountCreationRequest({this.accountType, this.mail, this.password});
 
-  factory AccountCreationRequest.fromJson(Map<String, dynamic> json) =>
-      _$AccountCreationRequestFromJson(json);
+  factory AccountCreationRequest.fromJson(Map<String, dynamic> json) => _$AccountCreationRequestFromJson(json);
   Map<String, dynamic> toJson() => _$AccountCreationRequestToJson(this);
 
   AccountCreationRequest copyWith({AccountType accountType, String mail, String password}) {
     return AccountCreationRequest(
-        accountType: accountType ?? this.accountType,
-        mail: mail ?? this.mail,
-        password: password ?? this.password);
+        accountType: accountType ?? this.accountType, mail: mail ?? this.mail, password: password ?? this.password);
   }
 }
 

@@ -9,7 +9,8 @@ class SellerCard extends StatelessWidget {
   final List<String> popupOptions;
   final Icon trailing;
   final Function onTap;
-  const SellerCard({this.title, this.popupOptions, this.trailing, this.onTap});
+  final bool selected;
+  const SellerCard({this.title, this.popupOptions, this.trailing, this.onTap, this.selected = false});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,10 @@ class SellerCard extends StatelessWidget {
           child: ListTile(
             leading: CircleAvatar(
               radius: 30,
+              child: Icon(
+                Icons.person,
+                size: 40.0,
+              ),
             ),
             title: Text(
               title,
@@ -34,6 +39,7 @@ class SellerCard extends StatelessWidget {
             trailing: trailing,
           ),
           decoration: BoxDecoration(
+            border: selected ? Border.all(width: 2.0, color: themeConfig.colors.primary1) : null,
             color: themeConfig.colors.white,
             borderRadius: BorderRadius.circular(10.0),
             boxShadow: [

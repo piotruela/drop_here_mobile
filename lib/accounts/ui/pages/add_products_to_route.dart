@@ -1,27 +1,25 @@
 import 'package:drop_here_mobile/accounts/bloc/add_products_to_route_bloc.dart';
-import 'package:drop_here_mobile/accounts/model/local_product.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/labeled_switch.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/routes/model/route_request_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
 class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-  final Set<LocalProduct> selectedProducts;
+  final List<RouteProductRequest> selectedProducts;
 
-  AddProductsToRoutePage(this.selectedProducts);
+  AddProductsToRoutePage({this.selectedProducts});
   @override
-  AddProductsToRouteBloc bloc() =>
-      AddProductsToRouteBloc()..add(FetchProducts(selectedProducts: selectedProducts ?? {}));
+  AddProductsToRouteBloc bloc() => AddProductsToRouteBloc()..add(FetchProducts(selectedProducts: selectedProducts));
 
   @override
   Widget build(BuildContext context, AddProductsToRouteBloc bloc, _) {
@@ -34,111 +32,80 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
         onTap: () => Get.back(result: bloc.state.selectedProducts),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
-            child: Text(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
               localeBundle.addProductsToRoute,
               style: themeConfig.textStyles.primaryTitle,
             ),
-          ),
-          DhSearchBar(bloc),
-          Padding(
-            padding: const EdgeInsets.only(left: 25.0),
-            child: FiltersFlatButton(
-              themeConfig: themeConfig,
-              locale: localeBundle,
-              bloc: bloc,
+            BlocBuilder<AddProductsToRouteBloc, AddProductsToRouteState>(
+              buildWhen: (previous, current) => previous != current,
+              builder: (context, state) {
+                if (state.type == AddProductsToRouteStateType.initial ||
+                    state.type == AddProductsToRouteStateType.loading) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  return Column(
+                    children: [
+                      for (ProductResponse product in bloc.state.products ?? [])
+                        AddProductToRouteCard(
+                            bloc: bloc,
+                            product: product,
+                            productRequest: bloc.state.selectedProducts
+                                .firstWhere((element) => element.productId == product.id, orElse: () => null))
+                    ],
+                  );
+                }
+              },
             ),
-          ),
-          BlocBuilder<AddProductsToRouteBloc, AddProductsToRouteState>(
-            buildWhen: (previous, current) => previous != current,
-            builder: (context, state) {
-              if (state.type == AddProductsToRouteStateType.initial ||
-                  state.type == AddProductsToRouteStateType.loading) {
-                return Center(child: CircularProgressIndicator());
-              } else if (state.type == AddProductsToRouteStateType.error) {
-                return Container(
-                    child: Column(
-                  children: [
-                    Text('try again'),
-                    RaisedButton(
-                        onPressed: () =>
-                            bloc.add(FetchProducts(selectedProducts: selectedProducts)))
-                  ],
-                ));
-              } else {
-                return buildColumnWithData(localeBundle, context, bloc, state);
-              }
-            },
-          ),
-        ],
+          ],
+        ),
       ),
-    );
-  }
-
-  Widget buildColumnWithData(LocaleBundle localeBundle, BuildContext context,
-      AddProductsToRouteBloc bloc, AddProductsToRouteState state) {
-    return Expanded(
-      child: ListView.builder(
-          shrinkWrap: true,
-          itemCount: state.productsPage?.numberOfElements,
-          itemBuilder: (BuildContext context, int index) {
-            return ProductCard(
-              bloc: bloc,
-              product: state.localProducts?.elementAt(index),
-              selected1: state.selectedProducts
-                  .any((element) => element.name == state.localProducts?.elementAt(index)?.name),
-            );
-          }),
     );
   }
 }
 
-class ProductCard extends DhTile {
+class AddProductToRouteCard extends DhTile {
   final AddProductsToRouteBloc bloc;
-  final LocalProduct product;
-  final bool selected1;
-  ProductCard({this.bloc, this.product, this.selected1});
+  final ProductResponse product;
+  final RouteProductRequest productRequest;
+  AddProductToRouteCard({this.bloc, this.product, this.productRequest});
 
   @override
   String get title => product.name;
 
   @override
-  String get subtitle1 => "Category: ${product.category}";
+  String get subtitle1 => "${product.category}";
 
   @override
-  Widget get trailing => selected1
-      ? Column(
-          children: [
-            Text("Price: ${product.pricePerAmount}"),
-            Text("Amount: ${product.unlimited ? "unlimited" : product.amount}"),
-          ],
-        )
-      : null;
+  Widget get trailing => productRequest != null ? Text("Price: ${productRequest.price}zł") : null;
 
   @override
-  Image get photo => product.photo;
+  Widget get photo => Icon(Icons.shopping_basket_outlined);
 
   @override
-  bool get selected => selected1;
+  bool get selected => productRequest != null;
+
+  EdgeInsets get padding => const EdgeInsets.symmetric(vertical: 7.0);
 
   @override
-  String get subtitle2 => null;
+  String get subtitle2 => productRequest?.productAmountToString;
 
   @override
   onTap(BuildContext context) => selected
-      ? () => bloc.add(ProductUnchecked(product: product))
+      ? () => bloc.add(ProductUnchecked(productId: product.id))
       : () async {
-          bloc.add(ProductSelected(product: product));
-          final LocalProduct productWithAmount = await showDialog(
+          final RouteProductRequest productWithAmount = await showDialog(
               context: context,
               child: AmountDialog(
-                  initialUnlimited: product.unlimited, bloc: bloc, selectedProduct: product));
+                bloc: bloc,
+                product: productRequest ?? RouteProductRequest(productId: product.id),
+              ));
           if (productWithAmount != null) {
-            bloc.add(AmountSelected(product: productWithAmount));
+            bloc.add(ProductSelected(product: productWithAmount));
           }
         };
 }
@@ -149,6 +116,7 @@ abstract class DhTile extends StatelessWidget {
   String get subtitle2;
   Widget get trailing;
   Widget get photo;
+  EdgeInsets get padding => const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0);
   bool get selected;
   VoidCallback onTap(BuildContext context);
 
@@ -158,7 +126,7 @@ abstract class DhTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap(context),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
+        padding: padding,
         child: Container(
           child: ListTile(
             leading: _productPhoto(),
@@ -223,63 +191,58 @@ abstract class DhTile extends StatelessWidget {
 
 class AmountDialog extends StatefulWidget {
   final AddProductsToRouteBloc bloc;
-  final bool initialUnlimited;
-  final LocalProduct selectedProduct;
+  final RouteProductRequest product;
 
-  AmountDialog({this.bloc, this.initialUnlimited, this.selectedProduct});
+  AmountDialog({this.bloc, this.product});
 
   @override
   _AmountDialogState createState() => _AmountDialogState();
 }
 
 class _AmountDialogState extends State<AmountDialog> {
-  bool _unlimited;
-  LocalProduct product;
+  bool _limited;
+  RouteProductRequest product;
 
   @override
   void initState() {
-    _unlimited = widget.initialUnlimited;
-    product = widget.selectedProduct;
+    _limited = widget.product.limitedAmount;
+    product = widget.product;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-    final LocaleBundle localeBundle = Localization.of(context).bundle;
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Align(
-              child:
-                  Text(widget.selectedProduct.name, style: themeConfig.textStyles.secondaryTitle)),
+          Align(child: Text("Set price and amount", style: themeConfig.textStyles.secondaryTitle)),
           labeledSwitch(
-              text: localeBundle.unlimited,
-              initialPosition: widget.initialUnlimited,
+              text: "Limited",
+              initialPosition: product.limitedAmount,
               onSwitch: (unlimited) {
                 setState(() {
-                  _unlimited = unlimited;
-                  product.unlimited = _unlimited;
+                  _limited = unlimited;
+                  product.limitedAmount = _limited;
                 });
               }),
           Text("Price per unit"),
           DhPlainTextFormField(
               inputType: InputType.number,
-              initialValue: product.price.toString(),
+              initialValue: product.price?.toString() ?? "",
               hintText: "9.99",
               onChanged: (String price) => setState(
                     () => product.price = double.parse(price),
                   )),
-          !_unlimited ? _buildConditionalFields(product) : SizedBox.shrink(),
+          _limited ? _buildConditionalFields(product) : SizedBox.shrink(),
           Align(
             child: SubmitFormButton(
               text: "Submit",
               onTap: () => Navigator.pop(context, product),
-              isActive:
-                  (_unlimited || (product.amount != null && product.amount.toString() != "")) &&
-                      (product.price != null && product.price.toString() != ""),
+              isActive: (!_limited || (product.amount != null && product.amount.toString() != "")) &&
+                  (product.price != null && product.price.toString() != ""),
             ),
           ),
         ],
@@ -287,7 +250,7 @@ class _AmountDialogState extends State<AmountDialog> {
     );
   }
 
-  Widget _buildConditionalFields(LocalProduct product) {
+  Widget _buildConditionalFields(RouteProductRequest product) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

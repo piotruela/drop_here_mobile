@@ -1,3 +1,4 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/edit_spot_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
@@ -8,9 +9,12 @@ import 'package:drop_here_mobile/accounts/ui/widgets/rounded_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/get_address_from_coordinates.dart';
 import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
+import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
 import 'package:drop_here_mobile/common/ui/widgets/labeled_switch.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/routes/model/api/drop_customer_spot_response_api.dart';
+import 'package:drop_here_mobile/routes/ui/widgets/drop_card.dart';
 import 'package:drop_here_mobile/spots/bloc/company_spots_bloc.dart';
 import 'package:drop_here_mobile/spots/bloc/customer_spots_bloc.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
@@ -20,11 +24,11 @@ import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
-  final SpotBaseCustomerResponse spot;
+  final SpotDetailedCustomerResponse spotAndDrops;
   final PanelController controller;
   final CustomerSpotsBloc customerSpotsBloc;
 
-  CustomerSpotDetailsPage({this.spot, this.controller, this.customerSpotsBloc});
+  CustomerSpotDetailsPage({this.spotAndDrops, this.controller, this.customerSpotsBloc});
 
   @override
   Widget buildColumnWithData(LocaleBundle locale, BuildContext context) {
@@ -33,7 +37,7 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          closeIcon(controller),
+          closeIcon(context, controller),
           buildSpotTitle(),
           buildLocationInfo(),
           textAndFlatButton(locale.passwordRequired, requiresPassword ? locale.yes : locale.no),
@@ -47,10 +51,20 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
     );
   }
 
+  SpotBaseCustomerResponse get spot => spotAndDrops.spot;
+
+  List<DropCustomerSpotResponse> get drops => spotAndDrops.drops;
+
+  @override
+  bool get showManageButton => spot.membershipStatus != null && spot.membershipStatus != MembershipStatus.PENDING;
+
   @override
   IconData get manageIcon => Icons.settings;
 
-  VoidCallback get manageAction => () => {};
+  VoidCallback manageAction(BuildContext context) => () async => showDialog(
+      context: context,
+      child: manageSpotSettingDialog(
+          context, spot.uid, spot.companyUid, spotAndDrops.currentNotificationSettings, customerSpotsBloc));
 
   @override
   String get name => spot.name;
@@ -91,8 +105,21 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
     } else if (spot.membershipStatus == MembershipStatus.BLOCKED) {
       return warningText(themeConfig.colors.blocked, "Company blocked you\nfrom this spot");
     } else {
-      return warningText(themeConfig.colors.active, "YOU ARE MEMBER");
+      return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [sectionTitle("Drops on this spot"), dropsList(drops)]);
     }
+  }
+
+  Widget dropsList(List<DropCustomerSpotResponse> drops) {
+    return CarouselSlider(
+        options: CarouselOptions(
+          aspectRatio: 16 / 7.4,
+          enableInfiniteScroll: false,
+          viewportFraction: 0.38,
+          initialPage: 0,
+        ),
+        items: drops.map((e) => CustomerSpotDropCard(drop: e)).toList());
   }
 
   Widget warningText(Color color, String text) {
@@ -106,6 +133,80 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
         Text(text, style: themeConfig.textStyles.secondaryTitle.copyWith(color: color))
       ],
     );
+  }
+
+  Widget sectionTitle(String text) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Text(
+        text,
+        style: themeConfig.textStyles.title2,
+      ),
+    );
+  }
+
+  Widget manageSpotSettingDialog(BuildContext context, String spotUid, String companyUid,
+      SpotMembershipManagementRequest request, CustomerSpotsBloc bloc) {
+    return AlertDialog(
+        title: Align(child: Text("Joining spot", style: themeConfig.textStyles.secondaryTitle)),
+        content: SingleChildScrollView(
+            child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              "Notification settings",
+              style: themeConfig.textStyles.dataAnnotation,
+            ),
+            labeledSwitch(
+                text: "When canceled",
+                initialPosition: request.receiveCancelledNotifications,
+                onSwitch: (bool) => request.receiveCancelledNotifications = bool),
+            labeledSwitch(
+                text: "When delayed",
+                initialPosition: request.receiveDelayedNotifications,
+                onSwitch: (bool) => request.receiveDelayedNotifications = bool),
+            labeledSwitch(
+                text: "When finished",
+                initialPosition: request.receiveFinishedNotifications,
+                onSwitch: (bool) => request.receiveFinishedNotifications = bool),
+            labeledSwitch(
+                text: "When live",
+                initialPosition: request.receiveLiveNotifications,
+                onSwitch: (bool) => request.receiveLiveNotifications = bool),
+            labeledSwitch(
+                text: "When prepared",
+                initialPosition: request.receivePreparedNotifications,
+                onSwitch: (bool) => request.receivePreparedNotifications = bool),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                RaisedButton(
+                  child: Text("Cancel", style: themeConfig.textStyles.blocked),
+                  onPressed: () => Navigator.pop(context, null),
+                ),
+                RaisedButton(
+                    child: Text("Update settings", style: themeConfig.textStyles.active),
+                    onPressed: () {
+                      bloc.add(UpdateSpotSettings(spotUid: spotUid, companyUid: companyUid, request: request));
+                      Navigator.pop(context, null);
+                    }),
+              ],
+            ),
+            Align(child: _leaveSpotButton(context, spotUid, companyUid, bloc))
+          ],
+        )));
+  }
+
+  Widget _leaveSpotButton(BuildContext context, String spotUid, String companyUid, CustomerSpotsBloc bloc) {
+    return ChoosableButton(
+        text: "Leave spot",
+        isChosen: false,
+        chooseAction: () {
+          bloc.add(LeaveSpot(spotUid: spotUid, companyUid: companyUid));
+          Navigator.pop(context, null);
+        },
+        trailing: Icon(Icons.logout));
   }
 
   Widget _joiningDialog(BuildContext context, bool passwordRequired, bool acceptRequired) {
@@ -134,6 +235,8 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
                 text: "When finished",
                 initialPosition: false,
                 onSwitch: (bool) => request.receiveFinishedNotifications = bool),
+            labeledSwitch(
+                text: "When live", initialPosition: false, onSwitch: (bool) => request.receiveLiveNotifications = bool),
             labeledSwitch(
                 text: "When prepared",
                 initialPosition: false,
@@ -183,10 +286,13 @@ class CompanySpotDetailsPage extends AbsSpotDetailsPage {
   String get description => spot.description;
 
   @override
+  bool get showManageButton => true;
+
+  @override
   IconData get manageIcon => Icons.edit;
 
   @override
-  VoidCallback get manageAction => () => Get.to(EditSpotPage(spot: spot));
+  VoidCallback manageAction(BuildContext context) => () => Get.to(EditSpotPage(spot: spot));
 
   @override
   bool get requiresAccept => spot.requiresAccept;
@@ -210,7 +316,7 @@ class CompanySpotDetailsPage extends AbsSpotDetailsPage {
       child: ListView(
         controller: scrollController,
         children: [
-          closeIcon(controller),
+          closeIcon(context, controller),
           buildSpotTitle(),
           buildLocationInfo(),
           textAndFlatButton(locale.passwordRequired, spot.requiresPassword ? locale.yes : locale.no),
@@ -260,9 +366,11 @@ abstract class AbsSpotDetailsPage extends StatelessWidget {
 
   String get name;
 
+  bool get showManageButton;
+
   IconData get manageIcon;
 
-  VoidCallback get manageAction;
+  VoidCallback manageAction(BuildContext context);
 
   double get xcoord;
 
@@ -355,11 +463,11 @@ abstract class AbsSpotDetailsPage extends StatelessWidget {
   }
 
   @protected
-  Widget manageButton() {
+  Widget manageButton(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 8.0),
       child: GestureDetector(
-          onTap: manageAction,
+          onTap: manageAction(context),
           child: CircleAvatar(
             backgroundColor: themeConfig.colors.black,
             child: CircleAvatar(
@@ -376,11 +484,11 @@ abstract class AbsSpotDetailsPage extends StatelessWidget {
   }
 
   @protected
-  Widget closeIcon(PanelController controller) {
+  Widget closeIcon(BuildContext context, PanelController controller) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        manageButton(),
+        showManageButton ? manageButton(context) : SizedBox.shrink(),
         IconButton(
           icon: Icon(Icons.close, size: 40.0),
           onPressed: () {

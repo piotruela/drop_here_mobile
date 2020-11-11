@@ -11,9 +11,13 @@ DropCustomerSpotResponse _$DropCustomerSpotResponseFromJson(
   return DropCustomerSpotResponse(
     acceptShipmentsAutomatically: json['acceptShipmentsAutomatically'] as bool,
     description: json['description'] as String,
-    endTime: json['endTime'] as String,
+    endTime: json['endTime'] == null
+        ? null
+        : DateTime.parse(json['endTime'] as String),
     name: json['name'] as String,
-    startTime: json['startTime'] as String,
+    startTime: json['startTime'] == null
+        ? null
+        : DateTime.parse(json['startTime'] as String),
     status: _$enumDecodeNullable(_$DropStatusEnumMap, json['status']),
     uid: json['uid'] as String,
   );
@@ -24,9 +28,9 @@ Map<String, dynamic> _$DropCustomerSpotResponseToJson(
     <String, dynamic>{
       'acceptShipmentsAutomatically': instance.acceptShipmentsAutomatically,
       'description': instance.description,
-      'endTime': instance.endTime,
+      'endTime': instance.endTime?.toIso8601String(),
       'name': instance.name,
-      'startTime': instance.startTime,
+      'startTime': instance.startTime?.toIso8601String(),
       'status': _$DropStatusEnumMap[instance.status],
       'uid': instance.uid,
     };
