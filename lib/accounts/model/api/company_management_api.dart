@@ -58,7 +58,7 @@ class CompanyManagementRequest {
 class CompanyCustomerManagementRequest {
   bool block;
 
-  CompanyCustomerManagementRequest({bool block});
+  CompanyCustomerManagementRequest({this.block});
 
   factory CompanyCustomerManagementRequest.fromJson(Map<String, dynamic> json) =>
       _$CompanyCustomerManagementRequestFromJson(json);
@@ -87,6 +87,7 @@ class CompanyCustomerResponse {
   String firstName;
   String lastName;
   MembershipStatus relationshipStatus;
+  List<CompanyCustomerSpotMembershipResponse> companyCustomerSpotMemberships;
 
   CompanyCustomerResponse();
 
@@ -97,6 +98,8 @@ class CompanyCustomerResponse {
   factory CompanyCustomerResponse.fromJson(Map<String, dynamic> json) =>
       _$CompanyCustomerResponseFromJson(json);
   Map<String, dynamic> toJson() => _$CompanyCustomerResponseToJson(this);
+
+  String get fullName => firstName + ' ' + lastName;
 }
 
 @JsonSerializable()

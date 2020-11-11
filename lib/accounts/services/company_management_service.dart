@@ -86,6 +86,16 @@ class CompanyManagementService {
     );
   }
 
+  Future<ResourceOperationResponse> updateCustomer(
+      CompanyCustomerManagementRequest companyCustomerManagementRequest, String customerId) async {
+    dynamic response = await _httpClient.put(
+        canRepeatRequest: true,
+        path: "/management/companies/customers/$customerId",
+        body: json.encode(companyCustomerManagementRequest.toJson()),
+        out: (dynamic json) => json);
+    return ResourceOperationResponse.fromJson(response);
+  }
+
   Future<List<Seller>> fetchSellersList({String filter, String searchText}) {
     //TODO implement
     List<Seller> sellers = [
