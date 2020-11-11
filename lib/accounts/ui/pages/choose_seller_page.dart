@@ -36,13 +36,16 @@ class ChooseSellerPage extends BlocWidget<ChooseSellerBloc> {
         ),
         floatingActionButton: BlocBuilder<ChooseSellerBloc, ChooseSellerState>(
           buildWhen: (previous, current) => previous.selectedProfileUid != current.selectedProfileUid,
-          builder: (context, state) => SubmitFormButton(
-              isActive: state.selectedProfileUid != null,
-              text: localeBundle.submit,
-              onTap: () => Get.back(
-                  result: bloc.state.sellers
-                      .firstWhere((element) => element.profileUid == bloc.state.selectedProfileUid, orElse: () => null)
-                      ?.profileUid)),
+          builder: (context, state) => Align(
+            child: SubmitFormButton(
+                isActive: state.selectedProfileUid != null,
+                text: localeBundle.submit,
+                onTap: () => Get.back(
+                    result: bloc.state.sellers
+                        .firstWhere((element) => element.profileUid == bloc.state.selectedProfileUid,
+                            orElse: () => null)
+                        ?.profileUid)),
+          ),
         ));
   }
 

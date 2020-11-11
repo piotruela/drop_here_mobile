@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 class IconInCircle extends StatelessWidget {
   final IconData icon;
   final ThemeConfig themeConfig;
+  final double size;
   const IconInCircle({
     @required this.themeConfig,
     this.icon,
+    this.size = 30,
   });
 
   @override
@@ -19,7 +21,7 @@ class IconInCircle extends StatelessWidget {
             radius: 24,
             child: Icon(
               icon,
-              size: 30,
+              size: size,
               color: themeConfig.colors.primary1,
             )));
   }

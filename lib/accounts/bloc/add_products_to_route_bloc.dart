@@ -32,7 +32,7 @@ class AddProductsToRouteBloc extends Bloc<AddProductsToRouteEvent, AddProductsTo
           products: state.products,
           selectedProducts: state.selectedProducts);
       List<RouteProductRequest> selProducts = state.selectedProducts;
-      selProducts.add(RouteProductRequest(amount: 10, limitedAmount: true, productId: event.product.id, price: 10.0));
+      selProducts.add(event.product);
       yield AddProductsToRouteState(
           type: AddProductsToRouteStateType.amount_chosen, products: state.products, selectedProducts: selProducts);
     } else if (event is ProductUnchecked) {

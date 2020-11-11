@@ -18,7 +18,7 @@ class FetchProducts extends AddProductsToRouteEvent {
 }
 
 class ProductSelected extends AddProductsToRouteEvent {
-  final ProductResponse product;
+  final RouteProductRequest product;
   ProductSelected({this.product});
   @override
   List<Object> get props => [product];

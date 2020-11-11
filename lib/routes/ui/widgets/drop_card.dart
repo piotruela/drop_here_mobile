@@ -3,8 +3,32 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/utils/datetime_utils.dart';
 import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
 import 'package:drop_here_mobile/routes/model/api/drop_customer_spot_response_api.dart';
+import 'package:drop_here_mobile/routes/model/route_request_api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+class CompanyRouteDropCard extends DropCard {
+  final RouteDropRequest drop;
+  final dropSpotName;
+  final VoidCallback onClosePressed;
+
+  CompanyRouteDropCard({this.drop, this.dropSpotName, this.onClosePressed});
+
+  @override
+  String get startTime => drop.startTime;
+
+  @override
+  String get endTime => drop.endTime;
+
+  @override
+  String get name => drop.name;
+
+  @override
+  VoidCallback get onExitPressed => onClosePressed;
+
+  @override
+  Widget get extraField => infoLine(Icons.pin_drop_outlined, Colors.black, dropSpotName);
+}
 
 class CustomerSpotDropCard extends DropCard {
   final DropCustomerSpotResponse drop;
@@ -22,9 +46,6 @@ class CustomerSpotDropCard extends DropCard {
 
   @override
   get onExitPressed => null;
-
-  @override
-  String get spotName => null;
 }
 
 abstract class DropCard extends StatelessWidget {
@@ -32,7 +53,6 @@ abstract class DropCard extends StatelessWidget {
 
   VoidCallback get onExitPressed;
   String get name;
-  String get spotName;
   String get startTime;
   String get endTime;
   Widget get extraField => SizedBox.shrink();

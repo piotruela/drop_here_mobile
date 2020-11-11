@@ -32,10 +32,10 @@ class CompanyMapPage extends BlocWidget<CompanySpotsBloc> {
             valueBuilder: (_) => state.type,
             caseBuilders: {
               CompanySpotsStateType.loading: (_) => Center(child: CircularProgressIndicator()),
-              CompanySpotsStateType.spot_details: (_) => _buildPageContent(
-                  context, bloc, state.spots, detailsPanelController, addNewItemPanelController),
-              CompanySpotsStateType.success: (_) => _buildPageContent(
-                  context, bloc, state.spots, detailsPanelController, addNewItemPanelController)
+              CompanySpotsStateType.spot_details: (_) =>
+                  _buildPageContent(context, bloc, state.spots, detailsPanelController, addNewItemPanelController),
+              CompanySpotsStateType.success: (_) =>
+                  _buildPageContent(context, bloc, state.spots, detailsPanelController, addNewItemPanelController)
             },
             fallbackBuilder: (_) => SizedBox.shrink()),
       ),
@@ -43,12 +43,8 @@ class CompanyMapPage extends BlocWidget<CompanySpotsBloc> {
     );
   }
 
-  Widget _buildPageContent(
-      BuildContext context,
-      CompanySpotsBloc bloc,
-      List<SpotCompanyResponse> spots,
-      PanelController detailsPanelController,
-      PanelController addNewItemPanelController) {
+  Widget _buildPageContent(BuildContext context, CompanySpotsBloc bloc, List<SpotCompanyResponse> spots,
+      PanelController detailsPanelController, PanelController addNewItemPanelController) {
     final Set<Marker> spotsSet = _convertSpotsToMarkers(context, bloc, spots);
     return Stack(
       children: [
@@ -68,8 +64,7 @@ class CompanyMapPage extends BlocWidget<CompanySpotsBloc> {
             builder: (context, state) => Conditional.single(
                 context: context,
                 conditionBuilder: (_) => state.spot != null,
-                widgetBuilder: (_) =>
-                    _buildSpotDetailsPanel(state.spot, detailsPanelController, bloc, state.members),
+                widgetBuilder: (_) => _buildSpotDetailsPanel(state.spot, detailsPanelController, bloc, state.members),
                 fallbackBuilder: (_) => SizedBox.shrink())),
         AddNewItemPanel(
           controller: addNewItemPanelController,
@@ -78,14 +73,13 @@ class CompanyMapPage extends BlocWidget<CompanySpotsBloc> {
     );
   }
 
-  Widget _buildSpotDetailsPanel(SpotCompanyResponse spot, PanelController controller,
-      CompanySpotsBloc bloc, SpotMembershipPage members) {
+  Widget _buildSpotDetailsPanel(
+      SpotCompanyResponse spot, PanelController controller, CompanySpotsBloc bloc, SpotMembershipPage members) {
     return SlidingUpPanel(
         minHeight: 300,
         maxHeight: 630,
         controller: controller,
-        borderRadius:
-            const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+        borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)),
         panelBuilder: (myScrollController) => CompanySpotDetailsPage(
               spot: spot,
               controller: controller,
@@ -95,8 +89,7 @@ class CompanyMapPage extends BlocWidget<CompanySpotsBloc> {
             ));
   }
 
-  Set<Marker> _convertSpotsToMarkers(
-          BuildContext context, CompanySpotsBloc bloc, List<SpotCompanyResponse> spots) =>
+  Set<Marker> _convertSpotsToMarkers(BuildContext context, CompanySpotsBloc bloc, List<SpotCompanyResponse> spots) =>
       spots
           .map((spot) => Marker(
               onTap: () => bloc.add(FetchSpotDetailsEvent(spotId: spot.id.toString())),
@@ -105,31 +98,27 @@ class CompanyMapPage extends BlocWidget<CompanySpotsBloc> {
               markerId: MarkerId(spot.id.toString())))
           .toSet();
 
-  Widget _spotsPanel(BuildContext context, CompanySpotsBloc bloc, List<SpotCompanyResponse> spots,
-      ScrollController controller) {
+  Widget _spotsPanel(
+      BuildContext context, CompanySpotsBloc bloc, List<SpotCompanyResponse> spots, ScrollController controller) {
     return Container(
       child: _spotsList(context, bloc, spots, controller),
       decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius:
-              const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
+          borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30))),
     );
   }
 
-  Widget _spotsList(BuildContext context, CompanySpotsBloc bloc, List<SpotCompanyResponse> spots,
-      ScrollController controller) {
+  Widget _spotsList(
+      BuildContext context, CompanySpotsBloc bloc, List<SpotCompanyResponse> spots, ScrollController controller) {
     return ListView(
-        controller: controller,
-        shrinkWrap: true,
-        children: [DhSearchBar(DhListBloc()), spotsCards(spots, bloc)]);
+        controller: controller, shrinkWrap: true, children: [DhSearchBar(DhListBloc()), spotsCards(spots, bloc)]);
   }
 
   Widget spotsCards(List<SpotCompanyResponse> spots, CompanySpotsBloc bloc) {
     return Column(
         children: spots
-            .map((spot) => CompanySpotCard(
-                spot: spot,
-                onTap: () => bloc.add(FetchSpotDetailsEvent(spotId: spot.id.toString()))))
+            .map((spot) => CompanySpotListCard(
+                spot: spot, onTap: () => bloc.add(FetchSpotDetailsEvent(spotId: spot.id.toString()))))
             .toList());
   }
 }

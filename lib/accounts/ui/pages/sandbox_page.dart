@@ -17,7 +17,6 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
 import 'package:drop_here_mobile/routes/routes_list_page.dart';
-import 'package:drop_here_mobile/routes/ui/pages/edit_route_page.dart';
 import 'package:drop_here_mobile/routes/ui/pages/route_details_page.dart';
 import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
 import 'package:drop_here_mobile/spots/services/spots_user_service.dart';
@@ -27,8 +26,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
-import 'add_drop_to_route_page.dart';
 
 class SandboxPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -121,21 +118,9 @@ class SandboxPage extends StatelessWidget {
                       Get.to(RouteDetailsPage(routeId: 2));
                     }),
                 FlatButton(
-                    child: Text("edit route"),
-                    onPressed: () {
-                      Get.to(EditRoutePage(routeId: 2));
-                    }),
-                FlatButton(
                     child: Text("add route"),
                     onPressed: () {
                       Get.to(AddRoutePage());
-                    }),
-                FlatButton(
-                    child: Text("add drop to route"),
-                    onPressed: () {
-                      Get.to(AddDropToRoutePage(
-                        addDrop: () {},
-                      ));
                     }),
                 FlatButton(
                   child: Text("choose profile page"),

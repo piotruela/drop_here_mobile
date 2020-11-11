@@ -109,6 +109,7 @@ const _$RouteStatusEnumMap = {
 
 RouteResponse _$RouteResponseFromJson(Map<String, dynamic> json) {
   return RouteResponse(
+    acceptShipmentsAutomatically: json['acceptShipmentsAutomatically'] as bool,
     description: json['description'] as String,
     drops: (json['drops'] as List)
         ?.map((e) => e == null
@@ -127,15 +128,14 @@ RouteResponse _$RouteResponseFromJson(Map<String, dynamic> json) {
     profileFirstName: json['profileFirstName'] as String,
     profileLastName: json['profileLastName'] as String,
     profileUid: json['profileUid'] as String,
-    routeDate: json['routeDate'] == null
-        ? null
-        : DateTime.parse(json['routeDate'] as String),
+    routeDate: json['routeDate'] as String,
     status: _$enumDecodeNullable(_$RouteStatusEnumMap, json['status']),
   );
 }
 
 Map<String, dynamic> _$RouteResponseToJson(RouteResponse instance) =>
     <String, dynamic>{
+      'acceptShipmentsAutomatically': instance.acceptShipmentsAutomatically,
       'description': instance.description,
       'drops': instance.drops,
       'dropsAmount': instance.dropsAmount,
@@ -146,23 +146,19 @@ Map<String, dynamic> _$RouteResponseToJson(RouteResponse instance) =>
       'profileFirstName': instance.profileFirstName,
       'profileLastName': instance.profileLastName,
       'profileUid': instance.profileUid,
-      'routeDate': instance.routeDate?.toIso8601String(),
+      'routeDate': instance.routeDate,
       'status': _$RouteStatusEnumMap[instance.status],
     };
 
 DropRouteResponse _$DropRouteResponseFromJson(Map<String, dynamic> json) {
   return DropRouteResponse(
     description: json['description'] as String,
-    endTime: json['endTime'] == null
-        ? null
-        : DateTime.parse(json['endTime'] as String),
+    endTime: json['endTime'] as String,
     name: json['name'] as String,
     spot: json['spot'] == null
         ? null
         : SpotCompanyResponse.fromJson(json['spot'] as Map<String, dynamic>),
-    startTime: json['startTime'] == null
-        ? null
-        : DateTime.parse(json['startTime'] as String),
+    startTime: json['startTime'] as String,
     status: _$enumDecodeNullable(_$DropStatusEnumMap, json['status']),
     uid: json['uid'] as String,
   );
@@ -171,10 +167,10 @@ DropRouteResponse _$DropRouteResponseFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$DropRouteResponseToJson(DropRouteResponse instance) =>
     <String, dynamic>{
       'description': instance.description,
-      'endTime': instance.endTime?.toIso8601String(),
+      'endTime': instance.endTime,
       'name': instance.name,
       'spot': instance.spot,
-      'startTime': instance.startTime?.toIso8601String(),
+      'startTime': instance.startTime,
       'status': _$DropStatusEnumMap[instance.status],
       'uid': instance.uid,
     };

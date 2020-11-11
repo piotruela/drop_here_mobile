@@ -9,7 +9,8 @@ part of 'route_request_api.dart';
 UnpreparedRouteRequest _$UnpreparedRouteRequestFromJson(
     Map<String, dynamic> json) {
   return UnpreparedRouteRequest(
-    date: json['date'] == null ? null : DateTime.parse(json['date'] as String),
+    acceptShipmentsAutomatically: json['acceptShipmentsAutomatically'] as bool,
+    date: json['date'] as String,
     description: json['description'] as String,
     name: json['name'] as String,
     profileUid: json['profileUid'] as String,
@@ -29,7 +30,8 @@ UnpreparedRouteRequest _$UnpreparedRouteRequestFromJson(
 Map<String, dynamic> _$UnpreparedRouteRequestToJson(
         UnpreparedRouteRequest instance) =>
     <String, dynamic>{
-      'date': instance.date?.toIso8601String(),
+      'acceptShipmentsAutomatically': instance.acceptShipmentsAutomatically,
+      'date': instance.date,
       'description': instance.description,
       'name': instance.name,
       'profileUid': instance.profileUid,

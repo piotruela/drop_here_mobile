@@ -5,44 +5,53 @@ part 'route_request_api.g.dart';
 
 @JsonSerializable()
 class UnpreparedRouteRequest {
-  final DateTime date;
+  final bool acceptShipmentsAutomatically;
+  final String date;
   final String description;
   final String name;
   final String profileUid;
   final List<RouteProductRequest> products;
   final List<RouteDropRequest> drops;
 
-  UnpreparedRouteRequest({this.date, this.description, this.name, this.profileUid, this.products, this.drops});
+  UnpreparedRouteRequest(
+      {this.acceptShipmentsAutomatically,
+      this.date,
+      this.description,
+      this.name,
+      this.profileUid,
+      this.products,
+      this.drops});
 
   factory UnpreparedRouteRequest.fromJson(Map<String, dynamic> json) => _$UnpreparedRouteRequestFromJson(json);
   Map<String, dynamic> toJson() => _$UnpreparedRouteRequestToJson(this);
 
   UnpreparedRouteRequest copyWith({
-    DateTime date,
+    String date,
     String description,
     String name,
     String profileUid,
     List<RouteProductRequest> products,
     List<RouteDropRequest> drops,
     bool sellerNull = false,
+    bool autoAccept,
   }) {
     return UnpreparedRouteRequest(
-      date: date ?? this.date,
-      description: description ?? this.description,
-      name: name ?? this.name,
-      profileUid: sellerNull ? null : profileUid ?? this.profileUid,
-      products: products ?? this.products,
-      drops: drops ?? this.drops,
-    );
+        date: date ?? this.date,
+        description: description ?? this.description,
+        name: name ?? this.name,
+        profileUid: sellerNull ? null : profileUid ?? this.profileUid,
+        products: products ?? this.products,
+        drops: drops ?? this.drops,
+        acceptShipmentsAutomatically: autoAccept ?? this.acceptShipmentsAutomatically);
   }
 }
 
 @JsonSerializable()
 class RouteProductRequest {
-  final double amount;
-  final bool limitedAmount;
-  final double price;
-  final int productId;
+  double amount;
+  bool limitedAmount;
+  double price;
+  int productId;
 
   RouteProductRequest({this.amount, this.limitedAmount = true, this.price, this.productId});
 
@@ -62,6 +71,8 @@ class RouteProductRequest {
       productId: productUid ?? this.productId,
     );
   }
+
+  String get productAmountToString => "Amount:  ${!limitedAmount ? "unlimited" : amount}";
 }
 
 @JsonSerializable()
@@ -69,7 +80,7 @@ class RouteDropRequest {
   final String description;
   final String endTime;
   final String name;
-  final int spotId;
+  int spotId;
   final String startTime;
 
   RouteDropRequest({this.description, this.endTime, this.name, this.spotId, this.startTime});
@@ -83,10 +94,11 @@ class RouteDropRequest {
     String name,
     int spotId,
     String startTime,
+    bool endTimeNull = false,
   }) {
     return RouteDropRequest(
         description: description ?? this.description,
-        endTime: endTime ?? this.endTime,
+        endTime: endTimeNull ? null : endTime ?? this.endTime,
         name: name ?? this.name,
         spotId: spotId ?? this.spotId,
         startTime: startTime ?? this.startTime);

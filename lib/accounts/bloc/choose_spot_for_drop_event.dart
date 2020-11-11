@@ -4,34 +4,19 @@ abstract class ChooseSpotForDropEvent extends Equatable {
   const ChooseSpotForDropEvent();
 }
 
-class FetchSpotsForDrop extends ChooseSpotForDropEvent {
-  FetchSpotsForDrop();
+class AddSpotToDropPageEntered extends ChooseSpotForDropEvent {
+  final SpotCompanyResponse selectedSpot;
+
+  AddSpotToDropPageEntered({this.selectedSpot});
 
   @override
   List<Object> get props => [];
 }
 
-class ChangeGroupValue extends ChooseSpotForDropEvent {
-  final int groupValue;
-  final List<SpotCompanyResponse> spots;
-  ChangeGroupValue(this.groupValue, this.spots);
+class SelectSpot extends ChooseSpotForDropEvent {
+  final SpotCompanyResponse spot;
+  SelectSpot({this.spot});
 
   @override
-  List<Object> get props => [groupValue, spots];
-}
-
-class FilterSpotsForDrop extends ChooseSpotForDropEvent {
-  final String filter;
-  FilterSpotsForDrop({this.filter});
-
-  @override
-  List<Object> get props => [filter];
-}
-
-class SearchSpotsForDrop extends ChooseSpotForDropEvent {
-  final String searchText;
-  SearchSpotsForDrop({this.searchText});
-
-  @override
-  List<Object> get props => [searchText];
+  List<Object> get props => [spot];
 }

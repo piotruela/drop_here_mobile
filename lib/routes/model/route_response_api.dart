@@ -1,6 +1,7 @@
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/routes/model/route_request_api.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -53,6 +54,7 @@ class RouteShortResponse {
 
 @JsonSerializable()
 class RouteResponse {
+  final bool acceptShipmentsAutomatically;
   final String description;
   final List<DropRouteResponse> drops;
   final int dropsAmount;
@@ -63,11 +65,12 @@ class RouteResponse {
   final String profileFirstName;
   final String profileLastName;
   final String profileUid;
-  final DateTime routeDate;
+  final String routeDate;
   final RouteStatus status;
 
   RouteResponse(
-      {this.description,
+      {this.acceptShipmentsAutomatically,
+      this.description,
       this.drops,
       this.dropsAmount,
       this.id,
@@ -86,15 +89,24 @@ class RouteResponse {
   String fullName() {
     return profileFirstName + ' ' + profileLastName;
   }
+
+  UnpreparedRouteRequest get toRouteRequest => UnpreparedRouteRequest(
+      acceptShipmentsAutomatically: acceptShipmentsAutomatically,
+      date: routeDate,
+      description: description,
+      name: name,
+      profileUid: profileUid,
+      products: products.map((e) => e.toRouteProductRequest).toList(),
+      drops: drops.map((e) => e.toRouteDropRequest).toList());
 }
 
 @JsonSerializable()
 class DropRouteResponse {
   final String description;
-  final DateTime endTime;
+  final String endTime;
   final String name;
   final SpotCompanyResponse spot;
-  final DateTime startTime;
+  final String startTime;
   final DropStatus status;
   final String uid;
 
@@ -102,6 +114,9 @@ class DropRouteResponse {
 
   factory DropRouteResponse.fromJson(Map<String, dynamic> json) => _$DropRouteResponseFromJson(json);
   Map<String, dynamic> toJson() => _$DropRouteResponseToJson(this);
+
+  RouteDropRequest get toRouteDropRequest =>
+      RouteDropRequest(description: description, startTime: startTime, endTime: endTime, spotId: spot.id, name: name);
 }
 
 @JsonSerializable()
@@ -120,6 +135,9 @@ class RouteProductRouteResponse {
   String toPricePerUnit(LocaleBundle locale) {
     return price.toString() + locale.currency + '/' + productResponse.unit;
   }
+
+  RouteProductRequest get toRouteProductRequest =>
+      RouteProductRequest(amount: amount, limitedAmount: limitedAmount, price: price, productId: id);
 }
 
 enum RouteStatus { UNPREPARED, PREPARED, ONGOING, FINISHED }

@@ -10,22 +10,20 @@ part 'choose_spot_for_drop_event.dart';
 part 'choose_spot_for_drop_state.dart';
 
 class ChooseSpotForDropBloc extends Bloc<ChooseSpotForDropEvent, ChooseSpotForDropState> {
-  ChooseSpotForDropBloc() : super(ChooseSpotForDropInitial());
+  ChooseSpotForDropBloc()
+      : super(ChooseSpotForDropState(type: ChooseSpotForDropStateType.loading, spots: null, selectedSpot: null));
   final SpotManagementService spotManagementService = Get.find<SpotManagementService>();
   @override
   Stream<ChooseSpotForDropState> mapEventToState(
     ChooseSpotForDropEvent event,
   ) async* {
-    yield ChooseSpotForDropInitial();
-    if (event is FetchSpotsForDrop) {
-      try {
-        final List<SpotCompanyResponse> spots = await spotManagementService.fetchCompanySpots();
-        yield SpotsForDropFetched(spots: spots, radioValue: 0);
-      } catch (e) {
-        yield ChooseSpotForDropError(e);
-      }
-    } else if (event is ChangeGroupValue) {
-      yield SpotsForDropFetched(spots: event.spots, radioValue: event.groupValue);
+    if (event is AddSpotToDropPageEntered) {
+      final List<SpotCompanyResponse> spots = await spotManagementService.fetchCompanySpots();
+      yield ChooseSpotForDropState(
+          type: ChooseSpotForDropStateType.spots_fetched, spots: spots, selectedSpot: event.selectedSpot);
+    } else if (event is SelectSpot) {
+      yield ChooseSpotForDropState(
+          type: ChooseSpotForDropStateType.spot_changed, spots: state.spots, selectedSpot: event.spot);
     }
   }
 }

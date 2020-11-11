@@ -6,7 +6,6 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 CarouselSlider dropsCarousel(List<DropRouteResponse> drops) {
   return CarouselSlider(
@@ -38,8 +37,7 @@ Widget mapCard(DropRouteResponse drop, {File photo}) {
             width: 154,
             height: 96,
             child: ClipRRect(
-              borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+              borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
               child: photo != null
                   ? Image.file(
                       photo,
@@ -63,11 +61,7 @@ Widget mapCard(DropRouteResponse drop, {File photo}) {
                 ),
                 SizedBox(height: 4.0),
                 Text(
-                  DateFormat('EEEE').format(drop.startTime) +
-                      ', ' +
-                      DateFormat.Hm().format(drop.startTime) +
-                      ' - ' +
-                      DateFormat.Hm().format(drop.endTime),
+                  "${drop.startTime} - ${drop.endTime}",
                   style: themeConfig.textStyles.title3Annotation,
                 ),
                 SizedBox(height: 6.0),
