@@ -2,26 +2,26 @@ import 'package:drop_here_mobile/accounts/bloc/add_products_to_route_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/local_product.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/seller_card.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/labeled_switch.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/routes/model/route_request_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
 class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-  final Set<LocalProduct> selectedProducts;
+  final List<RouteProductRequest> selectedProducts;
 
-  AddProductsToRoutePage(this.selectedProducts);
+  AddProductsToRoutePage({this.selectedProducts});
   @override
-  AddProductsToRouteBloc bloc() =>
-      AddProductsToRouteBloc()..add(FetchProducts(selectedProducts: selectedProducts ?? {}));
+  AddProductsToRouteBloc bloc() => AddProductsToRouteBloc()..add(FetchProducts(selectedProducts: selectedProducts));
 
   @override
   Widget build(BuildContext context, AddProductsToRouteBloc bloc, _) {
@@ -34,53 +34,45 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
         onTap: () => Get.back(result: bloc.state.selectedProducts),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
-            child: Text(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 10.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
               localeBundle.addProductsToRoute,
               style: themeConfig.textStyles.primaryTitle,
             ),
-          ),
-          DhSearchBar(bloc),
-          Padding(
-            padding: const EdgeInsets.only(left: 25.0),
-            child: FiltersFlatButton(
-              themeConfig: themeConfig,
-              locale: localeBundle,
-              bloc: bloc,
+            BlocBuilder<AddProductsToRouteBloc, AddProductsToRouteState>(
+              buildWhen: (previous, current) => previous != current,
+              builder: (context, state) {
+                if (state.type == AddProductsToRouteStateType.initial ||
+                    state.type == AddProductsToRouteStateType.loading) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  return Column(
+                    children: [
+                      for (ProductResponse product in bloc.state.products ?? [])
+                        SellerCard(
+                          title: product.name,
+                          onTap: bloc.state.selectedProducts.any((element) => element.productId == product.id)
+                              ? () => bloc.add(ProductUnchecked(productId: product.id))
+                              : () => bloc.add(ProductSelected(product: product)),
+                          selected: bloc.state.selectedProducts.any((element) => element.productId == product.id),
+                        )
+                    ],
+                  );
+                }
+              },
             ),
-          ),
-          BlocBuilder<AddProductsToRouteBloc, AddProductsToRouteState>(
-            buildWhen: (previous, current) => previous != current,
-            builder: (context, state) {
-              if (state.type == AddProductsToRouteStateType.initial ||
-                  state.type == AddProductsToRouteStateType.loading) {
-                return Center(child: CircularProgressIndicator());
-              } else if (state.type == AddProductsToRouteStateType.error) {
-                return Container(
-                    child: Column(
-                  children: [
-                    Text('try again'),
-                    RaisedButton(
-                        onPressed: () =>
-                            bloc.add(FetchProducts(selectedProducts: selectedProducts)))
-                  ],
-                ));
-              } else {
-                return buildColumnWithData(localeBundle, context, bloc, state);
-              }
-            },
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
-  Widget buildColumnWithData(LocaleBundle localeBundle, BuildContext context,
-      AddProductsToRouteBloc bloc, AddProductsToRouteState state) {
+/*  Widget buildColumnWithData(LocaleBundle localeBundle, BuildContext context,
+      AddProductsToRouteBloc bloc) {
     return Expanded(
       child: ListView.builder(
           shrinkWrap: true,
@@ -94,10 +86,10 @@ class AddProductsToRoutePage extends BlocWidget<AddProductsToRouteBloc> {
             );
           }),
     );
-  }
+  }*/
 }
 
-class ProductCard extends DhTile {
+/*class ProductCard extends DhTile {
   final AddProductsToRouteBloc bloc;
   final LocalProduct product;
   final bool selected1;
@@ -141,7 +133,7 @@ class ProductCard extends DhTile {
             bloc.add(AmountSelected(product: productWithAmount));
           }
         };
-}
+}*/
 
 abstract class DhTile extends StatelessWidget {
   String get title;
@@ -252,9 +244,7 @@ class _AmountDialogState extends State<AmountDialog> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Align(
-              child:
-                  Text(widget.selectedProduct.name, style: themeConfig.textStyles.secondaryTitle)),
+          Align(child: Text(widget.selectedProduct.name, style: themeConfig.textStyles.secondaryTitle)),
           labeledSwitch(
               text: localeBundle.unlimited,
               initialPosition: widget.initialUnlimited,
@@ -277,9 +267,8 @@ class _AmountDialogState extends State<AmountDialog> {
             child: SubmitFormButton(
               text: "Submit",
               onTap: () => Navigator.pop(context, product),
-              isActive:
-                  (_unlimited || (product.amount != null && product.amount.toString() != "")) &&
-                      (product.price != null && product.price.toString() != ""),
+              isActive: (_unlimited || (product.amount != null && product.amount.toString() != "")) &&
+                  (product.price != null && product.price.toString() != ""),
             ),
           ),
         ],

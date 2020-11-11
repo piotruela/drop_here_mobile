@@ -26,19 +26,18 @@ class ManageRouteBloc extends Bloc<ManageRouteEvent, ManageRouteState> {
       yield ManageRouteState(type: ManageRouteStateType.loading, routeRequest: event.routeRequest);
       List<ProfileInfoResponse> profiles = await companyManagementService.fetchCompanySellers();
       final ProductsPage productsPage = await productManagementService.getCompanyProducts();
-      final List<ProductResponse> products = productsPage.content;
       yield ManageRouteState(
-          type: ManageRouteStateType.initial, routeRequest: event.routeRequest, sellerProfiles: profiles);
+          type: ManageRouteStateType.initial,
+          routeRequest: event.routeRequest,
+          sellerProfiles: profiles,
+          products: productsPage.content);
     } else if (event is FormChanged2) {
       yield ManageRouteState(
-          type: ManageRouteStateType.form_changed,
-          routeRequest: event.routeRequest,
-          sellerProfiles: state.sellerProfiles);
-    } else if (event is RemoveSeller) {
-      yield ManageRouteState(
-          type: ManageRouteStateType.form_changed,
-          routeRequest: state.routeRequest.copyWith(sellerNull: true),
-          sellerProfiles: state.sellerProfiles);
+        type: ManageRouteStateType.form_changed,
+        routeRequest: event.routeRequest,
+        sellerProfiles: state.sellerProfiles,
+        products: state.products,
+      );
     }
   }
 }

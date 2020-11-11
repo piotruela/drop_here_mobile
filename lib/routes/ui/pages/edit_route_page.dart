@@ -3,15 +3,12 @@ import 'dart:io';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drop_here_mobile/accounts/model/local_product.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/add_drop_to_route_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/add_products_to_route.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/choose_seller_page.dart' hide SellerCard;
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_area.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/secondary_title.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/seller_card.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/value_picked_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
@@ -87,7 +84,7 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.assignedSeller),
                   SizedBox(height: 6.0),
-                  BlocBuilder<AddRouteBloc, AddRouteFormState>(
+                  /*BlocBuilder<AddRouteBloc, AddRouteFormState>(
                       buildWhen: (previous, current) => previous.fullName() != current.fullName(),
                       builder: (context, state) => Conditional.single(
                             context: context,
@@ -102,7 +99,7 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                                 getToChoseSellerPage(addRouteBloc);
                               },
                             ),
-                          )),
+                          )),*/
                   SizedBox(height: 6.0),
                   secondaryTitle(locale.description),
                   BlocBuilder<AddRouteBloc, AddRouteFormState>(
@@ -147,7 +144,7 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
     );
   }
 
-  void getToChoseSellerPage(AddRouteBloc bloc) {
+/*  void getToChoseSellerPage(AddRouteBloc bloc) {
     Get.to(ChooseSellerPage(
       addSeller: (String profileUid, String sellerFirstName, String sellerLastName) {
         bloc.add(FormChanged(
@@ -156,7 +153,7 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
             sellerLastName: sellerLastName));
       },
     ));
-  }
+  }*/
 
   Widget _buildDatePickerButton(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
     return ColoredRoundedFlatButton(
@@ -167,7 +164,7 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
     );
   }
 
-  Widget _chooseSeller(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
+/*  Widget _chooseSeller(LocaleBundle locale, BuildContext context, AddRouteBloc bloc) {
     return ColoredRoundedFlatButton(
       text: locale.chooseSeller,
       onTap: () {
@@ -182,7 +179,7 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
         //TODO add function
       },
     );
-  }
+  }*/
 
   void chooseDate(BuildContext context, AddRouteBloc bloc) async {
     DateTime dateTime = await showDatePicker(
@@ -345,8 +342,8 @@ class EditRoutePage extends BlocWidget<AddRouteBloc> {
                     ),
                   GestureDetector(
                     onTap: () async {
-                      bloc.add(
-                          AddProducts(products: await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));
+                      /*bloc.add(
+                          AddProducts(products: await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));*/
                     },
                     child: IconInCircle(
                       themeConfig: themeConfig,

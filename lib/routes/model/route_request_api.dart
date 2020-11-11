@@ -44,7 +44,7 @@ class RouteProductRequest {
   final double price;
   final int productId;
 
-  RouteProductRequest({this.amount, this.limitedAmount, this.price, this.productId});
+  RouteProductRequest({this.amount, this.limitedAmount = true, this.price, this.productId});
 
   factory RouteProductRequest.fromJson(Map<String, dynamic> json) => _$RouteProductRequestFromJson(json);
   Map<String, dynamic> toJson() => _$RouteProductRequestToJson(this);

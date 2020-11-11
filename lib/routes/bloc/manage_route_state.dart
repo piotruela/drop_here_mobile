@@ -14,6 +14,11 @@ class ManageRouteState extends Equatable {
   String get sellerFullName => sellerProfiles
       .firstWhere((element) => element.profileUid == routeRequest.profileUid, orElse: () => null)
       ?.fullName;
+
+/*  List<ProductResponse> get selectedProducts => products
+      ?.where((productFromList) =>
+          routeRequest?.products?.any((selectedProduct) => productFromList.id == selectedProduct.productId))
+      ?.toList();*/
 }
 
 enum ManageRouteStateType { initial, loading, form_changed, error, added_successfully }

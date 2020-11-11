@@ -1,4 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/add_products_to_route.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/choose_seller_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/secondary_title.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/seller_card.dart';
@@ -6,6 +8,7 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/utils/datetime_utils.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
+import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/routes/bloc/manage_route_bloc.dart';
@@ -64,6 +67,7 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
       child: ListView(
         shrinkWrap: true,
         children: [
+          DhBackButton(padding: EdgeInsets.zero),
           Text(
             pageTitle,
             style: themeConfig.textStyles.primaryTitle,
@@ -94,18 +98,21 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
                     conditionBuilder: (_) => state.routeRequest.profileUid == null,
                     widgetBuilder: (_) => ChoosableButton(
                         text: "Asign seller +",
-                        chooseAction: () {
+                        chooseAction: () async {
                           FocusScope.of(context).unfocus();
                           bloc.add(FormChanged2(
-                              routeRequest: bloc.state.routeRequest
-                                  .copyWith(profileUid: bloc.state.sellerProfiles.first.profileUid)));
+                              routeRequest:
+                                  bloc.state.routeRequest.copyWith(profileUid: await Get.to(ChooseSellerPage()))));
                         }),
                     fallbackBuilder: (_) => SellerCard(
                       title: state.sellerFullName ?? "",
                       trailing: Icon(Icons.edit),
-                      onTap: () {
+                      onTap: () async {
                         FocusScope.of(context).unfocus();
-                        bloc.add(RemoveSeller());
+                        bloc.add(FormChanged2(
+                            routeRequest: bloc.state.routeRequest.copyWith(
+                                profileUid: await Get.to(
+                                    ChooseSellerPage(selectedProfileUid: state.routeRequest.profileUid)))));
                       },
                     ),
                   )),
@@ -158,11 +165,17 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
           initialPage: 0,
         ),
         items: [
-          //for (RouteProductRequest product in bloc.state.routeRequest.products ?? [])
+          for (RouteProductRequest product in bloc.state.routeRequest.products ?? [])
+            SellerCard(title: product.productId.toString()), //TODO: change to productCard
           ChoosableButton(
             text: "Add product +",
             chooseAction: () async {
               FocusScope.of(context).requestFocus(FocusNode());
+              bloc.add(FormChanged2(
+                  routeRequest: bloc.state.routeRequest.copyWith(
+                      products: await Get.to(AddProductsToRoutePage(
+                selectedProducts: bloc.state.routeRequest.products,
+              )))));
             },
           )
         ]);

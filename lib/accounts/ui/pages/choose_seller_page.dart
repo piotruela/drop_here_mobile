@@ -1,157 +1,69 @@
 import 'package:drop_here_mobile/accounts/bloc/choose_seller_bloc.dart';
+import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/seller_card.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:get/get.dart';
 
 class ChooseSellerPage extends BlocWidget<ChooseSellerBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-  final Function addSeller;
+  final VoidCallback addSeller;
+  final String selectedProfileUid;
 
-  ChooseSellerPage({this.addSeller});
+  ChooseSellerPage({this.addSeller, this.selectedProfileUid});
+
   @override
-  ChooseSellerBloc bloc() => ChooseSellerBloc()..add(FetchSellers());
+  ChooseSellerBloc bloc() => ChooseSellerBloc()..add(InitializePage(selectedSellerUid: selectedProfileUid));
 
   @override
   Widget build(BuildContext context, ChooseSellerBloc bloc, _) {
-    final LocaleBundle locale = Localization.of(context).bundle;
+    final LocaleBundle localeBundle = Localization.of(context).bundle;
     return Scaffold(
-      floatingActionButton: SubmitFormButton(
-        isActive: true,
-        text: locale.submit,
-        onTap: () {
-          if (bloc.state is SellersFetched) {
-            SellersFetched state = bloc.state;
-            addSeller(state.sellers[state.radioValue].profileUid, state.sellers[state.radioValue].firstName,
-                state.sellers[state.radioValue].lastName);
-          }
-          //TODO add action
-          //addSeller(bloc.state.spots[bloc.state.radioValue]);
-
-          Get.back();
-        },
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
-                child: Text(
-                  locale.chooseSeller,
-                  style: themeConfig.textStyles.primaryTitle,
-                ),
-              ),
-              DhSearchBar(bloc),
-              Padding(
-                padding: const EdgeInsets.only(left: 25.0),
-                child: FiltersFlatButton(
-                  themeConfig: themeConfig,
-                  locale: locale,
-                  bloc: bloc,
-                ),
-              ),
-              BlocBuilder<ChooseSellerBloc, ChooseSellerState>(
-                builder: (context, state) {
-                  if (state is ChooseSellerInitial) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (state is SellersFetchingError) {
-                    return Container(
-                        child: Column(
-                      children: [Text('try again'), RaisedButton(onPressed: () => bloc.add(FetchSellers()))],
-                    ));
-                  } else if (state is SellersFetched) {
-                    return buildColumnWithData(locale, context, bloc, state);
-                  }
-                  return Container();
-                },
-              ),
-            ],
-          ),
+        body: BlocBuilder<ChooseSellerBloc, ChooseSellerState>(
+          buildWhen: (previous, current) => previous != current,
+          builder: (context, state) => Conditional.single(
+              context: context,
+              conditionBuilder: (_) => bloc.state.type != ChooseSellerStateType.loading,
+              widgetBuilder: (_) => _buildContent(localeBundle, bloc),
+              fallbackBuilder: (_) => Center(child: CircularProgressIndicator())),
         ),
-      ),
-    );
+        floatingActionButton: BlocBuilder<ChooseSellerBloc, ChooseSellerState>(
+          buildWhen: (previous, current) => previous.selectedProfileUid != current.selectedProfileUid,
+          builder: (context, state) => SubmitFormButton(
+              isActive: state.selectedProfileUid != null,
+              text: localeBundle.submit,
+              onTap: () => Get.back(
+                  result: bloc.state.sellers
+                      .firstWhere((element) => element.profileUid == bloc.state.selectedProfileUid, orElse: () => null)
+                      ?.profileUid)),
+        ));
   }
 
-  SafeArea buildColumnWithData(LocaleBundle locale, BuildContext context, ChooseSellerBloc bloc, SellersFetched state) {
-    return SafeArea(
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 25.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: state.sellers.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return SellerCard(
-                      state: state,
-                      bloc: bloc,
-                      index: index,
-                    );
-                  }),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class SellerCard extends StatelessWidget {
-  final ChooseSellerBloc bloc;
-  final int index;
-  final SellersFetched state;
-  const SellerCard({this.bloc, this.index, this.state});
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 7.0),
-      child: GestureDetector(
-        onTap: () {
-          bloc.add(ChangeGroupValue(index, state.sellers));
-        },
-        child: Container(
-          child: RadioListTile(
-            controlAffinity: ListTileControlAffinity.trailing,
-            groupValue: state.radioValue,
-            value: index,
-            secondary: CircleAvatar(
-              radius: 30,
+  Widget _buildContent(LocaleBundle localeBundle, ChooseSellerBloc bloc) {
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            DhBackButton(padding: EdgeInsets.zero, backAction: () => Get.back(result: bloc.state.selectedProfileUid)),
+            Text(
+              localeBundle.chooseSeller,
+              style: themeConfig.textStyles.primaryTitle,
             ),
-            title: Text(
-              state.sellers[index].fullName,
-              style: themeConfig.textStyles.secondaryTitle,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-            ),
-            subtitle: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [],
-            ),
-            onChanged: (_) {
-              bloc.add(ChangeGroupValue(index, state.sellers));
-            },
-          ),
-          decoration: BoxDecoration(
-            color: themeConfig.colors.white,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              dhShadow(),
-            ],
-          ),
+            for (ProfileInfoResponse profile in bloc.state.sellers ?? [])
+              SellerCard(
+                  title: profile.fullName,
+                  onTap: () => bloc.add(ChooseSeller(sellerUid: profile.profileUid)),
+                  selected: bloc.state.selectedProfileUid == profile.profileUid)
+          ],
         ),
       ),
     );

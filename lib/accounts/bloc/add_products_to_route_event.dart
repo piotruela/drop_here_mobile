@@ -10,7 +10,7 @@ class ProductsInitial extends AddProductsToRouteEvent {
 }
 
 class FetchProducts extends AddProductsToRouteEvent {
-  final Set<LocalProduct> selectedProducts;
+  final List<RouteProductRequest> selectedProducts;
 
   FetchProducts({this.selectedProducts});
   @override
@@ -18,24 +18,16 @@ class FetchProducts extends AddProductsToRouteEvent {
 }
 
 class ProductSelected extends AddProductsToRouteEvent {
-  final LocalProduct product;
+  final ProductResponse product;
   ProductSelected({this.product});
   @override
   List<Object> get props => [product];
 }
 
-class AmountSelected extends AddProductsToRouteEvent {
-  final LocalProduct product;
-
-  AmountSelected({this.product});
-  @override
-  List<Object> get props => [product];
-}
-
 class ProductUnchecked extends AddProductsToRouteEvent {
-  final LocalProduct product;
+  final int productId;
 
-  ProductUnchecked({this.product});
+  ProductUnchecked({this.productId});
   @override
-  List<Object> get props => [product];
+  List<Object> get props => [productId];
 }

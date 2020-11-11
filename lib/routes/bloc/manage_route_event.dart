@@ -21,10 +21,3 @@ class FormChanged2 extends ManageRouteEvent {
   @override
   List<Object> get props => [routeRequest];
 }
-
-class RemoveSeller extends ManageRouteEvent {
-  RemoveSeller();
-
-  @override
-  List<Object> get props => [];
-}
