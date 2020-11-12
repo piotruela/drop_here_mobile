@@ -32,47 +32,49 @@ class AddProductsToOrderPage extends BlocWidget<ChooseProductToOrderBloc> {
         onTap: () => Get.back(result: bloc.state.selectedProducts),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
-            child: Text(
-              localeBundle.addProductsToRoute,
-              style: themeConfig.textStyles.primaryTitle,
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
+              child: Text(
+                localeBundle.addProductsToOrder,
+                style: themeConfig.textStyles.primaryTitle,
+              ),
             ),
-          ),
-          DhSearchBar(bloc),
-          Padding(
-            padding: const EdgeInsets.only(left: 25.0),
-            child: FiltersFlatButton(
-              themeConfig: themeConfig,
-              locale: localeBundle,
-              bloc: bloc,
+            DhSearchBar(bloc),
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: FiltersFlatButton(
+                themeConfig: themeConfig,
+                locale: localeBundle,
+                bloc: bloc,
+              ),
             ),
-          ),
-          BlocBuilder<ChooseProductToOrderBloc, ChooseProductToOrderState>(
-            buildWhen: (previous, current) => previous != current,
-            builder: (context, state) {
-              if (state.type == ChooseProductToOrderStateType.initial ||
-                  state.type == ChooseProductToOrderStateType.loading) {
-                return Center(child: CircularProgressIndicator());
-              } else if (state.type == ChooseProductToOrderStateType.error) {
-                return Container(
-                    child: Column(
-                  children: [
-                    Text('try again'),
-                    RaisedButton(
-                        onPressed: () =>
-                            bloc.add(FetchProducts(selectedProducts: selectedProducts)))
-                  ],
-                ));
-              } else {
-                return buildColumnWithData(localeBundle, context, bloc);
-              }
-            },
-          ),
-        ],
+            BlocBuilder<ChooseProductToOrderBloc, ChooseProductToOrderState>(
+              buildWhen: (previous, current) => previous != current,
+              builder: (context, state) {
+                if (state.type == ChooseProductToOrderStateType.initial ||
+                    state.type == ChooseProductToOrderStateType.loading) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (state.type == ChooseProductToOrderStateType.error) {
+                  return Container(
+                      child: Column(
+                    children: [
+                      Text('try again'),
+                      RaisedButton(
+                          onPressed: () =>
+                              bloc.add(FetchProducts(selectedProducts: selectedProducts)))
+                    ],
+                  ));
+                } else {
+                  return buildColumnWithData(localeBundle, context, bloc);
+                }
+              },
+            ),
+          ],
+        ),
       ),
     );
   }

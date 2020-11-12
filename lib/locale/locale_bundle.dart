@@ -306,4 +306,6 @@ abstract class LocaleBundle {
   String get dropStartTimeBeforePreviousDropEndTime;
 
   String get placeOrder;
+
+  String get addProductsToOrder;
 }

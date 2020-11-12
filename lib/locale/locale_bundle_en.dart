@@ -465,4 +465,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get placeOrder => "Place order";
+
+  @override
+  String get addProductsToOrder => "Add products to order";
 }
