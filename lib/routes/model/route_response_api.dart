@@ -87,9 +87,7 @@ class RouteResponse {
   factory RouteResponse.fromJson(Map<String, dynamic> json) => _$RouteResponseFromJson(json);
   Map<String, dynamic> toJson() => _$RouteResponseToJson(this);
 
-  String fullName() {
-    return profileFirstName + ' ' + profileLastName;
-  }
+  String get sellerFullName => "$profileFirstName $profileLastName";
 
   UnpreparedRouteRequest get toRouteRequest => UnpreparedRouteRequest(
       acceptShipmentsAutomatically: acceptShipmentsAutomatically,

@@ -1,11 +1,32 @@
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/utils/datetime_utils.dart';
-import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
 import 'package:drop_here_mobile/routes/model/api/drop_customer_spot_response_api.dart';
 import 'package:drop_here_mobile/routes/model/route_request_api.dart';
+import 'package:drop_here_mobile/routes/model/route_response_api.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+class CompanyRouteDetailsDropCard extends DropCard {
+  final DropRouteResponse drop;
+
+  CompanyRouteDetailsDropCard({this.drop});
+
+  @override
+  String get endTime => drop.endTime.toTime();
+
+  @override
+  String get name => drop.name;
+
+  @override
+  get onExitPressed => null;
+
+  @override
+  String get startTime => drop.startTime.toTime();
+
+  @override
+  Widget get extraField => infoLine(Icons.pin_drop_outlined, Colors.black, drop.spot.name);
+}
 
 class CompanyRouteDropCard extends DropCard {
   final RouteDropRequest drop;
@@ -78,10 +99,15 @@ abstract class DropCard extends StatelessWidget {
             Stack(
               children: [
                 Container(
-                  width: 114.0,
-                  child: IconInCircle(
-                    themeConfig: themeConfig,
-                    icon: Icons.thumbs_up_down,
+                  width: 154,
+                  height: 96,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                    child: Icon(
+                      Icons.attach_money,
+                      size: 60,
+                      color: themeConfig.colors.primary1,
+                    ),
                   ),
                 ),
                 onExitPressed != null

@@ -69,7 +69,8 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
         body: BlocConsumer<ManageRouteBloc, ManageRouteState>(
       buildWhen: (previous, current) => previous != current,
       builder: (context, state) {
-        if (bloc.state.type == ManageRouteStateType.loading) {
+        if (bloc.state.type == ManageRouteStateType.loading ||
+            bloc.state.type == ManageRouteStateType.added_successfully) {
           return Center(child: CircularProgressIndicator());
         } else if (state.type == ManageRouteStateType.error) {
           return Text("ERROR");
@@ -119,7 +120,7 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
                       text: state.routeRequest.date, chooseAction: () async => chooseDate(context, bloc)),
                   fallbackBuilder: (_) =>
                       ChoosableButton(text: "Add date +", chooseAction: () async => chooseDate(context, bloc)))),
-          secondaryTitle("Drops*"),
+          secondaryTitle("Drops"),
           dropsCarousel(context, localeBundle, bloc),
           secondaryTitle(localeBundle.assignedSeller),
           BlocBuilder<ManageRouteBloc, ManageRouteState>(
@@ -161,7 +162,7 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
               builder: (context, state) => SubmitFormButton(
                     text: localeBundle.addRouteButton,
                     isActive: state.isFilled,
-                    onTap: () => bloc.add(FormSubmitted(routeId: routeId)),
+                    onTap: () => bloc.add(FormSubmitted(request: state.routeRequest, routeId: routeId)),
                   ))
         ],
       ),
@@ -206,9 +207,9 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
 
   CarouselOptions options() {
     return CarouselOptions(
-      aspectRatio: 16 / 7.4,
+      aspectRatio: 14 / 7.4,
       enableInfiniteScroll: false,
-      viewportFraction: 0.45,
+      viewportFraction: 0.5,
       initialPage: 0,
     );
   }
