@@ -122,7 +122,7 @@ CompanyCustomerResponse _$CompanyCustomerResponseFromJson(
     ..firstName = json['firstName'] as String
     ..lastName = json['lastName'] as String
     ..relationshipStatus = _$enumDecodeNullable(
-        _$MembershipStatusEnumMap, json['relationshipStatus'])
+        _$RelationshipStatusEnumMap, json['relationshipStatus'])
     ..companyCustomerSpotMemberships =
         (json['companyCustomerSpotMemberships'] as List)
             ?.map((e) => e == null
@@ -139,14 +139,13 @@ Map<String, dynamic> _$CompanyCustomerResponseToJson(
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'relationshipStatus':
-          _$MembershipStatusEnumMap[instance.relationshipStatus],
+          _$RelationshipStatusEnumMap[instance.relationshipStatus],
       'companyCustomerSpotMemberships': instance.companyCustomerSpotMemberships,
     };
 
-const _$MembershipStatusEnumMap = {
-  MembershipStatus.ACTIVE: 'ACTIVE',
-  MembershipStatus.PENDING: 'PENDING',
-  MembershipStatus.BLOCKED: 'BLOCKED',
+const _$RelationshipStatusEnumMap = {
+  RelationshipStatus.ACTIVE: 'ACTIVE',
+  RelationshipStatus.BLOCKED: 'BLOCKED',
 };
 
 CompanyCustomerSpotMembershipResponse
@@ -167,3 +166,9 @@ Map<String, dynamic> _$CompanyCustomerSpotMembershipResponseToJson(
       'spotName': instance.spotName,
       'spotUid': instance.spotUid,
     };
+
+const _$MembershipStatusEnumMap = {
+  MembershipStatus.ACTIVE: 'ACTIVE',
+  MembershipStatus.PENDING: 'PENDING',
+  MembershipStatus.BLOCKED: 'BLOCKED',
+};

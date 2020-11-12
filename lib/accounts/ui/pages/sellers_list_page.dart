@@ -1,5 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
-import 'package:drop_here_mobile/accounts/model/seller.dart';
+import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_card.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
@@ -81,8 +81,7 @@ class SellersListPage extends BlocWidget<DhListBloc> {
     );
   }
 
-  SafeArea buildColumnWithData(
-      LocaleBundle locale, SellersFetched state, BuildContext context, DhListBloc bloc) {
+  SafeArea buildColumnWithData(LocaleBundle locale, SellersFetched state, BuildContext context, DhListBloc bloc) {
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,10 +90,9 @@ class SellersListPage extends BlocWidget<DhListBloc> {
               shrinkWrap: true,
               itemCount: state.sellers.length,
               itemBuilder: (BuildContext context, int index) {
-                final Seller seller = state.sellers.elementAt(index);
+                ProfileInfoResponse seller = state.sellers.elementAt(index);
                 return DhCard(
                   title: seller.fullName,
-                  status: seller.status,
                 );
               }),
         ],

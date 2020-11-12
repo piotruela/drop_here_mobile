@@ -16,13 +16,15 @@ class DhCard extends StatelessWidget {
   final List<String> popupOptions;
   final EdgeInsets padding;
   final OnItemSelected onItemSelected;
+  final VoidCallback onTileClicked;
   const DhCard(
       {this.title,
       this.status,
       this.dropsNumber,
       this.popupOptions,
       this.padding,
-      this.onItemSelected});
+      this.onItemSelected,
+      this.onTileClicked});
 
   @override
   Widget build(BuildContext context) {
@@ -30,53 +32,56 @@ class DhCard extends StatelessWidget {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Padding(
       padding: padding ?? EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
-      child: Container(
-        child: ListTile(
-          leading: CircleAvatar(
-            radius: 30,
+      child: GestureDetector(
+        onTap: onTileClicked,
+        child: Container(
+          child: ListTile(
+            leading: CircleAvatar(
+              radius: 30,
+            ),
+            title: Text(
+              title,
+              style: themeConfig.textStyles.secondaryTitle,
+            ),
+            subtitle: status != null
+                ? Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      statusText(locale, themeConfig, status),
+                      Text(
+                        dropsNumber != null ? locale.memberOf + ' ' + dropsNumber.toString() + ' ' + locale.spots : '',
+                        style: themeConfig.textStyles.cardSubtitle,
+                      )
+                    ],
+                  )
+                : SizedBox.shrink(),
+            trailing: PopupMenuButton<String>(
+              icon: Icon(
+                Icons.more_vert,
+                color: themeConfig.colors.black,
+                size: 30.0,
+              ),
+              onSelected: (value) => onItemSelected(value),
+              itemBuilder: (BuildContext context) {
+                return popupOptions.map((String choice) {
+                  return PopupMenuItem<String>(
+                    value: choice,
+                    child: Text(
+                      choice,
+                      style: themeConfig.textStyles.popupMenu,
+                    ),
+                  );
+                }).toList();
+              },
+            ),
           ),
-          title: Text(
-            title,
-            style: themeConfig.textStyles.secondaryTitle,
-          ),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              statusText(locale, themeConfig, status),
-              Text(
-                dropsNumber != null
-                    ? locale.memberOf + ' ' + dropsNumber.toString() + ' ' + locale.spots
-                    : '',
-                style: themeConfig.textStyles.cardSubtitle,
-              )
+          decoration: BoxDecoration(
+            color: themeConfig.colors.white,
+            borderRadius: BorderRadius.circular(10.0),
+            boxShadow: [
+              dhShadow(),
             ],
           ),
-          trailing: PopupMenuButton<String>(
-            icon: Icon(
-              Icons.more_vert,
-              color: themeConfig.colors.black,
-              size: 30.0,
-            ),
-            onSelected: (value) => onItemSelected(value),
-            itemBuilder: (BuildContext context) {
-              return popupOptions.map((String choice) {
-                return PopupMenuItem<String>(
-                  value: choice,
-                  child: Text(
-                    choice,
-                    style: themeConfig.textStyles.popupMenu,
-                  ),
-                );
-              }).toList();
-            },
-          ),
-        ),
-        decoration: BoxDecoration(
-          color: themeConfig.colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            dhShadow(),
-          ],
         ),
       ),
     );

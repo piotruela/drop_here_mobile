@@ -20,7 +20,7 @@ class ListLoading extends DhListState {
 }
 
 class ClientsFetched extends DhListState {
-  final List<Client> clients;
+  final List<CompanyCustomerResponse> clients;
   const ClientsFetched(this.clients);
 
   @override
@@ -28,7 +28,7 @@ class ClientsFetched extends DhListState {
 }
 
 class SellersFetched extends DhListState {
-  final List<Seller> sellers;
+  final List<ProfileInfoResponse> sellers;
   const SellersFetched(this.sellers);
 
   @override
