@@ -1,5 +1,6 @@
 import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
-import 'package:drop_here_mobile/accounts/model/client.dart';
+import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/client_details_management_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_card.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
@@ -41,10 +42,7 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
             } else if (state is FetchingError) {
               return Container(
                   child: Column(
-                children: [
-                  Text(state.error),
-                  RaisedButton(onPressed: () => bloc.add(FetchClients()))
-                ],
+                children: [Text(state.error), RaisedButton(onPressed: () => bloc.add(FetchClients()))],
               ));
             } else if (state is ClientsFetched) {
               return buildColumnWithData(locale, state, context, bloc);
@@ -75,8 +73,7 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
     );
   }
 
-  SafeArea buildColumnWithData(
-      LocaleBundle locale, ClientsFetched state, BuildContext context, DhListBloc bloc) {
+  SafeArea buildColumnWithData(LocaleBundle locale, ClientsFetched state, BuildContext context, DhListBloc bloc) {
     return SafeArea(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,11 +82,10 @@ class ClientsListPage extends BlocWidget<DhListBloc> {
               shrinkWrap: true,
               itemCount: state.clients.length,
               itemBuilder: (BuildContext context, int index) {
-                final Client client = state.clients[index];
+                final CompanyCustomerResponse client = state.clients[index];
                 return DhCard(
-                  title: client.name,
-                  status: client.status,
-                  dropsNumber: client.numberOfDropsMember,
+                  title: client.fullName,
+                  onTileClicked: () => Get.to(ClientDetailsManagementPage(client)),
                 );
               }),
         ],

@@ -1,4 +1,3 @@
-import 'package:drop_here_mobile/accounts/model/client.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'company_management_api.g.dart';
@@ -12,8 +11,7 @@ enum RelationshipStatus { ACTIVE, BLOCKED }
 enum MembershipStatus { ACTIVE, PENDING, BLOCKED }
 
 extension Extension on MembershipStatus {
-  static List<MembershipStatus> get requestValues =>
-      [MembershipStatus.ACTIVE, MembershipStatus.BLOCKED];
+  static List<MembershipStatus> get requestValues => [MembershipStatus.ACTIVE, MembershipStatus.BLOCKED];
 }
 
 @JsonSerializable()
@@ -42,8 +40,7 @@ class CompanyManagementRequest {
 
   CompanyManagementRequest({this.companyName, this.countryName, this.visibility});
 
-  factory CompanyManagementRequest.fromJson(Map<String, dynamic> json) =>
-      _$CompanyManagementRequestFromJson(json);
+  factory CompanyManagementRequest.fromJson(Map<String, dynamic> json) => _$CompanyManagementRequestFromJson(json);
   Map<String, dynamic> toJson() => _$CompanyManagementRequestToJson(this);
 
   CompanyManagementRequest copyWith({String companyName, String countryName, String visibility}) {
@@ -76,8 +73,7 @@ class ResourceOperationResponse {
 
   ResourceOperationResponse();
 
-  factory ResourceOperationResponse.fromJson(Map<String, dynamic> json) =>
-      _$ResourceOperationResponseFromJson(json);
+  factory ResourceOperationResponse.fromJson(Map<String, dynamic> json) => _$ResourceOperationResponseFromJson(json);
   Map<String, dynamic> toJson() => _$ResourceOperationResponseToJson(this);
 }
 
@@ -86,17 +82,12 @@ class CompanyCustomerResponse {
   int customerId;
   String firstName;
   String lastName;
-  MembershipStatus relationshipStatus;
+  RelationshipStatus relationshipStatus;
   List<CompanyCustomerSpotMembershipResponse> companyCustomerSpotMemberships;
 
   CompanyCustomerResponse();
 
-  Client convertFromApiModel() {
-    return Client(status: this.relationshipStatus, name: "${this.firstName} ${this.lastName}");
-  }
-
-  factory CompanyCustomerResponse.fromJson(Map<String, dynamic> json) =>
-      _$CompanyCustomerResponseFromJson(json);
+  factory CompanyCustomerResponse.fromJson(Map<String, dynamic> json) => _$CompanyCustomerResponseFromJson(json);
   Map<String, dynamic> toJson() => _$CompanyCustomerResponseToJson(this);
 
   String get fullName => firstName + ' ' + lastName;
