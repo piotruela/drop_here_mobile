@@ -8,6 +8,9 @@ import 'package:drop_here_mobile/accounts/services/company_management_service.da
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
+import 'package:drop_here_mobile/shipments/model/api/company_shipment_request.dart';
+import 'package:drop_here_mobile/shipments/model/api/company_shipment_response.dart';
+import 'package:drop_here_mobile/shipments/service/company_shipment_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
@@ -18,6 +21,7 @@ part 'dh_list_state.dart';
 class DhListBloc extends Bloc<DhListEvent, DhListState> {
   final CompanyManagementService companyManagementService = Get.find<CompanyManagementService>();
   final ProductManagementService productManagementService = Get.find<ProductManagementService>();
+  final CompanyShipmentService companyShipmentService = Get.find<CompanyShipmentService>();
 
   DhListBloc() : super(DhListInitial());
 
@@ -65,6 +69,10 @@ class DhListBloc extends Bloc<DhListEvent, DhListState> {
       await productManagementService.deleteProduct(event.productId.toString());
       final ProductsPage products = await productManagementService.getCompanyProducts();
       yield ProductsFetched(products: products.content);
+    } else if (event is FetchShipments) {
+      final CompanyShipmentsPage shipmentsPage =
+          await companyShipmentService.getCompanyShipments(CompanyShipmentRequest());
+      yield ShipmentsFetched(shipments: shipmentsPage.content);
     }
   }
 }

@@ -43,6 +43,14 @@ class ProductsFetched extends DhListState {
   List<Object> get props => [products];
 }
 
+class ShipmentsFetched extends DhListState {
+  final List<ShipmentResponse> shipments;
+  const ShipmentsFetched({this.shipments});
+
+  @override
+  List<Object> get props => [shipments];
+}
+
 class FetchingError extends DhListState {
   final String error;
   const FetchingError(this.error);
