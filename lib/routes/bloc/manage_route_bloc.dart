@@ -74,6 +74,7 @@ class ManageRouteBloc extends Bloc<ManageRouteEvent, ManageRouteState> {
           products: state.products,
           spots: state.spots);
     } else if (event is FormSubmitted) {
+      yield ManageRouteState(type: ManageRouteStateType.loading, routeRequest: state.routeRequest, sellerProfiles: state.sellerProfiles, products: state.products, spots: state.spots);
       ResourceOperationResponse response;
       if (event?.routeId != null) {
         response = await routeManagementService.updateRoute(state.routeRequest, event.routeId);

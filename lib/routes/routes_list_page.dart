@@ -10,6 +10,7 @@ import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/routes/bloc/routes_list_bloc.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
+import 'package:drop_here_mobile/routes/ui/pages/route_details_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -73,8 +74,7 @@ class RoutesListPage extends BlocWidget<RoutesListBloc> {
     );
   }
 
-  Widget buildColumnWithData(
-      LocaleBundle locale, RoutesListState state, BuildContext context, RoutesListBloc bloc) {
+  Widget buildColumnWithData(LocaleBundle locale, RoutesListState state, BuildContext context, RoutesListBloc bloc) {
     return Expanded(
       child: ListView.builder(
           shrinkWrap: true,
@@ -98,19 +98,9 @@ class RouteCard extends DhTile {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
 
   @override
-  onTap(BuildContext context) => () {
-        PopupMenuItem<String>(
-            child: GestureDetector(
-          child: Text(Localization.of(context).bundle.delete),
-          onTap: () {
-            bloc.add(DeleteRoute(route.id.toString()));
-            Navigator.pop(context);
-          },
-        ));
-      };
+  onTap(BuildContext context) => () => Get.to(RouteDetailsPage(routeId: route.id));
 
   @override
-  // TODO: implement photo
   Widget get photo => IconInCircle(
         icon: Icons.assistant_direction,
         themeConfig: themeConfig,

@@ -7,7 +7,16 @@ abstract class RouteDetailsEvent extends Equatable {
 class FetchRouteDetails extends RouteDetailsEvent {
   final int routeId;
 
-  FetchRouteDetails(this.routeId);
+  FetchRouteDetails({this.routeId});
   @override
   List<Object> get props => [routeId];
+}
+
+class UpdateRouteStatus extends RouteDetailsEvent {
+  final int routeId;
+  final RouteStatus status;
+
+  UpdateRouteStatus({this.routeId, this.status});
+  @override
+  List<Object> get props => [routeId, status];
 }

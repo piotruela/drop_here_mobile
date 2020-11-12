@@ -51,7 +51,7 @@ class ChoosableButtonWithSubText extends StatelessWidget {
   final Widget trailing;
   final VoidCallback chooseAction;
 
-  ChoosableButtonWithSubText({this.text, this.subText, this.isChosen, this.chooseAction, this.trailing});
+  ChoosableButtonWithSubText({this.text, this.subText, this.isChosen = false, this.chooseAction, this.trailing});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +68,7 @@ class ChoosableButtonWithSubText extends StatelessWidget {
                 dhShadow(),
               ],
               border: isChosen ? Border.all(width: 1.0, color: themeConfig.colors.primary1) : null,
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              borderRadius: BorderRadius.all(Radius.circular(40.0))),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -76,7 +76,11 @@ class ChoosableButtonWithSubText extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(text, style: themeConfig.textStyles.coloredFlatButton),
-                  Text(subText, style: themeConfig.textStyles.cardSubtitle)
+                  Text(
+                    subText,
+                    style: themeConfig.textStyles.cardSubtitle,
+                    textAlign: TextAlign.center,
+                  )
                 ],
               ),
               trailing ?? SizedBox.shrink()

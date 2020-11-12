@@ -17,7 +17,7 @@ CarouselSlider productsCarousel(LocaleBundle locale, List<RouteProductRouteRespo
       viewportFraction: 0.38,
       initialPage: 0,
     ),
-    items: products.map((product) => ProductCard(product: product)).toList(),
+    items: products?.map((product) => ProductCard(product: product))?.toList(),
   );
 }
 

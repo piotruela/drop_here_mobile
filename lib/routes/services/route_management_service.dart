@@ -10,8 +10,8 @@ class RouteManagementService {
   final DhHttpClient _httpClient = Get.find<DhHttpClient>();
 
   Future<String> getCompanyId() async {
-    dynamic response = await _httpClient.get(
-        canRepeatRequest: true, path: "/management/companies", out: (dynamic json) => json);
+    dynamic response =
+        await _httpClient.get(canRepeatRequest: true, path: "/management/companies", out: (dynamic json) => json);
     Company companyInfo = Company.fromJson(response);
     return companyInfo.uid;
   }
@@ -36,28 +36,34 @@ class RouteManagementService {
   Future<ResourceOperationResponse> deleteRoute(String routeId) async {
     String companyId = await getCompanyId();
     dynamic response = await _httpClient.delete(
-        canRepeatRequest: true,
-        path: "/companies/$companyId/routes/$routeId",
-        out: (dynamic json) => json);
+        canRepeatRequest: true, path: "/companies/$companyId/routes/$routeId", out: (dynamic json) => json);
     return ResourceOperationResponse.fromJson(response);
   }
 
   Future<RouteResponse> fetchRoute(int routeId) async {
     String companyId = await getCompanyId();
     dynamic response = await _httpClient.get(
-        canRepeatRequest: true,
-        path: "/companies/$companyId/routes/$routeId",
-        out: (dynamic json) => json);
+        canRepeatRequest: true, path: "/companies/$companyId/routes/$routeId", out: (dynamic json) => json);
     return RouteResponse.fromJson(response);
   }
 
-  Future<ResourceOperationResponse> updateRoute(
-      UnpreparedRouteRequest routeRequest, int routeId) async {
+  Future<ResourceOperationResponse> updateRoute(UnpreparedRouteRequest routeRequest, int routeId) async {
     String companyId = await getCompanyId();
     dynamic response = await _httpClient.put(
         canRepeatRequest: true,
         path: "/companies/$companyId/routes/$routeId",
         body: json.encode(routeRequest.toJson()),
+        out: (dynamic json) => json);
+    return ResourceOperationResponse.fromJson(response);
+  }
+
+  Future<ResourceOperationResponse> updateRouteStatus(int routeId, RouteStatus status) async {
+    String companyId = await getCompanyId();
+    RouteStateChangeRequest request = RouteStateChangeRequest(newStatus: status);
+    dynamic response = await _httpClient.patch(
+        canRepeatRequest: true,
+        path: "/companies/$companyId/routes/$routeId",
+        body: json.encode(request.toJson()),
         out: (dynamic json) => json);
     return ResourceOperationResponse.fromJson(response);
   }
