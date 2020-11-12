@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:drop_here_mobile/routes/model/route_response_api.dart';
+import 'package:drop_here_mobile/products/model/order_product_model.dart';
 import 'package:equatable/equatable.dart';
 
 part 'create_order_event.dart';
@@ -14,6 +14,6 @@ class CreateOrderBloc extends Bloc<CreateOrderEvent, CreateOrderState> {
   Stream<CreateOrderState> mapEventToState(
     CreateOrderEvent event,
   ) async* {
-    if (event is AddProduct) {}
+    if (event is AddProducts) {}
   }
 }

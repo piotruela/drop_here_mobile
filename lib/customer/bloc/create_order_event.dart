@@ -4,14 +4,15 @@ abstract class CreateOrderEvent extends Equatable {
   const CreateOrderEvent();
 }
 
-class AddProduct extends Equatable {
-  const AddProduct();
+class AddProducts extends CreateOrderEvent {
+  final List<OrderProductModel> products;
+  const AddProducts({this.products});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [products];
 }
 
-class RemoveProduct extends Equatable {
+class RemoveProduct extends CreateOrderEvent {
   const RemoveProduct();
 
   @override
