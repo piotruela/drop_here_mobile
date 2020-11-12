@@ -81,3 +81,10 @@ class SearchProducts extends DhListEvent {
   @override
   List<Object> get props => [searchText];
 }
+
+class FetchShipments extends DhListEvent {
+  FetchShipments();
+
+  @override
+  List<Object> get props => [];
+}

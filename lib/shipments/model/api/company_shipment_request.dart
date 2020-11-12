@@ -37,7 +37,7 @@ class CompanyShipmentRequest {
         "&routeId=${routeId ?? ''}"
         "&sort.sorted=${sortSorted ?? ''}"
         "&sort.unsorted=${sortUnsorted ?? ''}"
-        "&status=${describeEnum(ShipmentStatus) ?? ''}"
+        "&status=${status != null ? describeEnum(status) : ''}"
         "&unpaged=${unpaged ?? ''}";
   }
 }

@@ -8,6 +8,11 @@ part of 'company_shipment_response.dart';
 
 CompanyShipmentsPage _$CompanyShipmentsPageFromJson(Map<String, dynamic> json) {
   return CompanyShipmentsPage()
+    ..content = (json['content'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ShipmentResponse.fromJson(e as Map<String, dynamic>))
+        ?.toList()
     ..empty = json['empty'] as bool
     ..first = json['first'] as bool
     ..last = json['last'] as bool
@@ -27,6 +32,7 @@ CompanyShipmentsPage _$CompanyShipmentsPageFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$CompanyShipmentsPageToJson(
         CompanyShipmentsPage instance) =>
     <String, dynamic>{
+      'content': instance.content,
       'empty': instance.empty,
       'first': instance.first,
       'last': instance.last,

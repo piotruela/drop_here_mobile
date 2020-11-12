@@ -6,6 +6,7 @@ part 'company_shipment_response.g.dart';
 
 @JsonSerializable()
 class CompanyShipmentsPage {
+  List<ShipmentResponse> content;
   bool empty;
   bool first;
   bool last;
