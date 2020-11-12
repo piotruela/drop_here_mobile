@@ -139,6 +139,6 @@ class RouteProductRouteResponse {
       RouteProductRequest(amount: amount, limitedAmount: limitedAmount, price: price, productId: productResponse.id);
 }
 
-enum RouteStatus { UNPREPARED, PREPARED, ONGOING, FINISHED }
+enum RouteStatus { UNPREPARED, PREPARED, CANCELLED, ONGOING, FINISHED }
 
 enum DropStatus { UNPREPARED, PREPARED, DELAYED, CANCELLED, FINISHED, LIVE }
