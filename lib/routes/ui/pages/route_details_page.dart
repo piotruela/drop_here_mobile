@@ -10,8 +10,8 @@ import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/products/ui/widgets/products_carousel.dart';
 import 'package:drop_here_mobile/routes/bloc/route_details_bloc.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
-import 'package:drop_here_mobile/routes/routes_list_page.dart';
 import 'package:drop_here_mobile/routes/ui/widgets/drop_card.dart';
+import 'package:drop_here_mobile/shipments/ui/pages/dashboard_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -55,7 +55,7 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
               children: [
                 DhBackButton(
                   padding: EdgeInsets.zero,
-                  backAction: () => Get.to(RoutesListPage()),
+                  backAction: () => Get.to(DashboardPage()),
                 ),
                 Text(
                   state.route.name,
@@ -143,6 +143,7 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
           caseBuilders: {
             RouteStatus.UNPREPARED: (_) => _changeToPreparedButton(context),
             RouteStatus.ONGOING: (_) => _changeToCancelledButton(context),
+            RouteStatus.FINISHED: (_) => SizedBox.shrink()
           },
           fallbackBuilder: (_) => _changeStatusButton(context, bloc.state.route.status)),
     );
