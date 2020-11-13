@@ -16,6 +16,8 @@ import 'package:get/get.dart';
 class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final CompanyCustomerResponse customer;
+  final bool block = true;
+  final bool unblock = false;
 
   ClientDetailsManagementPage(this.customer);
   @override
@@ -55,18 +57,33 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
         ),
         companyInfoTile(locale.relationshipStatus,
             describeEnum(bloc.state.customerResponse.relationshipStatus)),
-        Padding(
-          padding: const EdgeInsets.only(left: 25.0, bottom: 8.0),
-          child: Text(
-            locale.spotsMemberships,
-            style: themeConfig.textStyles.secondaryTitle,
-          ),
-        ),
-        _spotsList(bloc.state.customerResponse.companyCustomerSpotMemberships, locale, bloc),
-        _blockUserButton(
-            locale, () => {bloc.add(BlockUser(bloc.state.customerResponse.customerId))}),
+        //todo change to active
+        bloc.state.customerResponse.relationshipStatus == RelationshipStatus.ACTIVE
+            ? _spotsList(bloc.state.customerResponse.companyCustomerSpotMemberships, locale, bloc)
+            : _userBlocked(locale, bloc),
       ],
     ));
+  }
+
+  Center _userBlocked(LocaleBundle locale, ClientDetailsManagementBloc bloc) {
+    return Center(
+      child: Column(
+        children: [
+          SizedBox(
+            height: 35.0,
+          ),
+          Text(
+            locale.thisUserIsBlocked,
+            style: themeConfig.textStyles.primaryTitle,
+          ),
+          SizedBox(
+            height: 15.0,
+          ),
+          _blockUserButton(locale.unblockUser,
+              () => {bloc.add(BlockUser(bloc.state.customerResponse.customerId, unblock))}),
+        ],
+      ),
+    );
   }
 
   Padding _userName(String userName) {
@@ -95,22 +112,38 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
     );
   }
 
-  Expanded _spotsList(List<CompanyCustomerSpotMembershipResponse> spots, LocaleBundle locale,
+  Widget _spotsList(List<CompanyCustomerSpotMembershipResponse> spots, LocaleBundle locale,
       ClientDetailsManagementBloc bloc) {
     return Expanded(
-      child: SingleChildScrollView(
-        physics: ScrollPhysics(),
-        child: Column(
-          children: <Widget>[
-            ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: spots.length,
-                itemBuilder: (context, index) {
-                  return SpotTile(spots[index], locale, bloc);
-                })
-          ],
-        ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 25.0, bottom: 8.0),
+            child: Text(
+              locale.spotsMemberships,
+              style: themeConfig.textStyles.secondaryTitle,
+            ),
+          ),
+          Expanded(
+            child: SingleChildScrollView(
+              physics: ScrollPhysics(),
+              child: Column(
+                children: <Widget>[
+                  ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: spots.length,
+                      itemBuilder: (context, index) {
+                        return SpotTile(spots[index], locale, bloc);
+                      }),
+                ],
+              ),
+            ),
+          ),
+          _blockUserButton(locale.blockUser,
+              () => {bloc.add(BlockUser(bloc.state.customerResponse.customerId, block))}),
+        ],
       ),
     );
   }
@@ -143,7 +176,7 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
     );
   }
 
-  Widget _blockUserButton(LocaleBundle locale, Function onTap) {
+  Widget _blockUserButton(String text, Function onTap) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(top: 4.0, bottom: 12.0),
@@ -161,7 +194,7 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
                 ],
                 borderRadius: BorderRadius.all(Radius.circular(20.0))),
             child: Center(
-              child: Text(locale.blockUser, style: themeConfig.textStyles.blocked),
+              child: Text(text, style: themeConfig.textStyles.blocked),
             ),
           ),
         ),

@@ -314,4 +314,8 @@ abstract class LocaleBundle {
   String get endTimeBeforeStartTime;
 
   String get dropStartTimeBeforePreviousDropEndTime;
+
+  String get thisUserIsBlocked;
+
+  String get unblockUser;
 }
