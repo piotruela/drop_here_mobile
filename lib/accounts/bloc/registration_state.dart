@@ -17,10 +17,13 @@ class RegisterState extends Equatable {
 
 class RegisterLoadingState extends RegisterState {}
 
+enum RegistrationType { FORM, FACEBOOK }
+
 class SuccessState extends RegisterState {
   final AccountType accountType;
+  final RegistrationType registrationType;
 
-  SuccessState({this.accountType});
+  SuccessState(this.accountType, this.registrationType);
 }
 
 class ErrorState extends RegisterState {

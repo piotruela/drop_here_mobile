@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/login_bloc.dart';
+import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
@@ -7,6 +8,7 @@ import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/spots/ui/pages/customer_map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -28,7 +30,11 @@ class LoginPage extends BlocWidget<LoginBloc> {
           listenWhen: (previous, current) => previous != current,
           listener: (context, state) {
             if (state is SuccessState) {
-              Get.offAll(ChooseProfilePage());
+              if (state.accountType == AccountType.COMPANY) {
+                Get.offAll(ChooseProfilePage());
+              } else {
+                Get.offAll(CustomerMapPage());
+              }
             }
             if (state is ErrorState) {
               Scaffold.of(context).showSnackBar(SnackBar(content: Text("Login error")));
@@ -82,9 +88,9 @@ class LoginPage extends BlocWidget<LoginBloc> {
                 Text(Localization.of(context).bundle.or,
                     style: themeConfig.textStyles.secondaryTitle),
                 DhButton(
-                  onPressed: () {},
+                  onPressed: () => bloc.add(FacebookSigningSubmitted()),
                   text: Localization.of(context).bundle.logInWithFacebook,
-                  backgroundColor: themeConfig.colors.facebookColor.withOpacity(0.5),
+                  backgroundColor: themeConfig.colors.facebookColor,
                 ),
               ],
             ),

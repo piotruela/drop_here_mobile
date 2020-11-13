@@ -2,6 +2,7 @@ part of 'login_bloc.dart';
 
 abstract class LoginFormEvent extends Equatable {
   const LoginFormEvent();
+
   @override
   List<Object> get props => [];
 }
@@ -24,3 +25,5 @@ class FormSubmitted extends LoginFormEvent {
   @override
   List<Object> get props => [form, isValid];
 }
+
+class FacebookSigningSubmitted extends LoginFormEvent {}

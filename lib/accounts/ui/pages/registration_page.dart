@@ -8,6 +8,7 @@ import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
+import 'package:drop_here_mobile/spots/ui/pages/customer_map_page.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,10 +29,14 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
         listenWhen: (previous, current) => previous.runtimeType != current.runtimeType,
         listener: (context, state) {
           if (state is SuccessState) {
-            //todo macias to zalezy w sumie czy sie udalo zalogowac z fb
-            Widget page = state.accountType == AccountType.CUSTOMER
-                ? ClientDetailsRegistrationPage()
-                : CreateAdminProfilePage();
+            Widget page;
+            if (state.accountType == AccountType.CUSTOMER) {
+              page = state.registrationType == RegistrationType.FORM
+                  ? ClientDetailsRegistrationPage()
+                  : CustomerMapPage();
+            } else {
+              page = CreateAdminProfilePage();
+            }
             Get.to(page);
           }
           if (state is ErrorState) {
@@ -103,7 +108,6 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
   Widget orText(LocaleBundle localeBundle) =>
       Text(localeBundle.or, style: themeConfig.textStyles.secondaryTitle);
 
-  //todo macias + jeszcze register
   Widget signUpWithFBButton(RegistrationBloc bloc, LocaleBundle localeBundle) {
     return DhButton(
         onPressed: () => bloc.add(FacebookSigningSubmitted()),
