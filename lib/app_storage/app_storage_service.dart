@@ -19,7 +19,9 @@ class AppStorageService {
 
   Future<void> init() async {
     return await loadPersistentAuthentication()
-        .then((_) => _notificationsConfigurationService.configureNotifications())
+        .then((_) => authenticated
+            ? _notificationsConfigurationService.configureNotifications()
+            : Future.value())
         .catchError((onError) {
       print(onError);
     });

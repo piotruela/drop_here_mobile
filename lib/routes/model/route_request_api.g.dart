@@ -126,6 +126,7 @@ T _$enumDecodeNullable<T>(
 const _$RouteStatusEnumMap = {
   RouteStatus.UNPREPARED: 'UNPREPARED',
   RouteStatus.PREPARED: 'PREPARED',
+  RouteStatus.CANCELLED: 'CANCELLED',
   RouteStatus.ONGOING: 'ONGOING',
   RouteStatus.FINISHED: 'FINISHED',
 };

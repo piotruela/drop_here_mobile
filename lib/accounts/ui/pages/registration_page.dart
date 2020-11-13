@@ -28,6 +28,7 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
         listenWhen: (previous, current) => previous.runtimeType != current.runtimeType,
         listener: (context, state) {
           if (state is SuccessState) {
+            //todo macias to zalezy w sumie czy sie udalo zalogowac z fb
             Widget page = state.accountType == AccountType.CUSTOMER
                 ? ClientDetailsRegistrationPage()
                 : CreateAdminProfilePage();
@@ -102,10 +103,13 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
   Widget orText(LocaleBundle localeBundle) =>
       Text(localeBundle.or, style: themeConfig.textStyles.secondaryTitle);
 
-  Widget signUpWithFBButton(LocaleBundle localeBundle) => DhButton(
-      onPressed: () {},
-      text: localeBundle.signUpWithFacebook,
-      backgroundColor: themeConfig.colors.facebookColor);
+  //todo macias + jeszcze register
+  Widget signUpWithFBButton(RegistrationBloc bloc, LocaleBundle localeBundle) {
+    return DhButton(
+        onPressed: () => bloc.add(FacebookSigningSubmitted()),
+        text: localeBundle.signUpWithFacebook,
+        backgroundColor: themeConfig.colors.facebookColor);
+  }
 
   String mailValidator(String mail, LocaleBundle localeBundle) {
     if (mail.isEmpty) return localeBundle.email + localeBundle.isRequired;

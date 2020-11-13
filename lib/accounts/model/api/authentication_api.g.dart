@@ -46,3 +46,21 @@ Map<String, dynamic> _$ProfileLoginRequestToJson(
       'profileUid': instance.profileUid,
       'password': instance.password,
     };
+
+ExternalAuthenticationProviderLoginRequest
+    _$ExternalAuthenticationProviderLoginRequestFromJson(
+        Map<String, dynamic> json) {
+  return ExternalAuthenticationProviderLoginRequest(
+    json['code'] as String,
+    json['provider'] as String,
+    json['redirectUri'] as String,
+  );
+}
+
+Map<String, dynamic> _$ExternalAuthenticationProviderLoginRequestToJson(
+        ExternalAuthenticationProviderLoginRequest instance) =>
+    <String, dynamic>{
+      'code': instance.code,
+      'provider': instance.provider,
+      'redirectUri': instance.redirectUri,
+    };
