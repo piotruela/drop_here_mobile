@@ -12,7 +12,8 @@ import 'package:get/get.dart';
 part 'client_details_management_event.dart';
 part 'client_details_management_state.dart';
 
-class ClientDetailsManagementBloc extends Bloc<ClientDetailsManagementEvent, ClientDetailsManagementState> {
+class ClientDetailsManagementBloc
+    extends Bloc<ClientDetailsManagementEvent, ClientDetailsManagementState> {
   ClientDetailsManagementBloc() : super(ClientDetailsManagementState());
   final CompanyManagementService companyManagementService = Get.find<CompanyManagementService>();
   final SpotManagementService spotManagementService = Get.find<SpotManagementService>();
@@ -29,23 +30,26 @@ class ClientDetailsManagementBloc extends Bloc<ClientDetailsManagementEvent, Cli
       //TODO add parameters to request
       Page page = await companyManagementService.getCompanyCustomers(CompanyCustomersRequest());
       yield ClientDetailsManagementState(
-          customerResponse: page.content.firstWhere((customer) => customer.customerId == event.customerId),
+          customerResponse:
+              page.content.firstWhere((customer) => customer.customerId == event.customerId),
           type: ClientDetailsManagementStateType.clientUpdated);
     } else if (event is BlockUser) {
-      CompanyCustomerManagementRequest request = CompanyCustomerManagementRequest(block: true);
+      CompanyCustomerManagementRequest request =
+          CompanyCustomerManagementRequest(block: event.block);
       ResourceOperationResponse response =
           await companyManagementService.updateCustomer(request, event.userId.toString());
       Page page = await companyManagementService.getCompanyCustomers(CompanyCustomersRequest());
       yield ClientDetailsManagementState(
-          customerResponse: page.content.firstWhere((customer) => customer.customerId == event.userId),
+          customerResponse:
+              page.content.firstWhere((customer) => customer.customerId == event.userId),
           type: ClientDetailsManagementStateType.clientUpdated);
     } else if (event is ToggleSpotMembershipStatus) {
       //TODO add spotMembershipId
       //spotManagementService.updateMembership(SpotCompanyMembershipManagementRequest(), event.spotUid, spotMembershipId)
       Page page = await companyManagementService.getCompanyCustomers(CompanyCustomersRequest());
       yield ClientDetailsManagementState(
-          customerResponse:
-              page.content.firstWhere((customer) => customer.customerId == state.customerResponse.customerId),
+          customerResponse: page.content
+              .firstWhere((customer) => customer.customerId == state.customerResponse.customerId),
           type: ClientDetailsManagementStateType.clientUpdated);
     }
   }
