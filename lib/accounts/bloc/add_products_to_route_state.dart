@@ -2,22 +2,13 @@ part of 'add_products_to_route_bloc.dart';
 
 class AddProductsToRouteState extends Equatable {
   final AddProductsToRouteStateType type;
-  final ProductsPage productsPage;
-  final Set<LocalProduct> selectedProducts;
-  final List<LocalProduct> localProducts;
-  final LocalProduct checkedProduct;
-  final bool unlimited;
+  final List<ProductResponse> products;
+  final List<RouteProductRequest> selectedProducts;
 
-  AddProductsToRouteState(
-      {this.productsPage,
-      this.selectedProducts,
-      this.localProducts,
-      this.checkedProduct,
-      this.type,
-      this.unlimited});
+  AddProductsToRouteState({this.products, this.selectedProducts, this.type});
 
   @override
-  List<Object> get props => [type, productsPage, selectedProducts, localProducts, unlimited];
+  List<Object> get props => [type, products, selectedProducts];
 }
 
 enum AddProductsToRouteStateType {

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:drop_here_mobile/products/model/order_product_model.dart';
 import 'package:equatable/equatable.dart';
 
 part 'add_product_to_order_event.dart';

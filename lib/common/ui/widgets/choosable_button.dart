@@ -14,27 +14,31 @@ class ChoosableButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: GestureDetector(
-        onTap: isChosen ? null : chooseAction,
-        child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-          margin: const EdgeInsets.symmetric(vertical: 5.0),
-          decoration: BoxDecoration(
-              color: themeConfig.colors.white,
-              boxShadow: [
-                dhShadow(),
-              ],
-              border: isChosen ? Border.all(width: 1.0, color: themeConfig.colors.primary1) : null,
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [Text(text, style: themeConfig.textStyles.coloredFlatButton), trailing ?? SizedBox.shrink()],
+    return Wrap(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: isChosen ? null : chooseAction,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
+              margin: const EdgeInsets.symmetric(vertical: 5.0),
+              decoration: BoxDecoration(
+                  color: themeConfig.colors.white,
+                  boxShadow: [
+                    dhShadow(),
+                  ],
+                  border: isChosen ? Border.all(width: 1.0, color: themeConfig.colors.primary1) : null,
+                  borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [Text(text, style: themeConfig.textStyles.coloredFlatButton), trailing ?? SizedBox.shrink()],
+              ),
+            ),
           ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -47,7 +51,7 @@ class ChoosableButtonWithSubText extends StatelessWidget {
   final Widget trailing;
   final VoidCallback chooseAction;
 
-  ChoosableButtonWithSubText({this.text, this.subText, this.isChosen, this.chooseAction, this.trailing});
+  ChoosableButtonWithSubText({this.text, this.subText, this.isChosen = false, this.chooseAction, this.trailing});
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +68,7 @@ class ChoosableButtonWithSubText extends StatelessWidget {
                 dhShadow(),
               ],
               border: isChosen ? Border.all(width: 1.0, color: themeConfig.colors.primary1) : null,
-              borderRadius: BorderRadius.all(Radius.circular(20.0))),
+              borderRadius: BorderRadius.all(Radius.circular(40.0))),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -72,7 +76,11 @@ class ChoosableButtonWithSubText extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(text, style: themeConfig.textStyles.coloredFlatButton),
-                  Text(subText, style: themeConfig.textStyles.cardSubtitle)
+                  Text(
+                    subText,
+                    style: themeConfig.textStyles.cardSubtitle,
+                    textAlign: TextAlign.center,
+                  )
                 ],
               ),
               trailing ?? SizedBox.shrink()

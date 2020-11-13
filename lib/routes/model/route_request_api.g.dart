@@ -9,6 +9,7 @@ part of 'route_request_api.dart';
 UnpreparedRouteRequest _$UnpreparedRouteRequestFromJson(
     Map<String, dynamic> json) {
   return UnpreparedRouteRequest(
+    acceptShipmentsAutomatically: json['acceptShipmentsAutomatically'] as bool,
     date: json['date'] as String,
     description: json['description'] as String,
     name: json['name'] as String,
@@ -29,6 +30,7 @@ UnpreparedRouteRequest _$UnpreparedRouteRequestFromJson(
 Map<String, dynamic> _$UnpreparedRouteRequestToJson(
         UnpreparedRouteRequest instance) =>
     <String, dynamic>{
+      'acceptShipmentsAutomatically': instance.acceptShipmentsAutomatically,
       'date': instance.date,
       'description': instance.description,
       'name': instance.name,
@@ -124,6 +126,7 @@ T _$enumDecodeNullable<T>(
 const _$RouteStatusEnumMap = {
   RouteStatus.UNPREPARED: 'UNPREPARED',
   RouteStatus.PREPARED: 'PREPARED',
+  RouteStatus.CANCELLED: 'CANCELLED',
   RouteStatus.ONGOING: 'ONGOING',
   RouteStatus.FINISHED: 'FINISHED',
 };

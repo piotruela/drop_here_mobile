@@ -12,13 +12,14 @@ import 'package:drop_here_mobile/config/drop_here_theme_config.dart';
 import 'package:drop_here_mobile/notifications/services/executive_service/firebase_push_notifications_executive_service.dart';
 import 'package:drop_here_mobile/notifications/services/executive_service/local_notification_executive_service.dart';
 import 'package:drop_here_mobile/notifications/services/executive_service/notification_executive_service_factory.dart';
+import 'package:drop_here_mobile/notifications/services/notifications_configuration_service.dart';
 import 'package:drop_here_mobile/notifications/services/notifications_service.dart';
 import 'package:drop_here_mobile/notifications/services/observer_service/local_notification_push_notification_observer.dart';
-import 'package:drop_here_mobile/notifications/services/notifications_configuration_service.dart';
 import 'package:drop_here_mobile/notifications/services/observer_service/navigating_click_observer.dart';
 import 'package:drop_here_mobile/notifications/services/observer_service/notification_observer_service_factory.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
 import 'package:drop_here_mobile/routes/services/route_management_service.dart';
+import 'package:drop_here_mobile/shipments/service/company_shipment_service.dart';
 import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
 import 'package:drop_here_mobile/spots/services/spots_user_service.dart';
 import 'package:get/get.dart';
@@ -47,5 +48,6 @@ class ConfigBinding extends Bindings {
     Get.put(SpotManagementService());
     Get.put(RouteManagementService());
     Get.put(SpotsUserService());
+    Get.put(CompanyShipmentService());
   }
 }

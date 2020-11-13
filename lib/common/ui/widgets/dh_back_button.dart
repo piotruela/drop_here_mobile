@@ -3,8 +3,9 @@ import 'package:get/get.dart';
 
 class DhBackButton extends StatelessWidget {
   final EdgeInsets padding;
+  final VoidCallback backAction;
 
-  const DhBackButton({this.padding = const EdgeInsets.all(12.0)});
+  const DhBackButton({this.backAction, this.padding = const EdgeInsets.all(12.0)});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +18,7 @@ class DhBackButton extends StatelessWidget {
               Icons.arrow_back,
               size: 40.0,
             ),
-            onPressed: () => Get.back()),
+            onPressed: backAction ?? () => Get.back()),
       ),
     );
   }

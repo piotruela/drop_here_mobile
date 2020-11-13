@@ -1,7 +1,7 @@
 import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
-import 'package:drop_here_mobile/routes/routes_list_page.dart';
+import 'package:drop_here_mobile/shipments/ui/pages/dashboard_page.dart';
 import 'package:drop_here_mobile/spots/ui/pages/company_map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -36,13 +36,11 @@ class DHBottomBar extends StatelessWidget {
           children: <Widget>[
             IconButton(
               //update the bottom app bar view each time an item is clicked
-              onPressed: () => Get.to(RoutesListPage()),
+              onPressed: () => Get.to(DashboardPage()),
               iconSize: 35.0,
               icon: Icon(
                 Icons.home,
-                color: selectedIndex == 0
-                    ? themeConfig.colors.primary1
-                    : themeConfig.colors.textFieldHint,
+                color: selectedIndex == 0 ? themeConfig.colors.primary1 : themeConfig.colors.textFieldHint,
               ),
             ),
             IconButton(
@@ -50,9 +48,7 @@ class DHBottomBar extends StatelessWidget {
               iconSize: 35.0,
               icon: Icon(
                 Icons.shopping_basket,
-                color: selectedIndex == 1
-                    ? themeConfig.colors.primary1
-                    : themeConfig.colors.textFieldHint,
+                color: selectedIndex == 1 ? themeConfig.colors.primary1 : themeConfig.colors.textFieldHint,
               ),
             ),
             FloatingActionButton(
@@ -70,9 +66,7 @@ class DHBottomBar extends StatelessWidget {
               iconSize: 35.0,
               icon: Icon(
                 Icons.map,
-                color: selectedIndex == 2
-                    ? themeConfig.colors.primary1
-                    : themeConfig.colors.textFieldHint,
+                color: selectedIndex == 2 ? themeConfig.colors.primary1 : themeConfig.colors.textFieldHint,
               ),
             ),
             IconButton(
@@ -82,9 +76,7 @@ class DHBottomBar extends StatelessWidget {
               iconSize: 35.0,
               icon: Icon(
                 Icons.person,
-                color: selectedIndex == 3
-                    ? themeConfig.colors.primary1
-                    : themeConfig.colors.textFieldHint,
+                color: selectedIndex == 3 ? themeConfig.colors.primary1 : themeConfig.colors.textFieldHint,
               ),
             ),
           ],

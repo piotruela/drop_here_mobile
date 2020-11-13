@@ -133,7 +133,7 @@ class ProductCard extends DhTile {
   onTap(BuildContext context) => selected
       ? () => bloc.add(ProductUnchecked(product: product))
       : () async {
-          // bloc.add(ProductSelected(product: product));
+          bloc.add(ProductSelected(product: product));
           // final LocalProduct productWithAmount = await showDialog(
           //     context: context,
           //     child: AmountDialog(

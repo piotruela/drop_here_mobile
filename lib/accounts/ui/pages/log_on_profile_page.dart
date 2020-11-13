@@ -61,25 +61,20 @@ class LogOnProfilePage extends BlocWidget<LoginProfileBloc> {
               children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 70.0),
-                  child: Text(
-                      profile.isAdmin()
-                          ? localeBundle.loginToAdminProfile
-                          : localeBundle.loginToYourProfile,
+                  child: Text(profile.isAdmin() ? localeBundle.loginToAdminProfile : localeBundle.loginToYourProfile,
                       style: themeConfig.textStyles.primaryTitle),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 68.0, bottom: 20.0),
-                  child: Text("${profile.sellerFullName}",
+                  child: Text("${profile.fullName}",
                       overflow: TextOverflow.clip, style: themeConfig.textStyles.primaryTitle),
                 ),
                 DhTextFormField(
                     initialValue: bloc.state.form.password,
                     labelText: Localization.of(context).bundle.password,
-                    onChanged: (value) =>
-                        bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value)))),
+                    onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value)))),
                 DhButton(
-                  onPressed: () => bloc.add(
-                      FormSubmitted(isValid: key.currentState.validate(), form: bloc.state.form)),
+                  onPressed: () => bloc.add(FormSubmitted(isValid: key.currentState.validate(), form: bloc.state.form)),
                   text: Localization.of(context).bundle.logIn,
                   backgroundColor: themeConfig.colors.primary1,
                 ),

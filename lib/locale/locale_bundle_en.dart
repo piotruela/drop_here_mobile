@@ -458,6 +458,21 @@ class LocaleBundleEn extends LocaleBundle {
   String get routes => "Routes";
 
   @override
+  String get relationshipStatus => "Relationship status";
+
+  @override
+  String get spotsMemberships => "Spots memberships";
+
+  @override
+  String get blockUser => "Block user";
+
+  @override
+  String get acceptUserOnSpot => "Accept";
+
+  @override
+  String get blockUserOnSpot => "Block";
+
+  @override
   String get endTimeBeforeStartTime => "End Time must be after Start Time";
 
   @override
@@ -468,4 +483,22 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get addProductsToOrder => "Add products to order";
+
+  @override
+  String get thisUserIsBlocked => "This user is blocked";
+
+  @override
+  String get unblockUser => "Unblock user";
+
+  @override
+  String get addProductToOrder => "Add product to order";
+
+  @override
+  String get productName => "Product name";
+
+  @override
+  String get pieces => "Pieces";
+
+  @override
+  String get customizations => "Customizations";
 }

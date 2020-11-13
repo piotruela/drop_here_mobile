@@ -1,32 +1,21 @@
 part of 'choose_seller_bloc.dart';
 
-abstract class ChooseSellerState extends Equatable {
-  const ChooseSellerState();
-}
-
-class ChooseSellerInitial extends ChooseSellerState {
-  @override
-  List<Object> get props => [];
-}
-
-class SellersFetched extends ChooseSellerState {
-  final int radioValue;
+class ChooseSellerState extends Equatable {
+  final ChooseSellerStateType type;
   final List<ProfileInfoResponse> sellers;
+  final String selectedProfileUid;
 
-  const SellersFetched({this.radioValue, this.sellers});
+  const ChooseSellerState({this.type, this.sellers, this.selectedProfileUid});
 
-  SellersFetched copyWith({groupValue, sellers}) {
-    return SellersFetched(
-        sellers: sellers ?? this.sellers, radioValue: radioValue ?? this.radioValue);
+  ChooseSellerState copyWith({ChooseSellerStateType type, ProfileInfoResponse sellers, String selectedProfileUid}) {
+    return ChooseSellerState(
+        type: type ?? this.type,
+        sellers: sellers ?? this.sellers,
+        selectedProfileUid: selectedProfileUid ?? this.selectedProfileUid);
   }
 
   @override
-  List<Object> get props => [radioValue, sellers];
+  List<Object> get props => [sellers, type, selectedProfileUid];
 }
 
-class SellersFetchingError extends ChooseSellerState {
-  final String error;
-  const SellersFetchingError(this.error);
-  @override
-  List<Object> get props => [error];
-}
+enum ChooseSellerStateType { loading, profiles_fetched, selected_changed }

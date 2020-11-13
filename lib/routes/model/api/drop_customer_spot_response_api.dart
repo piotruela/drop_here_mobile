@@ -7,9 +7,9 @@ part 'drop_customer_spot_response_api.g.dart';
 class DropCustomerSpotResponse {
   final bool acceptShipmentsAutomatically;
   final String description;
-  final String endTime;
+  final DateTime endTime;
   final String name;
-  final String startTime;
+  final DateTime startTime;
   final DropStatus status;
   final String uid;
 
@@ -22,7 +22,6 @@ class DropCustomerSpotResponse {
       this.status,
       this.uid});
 
-  factory DropCustomerSpotResponse.fromJson(Map<String, dynamic> json) =>
-      _$DropCustomerSpotResponseFromJson(json);
+  factory DropCustomerSpotResponse.fromJson(Map<String, dynamic> json) => _$DropCustomerSpotResponseFromJson(json);
   Map<String, dynamic> toJson() => _$DropCustomerSpotResponseToJson(this);
 }

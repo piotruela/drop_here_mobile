@@ -1,18 +1,12 @@
 part of 'route_details_bloc.dart';
 
-abstract class RouteDetailsState extends Equatable {
-  const RouteDetailsState();
-}
-
-class RouteDetailsInitial extends RouteDetailsState {
-  @override
-  List<Object> get props => [];
-}
-
-class RouteDetailsFetched extends RouteDetailsState {
+class RouteDetailsState extends Equatable {
+  final RouteDetailsStateType type;
   final RouteResponse route;
 
-  RouteDetailsFetched(this.route);
+  RouteDetailsState({this.type, this.route});
   @override
-  List<Object> get props => [];
+  List<Object> get props => [type, route];
 }
+
+enum RouteDetailsStateType { loading, route_fetched }

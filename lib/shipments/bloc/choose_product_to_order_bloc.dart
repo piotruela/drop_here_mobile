@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:drop_here_mobile/products/model/order_product_model.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
+import 'package:drop_here_mobile/shipments/ui/pages/add_product_to_order_page.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 
@@ -30,6 +31,8 @@ class ChooseProductToOrderBloc extends Bloc<ChooseProductToOrderEvent, ChoosePro
           type: ChooseProductToOrderStateType.products_fetched,
           selectedProducts: event.selectedProducts,
           products: products);
+    } else if (event is ProductSelected) {
+      Get.to(AddProductToOrderPage());
     }
   }
 }

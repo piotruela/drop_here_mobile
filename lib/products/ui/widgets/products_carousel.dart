@@ -7,18 +7,17 @@ import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/products/bloc/product_card_bloc.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
 CarouselSlider productsCarousel(LocaleBundle locale, List<RouteProductRouteResponse> products) {
   return CarouselSlider(
     options: CarouselOptions(
-      aspectRatio: 16 / 7.4,
+      aspectRatio: 14 / 7.4,
       enableInfiniteScroll: false,
       viewportFraction: 0.38,
       initialPage: 0,
     ),
-    items: products.map((product) => ProductCard(product: product)).toList(),
+    items: products?.map((product) => ProductCard(product: product))?.toList(),
   );
 }
 
@@ -52,20 +51,8 @@ class ProductCard extends BlocWidget<ProductCardBloc> {
               width: 154,
               height: 96,
               child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-                child: BlocBuilder<ProductCardBloc, ProductCardState>(
-                  builder: (context, state) {
-                    if (state is ProductCardInitial) {
-                      return CircularProgressIndicator();
-                    }
-                    if (state is ProductCardPhotoFetched) {
-                      return SizedBox(width: 150, height: 150, child: ClipOval(child: state.photo));
-                    } else {
-                      return SizedBox.shrink();
-                    }
-                  },
-                ),
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                child: ClipOval(child: Icon(Icons.shopping_basket_outlined)),
               ),
             ),
             Padding(
@@ -93,21 +80,6 @@ class ProductCard extends BlocWidget<ProductCardBloc> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  Widget productPhoto(Image photo) {
-    return Container(
-      width: 74.0,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          minWidth: 44,
-          minHeight: 44,
-          maxWidth: 74,
-          maxHeight: 84,
-        ),
-        child: ClipRRect(borderRadius: BorderRadius.circular(10.0), child: photo),
       ),
     );
   }

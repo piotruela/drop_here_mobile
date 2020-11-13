@@ -4,34 +4,19 @@ abstract class ChooseSellerEvent extends Equatable {
   const ChooseSellerEvent();
 }
 
-class FetchSellers extends ChooseSellerEvent {
-  const FetchSellers();
+class InitializePage extends ChooseSellerEvent {
+  final String selectedSellerUid;
 
+  const InitializePage({this.selectedSellerUid});
   @override
-  List<Object> get props => [];
+  List<Object> get props => [selectedSellerUid];
 }
 
-class ChangeGroupValue extends ChooseSellerEvent {
-  final int groupValue;
-  final List<ProfileInfoResponse> sellers;
-  ChangeGroupValue(this.groupValue, this.sellers);
+class ChooseSeller extends ChooseSellerEvent {
+  final String sellerUid;
+
+  ChooseSeller({this.sellerUid});
 
   @override
-  List<Object> get props => [groupValue, sellers];
-}
-
-class FilterSpotsForDrop extends ChooseSellerEvent {
-  final String filter;
-  FilterSpotsForDrop({this.filter});
-
-  @override
-  List<Object> get props => [filter];
-}
-
-class SearchSpotsForDrop extends ChooseSellerEvent {
-  final String searchText;
-  SearchSpotsForDrop({this.searchText});
-
-  @override
-  List<Object> get props => [searchText];
+  List<Object> get props => [sellerUid];
 }

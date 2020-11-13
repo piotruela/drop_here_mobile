@@ -11,8 +11,7 @@ import 'package:get/get.dart';
 class CustomerSpotCard extends SpotCard {
   final SpotBaseCustomerResponse spot;
 
-  CustomerSpotCard({this.spot, onSelectedItem, onTap})
-      : super(onSelectedItem: onSelectedItem, onTap: onTap);
+  CustomerSpotCard({this.spot, onSelectedItem, onTap}) : super(onSelectedItem: onSelectedItem, onTap: onTap);
 
   @override
   String get id => spot.uid;
@@ -27,11 +26,31 @@ class CustomerSpotCard extends SpotCard {
   double get ycoordinate => spot.ycoordinate;
 }
 
-class CompanySpotCard extends SpotCard {
+class CompanyDropSpotCard extends SpotCard {
   final SpotCompanyResponse spot;
 
-  CompanySpotCard({this.spot, onSelectedItem, onTap})
-      : super(onSelectedItem: onSelectedItem, onTap: onTap);
+  CompanyDropSpotCard({this.spot, onTap}) : super(onTap: onTap);
+
+  @override
+  String get id => spot.id.toString();
+
+  @override
+  String get name => spot.name;
+
+  @override
+  double get xcoordinate => spot.xcoordinate;
+
+  @override
+  double get ycoordinate => spot.ycoordinate;
+
+  @override
+  Widget get trailing => SizedBox.shrink();
+}
+
+class CompanySpotListCard extends SpotCard {
+  final SpotCompanyResponse spot;
+
+  CompanySpotListCard({this.spot, onSelectedItem, onTap}) : super(onSelectedItem: onSelectedItem, onTap: onTap);
 
   @override
   String get id => spot.id.toString();
@@ -55,49 +74,51 @@ abstract class SpotCard extends StatelessWidget {
   double get xcoordinate;
   double get ycoordinate;
 
+  Widget get trailing => PopupMenuButton<String>(
+        icon: Icon(
+          Icons.more_vert,
+          color: Colors.black,
+          size: 30.0,
+        ),
+        onSelected: (value) => onSelectedItem(value),
+        itemBuilder: (context) => <PopupMenuItem<String>>[
+          new PopupMenuItem<String>(
+              value: id, child: GestureDetector(child: Text(Localization.of(context).bundle.delete))),
+        ],
+      );
+
+  EdgeInsets get padding => const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0);
+
   const SpotCard({this.onSelectedItem, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
+      padding: padding,
       child: GestureDetector(
         onTap: onTap,
         child: Container(
           child: ListTile(
-            leading: IconInCircle(
-              themeConfig: themeConfig,
-              icon: Icons.store,
-            ),
-            title: Text(
-              name,
-              style: themeConfig.textStyles.secondaryTitle,
-            ),
-            subtitle: FutureBuilder(
-                future: getAddressFromCoordinates(xcoordinate, ycoordinate),
-                initialData: "Loading location...",
-                builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-                  return Text(
-                    snapshot.data ?? "",
-                    style: themeConfig.textStyles.cardSubtitle,
-                    overflow: TextOverflow.ellipsis,
-                  );
-                }),
-            trailing: PopupMenuButton<String>(
-              icon: Icon(
-                Icons.more_vert,
-                color: themeConfig.colors.black,
-                size: 30.0,
+              leading: IconInCircle(
+                themeConfig: themeConfig,
+                icon: Icons.store,
               ),
-              onSelected: (value) => onSelectedItem(value),
-              itemBuilder: (context) => <PopupMenuItem<String>>[
-                new PopupMenuItem<String>(
-                    value: id,
-                    child: GestureDetector(child: Text(Localization.of(context).bundle.delete))),
-              ],
-            ),
-          ),
+              title: Text(
+                name,
+                style: themeConfig.textStyles.secondaryTitle,
+              ),
+              subtitle: FutureBuilder(
+                  future: getAddressFromCoordinates(xcoordinate, ycoordinate),
+                  initialData: "Loading location...",
+                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                    return Text(
+                      snapshot.data ?? "",
+                      style: themeConfig.textStyles.cardSubtitle,
+                      overflow: TextOverflow.ellipsis,
+                    );
+                  }),
+              trailing: trailing),
           decoration: BoxDecoration(
             color: themeConfig.colors.white,
             borderRadius: BorderRadius.circular(10.0),
