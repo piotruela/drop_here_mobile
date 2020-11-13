@@ -21,9 +21,10 @@ class FetchClientDetails extends ClientDetailsManagementEvent {
 
 class BlockUser extends ClientDetailsManagementEvent {
   final int userId;
-  const BlockUser(this.userId);
+  final bool block;
+  const BlockUser(this.userId, this.block);
   @override
-  List<Object> get props => [userId];
+  List<Object> get props => [userId, block];
 }
 
 class ToggleSpotMembershipStatus extends ClientDetailsManagementEvent {

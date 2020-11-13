@@ -477,4 +477,10 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get dropStartTimeBeforePreviousDropEndTime => "Start time is before last drop end time";
+
+  @override
+  String get thisUserIsBlocked => "This user is blocked";
+
+  @override
+  String get unblockUser => "Unblock user";
 }
