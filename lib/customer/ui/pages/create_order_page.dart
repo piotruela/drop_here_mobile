@@ -75,8 +75,6 @@ class CreateOrderPage extends BlocWidget<CreateOrderBloc> {
             onTap: () async {
               bloc.add(AddProducts(
                   products: await Get.to(AddProductsToOrderPage(bloc.state.products.toSet()))));
-              // bloc.add(AddProducts(
-              //     products: await Get.to(AddProductsToRoutePage(bloc.state.products.toSet()))));
               FocusScope.of(context).requestFocus(FocusNode());
             },
             child: IconInCircle(
