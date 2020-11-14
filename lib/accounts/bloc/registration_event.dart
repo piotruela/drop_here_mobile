@@ -25,3 +25,5 @@ class FormSubmitted extends RegisterEvent {
   @override
   List<Object> get props => [form, isValid];
 }
+
+class FacebookSigningSubmitted extends RegisterEvent {}
