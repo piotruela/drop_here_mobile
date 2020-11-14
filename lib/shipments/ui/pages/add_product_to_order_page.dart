@@ -25,25 +25,38 @@ class AddProductToOrderPage extends BlocWidget<AddProductToOrderBloc> {
     return Scaffold(
       body: SafeArea(
         child: BlocBuilder<AddProductToOrderBloc, AddProductToOrderState>(
-          buildWhen: (previous, current) => previous != current,
-          builder: (context, state) => Column(
-            children: [
-              Text(
-                locale.addProductToOrder,
-                style: themeConfig.textStyles.primaryTitle,
+          //buildWhen: (previous, current) => previous != current,
+          builder: (context, state) => Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    locale.addProductToOrder,
+                    style: themeConfig.textStyles.primaryTitle,
+                  ),
+                  textAndFlatButton(locale.productName, bloc.state.product.productResponse.name),
+                  textAndFlatButton(
+                      locale.pricePerUnit, bloc.state.product.productResponse.price.toString()),
+                  Text(
+                    locale.pieces,
+                    style: themeConfig.textStyles.secondaryTitle,
+                  ),
+                  Slider(
+                    divisions: 4,
+                    value: bloc.state.product.shipmentProduct?.quantity ?? 0,
+                    onChanged: (value) {
+                      bloc.add(ChangeSliderValue(value));
+                    },
+                  ),
+                  Text(
+                    locale.customizations,
+                    style: themeConfig.textStyles.secondaryTitle,
+                  ),
+                ],
               ),
-              textAndFlatButton(locale.productName, bloc.state.product.productResponse.name),
-              textAndFlatButton(
-                  locale.pricePerUnit, bloc.state.product.productResponse.price.toString()),
-              Text(
-                locale.pieces,
-                style: themeConfig.textStyles.secondaryTitle,
-              ),
-              Text(
-                locale.customizations,
-                style: themeConfig.textStyles.secondaryTitle,
-              ),
-            ],
+            ),
           ),
         ),
       ),

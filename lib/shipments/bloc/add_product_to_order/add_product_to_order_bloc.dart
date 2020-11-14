@@ -17,6 +17,10 @@ class AddProductToOrderBloc extends Bloc<AddProductToOrderEvent, AddProductToOrd
     if (event is InitCustomization) {
       yield AddProductToOrderState(
           type: AddProductToOrderStateType.initial, product: event.product);
+    } else if (event is ChangeSliderValue) {
+      yield AddProductToOrderState(
+          type: AddProductToOrderStateType.form_changed,
+          product: state.product..shipmentProduct.quantity = event.sliderValue);
     }
   }
 }

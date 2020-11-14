@@ -10,3 +10,10 @@ class InitCustomization extends AddProductToOrderEvent {
   @override
   List<Object> get props => [product];
 }
+
+class ChangeSliderValue extends AddProductToOrderEvent {
+  final double sliderValue;
+  const ChangeSliderValue(this.sliderValue);
+  @override
+  List<Object> get props => [sliderValue];
+}

@@ -13,11 +13,6 @@ class OrderProductModel {
 
   String get pricePerAmount => '${productResponse.price} zł/${productResponse.unit}';
 
-  OrderProductModel(
-      {this.shipmentProduct,
-      this.amount,
-      this.fullPrice,
-      this.unlimited,
-      this.photo,
-      this.productResponse});
+  OrderProductModel({this.amount, this.fullPrice, this.unlimited, this.photo, this.productResponse})
+      : shipmentProduct = ShipmentProductRequest(customizations: []);
 }
