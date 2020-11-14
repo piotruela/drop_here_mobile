@@ -8,6 +8,7 @@ import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
+import 'package:drop_here_mobile/spots/ui/pages/customer_map_page.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,9 +29,14 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
         listenWhen: (previous, current) => previous.runtimeType != current.runtimeType,
         listener: (context, state) {
           if (state is SuccessState) {
-            Widget page = state.accountType == AccountType.CUSTOMER
-                ? ClientDetailsRegistrationPage()
-                : CreateAdminProfilePage();
+            Widget page;
+            if (state.accountType == AccountType.CUSTOMER) {
+              page = state.registrationType == RegistrationType.FORM
+                  ? ClientDetailsRegistrationPage()
+                  : CustomerMapPage();
+            } else {
+              page = CreateAdminProfilePage();
+            }
             Get.to(page);
           }
           if (state is ErrorState) {
@@ -102,10 +108,12 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
   Widget orText(LocaleBundle localeBundle) =>
       Text(localeBundle.or, style: themeConfig.textStyles.secondaryTitle);
 
-  Widget signUpWithFBButton(LocaleBundle localeBundle) => DhButton(
-      onPressed: () {},
-      text: localeBundle.signUpWithFacebook,
-      backgroundColor: themeConfig.colors.facebookColor);
+  Widget signUpWithFBButton(RegistrationBloc bloc, LocaleBundle localeBundle) {
+    return DhButton(
+        onPressed: () => bloc.add(FacebookSigningSubmitted()),
+        text: localeBundle.signUpWithFacebook,
+        backgroundColor: themeConfig.colors.facebookColor);
+  }
 
   String mailValidator(String mail, LocaleBundle localeBundle) {
     if (mail.isEmpty) return localeBundle.email + localeBundle.isRequired;

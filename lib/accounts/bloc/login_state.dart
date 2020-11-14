@@ -21,4 +21,8 @@ class ErrorState extends LoginFormState {
   ErrorState({this.form});
 }
 
-class SuccessState extends LoginFormState {}
+class SuccessState extends LoginFormState {
+  final AccountType accountType;
+
+  SuccessState(this.accountType);
+}

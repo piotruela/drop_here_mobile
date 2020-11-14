@@ -9,6 +9,7 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
 import 'package:drop_here_mobile/config/drop_here_assets_config.dart';
 import 'package:drop_here_mobile/config/drop_here_theme_config.dart';
+import 'package:drop_here_mobile/facebook/facebook_service.dart';
 import 'package:drop_here_mobile/notifications/services/executive_service/firebase_push_notifications_executive_service.dart';
 import 'package:drop_here_mobile/notifications/services/executive_service/local_notification_executive_service.dart';
 import 'package:drop_here_mobile/notifications/services/executive_service/notification_executive_service_factory.dart';
@@ -27,6 +28,7 @@ import 'package:get/get.dart';
 class ConfigBinding extends Bindings {
   @override
   void dependencies() {
+    Get.put(FacebookService());
     Get.put(NotificationsService());
     Get.put(FirebasePushNotificationsExecutiveService());
     Get.put(LocalNotificationExecutiveService());

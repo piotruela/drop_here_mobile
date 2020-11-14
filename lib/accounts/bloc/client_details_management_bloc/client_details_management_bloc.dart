@@ -36,7 +36,6 @@ class ClientDetailsManagementBloc
     } else if (event is BlockUser) {
       CompanyCustomerManagementRequest request =
           CompanyCustomerManagementRequest(block: event.block);
-      ResourceOperationResponse response =
           await companyManagementService.updateCustomer(request, event.userId.toString());
       Page page = await companyManagementService.getCompanyCustomers(CompanyCustomersRequest());
       yield ClientDetailsManagementState(

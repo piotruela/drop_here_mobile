@@ -9,7 +9,8 @@
     <application
             android:name=".Application"
             android:label="drop.here"
-            android:icon="@mipmap/app_logo">
+            android:icon="@mipmap/app_logo"
+        android:usesCleartextTraffic="true">
 
         <meta-data
                 android:name="com.google.android.geo.API_KEY"

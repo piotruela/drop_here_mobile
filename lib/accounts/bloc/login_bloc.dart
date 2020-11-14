@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/authentication_api.dart';
 import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:equatable/equatable.dart';
@@ -26,12 +27,20 @@ class LoginBloc extends Bloc<LoginFormEvent, LoginFormState> {
       if (event.isValid) {
         try {
           await authenticationService.authenticate(event.form);
-          yield SuccessState();
+          //todo pobrac informacje o autentykacji i odpowiednio przekierowac
+          yield SuccessState(null);
         } on Exception {
           yield ErrorState(form: event.form);
         }
       } else {
         yield ErrorState(form: event.form);
+      }
+    }else if(event is FacebookSigningSubmitted){
+      try{
+        await authenticationService.authenticateViaExternalService(ExternalAuthenticationProviderType.FACEBOOK);
+        yield SuccessState(AccountType.CUSTOMER);
+      }on Exception {
+        yield ErrorState(form: LoginRequest(mail: "", password: ""));
       }
     }
   }

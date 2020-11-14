@@ -36,11 +36,28 @@ class ProfileLoginRequest {
   ProfileLoginRequest({this.profileUid, this.password});
 
   factory ProfileLoginRequest.fromJson(Map<String, dynamic> json) =>
-      _$ProfileLoginRequestFromJson(json);
-  Map<String, dynamic> toJson() => _$ProfileLoginRequestToJson(this);
+        _$ProfileLoginRequestFromJson(json);
+    Map<String, dynamic> toJson() => _$ProfileLoginRequestToJson(this);
 
-  ProfileLoginRequest copyWith({String profileUid, String password}) {
-    return ProfileLoginRequest(
-        profileUid: profileUid ?? this.profileUid, password: password ?? this.password);
+    ProfileLoginRequest copyWith({String profileUid, String password}) {
+      return ProfileLoginRequest(
+          profileUid: profileUid ?? this.profileUid, password: password ?? this.password);
   }
+}
+
+enum ExternalAuthenticationProviderType{
+  FACEBOOK
+}
+@JsonSerializable()
+class ExternalAuthenticationProviderLoginRequest{
+  final String code;
+  final String provider;
+  final String redirectUri;
+
+  ExternalAuthenticationProviderLoginRequest(this.code, this.provider, this.redirectUri);
+
+  factory ExternalAuthenticationProviderLoginRequest.fromJson(Map<String, dynamic> json) =>
+      _$ExternalAuthenticationProviderLoginRequestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ExternalAuthenticationProviderLoginRequestToJson(this);
 }

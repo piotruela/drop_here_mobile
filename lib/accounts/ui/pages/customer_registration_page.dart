@@ -21,7 +21,7 @@ class CustomerRegistrationPage extends RegistrationPage {
       repeatPasswordField(bloc, localeBundle),
       signUpButton(bloc, localeBundle),
       orText(localeBundle),
-      signUpWithFBButton(localeBundle)
+      signUpWithFBButton(bloc,localeBundle)
     ];
   }
 
