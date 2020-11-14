@@ -8,13 +8,10 @@ import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:drop_here_mobile/accounts/services/customer_management_service.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/manage_route_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
-import 'package:drop_here_mobile/routes/ui/pages/route_details_page.dart';
 import 'package:drop_here_mobile/shipments/ui/pages/dashboard_page.dart';
 import 'package:drop_here_mobile/shipments/ui/pages/shipment_details_page.dart';
 import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
@@ -60,26 +57,10 @@ class SandboxPage extends StatelessWidget {
                     child: Text("Shipment details page"),
                     onPressed: () => Get.to(ShipmentDetailsPage(shipmentId: 123))),
                 FlatButton(
-                    child: Text("Add route"),
-                    onPressed: () {
-                      Get.to(AddRoutePage());
-                    }),
-                FlatButton(
                     child: Text("Dashboard page"),
                     onPressed: () {
                       Get.to(DashboardPage());
                     }),
-                FlatButton(
-                    child: Text("route details"),
-                    onPressed: () {
-                      Get.to(RouteDetailsPage(routeId: 12));
-                    }),
-                FlatButton(
-                  child: Text("products list page"),
-                  onPressed: () {
-                    Get.to(ProductsListPage());
-                  },
-                ),
                 FlatButton(
                     child: Text("Log in to company account"),
                     onPressed: () =>

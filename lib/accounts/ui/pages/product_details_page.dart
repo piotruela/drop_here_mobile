@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/manage_product_page.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/edit_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
@@ -11,6 +10,7 @@ import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/products/model/units.dart';
+import 'package:drop_here_mobile/routes/ui/widgets/drop_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:get/get.dart';
@@ -44,7 +44,7 @@ class ProductDetailsPage extends StatelessWidget {
                 widgetBuilder: (_) => InfoText(
                       text: "This product cannot have any customizations",
                     ),
-                fallbackBuilder: (_) => customizationsList(context, product.productCustomizationWrappers)),
+                fallbackBuilder: (_) => customizationsList(context, product.customizationsWrappers)),
             sectionTitle(localeBundle.availableInDrops),
             dropsCarousel()
           ],
@@ -178,71 +178,10 @@ class ProductDetailsPage extends StatelessWidget {
   Widget dropsCarousel() {
     return CarouselSlider(
         options: CarouselOptions(
-          aspectRatio: 16 / 7.4,
+          aspectRatio: 14 / 7.4,
           enableInfiniteScroll: false,
           viewportFraction: 0.5,
         ),
-        items: product.drops.map((drop) => DropCard(drop: drop)).toList());
-  }
-}
-
-class DropCard extends StatelessWidget {
-  final DropProductResponse drop;
-
-  const DropCard({this.drop});
-
-  @override
-  Widget build(BuildContext context) {
-    final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-    return GestureDetector(
-      onTap: () => {}, //TODO:Get to drop details page
-      child: Padding(
-        padding: const EdgeInsets.only(right: 22.0, bottom: 6.0),
-        child: Container(
-          decoration: BoxDecoration(
-            color: themeConfig.colors.white,
-            borderRadius: BorderRadius.circular(10.0),
-            boxShadow: [
-              dhShadow(),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 154,
-                height: 96,
-                child: ClipRRect(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
-                    child: Icon(Icons.dashboard)),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(4.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      drop.name,
-                      style: themeConfig.textStyles.title3,
-                    ),
-                    SizedBox(height: 4.0),
-                    Text(
-                      drop.durationTime,
-                      style: themeConfig.textStyles.title3Annotation,
-                    ),
-                    SizedBox(height: 6.0),
-                    Text(
-                      drop.routeProduct.availableAmount,
-                      style: themeConfig.textStyles.title3Annotation,
-                    ),
-                    //SizedBox(height: 5.0)
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+        items: product.drops.map((drop) => CompanyProductDetailsDropCard(drop: drop)).toList());
   }
 }

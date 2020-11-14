@@ -101,7 +101,7 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
   CarouselSlider dropsCarousel(List<DropRouteResponse> drops) {
     return CarouselSlider(
         options: CarouselOptions(
-          aspectRatio: 14 / 7.4,
+          aspectRatio: 12 / 7.4,
           enableInfiniteScroll: false,
           viewportFraction: 0.5,
           initialPage: 0,

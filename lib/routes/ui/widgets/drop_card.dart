@@ -1,6 +1,7 @@
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/utils/datetime_utils.dart';
+import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/routes/model/api/drop_customer_spot_response_api.dart';
 import 'package:drop_here_mobile/routes/model/route_request_api.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
@@ -26,6 +27,27 @@ class CompanyRouteDetailsDropCard extends DropCard {
 
   @override
   Widget get extraField => infoLine(Icons.pin_drop_outlined, Colors.black, drop.spot.name);
+}
+
+class CompanyProductDetailsDropCard extends DropCard {
+  final DropProductResponse drop;
+
+  CompanyProductDetailsDropCard({this.drop});
+
+  @override
+  String get endTime => drop.endTime.toTime();
+
+  @override
+  String get name => drop.name;
+
+  @override
+  get onExitPressed => null;
+
+  @override
+  String get startTime => drop.startTime.toTime();
+
+  @override
+  Widget get extraField => infoLine(Icons.pin_drop_outlined, Colors.black, drop.spotName);
 }
 
 class CompanyRouteDropCard extends DropCard {
