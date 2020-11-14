@@ -32,7 +32,7 @@ class ChooseProductToOrderBloc extends Bloc<ChooseProductToOrderEvent, ChoosePro
           selectedProducts: event.selectedProducts,
           products: products);
     } else if (event is ProductSelected) {
-      Get.to(AddProductToOrderPage());
+      Get.to(AddProductToOrderPage(event.product));
     }
   }
 }

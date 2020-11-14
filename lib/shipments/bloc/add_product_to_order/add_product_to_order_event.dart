@@ -5,7 +5,8 @@ abstract class AddProductToOrderEvent extends Equatable {
 }
 
 class InitCustomization extends AddProductToOrderEvent {
-  const InitCustomization();
+  final OrderProductModel product;
+  const InitCustomization(this.product);
   @override
-  List<Object> get props => throw UnimplementedError();
+  List<Object> get props => [product];
 }

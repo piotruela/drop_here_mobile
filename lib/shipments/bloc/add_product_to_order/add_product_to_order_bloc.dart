@@ -15,7 +15,8 @@ class AddProductToOrderBloc extends Bloc<AddProductToOrderEvent, AddProductToOrd
     AddProductToOrderEvent event,
   ) async* {
     if (event is InitCustomization) {
-      yield AddProductToOrderState(type: AddProductToOrderStateType.initial);
+      yield AddProductToOrderState(
+          type: AddProductToOrderStateType.initial, product: event.product);
     }
   }
 }
