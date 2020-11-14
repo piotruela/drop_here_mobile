@@ -4,15 +4,14 @@ import 'package:drop_here_mobile/accounts/ui/pages/add_products_to_route.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_seller_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/seller_card.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/utils/datetime_utils.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
 import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
-import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
 import 'package:drop_here_mobile/common/ui/widgets/labeled_switch.dart';
+import 'package:drop_here_mobile/common/ui/widgets/narrow_tile.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/routes/bloc/manage_route_bloc.dart';
@@ -285,81 +284,4 @@ class ProductInDropManagementTile extends NarrowTile {
 
   @override
   get onExitPressed => closeAction;
-}
-
-abstract class NarrowTile extends StatelessWidget {
-  final ThemeConfig themeConfig = Get.find<ThemeConfig>();
-
-  IconData get iconType;
-
-  String get tileTitle;
-
-  String get firstLineText;
-
-  String get secondLineText;
-
-  VoidCallback get onExitPressed;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(6.0),
-      child: Container(
-        decoration: BoxDecoration(
-          color: themeConfig.colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-          boxShadow: [
-            dhShadow(),
-          ],
-        ),
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Container(
-                  width: 114.0,
-                  child: IconInCircle(
-                    themeConfig: themeConfig,
-                    icon: Icons.shopping_basket_outlined,
-                  ),
-                ),
-                onExitPressed != null
-                    ? Positioned(
-                        top: 0,
-                        right: 2,
-                        child: GestureDetector(
-                          onTap: onExitPressed,
-                          child: Icon(Icons.close),
-                        ),
-                      )
-                    : SizedBox.shrink()
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    tileTitle,
-                    style: themeConfig.textStyles.title3.copyWith(fontSize: 14.0),
-                  ),
-                  SizedBox(height: 4.0),
-                  Text(
-                    firstLineText,
-                    style: themeConfig.textStyles.title3Annotation.copyWith(fontSize: 12.0),
-                  ),
-                  SizedBox(height: 6.0),
-                  Text(
-                    secondLineText,
-                    style: themeConfig.textStyles.title3Annotation.copyWith(fontSize: 12.0),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
 }

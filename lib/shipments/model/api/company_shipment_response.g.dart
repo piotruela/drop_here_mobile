@@ -46,47 +46,53 @@ Map<String, dynamic> _$CompanyShipmentsPageToJson(
     };
 
 ShipmentResponse _$ShipmentResponseFromJson(Map<String, dynamic> json) {
-  return ShipmentResponse()
-    ..acceptedAt = json['acceptedAt'] == null
+  return ShipmentResponse(
+    acceptedAt: json['acceptedAt'] == null
         ? null
-        : DateTime.parse(json['acceptedAt'] as String)
-    ..cancelRequestedAt = json['cancelRequestedAt'] == null
+        : DateTime.parse(json['acceptedAt'] as String),
+    cancelRequestedAt: json['cancelRequestedAt'] == null
         ? null
-        : DateTime.parse(json['cancelRequestedAt'] as String)
-    ..cancelledAt = json['cancelledAt'] == null
+        : DateTime.parse(json['cancelRequestedAt'] as String),
+    cancelledAt: json['cancelledAt'] == null
         ? null
-        : DateTime.parse(json['cancelledAt'] as String)
-    ..companyComment = json['companyComment'] as String
-    ..companyName = json['companyName'] as String
-    ..companyUid = json['companyUid'] as String
-    ..compromiseAcceptedAt = json['compromiseAcceptedAt'] == null
+        : DateTime.parse(json['cancelledAt'] as String),
+    companyComment: json['companyComment'] as String,
+    companyName: json['companyName'] as String,
+    companyUid: json['companyUid'] as String,
+    compromiseAcceptedAt: json['compromiseAcceptedAt'] == null
         ? null
-        : DateTime.parse(json['compromiseAcceptedAt'] as String)
-    ..createdAt = json['createdAt'] == null
+        : DateTime.parse(json['compromiseAcceptedAt'] as String),
+    createdAt: json['createdAt'] == null
         ? null
-        : DateTime.parse(json['createdAt'] as String)
-    ..customerComment = json['customerComment'] as String
-    ..customerFirstName = json['customerFirstName'] as String
-    ..customerId = json['customerId'] as int
-    ..customerLastName = json['customerLastName'] as String
-    ..deliveredAt = json['deliveredAt'] == null
+        : DateTime.parse(json['createdAt'] as String),
+    customerComment: json['customerComment'] as String,
+    customerFirstName: json['customerFirstName'] as String,
+    customerId: json['customerId'] as int,
+    customerLastName: json['customerLastName'] as String,
+    deliveredAt: json['deliveredAt'] == null
         ? null
-        : DateTime.parse(json['deliveredAt'] as String)
-    ..dropUid = json['dropUid'] as String
-    ..id = json['id'] as int
-    ..placedAt = json['placedAt'] == null
+        : DateTime.parse(json['deliveredAt'] as String),
+    dropUid: json['dropUid'] as String,
+    id: json['id'] as int,
+    placedAt: json['placedAt'] == null
         ? null
-        : DateTime.parse(json['placedAt'] as String)
-    ..products = (json['products'] as List)
+        : DateTime.parse(json['placedAt'] as String),
+    flows: (json['flows'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ShipmentFlowResponse.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    products: (json['products'] as List)
         ?.map((e) => e == null
             ? null
             : ShipmentProductResponse.fromJson(e as Map<String, dynamic>))
-        ?.toList()
-    ..rejectedAt = json['rejectedAt'] == null
+        ?.toList(),
+    rejectedAt: json['rejectedAt'] == null
         ? null
-        : DateTime.parse(json['rejectedAt'] as String)
-    ..status = _$enumDecodeNullable(_$ShipmentStatusEnumMap, json['status'])
-    ..summarizedAmount = (json['summarizedAmount'] as num)?.toDouble();
+        : DateTime.parse(json['rejectedAt'] as String),
+    status: _$enumDecodeNullable(_$ShipmentStatusEnumMap, json['status']),
+    summarizedAmount: (json['summarizedAmount'] as num)?.toDouble(),
+  );
 }
 
 Map<String, dynamic> _$ShipmentResponseToJson(ShipmentResponse instance) =>
@@ -108,6 +114,7 @@ Map<String, dynamic> _$ShipmentResponseToJson(ShipmentResponse instance) =>
       'id': instance.id,
       'placedAt': instance.placedAt?.toIso8601String(),
       'products': instance.products,
+      'flows': instance.flows,
       'rejectedAt': instance.rejectedAt?.toIso8601String(),
       'status': _$ShipmentStatusEnumMap[instance.status],
       'summarizedAmount': instance.summarizedAmount,
@@ -156,23 +163,24 @@ const _$ShipmentStatusEnumMap = {
 
 ShipmentProductResponse _$ShipmentProductResponseFromJson(
     Map<String, dynamic> json) {
-  return ShipmentProductResponse()
-    ..customizations = (json['customizations'] as List)
+  return ShipmentProductResponse(
+    customizations: (json['customizations'] as List)
         ?.map((e) => e == null
             ? null
             : ShipmentProductCustomizationResponse.fromJson(
                 e as Map<String, dynamic>))
-        ?.toList()
-    ..id = json['id'] as int
-    ..productDescription = json['productDescription'] as String
-    ..productId = json['productId'] as int
-    ..productName = json['productName'] as String
-    ..quantity = (json['quantity'] as num)?.toDouble()
-    ..summarizedPrice = (json['summarizedPrice'] as num)?.toDouble()
-    ..unitCustomizationsPrice =
-        (json['unitCustomizationsPrice'] as num)?.toDouble()
-    ..unitPrice = (json['unitPrice'] as num)?.toDouble()
-    ..unitSummarizedPrice = (json['unitSummarizedPrice'] as num)?.toDouble();
+        ?.toList(),
+    id: json['id'] as int,
+    productDescription: json['productDescription'] as String,
+    productId: json['productId'] as int,
+    productName: json['productName'] as String,
+    quantity: (json['quantity'] as num)?.toDouble(),
+    summarizedPrice: (json['summarizedPrice'] as num)?.toDouble(),
+    unitCustomizationsPrice:
+        (json['unitCustomizationsPrice'] as num)?.toDouble(),
+    unitPrice: (json['unitPrice'] as num)?.toDouble(),
+    unitSummarizedPrice: (json['unitSummarizedPrice'] as num)?.toDouble(),
+  );
 }
 
 Map<String, dynamic> _$ShipmentProductResponseToJson(
@@ -192,13 +200,14 @@ Map<String, dynamic> _$ShipmentProductResponseToJson(
 
 ShipmentProductCustomizationResponse
     _$ShipmentProductCustomizationResponseFromJson(Map<String, dynamic> json) {
-  return ShipmentProductCustomizationResponse()
-    ..customizationPrice = (json['customizationPrice'] as num)?.toDouble()
-    ..customizationValue = json['customizationValue'] as String
-    ..wrapperHeading = json['wrapperHeading'] as String
-    ..wrapperId = json['wrapperId'] as int
-    ..wrapperType =
-        _$enumDecodeNullable(_$CustomizationTypeEnumMap, json['wrapperType']);
+  return ShipmentProductCustomizationResponse(
+    customizationPrice: (json['customizationPrice'] as num)?.toDouble(),
+    customizationValue: json['customizationValue'] as String,
+    wrapperHeading: json['wrapperHeading'] as String,
+    wrapperId: json['wrapperId'] as int,
+    wrapperType:
+        _$enumDecodeNullable(_$CustomizationTypeEnumMap, json['wrapperType']),
+  );
 }
 
 Map<String, dynamic> _$ShipmentProductCustomizationResponseToJson(
@@ -215,3 +224,19 @@ const _$CustomizationTypeEnumMap = {
   CustomizationType.SINGLE: 'SINGLE',
   CustomizationType.MULTIPLE: 'MULTIPLE',
 };
+
+ShipmentFlowResponse _$ShipmentFlowResponseFromJson(Map<String, dynamic> json) {
+  return ShipmentFlowResponse(
+    createdAt: json['createdAt'] == null
+        ? null
+        : DateTime.parse(json['createdAt'] as String),
+    status: _$enumDecodeNullable(_$ShipmentStatusEnumMap, json['status']),
+  );
+}
+
+Map<String, dynamic> _$ShipmentFlowResponseToJson(
+        ShipmentFlowResponse instance) =>
+    <String, dynamic>{
+      'createdAt': instance.createdAt?.toIso8601String(),
+      'status': _$ShipmentStatusEnumMap[instance.status],
+    };

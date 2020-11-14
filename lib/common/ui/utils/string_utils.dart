@@ -28,8 +28,7 @@ String removeFirstCharacter(String string) {
   return substring(string, 1, string.length);
 }
 
-String capitalize(String string) =>
-    isNotEmpty(string) ? string[0].toUpperCase() + string.substring(1) : string;
+String capitalize(String string) => isNotEmpty(string) ? string[0].toUpperCase() + string.substring(1) : string;
 
 bool isDigit(String string) {
   if (string == null || string.length != 1) {
@@ -51,4 +50,11 @@ String formatTimeOfDay(TimeOfDay tod) {
   final dt = DateTime(now.year, now.month, now.day, tod.hour, tod.minute);
   final format = DateFormat.Hm(); //"6:00 AM"
   return format.format(dt);
+}
+
+String formatPrice(double price) {
+  if (price % 1 == 0) {
+    return "${price.toInt().toString()} zł";
+  }
+  return "${price.toString()} zł";
 }

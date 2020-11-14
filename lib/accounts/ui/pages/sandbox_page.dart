@@ -16,11 +16,11 @@ import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
 import 'package:drop_here_mobile/routes/ui/pages/route_details_page.dart';
 import 'package:drop_here_mobile/shipments/ui/pages/dashboard_page.dart';
+import 'package:drop_here_mobile/shipments/ui/pages/shipment_details_page.dart';
 import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
 import 'package:drop_here_mobile/spots/services/spots_user_service.dart';
 import 'package:drop_here_mobile/spots/ui/pages/company_map_page.dart';
 import 'package:drop_here_mobile/spots/ui/pages/customer_map_page.dart';
-import 'package:flutter/cupertino.dart' hide Page;
 import 'package:flutter/material.dart' hide Page;
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -56,6 +56,9 @@ class SandboxPage extends StatelessWidget {
                       Page page = await companyManagementService.getCompanyCustomers(CompanyCustomersRequest());
                       Get.to(ClientDetailsManagementPage(page.content.first));
                     }),
+                FlatButton(
+                    child: Text("Shipment details page"),
+                    onPressed: () => Get.to(ShipmentDetailsPage(shipmentId: 123))),
                 FlatButton(
                     child: Text("Add route"),
                     onPressed: () {

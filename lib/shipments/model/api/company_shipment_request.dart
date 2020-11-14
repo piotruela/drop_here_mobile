@@ -47,7 +47,7 @@ class ShipmentCompanyDecisionRequest {
   String comment;
   CompanyDecision companyDecision;
 
-  ShipmentCompanyDecisionRequest();
+  ShipmentCompanyDecisionRequest({this.comment, this.companyDecision});
 
   factory ShipmentCompanyDecisionRequest.fromJson(Map<String, dynamic> json) =>
       _$ShipmentCompanyDecisionRequestFromJson(json);
