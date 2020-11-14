@@ -8,10 +8,11 @@ part of 'company_shipment_request.dart';
 
 ShipmentCompanyDecisionRequest _$ShipmentCompanyDecisionRequestFromJson(
     Map<String, dynamic> json) {
-  return ShipmentCompanyDecisionRequest()
-    ..comment = json['comment'] as String
-    ..companyDecision =
-        _$enumDecodeNullable(_$CompanyDecisionEnumMap, json['companyDecision']);
+  return ShipmentCompanyDecisionRequest(
+    comment: json['comment'] as String,
+    companyDecision:
+        _$enumDecodeNullable(_$CompanyDecisionEnumMap, json['companyDecision']),
+  );
 }
 
 Map<String, dynamic> _$ShipmentCompanyDecisionRequestToJson(

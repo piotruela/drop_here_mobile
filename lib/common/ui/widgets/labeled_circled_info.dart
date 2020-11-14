@@ -3,15 +3,31 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class LabeledCircledInfo extends StatelessWidget {
+class LabeledCircledInfoWithDivider extends LabeledCircledInfo {
   final String label;
   final String text;
 
-  const LabeledCircledInfo({this.label, this.text});
+  LabeledCircledInfoWithDivider({this.label, this.text});
 
   @override
   Widget build(BuildContext context) {
-    final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [super.build(context), Divider()],
+    );
+  }
+}
+
+//Widget with label on left side, and text inside rounded grey border on right side
+class LabeledCircledInfo extends StatelessWidget {
+  final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+  final String label;
+  final String text;
+
+  LabeledCircledInfo({this.label, this.text});
+
+  @override
+  Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
