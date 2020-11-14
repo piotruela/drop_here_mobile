@@ -241,7 +241,7 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for (ProductCustomizationWrapperRequest customization in customizations)
+        for (ProductCustomizationWrapperRequest customization in customizations ?? [])
           ChoosableButtonWithSubText(
             text: customization.heading + (customization.required ? "*" : ""),
             subText: "${describeEnum(customization.type)} type, ${customization.customizations.length} options",

@@ -17,6 +17,8 @@ abstract class NarrowTile extends StatelessWidget {
 
   VoidCallback get onExitPressed => null;
 
+  VoidCallback get tileClickedAction => () => {};
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,51 +31,54 @@ abstract class NarrowTile extends StatelessWidget {
             dhShadow(),
           ],
         ),
-        child: Column(
+        child: Stack(
           children: [
-            Stack(
-              children: [
-                Container(
-                  width: 114.0,
-                  child: IconInCircle(
-                    themeConfig: themeConfig,
-                    icon: Icons.shopping_basket_outlined,
-                  ),
-                ),
-                onExitPressed != null
-                    ? Positioned(
-                        top: 0,
-                        right: 2,
-                        child: GestureDetector(
-                          onTap: onExitPressed,
-                          child: Icon(Icons.close),
-                        ),
-                      )
-                    : SizedBox.shrink()
-              ],
-            ),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            GestureDetector(
+              onTap: tileClickedAction,
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    tileTitle,
-                    style: themeConfig.textStyles.title3.copyWith(fontSize: 14.0),
+                  Container(
+                    width: 114.0,
+                    child: IconInCircle(
+                      themeConfig: themeConfig,
+                      icon: Icons.shopping_basket_outlined,
+                    ),
                   ),
-                  SizedBox(height: 4.0),
-                  Text(
-                    firstLineText,
-                    style: themeConfig.textStyles.title3Annotation.copyWith(fontSize: 12.0),
-                  ),
-                  SizedBox(height: 6.0),
-                  Text(
-                    secondLineText,
-                    style: themeConfig.textStyles.title3Annotation.copyWith(fontSize: 12.0),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          tileTitle,
+                          style: themeConfig.textStyles.title3.copyWith(fontSize: 14.0),
+                        ),
+                        SizedBox(height: 4.0),
+                        Text(
+                          firstLineText,
+                          style: themeConfig.textStyles.title3Annotation.copyWith(fontSize: 12.0),
+                        ),
+                        SizedBox(height: 6.0),
+                        Text(
+                          secondLineText,
+                          style: themeConfig.textStyles.title3Annotation.copyWith(fontSize: 12.0),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
             ),
+            onExitPressed != null
+                ? Positioned(
+                    top: 0,
+                    right: 2,
+                    child: GestureDetector(
+                      onTap: onExitPressed,
+                      child: Icon(Icons.close),
+                    ),
+                  )
+                : SizedBox.shrink()
           ],
         ),
       ),
