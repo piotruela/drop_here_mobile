@@ -6,8 +6,9 @@ abstract class ManageRouteEvent extends Equatable {
 
 class InitializeForm extends ManageRouteEvent {
   final UnpreparedRouteRequest routeRequest;
+  final List<ProductResponse> alreadyAddedProducts;
 
-  InitializeForm({this.routeRequest});
+  InitializeForm({this.routeRequest, this.alreadyAddedProducts});
 
   @override
   List<Object> get props => [routeRequest];

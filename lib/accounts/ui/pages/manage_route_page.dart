@@ -14,6 +14,7 @@ import 'package:drop_here_mobile/common/ui/widgets/labeled_switch.dart';
 import 'package:drop_here_mobile/common/ui/widgets/narrow_tile.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/routes/bloc/manage_route_bloc/manage_route_bloc.dart';
 import 'package:drop_here_mobile/routes/model/route_request_api.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
@@ -35,6 +36,9 @@ class EditRoutePage extends ManageRoutePage {
   @override
   UnpreparedRouteRequest get initialRoute => route.toRouteRequest;
 
+  @override
+  List<ProductResponse> get products => route.products.map((e) => e.routeProductResponse).toList();
+
   int get routeId => route.id;
 }
 
@@ -53,11 +57,13 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
 
   @override
-  bloc() => ManageRouteBloc()..add(InitializeForm(routeRequest: initialRoute));
+  bloc() => ManageRouteBloc()..add(InitializeForm(routeRequest: initialRoute, alreadyAddedProducts: products));
 
   String get pageTitle;
 
   UnpreparedRouteRequest get initialRoute;
+
+  List<ProductResponse> get products => null;
 
   int get routeId;
 
