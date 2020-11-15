@@ -1,4 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/manage_route_page.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/edit_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/seller_card.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -57,10 +59,7 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
                   padding: EdgeInsets.zero,
                   backAction: () => Get.to(DashboardPage()),
                 ),
-                Text(
-                  state.route.name,
-                  style: themeConfig.textStyles.primaryTitle,
-                ),
+                pageTitle(bloc, state.route.name),
                 textAndFlatButton(localeBundle.date, state.route.routeDate),
                 textAndFlatButton("Auto-accept orders",
                     state.route.acceptShipmentsAutomatically ? localeBundle.yes : localeBundle.no),
@@ -97,6 +96,27 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget pageTitle(RouteDetailsBloc bloc, String text) {
+    return Wrap(
+      children: [
+        Text(
+          text,
+          style: themeConfig.textStyles.primaryTitle,
+        ),
+        SizedBox(
+          width: 10.0,
+        ),
+        bloc.state.route.status == RouteStatus.UNPREPARED
+            ? editButton(onPressed: () {
+                Get.to(EditRoutePage(
+                  route: bloc.state.route,
+                ));
+              })
+            : SizedBox.shrink(),
+      ],
     );
   }
 
