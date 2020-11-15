@@ -4,8 +4,8 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
 import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
+import 'package:drop_here_mobile/management/ui/pages/management_page.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 

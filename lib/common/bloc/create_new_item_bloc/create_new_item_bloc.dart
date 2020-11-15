@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/manage_product_page.dart';
+import 'package:drop_here_mobile/products/ui/pages/manage_product_page.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';

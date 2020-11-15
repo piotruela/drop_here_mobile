@@ -1,4 +1,3 @@
-import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -9,8 +8,9 @@ import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/common/ui/widgets/info_text.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
-import 'package:drop_here_mobile/products/bloc/manage_product_bloc.dart';
+import 'package:drop_here_mobile/products/bloc/manage_product_bloc/manage_product_bloc.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/products/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/products/ui/widgets/customization_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

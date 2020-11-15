@@ -1,11 +1,11 @@
 import 'package:drop_here_mobile/accounts/bloc/list_bloc/dh_list_bloc.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/spot_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
-import 'package:drop_here_mobile/spots/bloc/customer_spots_bloc.dart';
-import 'package:drop_here_mobile/spots/bloc/spot_details_bloc.dart';
+import 'package:drop_here_mobile/spots/bloc/customer_spots_bloc/customer_spots_bloc.dart';
+import 'package:drop_here_mobile/spots/bloc/spot_details_bloc/spot_details_bloc.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_user_api.dart';
+import 'package:drop_here_mobile/spots/ui/pages/spot_details_page.dart';
 import 'package:drop_here_mobile/spots/ui/widgets/spot_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -22,7 +22,7 @@ import 'package:flutter/material.dart' hide Page;
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'client_details_management_page.dart';
+import '../../../management/ui/pages/client_details_management_page.dart';
 
 class SandboxPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();

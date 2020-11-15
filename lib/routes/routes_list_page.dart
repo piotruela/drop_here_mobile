@@ -1,4 +1,3 @@
-import 'package:drop_here_mobile/accounts/ui/pages/add_products_to_route.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -6,13 +5,15 @@ import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
-import 'package:drop_here_mobile/routes/bloc/routes_list_bloc.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
+import 'package:drop_here_mobile/routes/ui/pages/add_products_to_route.dart';
 import 'package:drop_here_mobile/routes/ui/pages/route_details_page.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+
+import 'bloc/routes_list_bloc/routes_list_bloc.dart';
 
 class RoutesListPage extends BlocWidget<RoutesListBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();

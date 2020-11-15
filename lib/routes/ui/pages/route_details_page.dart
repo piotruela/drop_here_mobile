@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/manage_route_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/edit_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/seller_card.dart';
@@ -10,8 +9,9 @@ import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/products/ui/widgets/products_carousel.dart';
-import 'package:drop_here_mobile/routes/bloc/route_details_bloc.dart';
+import 'package:drop_here_mobile/routes/bloc/route_details_bloc/route_details_bloc.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
+import 'package:drop_here_mobile/routes/ui/pages/manage_route_page.dart';
 import 'package:drop_here_mobile/routes/ui/widgets/drop_card.dart';
 import 'package:drop_here_mobile/shipments/ui/pages/dashboard_page.dart';
 import 'package:flutter/foundation.dart';

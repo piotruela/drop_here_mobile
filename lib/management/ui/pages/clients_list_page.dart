@@ -1,6 +1,5 @@
 import 'package:drop_here_mobile/accounts/bloc/list_bloc/dh_list_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/client_details_management_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_card.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
@@ -8,6 +7,7 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/management/ui/pages/client_details_management_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';

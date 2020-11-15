@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/manage_product_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/edit_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
@@ -11,6 +10,7 @@ import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/products/model/units.dart';
+import 'package:drop_here_mobile/products/ui/pages/manage_product_page.dart';
 import 'package:drop_here_mobile/routes/ui/widgets/drop_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';

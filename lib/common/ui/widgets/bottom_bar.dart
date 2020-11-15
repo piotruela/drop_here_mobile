@@ -1,6 +1,6 @@
-import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/management/ui/pages/management_page.dart';
+import 'package:drop_here_mobile/products/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/shipments/ui/pages/dashboard_page.dart';
 import 'package:drop_here_mobile/spots/ui/pages/company_map_page.dart';
 import 'package:flutter/material.dart';
