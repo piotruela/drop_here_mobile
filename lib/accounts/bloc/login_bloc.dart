@@ -27,19 +27,20 @@ class LoginBloc extends Bloc<LoginFormEvent, LoginFormState> {
       if (event.isValid) {
         try {
           await authenticationService.authenticate(event.form);
-          //todo pobrac informacje o autentykacji i odpowiednio przekierowac
-          yield SuccessState(null);
+          AuthenticationResponse response = await authenticationService.authenticationInfo();
+          yield SuccessState(response.accountType);
         } on Exception {
           yield ErrorState(form: event.form);
         }
       } else {
         yield ErrorState(form: event.form);
       }
-    }else if(event is FacebookSigningSubmitted){
-      try{
-        await authenticationService.authenticateViaExternalService(ExternalAuthenticationProviderType.FACEBOOK);
+    } else if (event is FacebookSigningSubmitted) {
+      try {
+        await authenticationService
+            .authenticateViaExternalService(ExternalAuthenticationProviderType.FACEBOOK);
         yield SuccessState(AccountType.CUSTOMER);
-      }on Exception {
+      } on Exception {
         yield ErrorState(form: LoginRequest(mail: "", password: ""));
       }
     }
