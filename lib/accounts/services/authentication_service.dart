@@ -11,10 +11,10 @@ class AuthenticationService {
   final AppStorageService _appStorageService = Get.find<AppStorageService>();
   final FacebookService _facebookService = Get.find<FacebookService>();
 
-  Future<LoginResponse> authenticationInfo() async {
+  Future<AuthenticationResponse> authenticationInfo() async {
     dynamic response = await _httpClient.get(
         canRepeatRequest: true, path: "/authentication", out: (dynamic json) => json);
-    return LoginResponse.fromJson(response);
+    return AuthenticationResponse.fromJson(response);
   }
 
   Future<LoginResponse> authenticate(LoginRequest loginRequest) async {
@@ -31,14 +31,14 @@ class AuthenticationService {
     }
   }
 
-  Future<LoginResponse> authenticateViaExternalService(ExternalAuthenticationProviderType providerType) async {
+  Future<LoginResponse> authenticateViaExternalService(
+      ExternalAuthenticationProviderType providerType) async {
     try {
       var facebookResponse = await _facebookService.signUp();
       Map<String, dynamic> response = await _httpClient.post(
           canRepeatRequest: true,
-          body: json.encode(new
-          ExternalAuthenticationProviderLoginRequest(
-              facebookResponse.token, providerType.toString().split(".").last, facebookResponse.redirectUri)
+          body: json.encode(new ExternalAuthenticationProviderLoginRequest(facebookResponse.token,
+                  providerType.toString().split(".").last, facebookResponse.redirectUri)
               .toJson()),
           path: '/authentication/external',
           out: (dynamic json) => (json));
