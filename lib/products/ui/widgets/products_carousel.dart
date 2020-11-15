@@ -36,5 +36,8 @@ class RouteDetailsProductCard extends NarrowTile {
   String get tileTitle => product.routeProductResponse.name;
 
   @override
-  get tileClickedAction => () => Get.to(ProductDetailsPage(product: product.routeProductResponse, editable: false));
+  get tileClickedAction => () => Get.to(ProductDetailsPage(
+        product: product.routeProductResponse,
+        editable: false,
+      ));
 }

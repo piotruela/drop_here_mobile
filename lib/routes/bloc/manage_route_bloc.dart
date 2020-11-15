@@ -37,7 +37,7 @@ class ManageRouteBloc extends Bloc<ManageRouteEvent, ManageRouteState> {
           type: ManageRouteStateType.initial,
           routeRequest: event.routeRequest,
           sellerProfiles: profiles,
-          products: productsPage.content,
+          products: productsPage.content + event.alreadyAddedProducts,
           spots: spots);
     } else if (event is FormChanged) {
       yield ManageRouteState(
@@ -74,7 +74,12 @@ class ManageRouteBloc extends Bloc<ManageRouteEvent, ManageRouteState> {
           products: state.products,
           spots: state.spots);
     } else if (event is FormSubmitted) {
-      yield ManageRouteState(type: ManageRouteStateType.loading, routeRequest: state.routeRequest, sellerProfiles: state.sellerProfiles, products: state.products, spots: state.spots);
+      yield ManageRouteState(
+          type: ManageRouteStateType.loading,
+          routeRequest: state.routeRequest,
+          sellerProfiles: state.sellerProfiles,
+          products: state.products,
+          spots: state.spots);
       ResourceOperationResponse response;
       if (event?.routeId != null) {
         response = await routeManagementService.updateRoute(state.routeRequest, event.routeId);
