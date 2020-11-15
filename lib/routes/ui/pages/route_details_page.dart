@@ -85,10 +85,12 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
                       ),
                 SizedBox(height: 8.0),
                 annotationText(localeBundle.drops),
-                dropsCarousel(state.route.drops),
+                bloc.state.route.drops.isNotEmpty ? dropsCarousel(state.route.drops) : noContentText,
                 SizedBox(height: 8.0),
                 annotationText(localeBundle.products),
-                productsCarousel(localeBundle, state.route.products),
+                bloc.state.route.products.isNotEmpty
+                    ? productsCarousel(localeBundle, state.route.products)
+                    : noContentText,
                 SizedBox(height: 30.0),
               ],
             ),
@@ -126,6 +128,9 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
       ],
     );
   }
+
+  Widget get noContentText => Padding(
+      padding: EdgeInsets.symmetric(vertical: 5.0), child: Text("No content", style: themeConfig.textStyles.data));
 
   Text annotationText(String text) {
     return Text(

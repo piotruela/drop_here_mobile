@@ -21,8 +21,7 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
 
   ClientDetailsManagementPage(this.customer);
   @override
-  ClientDetailsManagementBloc bloc() =>
-      ClientDetailsManagementBloc()..add(ClientDetailsInitial(customer));
+  ClientDetailsManagementBloc bloc() => ClientDetailsManagementBloc()..add(ClientDetailsInitial(customer));
 
   @override
   Widget build(BuildContext context, ClientDetailsManagementBloc bloc, _) {
@@ -35,11 +34,9 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
               context: context,
               valueBuilder: (_) => state.type,
               caseBuilders: {
-                ClientDetailsManagementStateType.loading: (_) =>
-                    Center(child: CircularProgressIndicator()),
+                ClientDetailsManagementStateType.loading: (_) => Center(child: CircularProgressIndicator()),
                 ClientDetailsManagementStateType.initial: (_) => _buildPageContent(locale, bloc),
-                ClientDetailsManagementStateType.clientUpdated: (_) =>
-                    _buildPageContent(locale, bloc),
+                ClientDetailsManagementStateType.clientUpdated: (_) => _buildPageContent(locale, bloc),
               },
               fallbackBuilder: (_) => SizedBox.shrink()),
         ));
@@ -55,8 +52,7 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
         SizedBox(
           height: 15.0,
         ),
-        companyInfoTile(locale.relationshipStatus,
-            describeEnum(bloc.state.customerResponse.relationshipStatus)),
+        companyInfoTile(locale.relationshipStatus, describeEnum(bloc.state.customerResponse.relationshipStatus)),
         //todo change to active
         bloc.state.customerResponse.relationshipStatus == RelationshipStatus.ACTIVE
             ? _spotsList(bloc.state.customerResponse.companyCustomerSpotMemberships, locale, bloc)
@@ -79,8 +75,10 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
           SizedBox(
             height: 15.0,
           ),
-          _blockUserButton(locale.unblockUser,
-              () => {bloc.add(BlockUser(bloc.state.customerResponse.customerId, unblock))}),
+          _blockUserButton(
+              locale.unblockUser,
+              () => {bloc.add(BlockUser(bloc.state.customerResponse.customerId, unblock))},
+              themeConfig.textStyles.active),
         ],
       ),
     );
@@ -112,8 +110,8 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
     );
   }
 
-  Widget _spotsList(List<CompanyCustomerSpotMembershipResponse> spots, LocaleBundle locale,
-      ClientDetailsManagementBloc bloc) {
+  Widget _spotsList(
+      List<CompanyCustomerSpotMembershipResponse> spots, LocaleBundle locale, ClientDetailsManagementBloc bloc) {
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -141,8 +139,8 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
               ),
             ),
           ),
-          _blockUserButton(locale.blockUser,
-              () => {bloc.add(BlockUser(bloc.state.customerResponse.customerId, block))}),
+          _blockUserButton(locale.blockUser, () => {bloc.add(BlockUser(bloc.state.customerResponse.customerId, block))},
+              themeConfig.textStyles.blocked),
         ],
       ),
     );
@@ -169,14 +167,12 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
           ),
         ),
         decoration: BoxDecoration(
-            border: Border(
-                bottom: BorderSide(
-                    width: 1.0, color: themeConfig.colors.white, style: BorderStyle.solid))),
+            border: Border(bottom: BorderSide(width: 1.0, color: themeConfig.colors.white, style: BorderStyle.solid))),
       ),
     );
   }
 
-  Widget _blockUserButton(String text, Function onTap) {
+  Widget _blockUserButton(String text, Function onTap, TextStyle textStyle) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.only(top: 4.0, bottom: 12.0),
@@ -194,7 +190,7 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
                 ],
                 borderRadius: BorderRadius.all(Radius.circular(20.0))),
             child: Center(
-              child: Text(text, style: themeConfig.textStyles.blocked),
+              child: Text(text, style: textStyle),
             ),
           ),
         ),
@@ -233,14 +229,12 @@ class SpotTile extends DhTile {
   @override
   Widget get trailing {
     final List<PopupItem> popupOptions = [];
-    if (spot.membershipStatus == MembershipStatus.BLOCKED ||
-        spot.membershipStatus == MembershipStatus.PENDING) {
+    if (spot.membershipStatus == MembershipStatus.BLOCKED || spot.membershipStatus == MembershipStatus.PENDING) {
       popupOptions.add(PopupItem(locale.acceptUserOnSpot, () {
         bloc.add(ToggleSpotMembershipStatus(true, spot.spotUid));
       }));
     }
-    if (spot.membershipStatus == MembershipStatus.ACTIVE ||
-        spot.membershipStatus == MembershipStatus.PENDING) {
+    if (spot.membershipStatus == MembershipStatus.ACTIVE || spot.membershipStatus == MembershipStatus.PENDING) {
       popupOptions.add(PopupItem(locale.blockUserOnSpot, () {
         bloc.add(ToggleSpotMembershipStatus(false, spot.spotUid));
       }));
