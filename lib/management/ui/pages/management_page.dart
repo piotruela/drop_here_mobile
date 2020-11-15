@@ -1,9 +1,9 @@
-import 'package:drop_here_mobile/accounts/ui/pages/sellers_list_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/add_new_item_panel.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/management/ui/pages/sellers_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -43,9 +43,8 @@ class ManagementPage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: TabBar(
-                        indicator: BoxDecoration(
-                            color: themeConfig.colors.white,
-                            borderRadius: BorderRadius.circular(10)),
+                        indicator:
+                            BoxDecoration(color: themeConfig.colors.white, borderRadius: BorderRadius.circular(10)),
                         tabs: <Widget>[
                           buildTab(locale.clients),
                           buildTab(locale.sellers),

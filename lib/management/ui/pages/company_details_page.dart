@@ -1,16 +1,16 @@
 import 'dart:io';
 
-import 'package:drop_here_mobile/accounts/bloc/company_management_bloc/company_management_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/edit_company_details_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/splash_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/management/bloc/company_management_bloc/company_management_bloc.dart';
+import 'package:drop_here_mobile/products/ui/pages/edit_company_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';

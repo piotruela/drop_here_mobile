@@ -1,12 +1,12 @@
-import 'package:drop_here_mobile/accounts/bloc/client_details_management_bloc/client_details_management_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/add_products_to_route.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/management/bloc/client_details_management_bloc/client_details_management_bloc.dart';
+import 'package:drop_here_mobile/routes/ui/pages/add_products_to_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

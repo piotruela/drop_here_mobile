@@ -1,7 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/add_drop_to_route_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/add_products_to_route.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/choose_seller_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/seller_card.dart';
@@ -18,6 +15,9 @@ import 'package:drop_here_mobile/products/model/api/product_management_api.dart'
 import 'package:drop_here_mobile/routes/bloc/manage_route_bloc/manage_route_bloc.dart';
 import 'package:drop_here_mobile/routes/model/route_request_api.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
+import 'package:drop_here_mobile/routes/ui/pages/add_drop_to_route_page.dart';
+import 'package:drop_here_mobile/routes/ui/pages/add_products_to_route.dart';
+import 'package:drop_here_mobile/routes/ui/pages/choose_seller_page.dart';
 import 'package:drop_here_mobile/routes/ui/widgets/drop_card.dart';
 import 'package:drop_here_mobile/shipments/ui/pages/dashboard_page.dart';
 import 'package:flutter/material.dart';

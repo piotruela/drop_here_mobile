@@ -1,4 +1,3 @@
-import 'package:drop_here_mobile/accounts/login_pages.dart';
 import 'package:drop_here_mobile/app_storage/app_storage_service.dart';
 import 'package:drop_here_mobile/common/config/config_binding.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
@@ -25,7 +24,6 @@ class MainWidget extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: LocalizationDelegate.supportedLocales,
-      getPages: LoginPages.pages,
     );
   }
 
