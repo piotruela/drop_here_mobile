@@ -14,7 +14,7 @@ import 'package:drop_here_mobile/common/ui/widgets/labeled_switch.dart';
 import 'package:drop_here_mobile/common/ui/widgets/narrow_tile.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
-import 'package:drop_here_mobile/routes/bloc/manage_route_bloc.dart';
+import 'package:drop_here_mobile/routes/bloc/manage_route_bloc/manage_route_bloc.dart';
 import 'package:drop_here_mobile/routes/model/route_request_api.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
 import 'package:drop_here_mobile/routes/ui/widgets/drop_card.dart';

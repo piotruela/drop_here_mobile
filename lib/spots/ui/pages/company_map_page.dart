@@ -4,7 +4,7 @@ import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/common/ui/widgets/add_new_item_panel.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
-import 'package:drop_here_mobile/spots/bloc/company_spots_bloc.dart';
+import 'package:drop_here_mobile/spots/bloc/company_spots_bloc/company_spots_bloc.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
 import 'package:drop_here_mobile/spots/ui/widgets/spot_card.dart';
 import 'package:flutter/material.dart';

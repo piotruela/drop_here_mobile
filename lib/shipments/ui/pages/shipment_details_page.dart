@@ -13,7 +13,7 @@ import 'package:drop_here_mobile/common/ui/widgets/labeled_circled_info.dart';
 import 'package:drop_here_mobile/common/ui/widgets/narrow_tile.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
-import 'package:drop_here_mobile/shipments/bloc/company_shipment_bloc.dart';
+import 'package:drop_here_mobile/shipments/bloc/company_shipment_bloc/company_shipment_bloc.dart';
 import 'package:drop_here_mobile/shipments/model/api/company_shipment_request.dart';
 import 'package:drop_here_mobile/shipments/model/api/company_shipment_response.dart';
 import 'package:flutter/material.dart';

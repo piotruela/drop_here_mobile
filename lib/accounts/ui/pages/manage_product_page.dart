@@ -9,7 +9,7 @@ import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/common/ui/widgets/info_text.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
-import 'package:drop_here_mobile/products/bloc/manage_product_bloc.dart';
+import 'package:drop_here_mobile/products/bloc/manage_product_bloc/manage_product_bloc.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/products/ui/widgets/customization_dialog.dart';
 import 'package:flutter/material.dart';

@@ -8,7 +8,7 @@ import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/common/ui/widgets/labeled_switch.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
-import 'package:drop_here_mobile/spots/bloc/add_spot_bloc.dart';
+import 'package:drop_here_mobile/spots/bloc/add_spot_bloc/add_spot_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
@@ -44,24 +44,20 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
                 labeledSwitch(
                     text: locale.passwordRequired,
                     onSwitch: (bool) => bloc.add(FormChanged(
-                        spotManagementRequest:
-                            bloc.state.spotManagementRequest.copyWith(requiresPassword: bool)))),
+                        spotManagementRequest: bloc.state.spotManagementRequest.copyWith(requiresPassword: bool)))),
                 _passwordFieldView(locale, bloc),
                 labeledSwitch(
                     text: locale.acceptRequired,
                     onSwitch: (bool) => bloc.add(FormChanged(
-                        spotManagementRequest:
-                            bloc.state.spotManagementRequest.copyWith(requiresAccept: bool)))),
+                        spotManagementRequest: bloc.state.spotManagementRequest.copyWith(requiresAccept: bool)))),
                 labeledSwitch(
                     text: locale.spotHidden,
-                    onSwitch: (bool) => bloc.add(FormChanged(
-                        spotManagementRequest:
-                            bloc.state.spotManagementRequest.copyWith(hidden: bool)))),
+                    onSwitch: (bool) => bloc.add(
+                        FormChanged(spotManagementRequest: bloc.state.spotManagementRequest.copyWith(hidden: bool)))),
                 secondaryTitle(locale.locationMandatory),
                 BlocBuilder<AddSpotBloc, AddSpotFormState>(
                   buildWhen: (previous, current) =>
-                      previous.spotManagementRequest.xcoordinate !=
-                      current.spotManagementRequest.xcoordinate,
+                      previous.spotManagementRequest.xcoordinate != current.spotManagementRequest.xcoordinate,
                   builder: (context, state) {
                     return Conditional.single(
                         context: context,
@@ -77,8 +73,7 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
                     child: SubmitFormButton(
                         text: locale.addSpot,
                         isActive: bloc.state.isFilled,
-                        onTap: () => bloc.add(FormSubmitted(
-                            spotManagementRequest: bloc.state.spotManagementRequest))),
+                        onTap: () => bloc.add(FormSubmitted(spotManagementRequest: bloc.state.spotManagementRequest))),
                   ),
                 ),
                 SizedBox(
@@ -92,8 +87,7 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
     );
   }
 
-  Widget _buildLocationPickerButton(
-      BuildContext context, LocaleBundle localeBundle, AddSpotBloc bloc) {
+  Widget _buildLocationPickerButton(BuildContext context, LocaleBundle localeBundle, AddSpotBloc bloc) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6.0),
       child: ColoredRoundedFlatButton(
@@ -102,10 +96,8 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
             FocusScope.of(context).requestFocus(FocusNode());
             bloc.add(LocationChanged(
                 spotManagementRequest: bloc.state.spotManagementRequest,
-                locationResult: await showLocationPicker(
-                    context, "AIzaSyAIXlbOX2W1TEKdG8M8zyvZc882lEApzLE",
-                    automaticallyAnimateToCurrentLocation: false,
-                    initialCenter: LatLng(54.397498, 18.589627))));
+                locationResult: await showLocationPicker(context, "AIzaSyAIXlbOX2W1TEKdG8M8zyvZc882lEApzLE",
+                    automaticallyAnimateToCurrentLocation: false, initialCenter: LatLng(54.397498, 18.589627))));
           }),
     );
   }
@@ -120,8 +112,8 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
               color: themeConfig.colors.black,
             ),
             FutureBuilder(
-                future: getAddressFromCoordinates(bloc.state.spotManagementRequest.xcoordinate,
-                    bloc.state.spotManagementRequest.ycoordinate),
+                future: getAddressFromCoordinates(
+                    bloc.state.spotManagementRequest.xcoordinate, bloc.state.spotManagementRequest.ycoordinate),
                 initialData: "Loading location...",
                 builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
                   return Text(
@@ -131,9 +123,8 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
                 }),
             IconButton(
                 icon: Icon(Icons.close),
-                onPressed: () => bloc.add(FormChanged(
-                    spotManagementRequest:
-                        bloc.state.spotManagementRequest.copyWith(coordsNull: true)))),
+                onPressed: () => bloc.add(
+                    FormChanged(spotManagementRequest: bloc.state.spotManagementRequest.copyWith(coordsNull: true)))),
           ],
         ),
         BlocBuilder<AddSpotBloc, AddSpotFormState>(
@@ -153,8 +144,8 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
         DhPlainTextFormField(
           inputType: InputType.text,
           hintText: locale.addSpotNameHint,
-          onChanged: (String name) => bloc.add(FormChanged(
-              spotManagementRequest: bloc.state.spotManagementRequest.copyWith(name: name))),
+          onChanged: (String name) =>
+              bloc.add(FormChanged(spotManagementRequest: bloc.state.spotManagementRequest.copyWith(name: name))),
         ),
       ],
     );
@@ -163,8 +154,7 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
   Widget _passwordFieldView(LocaleBundle locale, AddSpotBloc bloc) {
     return BlocBuilder<AddSpotBloc, AddSpotFormState>(
       buildWhen: (previous, current) =>
-          previous.spotManagementRequest.requiresPassword !=
-          current.spotManagementRequest.requiresPassword,
+          previous.spotManagementRequest.requiresPassword != current.spotManagementRequest.requiresPassword,
       builder: (context, state) => Conditional.single(
           context: context,
           conditionBuilder: (_) => state.spotManagementRequest.requiresPassword,
@@ -181,9 +171,8 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
         DhPlainTextFormField(
             inputType: InputType.text,
             hintText: locale.passwordHintText,
-            onChanged: (String password) => bloc.add(FormChanged(
-                spotManagementRequest:
-                    bloc.state.spotManagementRequest.copyWith(password: password)))),
+            onChanged: (String password) => bloc.add(
+                FormChanged(spotManagementRequest: bloc.state.spotManagementRequest.copyWith(password: password)))),
       ],
     );
   }
@@ -193,9 +182,8 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
       secondaryTitle(localeBundle.description),
       DhPlainTextFormField(
         inputType: InputType.text,
-        onChanged: (String description) => bloc.add(FormChanged(
-            spotManagementRequest:
-                bloc.state.spotManagementRequest.copyWith(description: description))),
+        onChanged: (String description) => bloc.add(
+            FormChanged(spotManagementRequest: bloc.state.spotManagementRequest.copyWith(description: description))),
       ),
     ]);
   }
