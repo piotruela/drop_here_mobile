@@ -4,6 +4,7 @@ import 'package:drop_here_mobile/accounts/ui/widgets/edit_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
 import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
+import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/common/ui/widgets/info_text.dart';
 import 'package:drop_here_mobile/common/ui/widgets/labeled_circled_info.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
@@ -18,8 +19,10 @@ import 'package:get/get.dart';
 class ProductDetailsPage extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final ProductResponse product;
+  final bool editable;
+  final VoidCallback backAction;
 
-  ProductDetailsPage({this.product});
+  ProductDetailsPage({this.product, this.editable = true, this.backAction});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +32,10 @@ class ProductDetailsPage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 24.0),
         child: ListView(
           children: [
+            DhBackButton(
+              backAction: backAction,
+              padding: EdgeInsets.zero,
+            ),
             pageTitle(product.name),
             pageSubtitle(product.category),
             buildInfoWithLabel(localeBundle, localeBundle.description, product.description),
@@ -63,12 +70,14 @@ class ProductDetailsPage extends StatelessWidget {
         SizedBox(
           width: 10.0,
         ),
-        editButton(onPressed: () {
-          Get.to(EditProductPage(
-            initialProduct: product.toRequest(),
-            productIdentify: product.id,
-          ));
-        }),
+        editable
+            ? editButton(onPressed: () {
+                Get.to(EditProductPage(
+                  initialProduct: product.toRequest(),
+                  productIdentify: product.id,
+                ));
+              })
+            : SizedBox.shrink(),
       ],
     );
   }

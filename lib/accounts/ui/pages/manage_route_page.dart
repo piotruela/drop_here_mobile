@@ -17,8 +17,8 @@ import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/routes/bloc/manage_route_bloc.dart';
 import 'package:drop_here_mobile/routes/model/route_request_api.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
-import 'package:drop_here_mobile/routes/routes_list_page.dart';
 import 'package:drop_here_mobile/routes/ui/widgets/drop_card.dart';
+import 'package:drop_here_mobile/shipments/ui/pages/dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
@@ -80,7 +80,7 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
       listenWhen: (previous, current) => previous.type != current.type,
       listener: (context, state) {
         if (bloc.state.type == ManageRouteStateType.added_successfully) {
-          Get.to(RoutesListPage());
+          Get.to(DashboardPage(initialIndex: 0));
         } else {}
       },
     ));
