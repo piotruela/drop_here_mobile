@@ -2,6 +2,7 @@ import 'package:drop_here_mobile/accounts/bloc/list_bloc/dh_list_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
 import 'package:drop_here_mobile/spots/bloc/customer_spots_bloc/customer_spots_bloc.dart';
 import 'package:drop_here_mobile/spots/bloc/spot_details_bloc/spot_details_bloc.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_user_api.dart';
@@ -35,37 +36,38 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
   @override
   Widget build(BuildContext context, CustomerSpotsBloc bloc, _) {
     return BlocProvider(
-      create: (context) {
-        if (spotDetailsOnLoadEvent != null) {
-          return SpotDetailsBloc()..add(spotDetailsOnLoadEvent);
-        }
-        return SpotDetailsBloc();
-      },
-      child: Scaffold(
-          body: BlocBuilder<CustomerSpotsBloc, CustomerSpotsState>(
-        buildWhen: (previous, current) => previous.type != current.type,
-        builder: (context, state) => ConditionalSwitch.single(
-            context: context,
-            valueBuilder: (_) => state.type,
-            caseBuilders: {
-              CustomerSpotsStateType.failure: (_) {
-                bloc.add(
-                    FetchSpotsEvent(radius: _radius, xCoordinate: initialXCoordinate, yCoordinate: initialYCoordinate));
+        create: (context) {
+          if (spotDetailsOnLoadEvent != null) {
+            return SpotDetailsBloc()..add(spotDetailsOnLoadEvent);
+          }
+          return SpotDetailsBloc();
+        },
+        child: Scaffold(
+            body: BlocBuilder<CustomerSpotsBloc, CustomerSpotsState>(
+              buildWhen: (previous, current) => previous.type != current.type,
+              builder: (context, state) => ConditionalSwitch.single(
+                  context: context,
+                  valueBuilder: (_) => state.type,
+                  caseBuilders: {
+                    CustomerSpotsStateType.failure: (_) {
+                      bloc.add(FetchSpotsEvent(
+                          radius: _radius, xCoordinate: initialXCoordinate, yCoordinate: initialYCoordinate));
 
-                return Center(child: CircularProgressIndicator());
-              },
-              CustomerSpotsStateType.spot_managed: (_) {
-                bloc.add(
-                    FetchSpotsEvent(radius: _radius, xCoordinate: initialXCoordinate, yCoordinate: initialYCoordinate));
-                BlocProvider.of<SpotDetailsBloc>(context).add(CloseSpotDetailsPanel());
-                return Center(child: CircularProgressIndicator());
-              },
-              CustomerSpotsStateType.loading: (_) => Center(child: CircularProgressIndicator()),
-              CustomerSpotsStateType.success: (_) => _buildPageContent(context, bloc, state.spots, panelController)
-            },
-            fallbackBuilder: (_) => SizedBox.shrink()),
-      )),
-    );
+                      return Center(child: CircularProgressIndicator());
+                    },
+                    CustomerSpotsStateType.spot_managed: (_) {
+                      bloc.add(FetchSpotsEvent(
+                          radius: _radius, xCoordinate: initialXCoordinate, yCoordinate: initialYCoordinate));
+                      BlocProvider.of<SpotDetailsBloc>(context).add(CloseSpotDetailsPanel());
+                      return Center(child: CircularProgressIndicator());
+                    },
+                    CustomerSpotsStateType.loading: (_) => Center(child: CircularProgressIndicator()),
+                    CustomerSpotsStateType.success: (_) =>
+                        _buildPageContent(context, bloc, state.spots, panelController)
+                  },
+                  fallbackBuilder: (_) => SizedBox.shrink()),
+            ),
+            bottomNavigationBar: CustomerBottomBar(sectionIndex: 2)));
   }
 
   Widget _buildPageContent(
@@ -75,7 +77,7 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
     return Stack(
       children: [
         GoogleMap(
-          padding: EdgeInsets.only(bottom: 50.0),
+          padding: EdgeInsets.only(bottom: 100.0),
           markers: spotsSet,
           initialCameraPosition: CameraPosition(zoom: 15, target: LatLng(initialXCoordinate, initialYCoordinate)),
         ),
@@ -162,7 +164,7 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
                 ),
               ),
             ))),
-        //DHBottomBar(controller: panelController)
+        //CompanyBottomBar(controller: panelController)
       ],
     );
   }

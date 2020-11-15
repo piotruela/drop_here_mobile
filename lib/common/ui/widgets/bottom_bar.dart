@@ -7,12 +7,35 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class DHBottomBar extends StatelessWidget {
+class CustomerBottomBar extends DHBottomBar {
+  final int sectionIndex;
+
+  CustomerBottomBar({this.sectionIndex}) : super(selectedIndex: sectionIndex);
+}
+
+class CompanyBottomBar extends DHBottomBar {
+  final PanelController controller;
+  final int sectionIndex;
+
+  CompanyBottomBar({this.controller, this.sectionIndex}) : super(selectedIndex: sectionIndex);
+
+  @override
+  Widget centerButton() => FloatingActionButton(
+        backgroundColor: themeConfig.colors.primary1,
+        onPressed: () => controller.open(),
+        child: Container(
+          margin: EdgeInsets.all(10.0),
+          child: Icon(Icons.add),
+        ),
+        elevation: 4.0,
+      );
+}
+
+abstract class DHBottomBar extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final int selectedIndex;
-  final PanelController controller;
 
-  DHBottomBar({this.selectedIndex, this.controller});
+  DHBottomBar({this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +58,6 @@ class DHBottomBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconButton(
-              //update the bottom app bar view each time an item is clicked
               onPressed: () => Get.to(DashboardPage()),
               iconSize: 35.0,
               icon: Icon(
@@ -51,16 +73,7 @@ class DHBottomBar extends StatelessWidget {
                 color: selectedIndex == 1 ? themeConfig.colors.primary1 : themeConfig.colors.textFieldHint,
               ),
             ),
-            FloatingActionButton(
-              backgroundColor: themeConfig.colors.primary1,
-              onPressed: () => controller.open(),
-              child: Container(
-                margin: EdgeInsets.all(10.0),
-                child: Icon(Icons.add),
-              ),
-              elevation: 4.0,
-            ),
-            //to leave space in between the bottom app bar items and below the FAB
+            centerButton(),
             IconButton(
               onPressed: () => Get.to(CompanyMapPage()),
               iconSize: 35.0,
@@ -84,4 +97,6 @@ class DHBottomBar extends StatelessWidget {
       ),
     );
   }
+
+  Widget centerButton() => SizedBox.shrink();
 }

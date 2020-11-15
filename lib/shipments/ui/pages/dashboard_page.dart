@@ -1,9 +1,7 @@
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/add_new_item_panel.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
-import 'package:drop_here_mobile/locale/locale_bundle.dart';
-import 'package:drop_here_mobile/locale/localization.dart';
-import 'package:drop_here_mobile/routes/routes_list_page.dart';
+import 'package:drop_here_mobile/routes/ui/pages/routes_list_page.dart';
 import 'package:drop_here_mobile/shipments/ui/pages/shipments_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -19,7 +17,6 @@ class DashboardPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
       body: Stack(
         children: [
@@ -60,7 +57,7 @@ class DashboardPage extends StatelessWidget {
                     )
                   ],
                 ),
-                bottomNavigationBar: DHBottomBar(controller: panelController, selectedIndex: 0),
+                bottomNavigationBar: CompanyBottomBar(controller: panelController, sectionIndex: 0),
               ),
             ),
           ),

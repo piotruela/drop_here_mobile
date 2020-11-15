@@ -79,16 +79,21 @@ class CustomerSpotDropCard extends DropCard {
   CustomerSpotDropCard({this.drop});
 
   @override
-  String get startTime => drop.startTime.toTime();
+  String get startTime => drop.startTime.toStringWithoutYear();
 
   @override
-  String get endTime => drop.endTime.toTime();
+  String get endTime => drop.endTime.toStringWithoutYear();
 
   @override
   String get name => drop.name;
 
   @override
   get onExitPressed => null;
+
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+      onTap: () => {}, //TODO: Get.to(DropDetailsPage())
+      child: super.build(context));
 }
 
 abstract class DropCard extends StatelessWidget {

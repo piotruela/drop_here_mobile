@@ -114,9 +114,9 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
   Widget dropsList(List<DropCustomerSpotResponse> drops) {
     return CarouselSlider(
         options: CarouselOptions(
-          aspectRatio: 16 / 7.4,
+          aspectRatio: 14 / 7.4,
           enableInfiniteScroll: false,
-          viewportFraction: 0.38,
+          viewportFraction: 0.5,
           initialPage: 0,
         ),
         items: drops.map((e) => CustomerSpotDropCard(drop: e)).toList());

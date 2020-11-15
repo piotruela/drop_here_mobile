@@ -65,8 +65,8 @@ class ProductsListPage extends BlocWidget<DhListBloc> {
           AddNewItemPanel(controller: controller)
         ],
       ),
-      bottomNavigationBar: DHBottomBar(
-        selectedIndex: 1,
+      bottomNavigationBar: CompanyBottomBar(
+        sectionIndex: 1,
         controller: controller,
       ),
     );
