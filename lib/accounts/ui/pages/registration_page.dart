@@ -1,4 +1,4 @@
-import 'package:drop_here_mobile/accounts/bloc/registration_bloc.dart';
+import 'package:drop_here_mobile/accounts/bloc/registration_bloc/registration_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/client_details_registration_page.dart';
@@ -31,9 +31,8 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
           if (state is SuccessState) {
             Widget page;
             if (state.accountType == AccountType.CUSTOMER) {
-              page = state.registrationType == RegistrationType.FORM
-                  ? ClientDetailsRegistrationPage()
-                  : CustomerMapPage();
+              page =
+                  state.registrationType == RegistrationType.FORM ? ClientDetailsRegistrationPage() : CustomerMapPage();
             } else {
               page = CreateAdminProfilePage();
             }
@@ -105,8 +104,7 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
         backgroundColor: themeConfig.colors.primary1);
   }
 
-  Widget orText(LocaleBundle localeBundle) =>
-      Text(localeBundle.or, style: themeConfig.textStyles.secondaryTitle);
+  Widget orText(LocaleBundle localeBundle) => Text(localeBundle.or, style: themeConfig.textStyles.secondaryTitle);
 
   Widget signUpWithFBButton(RegistrationBloc bloc, LocaleBundle localeBundle) {
     return DhButton(
@@ -127,10 +125,8 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
     return null;
   }
 
-  String repeatPasswordValidator(
-      String password, String repeatedPassword, LocaleBundle localeBundle) {
-    if (password != repeatedPassword)
-      return localeBundle.repeatPassword + localeBundle.isNotTheSame;
+  String repeatPasswordValidator(String password, String repeatedPassword, LocaleBundle localeBundle) {
+    if (password != repeatedPassword) return localeBundle.repeatPassword + localeBundle.isNotTheSame;
     return null;
   }
 }

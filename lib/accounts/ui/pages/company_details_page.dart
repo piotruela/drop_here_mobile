@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:drop_here_mobile/accounts/bloc/company_management_bloc.dart';
+import 'package:drop_here_mobile/accounts/bloc/company_management_bloc/company_management_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';

@@ -1,4 +1,4 @@
-import 'package:drop_here_mobile/accounts/bloc/choose_profile_bloc.dart';
+import 'package:drop_here_mobile/accounts/bloc/choose_profile_bloc/choose_profile_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/log_on_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/login_page.dart';
@@ -41,15 +41,11 @@ Widget _profilesList(List<ProfileInfoResponse> profiles) {
         padding: const EdgeInsets.only(top: 70.0),
         child: Text("Choose your profile", style: themeConfig.textStyles.primaryTitle),
       ),
-      RaisedButton(
-          color: themeConfig.colors.primary1,
-          child: Text("LOGOUT"),
-          onPressed: () => Get.to(LoginPage())),
+      RaisedButton(color: themeConfig.colors.primary1, child: Text("LOGOUT"), onPressed: () => Get.to(LoginPage())),
       Expanded(
         child: GridView.builder(
           itemCount: profiles.length,
-          gridDelegate:
-              SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.4),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2, childAspectRatio: 1.4),
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: EdgeInsets.all(20),
@@ -84,10 +80,7 @@ class ProfileTile extends StatelessWidget {
               border: isAdmin ? Border.all(color: themeConfig.colors.primary1, width: 3) : null,
               color: themeConfig.colors.white,
               boxShadow: [
-                BoxShadow(
-                    color: themeConfig.colors.black.withOpacity(0.25),
-                    blurRadius: 15.0,
-                    offset: Offset(0.0, 4.0))
+                BoxShadow(color: themeConfig.colors.black.withOpacity(0.25), blurRadius: 15.0, offset: Offset(0.0, 4.0))
               ],
               borderRadius: BorderRadius.all(Radius.circular(10)),
             ),

@@ -1,4 +1,4 @@
-import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
+import 'package:drop_here_mobile/accounts/bloc/list_bloc/dh_list_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/client_details_management_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_card.dart';

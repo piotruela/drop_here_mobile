@@ -1,8 +1,8 @@
-import 'package:drop_here_mobile/accounts/bloc/choose_spot_for_drop_bloc.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/routes/bloc/choose_spot_for_drop_bloc/choose_spot_for_drop_bloc.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
 import 'package:drop_here_mobile/spots/ui/widgets/spot_card.dart';
 import 'package:flutter/material.dart';

@@ -1,4 +1,4 @@
-import 'package:drop_here_mobile/accounts/bloc/company_register_details_bloc.dart';
+import 'package:drop_here_mobile/accounts/bloc/company_register_details_bloc/company_register_details_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
@@ -27,9 +27,8 @@ class CompanyDetailsRegistrationPage extends BlocWidget<CompanyRegisterDetailsBl
               listenWhen: (previous, current) => previous != current,
               listener: (context, state) {
                 if (state is ErrorState) {
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                      content:
-                          Text(localeBundle.registrationError + localeBundle.unexpectedError)));
+                  Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text(localeBundle.registrationError + localeBundle.unexpectedError)));
                 }
                 if (state is SuccessState) {
                   Get.to(CompanyMapPage());
@@ -48,14 +47,12 @@ class CompanyDetailsRegistrationPage extends BlocWidget<CompanyRegisterDetailsBl
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 144.0, bottom: 22.0),
-                child: Text(localeBundle.addDetailsAboutCompanyHeader,
-                    style: themeConfig.textStyles.secondaryTitle),
+                child: Text(localeBundle.addDetailsAboutCompanyHeader, style: themeConfig.textStyles.secondaryTitle),
               ),
               DhTextFormField(
                   labelText: localeBundle.companyName,
                   padding: EdgeInsets.only(left: 40, right: 40.0, top: 26.0, bottom: 9.0),
-                  onChanged: (value) =>
-                      bloc.add(FormChanged(form: bloc.state.form.copyWith(companyName: value)))),
+                  onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(companyName: value)))),
               Padding(
                 padding: const EdgeInsets.only(left: 40, right: 40.0),
                 child: BlocBuilder<CompanyRegisterDetailsBloc, CompanyRegistrationDetailsFormState>(
@@ -74,8 +71,8 @@ class CompanyDetailsRegistrationPage extends BlocWidget<CompanyRegisterDetailsBl
                             child: Text(bloc.state.countries.elementAt(index).name),
                           ),
                         ),
-                        onChanged: (String chosenCountry) => bloc.add(FormChanged(
-                            form: bloc.state.form.copyWith(countryName: chosenCountry))),
+                        onChanged: (String chosenCountry) =>
+                            bloc.add(FormChanged(form: bloc.state.form.copyWith(countryName: chosenCountry))),
                       );
                     } else {
                       return CircularProgressIndicator();
