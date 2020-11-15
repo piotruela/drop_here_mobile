@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
+import 'package:drop_here_mobile/accounts/bloc/list_bloc/dh_list_bloc.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
@@ -26,10 +26,8 @@ class DhSearchBar extends StatelessWidget {
           hintStyle: themeConfig.textStyles.textFieldHint,
           filled: true,
           fillColor: themeConfig.colors.addSthHere,
-          enabledBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: themeConfig.colors.addSthHere, width: 0.0)),
-          focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: themeConfig.colors.addSthHere, width: 0.0)),
+          enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: themeConfig.colors.addSthHere, width: 0.0)),
+          focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: themeConfig.colors.addSthHere, width: 0.0)),
         ),
       ),
     );

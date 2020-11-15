@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:drop_here_mobile/accounts/bloc/countries_bloc.dart';
-import 'package:drop_here_mobile/accounts/bloc/edit_company_details_bloc.dart';
+import 'package:drop_here_mobile/accounts/bloc/countries_bloc/countries_bloc.dart';
+import 'package:drop_here_mobile/accounts/bloc/edit_company_details_bloc/edit_company_details_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
@@ -47,13 +47,9 @@ class EditCompanyDetailsPage extends BlocWidget<EditCompanyDetailsBloc> {
                                 context: context,
                                 conditionBuilder: (_) => snapshot.hasData,
                                 widgetBuilder: (_) => SizedBox(
-                                    width: 150,
-                                    height: 150,
-                                    child: ClipOval(child: Image.file(snapshot.data))),
+                                    width: 150, height: 150, child: ClipOval(child: Image.file(snapshot.data))),
                                 fallbackBuilder: (_) => SizedBox(
-                                    width: 150,
-                                    height: 150,
-                                    child: CircleAvatar(backgroundColor: Colors.black)),
+                                    width: 150, height: 150, child: CircleAvatar(backgroundColor: Colors.black)),
                               );
                             })
                         : SizedBox(width: 150, height: 150, child: ClipOval(child: companyImage)),
@@ -76,12 +72,10 @@ class EditCompanyDetailsPage extends BlocWidget<EditCompanyDetailsBloc> {
               _companyNameField(localeBundle, bloc),
               labeledSwitch(
                   text: localeBundle.visible,
-                  initialPosition:
-                      bloc.state.request.visibility == describeEnum(VisibilityStatus.VISIBLE),
+                  initialPosition: bloc.state.request.visibility == describeEnum(VisibilityStatus.VISIBLE),
                   onSwitch: (visible) => bloc.add(FormChanged(
                       request: bloc.state.request.copyWith(
-                          visibility: describeEnum(
-                              visible ? VisibilityStatus.VISIBLE : VisibilityStatus.HIDDEN))))),
+                          visibility: describeEnum(visible ? VisibilityStatus.VISIBLE : VisibilityStatus.HIDDEN))))),
               BlocProvider(
                 create: (BuildContext context) => CountriesBloc()..add(FetchCountries()),
                 child: BlocBuilder<CountriesBloc, CountriesState>(
@@ -90,8 +84,7 @@ class EditCompanyDetailsPage extends BlocWidget<EditCompanyDetailsBloc> {
                     if (state is CountriesFetchingSuccess) {
                       return BlocBuilder<EditCompanyDetailsBloc, EditCompanyDetailsState>(
                         buildWhen: (previousPageState, currentPageState) =>
-                            previousPageState.request.countryName !=
-                            currentPageState.request.countryName,
+                            previousPageState.request.countryName != currentPageState.request.countryName,
                         builder: (context, pageState) => Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -108,9 +101,8 @@ class EditCompanyDetailsPage extends BlocWidget<EditCompanyDetailsBloc> {
                                   child: Text(state.countries.elementAt(index).name),
                                 ),
                               ),
-                              onChanged: (String chosenCountry) => bloc.add(FormChanged(
-                                  request:
-                                      bloc.state.request.copyWith(countryName: chosenCountry))),
+                              onChanged: (String chosenCountry) => bloc
+                                  .add(FormChanged(request: bloc.state.request.copyWith(countryName: chosenCountry))),
                             ),
                           ],
                         ),
@@ -125,8 +117,8 @@ class EditCompanyDetailsPage extends BlocWidget<EditCompanyDetailsBloc> {
                 padding: const EdgeInsets.only(top: 60.0),
                 child: SubmitFormButton(
                   isActive: true,
-                  onTap: () => bloc.add(FormSubmitted(
-                      request: bloc.state.request, companyImage: bloc.state.companyImage)),
+                  onTap: () =>
+                      bloc.add(FormSubmitted(request: bloc.state.request, companyImage: bloc.state.companyImage)),
                   text: "Submit",
                 ),
               )
@@ -146,8 +138,7 @@ class EditCompanyDetailsPage extends BlocWidget<EditCompanyDetailsBloc> {
           inputType: InputType.text,
           hintText: locale.addSpotNameHint,
           initialValue: bloc.state.request.companyName,
-          onChanged: (String name) =>
-              bloc.add(FormChanged(request: bloc.state.request.copyWith(companyName: name))),
+          onChanged: (String name) => bloc.add(FormChanged(request: bloc.state.request.copyWith(companyName: name))),
         ),
       ],
     );

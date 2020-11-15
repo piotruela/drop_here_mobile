@@ -1,4 +1,4 @@
-import 'package:drop_here_mobile/accounts/bloc/login_bloc.dart';
+import 'package:drop_here_mobile/accounts/bloc/login_bloc/login_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/choose_profile_page.dart';
@@ -71,22 +71,18 @@ class LoginPage extends BlocWidget<LoginBloc> {
                 DhTextFormField(
                   labelText: Localization.of(context).bundle.email,
                   initialValue: bloc.state?.form?.mail ?? '',
-                  onChanged: (value) =>
-                      bloc.add(FormChanged(form: bloc.state.form.copyWith(mail: value))),
+                  onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(mail: value))),
                 ),
                 DhTextFormField(
                     labelText: Localization.of(context).bundle.password,
                     initialValue: bloc.state?.form?.password ?? '',
-                    onChanged: (value) =>
-                        bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value)))),
+                    onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value)))),
                 DhButton(
-                  onPressed: () => bloc.add(
-                      FormSubmitted(isValid: key.currentState.validate(), form: bloc.state.form)),
+                  onPressed: () => bloc.add(FormSubmitted(isValid: key.currentState.validate(), form: bloc.state.form)),
                   text: Localization.of(context).bundle.logIn,
                   backgroundColor: themeConfig.colors.primary1,
                 ),
-                Text(Localization.of(context).bundle.or,
-                    style: themeConfig.textStyles.secondaryTitle),
+                Text(Localization.of(context).bundle.or, style: themeConfig.textStyles.secondaryTitle),
                 DhButton(
                   onPressed: () => bloc.add(FacebookSigningSubmitted()),
                   text: Localization.of(context).bundle.logInWithFacebook,

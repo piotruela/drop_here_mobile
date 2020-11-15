@@ -1,4 +1,4 @@
-import 'package:drop_here_mobile/accounts/bloc/registration_bloc.dart';
+import 'package:drop_here_mobile/accounts/bloc/registration_bloc/registration_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/registration_page.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';

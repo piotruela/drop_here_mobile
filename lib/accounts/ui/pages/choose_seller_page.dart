@@ -1,4 +1,4 @@
-import 'package:drop_here_mobile/accounts/bloc/choose_seller_bloc.dart';
+import 'package:drop_here_mobile/accounts/bloc/choose_seller_bloc/choose_seller_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/seller_card.dart';
