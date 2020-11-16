@@ -1,26 +1,26 @@
 import 'dart:io';
 
+import 'package:drop_here_mobile/accounts/bloc/client_details_registration_bloc/client_details_registration_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/spots/ui/pages/customer_map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class ClientDetailsRegistrationPage extends StatefulWidget {
-  @override
-  _ClientDetailsRegistrationPageState createState() => _ClientDetailsRegistrationPageState();
-}
-
-class _ClientDetailsRegistrationPageState extends State<ClientDetailsRegistrationPage> {
+class ClientDetailsRegistrationPage extends BlocWidget<ClientDetailsRegistrationBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final picker = ImagePicker();
-  File _image;
+  @override
+  ClientDetailsRegistrationBloc bloc() => ClientDetailsRegistrationBloc();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+      BuildContext context, ClientDetailsRegistrationBloc bloc, BlocWidgetState widgetState) {
     return MainLayout(
       child: Scaffold(
         backgroundColor: Colors.transparent,
@@ -53,8 +53,8 @@ class _ClientDetailsRegistrationPageState extends State<ClientDetailsRegistratio
                         child: CircleAvatar(
                           radius: 50.0,
                           child: ClipOval(
-                            child: (_image != null)
-                                ? Image.file(_image)
+                            child: (state.photo != null)
+                                ? Image.file(state.photo)
                                 : CircleAvatar(
                                     backgroundColor: themeConfig.colors.primary1,
                                     radius: 50.0,
@@ -97,7 +97,9 @@ class _ClientDetailsRegistrationPageState extends State<ClientDetailsRegistratio
                       labelText: Localization.of(context).bundle.lastName,
                       padding: EdgeInsets.only(left: 40, right: 40.0, top: 13.0, bottom: 20.0)),
                   DhButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      bloc.add(SubmitForm());
+                    },
                     text: Localization.of(context).bundle.continueText,
                     backgroundColor: themeConfig.colors.primary1,
                   ),
@@ -112,9 +114,6 @@ class _ClientDetailsRegistrationPageState extends State<ClientDetailsRegistratio
 
   Future getImage() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    setState(() {
-      _image = File(pickedFile.path);
-    });
+    state.image = File(pickedFile.path);
   }
 }
