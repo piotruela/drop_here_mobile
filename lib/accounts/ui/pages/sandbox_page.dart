@@ -80,8 +80,7 @@ class SandboxPage extends StatelessWidget {
                 FlatButton(
                     child: Text("Log in to customer account"),
                     onPressed: () => authenticationService
-                        .authenticate(LoginRequest(mail: "abc@abc.com", password: "12345678"))),
-                //authenticationService.authenticate(LoginRequest(mail: "klient@g.pl", password: "12345678"))),
+                        .authenticate(LoginRequest(mail: "klient@g.pl", password: "12345678"))),
                 FlatButton(
                     child: Text("log out from account"),
                     onPressed: () => authenticationService.logOutFromAccount()),
