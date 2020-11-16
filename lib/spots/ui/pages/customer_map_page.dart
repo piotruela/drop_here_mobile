@@ -36,38 +36,38 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
   @override
   Widget build(BuildContext context, CustomerSpotsBloc bloc, _) {
     return BlocProvider(
-        create: (context) {
-          if (spotDetailsOnLoadEvent != null) {
-            return SpotDetailsBloc()..add(spotDetailsOnLoadEvent);
-          }
-          return SpotDetailsBloc();
-        },
-        child: Scaffold(
-            body: BlocBuilder<CustomerSpotsBloc, CustomerSpotsState>(
-              buildWhen: (previous, current) => previous.type != current.type,
-              builder: (context, state) => ConditionalSwitch.single(
-                  context: context,
-                  valueBuilder: (_) => state.type,
-                  caseBuilders: {
-                    CustomerSpotsStateType.failure: (_) {
-                      bloc.add(FetchSpotsEvent(
-                          radius: _radius, xCoordinate: initialXCoordinate, yCoordinate: initialYCoordinate));
+      create: (context) {
+        if (spotDetailsOnLoadEvent != null) {
+          return SpotDetailsBloc()..add(spotDetailsOnLoadEvent);
+        }
+        return SpotDetailsBloc();
+      },
+      child: Scaffold(
+          body: BlocBuilder<CustomerSpotsBloc, CustomerSpotsState>(
+            buildWhen: (previous, current) => previous.type != current.type,
+            builder: (context, state) => ConditionalSwitch.single(
+                context: context,
+                valueBuilder: (_) => state.type,
+                caseBuilders: {
+                  CustomerSpotsStateType.failure: (_) {
+                    bloc.add(FetchSpotsEvent(
+                        radius: _radius, xCoordinate: initialXCoordinate, yCoordinate: initialYCoordinate));
 
-                      return Center(child: CircularProgressIndicator());
-                    },
-                    CustomerSpotsStateType.spot_managed: (_) {
-                      bloc.add(FetchSpotsEvent(
-                          radius: _radius, xCoordinate: initialXCoordinate, yCoordinate: initialYCoordinate));
-                      BlocProvider.of<SpotDetailsBloc>(context).add(CloseSpotDetailsPanel());
-                      return Center(child: CircularProgressIndicator());
-                    },
-                    CustomerSpotsStateType.loading: (_) => Center(child: CircularProgressIndicator()),
-                    CustomerSpotsStateType.success: (_) =>
-                        _buildPageContent(context, bloc, state.spots, panelController)
+                    return Center(child: CircularProgressIndicator());
                   },
-                  fallbackBuilder: (_) => SizedBox.shrink()),
-            ),
-            bottomNavigationBar: CustomerBottomBar(sectionIndex: 2)));
+                  CustomerSpotsStateType.spot_managed: (_) {
+                    bloc.add(FetchSpotsEvent(
+                        radius: _radius, xCoordinate: initialXCoordinate, yCoordinate: initialYCoordinate));
+                    BlocProvider.of<SpotDetailsBloc>(context).add(CloseSpotDetailsPanel());
+                    return Center(child: CircularProgressIndicator());
+                  },
+                  CustomerSpotsStateType.loading: (_) => Center(child: CircularProgressIndicator()),
+                  CustomerSpotsStateType.success: (_) => _buildPageContent(context, bloc, state.spots, panelController)
+                },
+                fallbackBuilder: (_) => SizedBox.shrink()),
+          ),
+          bottomNavigationBar: CustomerBottomBar(sectionIndex: 2)),
+    );
   }
 
   Widget _buildPageContent(
@@ -112,14 +112,15 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
   }
 
   Set<Marker> _convertSpotsToMarkers(
-          BuildContext context, SpotDetailsBloc spotDetailsBloc, List<SpotBaseCustomerResponse> spots) =>
-      spots
-          .map((spot) => Marker(
-              onTap: () => spotDetailsBloc.add(FetchSpotDetailsEvent(spotUid: spot.uid)),
-              icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
-              position: LatLng(spot.xcoordinate, spot.ycoordinate),
-              markerId: MarkerId(spot.uid)))
-          .toSet();
+      BuildContext context, SpotDetailsBloc spotDetailsBloc, List<SpotBaseCustomerResponse> spots) {
+    return spots
+        .map((spot) => Marker(
+            onTap: () => spotDetailsBloc.add(FetchSpotDetailsEvent(spotUid: spot.uid)),
+            icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange),
+            position: LatLng(spot.xcoordinate, spot.ycoordinate),
+            markerId: MarkerId(spot.uid)))
+        .toSet();
+  }
 
   Widget _spotsPanel(
       BuildContext context, SpotDetailsBloc bloc, List<SpotBaseCustomerResponse> spots, ScrollController controller) {
