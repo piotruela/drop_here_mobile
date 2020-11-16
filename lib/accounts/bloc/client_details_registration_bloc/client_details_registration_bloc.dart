@@ -42,7 +42,7 @@ class ClientDetailsRegistrationBloc
       void updateResponse = await customerManagementService.updateCustomerInfo(
           CustomerManagementRequest(firstName: state.firstName, lastName: state.lastName));
       void photoResponse = await accountService.uploadProfilePhoto(state.photo);
-      Get.to(CustomerMapPage());
+      Get.offAll(CustomerMapPage());
     }
   }
 }
