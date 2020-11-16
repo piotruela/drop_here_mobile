@@ -2,36 +2,8 @@ import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
-import 'package:drop_here_mobile/products/model/order_product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-class OrderProductCard extends ProductCard {
-  final OrderProductModel product;
-  final LocaleBundle locale;
-
-  OrderProductCard({@required this.product, @required this.locale});
-
-  @override
-  String get name => product.productResponse.name;
-
-  @override
-  // TODO: implement onExitPressed
-  get onExitPressed => null;
-
-  @override
-  String get firstLine => product.amount.toString() + ' ' + product.productResponse.unit;
-
-  @override
-  String get secondLine => product.fullPrice.toString() + ' ' + locale.currency;
-
-  @override
-  // TODO: implement photo
-  Widget get photo => SizedBox.shrink();
-
-  @override
-  bool get hasRemoveIcon => true;
-}
 
 abstract class ProductCard extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -64,8 +36,7 @@ abstract class ProductCard extends StatelessWidget {
               height: 96,
               child: ClipRRect(
                 child: SizedBox(width: 150, height: 150, child: ClipOval(child: photo)),
-                borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
               ),
             ),
             Padding(

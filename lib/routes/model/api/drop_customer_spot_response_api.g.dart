@@ -75,3 +75,51 @@ const _$DropStatusEnumMap = {
   DropStatus.FINISHED: 'FINISHED',
   DropStatus.LIVE: 'LIVE',
 };
+
+DropDetailedCustomerResponse _$DropDetailedCustomerResponseFromJson(
+    Map<String, dynamic> json) {
+  return DropDetailedCustomerResponse(
+    acceptShipmentsAutomatically: json['acceptShipmentsAutomatically'] as bool,
+    description: json['description'] as String,
+    endTime: json['endTime'] == null
+        ? null
+        : DateTime.parse(json['endTime'] as String),
+    name: json['name'] as String,
+    products: (json['products'] as List)
+        ?.map((e) => e == null
+            ? null
+            : RouteProductRouteResponse.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    profileFirstName: json['profileFirstName'] as String,
+    profileLastName: json['profileLastName'] as String,
+    profileUid: json['profileUid'] as String,
+    spot: json['spot'] == null
+        ? null
+        : SpotBaseCustomerResponse.fromJson(
+            json['spot'] as Map<String, dynamic>),
+    startTime: json['startTime'] == null
+        ? null
+        : DateTime.parse(json['startTime'] as String),
+    status: _$enumDecodeNullable(_$DropStatusEnumMap, json['status']),
+    streamingPosition: json['streamingPosition'] as bool,
+    uid: json['uid'] as String,
+  );
+}
+
+Map<String, dynamic> _$DropDetailedCustomerResponseToJson(
+        DropDetailedCustomerResponse instance) =>
+    <String, dynamic>{
+      'acceptShipmentsAutomatically': instance.acceptShipmentsAutomatically,
+      'description': instance.description,
+      'endTime': instance.endTime?.toIso8601String(),
+      'name': instance.name,
+      'products': instance.products,
+      'profileFirstName': instance.profileFirstName,
+      'profileLastName': instance.profileLastName,
+      'profileUid': instance.profileUid,
+      'spot': instance.spot,
+      'startTime': instance.startTime?.toIso8601String(),
+      'status': _$DropStatusEnumMap[instance.status],
+      'streamingPosition': instance.streamingPosition,
+      'uid': instance.uid,
+    };

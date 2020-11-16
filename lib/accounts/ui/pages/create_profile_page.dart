@@ -1,7 +1,6 @@
-import 'package:drop_here_mobile/accounts/bloc/create_profile_bloc.dart';
+import 'package:drop_here_mobile/accounts/bloc/create_profile_bloc/create_profile_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/company_details_registration_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -9,9 +8,11 @@ import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
+import 'package:drop_here_mobile/management/ui/pages/management_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
+
 
 abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
@@ -31,9 +32,8 @@ abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
                 if (state is SuccessState) {
                   Get.offAll(getNextPage());
                 } else if (state is ErrorState) {
-                  Scaffold.of(context).showSnackBar(SnackBar(
-                      content:
-                          Text(localeBundle.registrationError + localeBundle.unexpectedError)));
+                  Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text(localeBundle.registrationError + localeBundle.unexpectedError)));
                 }
               },
               buildWhen: (previous, current) => previous.runtimeType != current.runtimeType,
@@ -60,23 +60,19 @@ abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
                 child: Text(getTitleText(context), style: themeConfig.textStyles.secondaryTitle),
               ),
               DhTextFormField(
-                  onChanged: (value) =>
-                      bloc.add(FormChanged(form: bloc.state.form.copyWith(firstName: value))),
+                  onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(firstName: value))),
                   labelText: Localization.of(context).bundle.firstName,
                   padding: EdgeInsets.only(left: 40, right: 40.0)),
               DhTextFormField(
-                  onChanged: (value) =>
-                      bloc.add(FormChanged(form: bloc.state.form.copyWith(lastName: value))),
+                  onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(lastName: value))),
                   labelText: Localization.of(context).bundle.lastName,
                   padding: EdgeInsets.only(left: 40, right: 40.0)),
               DhTextFormField(
-                  onChanged: (value) =>
-                      bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value))),
+                  onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value))),
                   labelText: Localization.of(context).bundle.password,
                   padding: EdgeInsets.only(left: 40, right: 40.0, bottom: 20.0)),
               DhButton(
-                onPressed: () =>
-                    bloc.add(FormSubmitted(form: bloc.state.form, profileRole: profileRole)),
+                onPressed: () => bloc.add(FormSubmitted(form: bloc.state.form, profileRole: profileRole)),
                 text: "Create",
                 backgroundColor: themeConfig.colors.primary1,
               ),

@@ -1,18 +1,61 @@
-import 'package:drop_here_mobile/accounts/ui/pages/management_page.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/management/ui/pages/customer_details_page.dart';
+import 'package:drop_here_mobile/management/ui/pages/management_page.dart';
+import 'package:drop_here_mobile/products/ui/pages/products_list_page.dart';
 import 'package:drop_here_mobile/shipments/ui/pages/dashboard_page.dart';
 import 'package:drop_here_mobile/spots/ui/pages/company_map_page.dart';
+import 'package:drop_here_mobile/spots/ui/pages/customer_map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-class DHBottomBar extends StatelessWidget {
+class CustomerBottomBar extends DHBottomBar {
+  final int sectionIndex;
+
+  CustomerBottomBar({this.sectionIndex}) : super(selectedIndex: sectionIndex);
+
+  @override
+  List<VoidCallback> get bottomBarActions => [
+        () => {}, //TODO navigate to shipments list
+        () => {}, //TODO: navigate to ??
+        () => Get.offAll(CustomerMapPage()),
+        () => Get.offAll(CustomerDetailsPage())
+      ];
+}
+
+class CompanyBottomBar extends DHBottomBar {
+  final PanelController controller;
+  final int sectionIndex;
+
+  CompanyBottomBar({this.controller, this.sectionIndex}) : super(selectedIndex: sectionIndex);
+
+  @override
+  Widget centerButton() => FloatingActionButton(
+        backgroundColor: themeConfig.colors.primary1,
+        onPressed: () => controller.open(),
+        child: Container(
+          margin: EdgeInsets.all(10.0),
+          child: Icon(Icons.add),
+        ),
+        elevation: 4.0,
+      );
+
+  @override
+  List<VoidCallback> get bottomBarActions => [
+        () => Get.offAll(DashboardPage()),
+        () => Get.offAll(ProductsListPage()),
+        () => Get.offAll(CompanyMapPage()),
+        () => Get.offAll(ManagementPage())
+      ];
+}
+
+abstract class DHBottomBar extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final int selectedIndex;
-  final PanelController controller;
 
-  DHBottomBar({this.selectedIndex, this.controller});
+  List<VoidCallback> get bottomBarActions;
+
+  DHBottomBar({this.selectedIndex});
 
   @override
   Widget build(BuildContext context) {
@@ -35,8 +78,7 @@ class DHBottomBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
             IconButton(
-              //update the bottom app bar view each time an item is clicked
-              onPressed: () => Get.to(DashboardPage()),
+              onPressed: bottomBarActions[0],
               iconSize: 35.0,
               icon: Icon(
                 Icons.home,
@@ -44,25 +86,16 @@ class DHBottomBar extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () => Get.to(ProductsListPage()),
+              onPressed: bottomBarActions[1],
               iconSize: 35.0,
               icon: Icon(
                 Icons.shopping_basket,
                 color: selectedIndex == 1 ? themeConfig.colors.primary1 : themeConfig.colors.textFieldHint,
               ),
             ),
-            FloatingActionButton(
-              backgroundColor: themeConfig.colors.primary1,
-              onPressed: () => controller.open(),
-              child: Container(
-                margin: EdgeInsets.all(10.0),
-                child: Icon(Icons.add),
-              ),
-              elevation: 4.0,
-            ),
-            //to leave space in between the bottom app bar items and below the FAB
+            centerButton(),
             IconButton(
-              onPressed: () => Get.to(CompanyMapPage()),
+              onPressed: bottomBarActions[2],
               iconSize: 35.0,
               icon: Icon(
                 Icons.map,
@@ -70,9 +103,7 @@ class DHBottomBar extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {
-                Get.to(ManagementPage());
-              },
+              onPressed: bottomBarActions[3],
               iconSize: 35.0,
               icon: Icon(
                 Icons.person,
@@ -84,4 +115,6 @@ class DHBottomBar extends StatelessWidget {
       ),
     );
   }
+
+  Widget centerButton() => SizedBox.shrink();
 }

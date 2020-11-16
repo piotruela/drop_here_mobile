@@ -1,9 +1,10 @@
-import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
-import 'package:drop_here_mobile/accounts/ui/pages/product_details_page.dart';
+import 'package:drop_here_mobile/accounts/bloc/list_bloc/dh_list_bloc.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/products/ui/pages/product_details_page.dart';
+import 'package:drop_here_mobile/products/ui/pages/products_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -24,7 +25,10 @@ class ProductCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 7.0),
       child: Container(
         child: ListTile(
-          onTap: () => Get.to(ProductDetailsPage(product: product)),
+          onTap: () => Get.to(ProductDetailsPage(
+            product: product,
+            backAction: () => Get.to(ProductsListPage()),
+          )),
           leading: productPhoto(context),
           title: Text(
             product.name,

@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/edit_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/seller_card.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -8,8 +9,9 @@ import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/products/ui/widgets/products_carousel.dart';
-import 'package:drop_here_mobile/routes/bloc/route_details_bloc.dart';
+import 'package:drop_here_mobile/routes/bloc/route_details_bloc/route_details_bloc.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
+import 'package:drop_here_mobile/routes/ui/pages/manage_route_page.dart';
 import 'package:drop_here_mobile/routes/ui/widgets/drop_card.dart';
 import 'package:drop_here_mobile/shipments/ui/pages/dashboard_page.dart';
 import 'package:flutter/foundation.dart';
@@ -57,10 +59,7 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
                   padding: EdgeInsets.zero,
                   backAction: () => Get.to(DashboardPage()),
                 ),
-                Text(
-                  state.route.name,
-                  style: themeConfig.textStyles.primaryTitle,
-                ),
+                pageTitle(bloc, state.route.name),
                 textAndFlatButton(localeBundle.date, state.route.routeDate),
                 textAndFlatButton("Auto-accept orders",
                     state.route.acceptShipmentsAutomatically ? localeBundle.yes : localeBundle.no),
@@ -85,10 +84,12 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
                       ),
                 SizedBox(height: 8.0),
                 annotationText(localeBundle.drops),
-                dropsCarousel(state.route.drops),
+                bloc.state.route.drops.isNotEmpty ? dropsCarousel(state.route.drops) : noContentText,
                 SizedBox(height: 8.0),
                 annotationText(localeBundle.products),
-                productsCarousel(localeBundle, state.route.products),
+                bloc.state.route.products.isNotEmpty
+                    ? productsCarousel(localeBundle, state.route.products)
+                    : noContentText,
                 SizedBox(height: 30.0),
               ],
             ),
@@ -98,10 +99,31 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
     );
   }
 
+  Widget pageTitle(RouteDetailsBloc bloc, String text) {
+    return Wrap(
+      children: [
+        Text(
+          text,
+          style: themeConfig.textStyles.primaryTitle,
+        ),
+        SizedBox(
+          width: 10.0,
+        ),
+        bloc.state.route.status == RouteStatus.UNPREPARED
+            ? editButton(onPressed: () {
+                Get.to(EditRoutePage(
+                  route: bloc.state.route,
+                ));
+              })
+            : SizedBox.shrink(),
+      ],
+    );
+  }
+
   CarouselSlider dropsCarousel(List<DropRouteResponse> drops) {
     return CarouselSlider(
         options: CarouselOptions(
-          aspectRatio: 14 / 7.4,
+          aspectRatio: 12 / 7.4,
           enableInfiniteScroll: false,
           viewportFraction: 0.5,
           initialPage: 0,
@@ -126,6 +148,9 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
       ],
     );
   }
+
+  Widget get noContentText => Padding(
+      padding: EdgeInsets.symmetric(vertical: 5.0), child: Text("No content", style: themeConfig.textStyles.data));
 
   Text annotationText(String text) {
     return Text(

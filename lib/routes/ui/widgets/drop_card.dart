@@ -1,9 +1,11 @@
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/utils/datetime_utils.dart';
+import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/routes/model/api/drop_customer_spot_response_api.dart';
 import 'package:drop_here_mobile/routes/model/route_request_api.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
+import 'package:drop_here_mobile/routes/ui/pages/drop_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -26,6 +28,27 @@ class CompanyRouteDetailsDropCard extends DropCard {
 
   @override
   Widget get extraField => infoLine(Icons.pin_drop_outlined, Colors.black, drop.spot.name);
+}
+
+class CompanyProductDetailsDropCard extends DropCard {
+  final DropProductResponse drop;
+
+  CompanyProductDetailsDropCard({this.drop});
+
+  @override
+  String get endTime => drop.endTime.toTime();
+
+  @override
+  String get name => drop.name;
+
+  @override
+  get onExitPressed => null;
+
+  @override
+  String get startTime => drop.startTime.toTime();
+
+  @override
+  Widget get extraField => infoLine(Icons.pin_drop_outlined, Colors.black, drop.spotName);
 }
 
 class CompanyRouteDropCard extends DropCard {
@@ -57,16 +80,23 @@ class CustomerSpotDropCard extends DropCard {
   CustomerSpotDropCard({this.drop});
 
   @override
-  String get startTime => drop.startTime.toTime();
+  String get startTime => drop.startTime.toStringWithoutYear();
 
   @override
-  String get endTime => drop.endTime.toTime();
+  String get endTime => drop.endTime.toStringWithoutYear();
 
   @override
   String get name => drop.name;
 
   @override
   get onExitPressed => null;
+
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+      onTap: () => Get.to(DropDetailsPage(
+            dropUid: drop.uid,
+          )),
+      child: super.build(context));
 }
 
 abstract class DropCard extends StatelessWidget {

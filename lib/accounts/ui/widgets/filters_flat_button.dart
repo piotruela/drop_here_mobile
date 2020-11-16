@@ -1,5 +1,5 @@
 import 'package:bloc/bloc.dart';
-import 'package:drop_here_mobile/accounts/bloc/dh_list_bloc.dart';
+import 'package:drop_here_mobile/accounts/bloc/list_bloc/dh_list_bloc.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:flutter/material.dart';

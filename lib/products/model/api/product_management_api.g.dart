@@ -18,7 +18,7 @@ ProductResponse _$ProductResponseFromJson(Map<String, dynamic> json) {
             ? null
             : DropProductResponse.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    productCustomizationWrappers: (json['productCustomizationWrappers'] as List)
+    customizationsWrappers: (json['customizationsWrappers'] as List)
         ?.map((e) => e == null
             ? null
             : ProductCustomizationWrapperResponse.fromJson(
@@ -37,7 +37,7 @@ Map<String, dynamic> _$ProductResponseToJson(ProductResponse instance) =>
       'name': instance.name,
       'price': instance.price,
       'drops': instance.drops,
-      'productCustomizationWrappers': instance.productCustomizationWrappers,
+      'customizationsWrappers': instance.customizationsWrappers,
       'unit': instance.unit,
       'unitFraction': instance.unitFraction,
     };

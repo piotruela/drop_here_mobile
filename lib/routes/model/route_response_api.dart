@@ -1,5 +1,5 @@
 import 'package:drop_here_mobile/common/ui/utils/datetime_utils.dart';
-import 'package:drop_here_mobile/locale/locale_bundle.dart';
+import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/routes/model/route_request_api.dart';
@@ -124,19 +124,21 @@ class RouteProductRouteResponse {
   final int id;
   final bool limitedAmount;
   final double price;
-  final ProductResponse productResponse;
+  final ProductResponse originalProductResponse;
+  final ProductResponse routeProductResponse;
 
-  RouteProductRouteResponse({this.amount, this.id, this.limitedAmount, this.price, this.productResponse});
+  RouteProductRouteResponse(
+      {this.amount, this.id, this.limitedAmount, this.price, this.originalProductResponse, this.routeProductResponse});
 
   factory RouteProductRouteResponse.fromJson(Map<String, dynamic> json) => _$RouteProductRouteResponseFromJson(json);
   Map<String, dynamic> toJson() => _$RouteProductRouteResponseToJson(this);
 
-  String toPricePerUnit(LocaleBundle locale) {
-    return price.toString() + locale.currency + '/' + productResponse.unit;
-  }
+  String get pricePerUnit => "${formatPrice(price)}/${routeProductResponse.unit}";
 
-  RouteProductRequest get toRouteProductRequest =>
-      RouteProductRequest(amount: amount, limitedAmount: limitedAmount, price: price, productId: productResponse.id);
+  String get productAmountToString => "Amount:  ${!limitedAmount ? "unlimited" : amount}";
+
+  RouteProductRequest get toRouteProductRequest => RouteProductRequest(
+      amount: amount, limitedAmount: limitedAmount, price: price, productId: routeProductResponse.id);
 }
 
 enum RouteStatus { UNPREPARED, PREPARED, CANCELLED, ONGOING, FINISHED }

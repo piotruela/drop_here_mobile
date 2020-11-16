@@ -11,7 +11,7 @@ class ProductResponse {
   final String name;
   final double price;
   final List<DropProductResponse> drops;
-  final List<ProductCustomizationWrapperResponse> productCustomizationWrappers;
+  final List<ProductCustomizationWrapperResponse> customizationsWrappers;
   final String unit;
   final double unitFraction;
 
@@ -24,7 +24,7 @@ class ProductResponse {
       price: price,
       unit: unit,
       unitFraction: unitFraction,
-      productCustomizationWrappers: []);
+      productCustomizationWrappers: customizationsWrappers?.map((e) => e.toRequest())?.toList() ?? []);
 
   ProductResponse(
       {this.id,
@@ -33,7 +33,7 @@ class ProductResponse {
       this.name,
       this.price,
       this.drops,
-      this.productCustomizationWrappers,
+      this.customizationsWrappers,
       this.unit,
       this.unitFraction});
 
@@ -97,14 +97,6 @@ class ProductCustomizationWrapperRequest {
   factory ProductCustomizationWrapperRequest.fromJson(Map<String, dynamic> json) =>
       _$ProductCustomizationWrapperRequestFromJson(json);
   Map<String, dynamic> toJson() => _$ProductCustomizationWrapperRequestToJson(this);
-
-  ProductCustomizationWrapperRequest copyWith(
-      {List<ProductCustomizationRequest> customizations, String heading, String type}) {
-    return ProductCustomizationWrapperRequest(
-        customizations: customizations ?? this.customizations,
-        heading: heading ?? this.heading,
-        type: type ?? this.type);
-  }
 }
 
 enum CustomizationType { SINGLE, MULTIPLE }
@@ -118,10 +110,6 @@ class ProductCustomizationRequest {
   factory ProductCustomizationRequest.fromJson(Map<String, dynamic> json) =>
       _$ProductCustomizationRequestFromJson(json);
   Map<String, dynamic> toJson() => _$ProductCustomizationRequestToJson(this);
-
-  ProductCustomizationRequest copyWith({double price, String value}) {
-    return ProductCustomizationRequest(price: price ?? this.price, value: value ?? this.value);
-  }
 }
 
 @JsonSerializable()
@@ -148,18 +136,19 @@ class ProductCustomizationWrapperResponse {
   final String heading;
   final bool required;
   final CustomizationType type;
+
+  ProductCustomizationWrapperRequest toRequest() => ProductCustomizationWrapperRequest(
+      heading: heading,
+      type: type,
+      required: required,
+      customizations: customizations?.map((e) => e.toRequest())?.toList() ?? []);
+
   ProductCustomizationWrapperResponse({this.id, this.customizations, this.heading, this.required, this.type});
+
   factory ProductCustomizationWrapperResponse.fromJson(Map<String, dynamic> json) =>
       _$ProductCustomizationWrapperResponseFromJson(json);
-  Map<String, dynamic> toJson() => _$ProductCustomizationWrapperResponseToJson(this);
 
-  ProductCustomizationWrapperResponse copyWith(
-      {List<ProductCustomizationWrapperResponse> customizations, String heading, String type}) {
-    return ProductCustomizationWrapperResponse(
-        customizations: customizations ?? this.customizations,
-        heading: heading ?? this.heading,
-        type: type ?? this.type);
-  }
+  Map<String, dynamic> toJson() => _$ProductCustomizationWrapperResponseToJson(this);
 }
 
 @JsonSerializable()
@@ -177,9 +166,7 @@ class ProductCustomizationResponse {
 
   Map<String, dynamic> toJson() => _$ProductCustomizationResponseToJson(this);
 
-  ProductCustomizationResponse copyWith({double price, String value}) {
-    return ProductCustomizationResponse(price: price ?? this.price, value: value ?? this.value);
-  }
+  ProductCustomizationRequest toRequest() => ProductCustomizationRequest(price: price, value: value);
 }
 
 @JsonSerializable()

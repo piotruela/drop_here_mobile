@@ -13,7 +13,7 @@ class SpotsUserService {
         canRepeatRequest: true,
         path: "/spots?${spotCustomerRequest?.toQueryParams() ?? ''}",
         out: (dynamic json) => json);
-    return response.map((element) => SpotBaseCustomerResponse.fromJson(element)).toList();
+    return response?.map((element) => SpotBaseCustomerResponse.fromJson(element))?.toList();
   }
 
   Future<SpotDetailedCustomerResponse> getSpotDetails(String spotUid) async {

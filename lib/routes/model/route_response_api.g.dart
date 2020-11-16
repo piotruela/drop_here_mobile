@@ -196,10 +196,14 @@ RouteProductRouteResponse _$RouteProductRouteResponseFromJson(
     id: json['id'] as int,
     limitedAmount: json['limitedAmount'] as bool,
     price: (json['price'] as num)?.toDouble(),
-    productResponse: json['productResponse'] == null
+    originalProductResponse: json['originalProductResponse'] == null
         ? null
         : ProductResponse.fromJson(
-            json['productResponse'] as Map<String, dynamic>),
+            json['originalProductResponse'] as Map<String, dynamic>),
+    routeProductResponse: json['routeProductResponse'] == null
+        ? null
+        : ProductResponse.fromJson(
+            json['routeProductResponse'] as Map<String, dynamic>),
   );
 }
 
@@ -210,5 +214,6 @@ Map<String, dynamic> _$RouteProductRouteResponseToJson(
       'id': instance.id,
       'limitedAmount': instance.limitedAmount,
       'price': instance.price,
-      'productResponse': instance.productResponse,
+      'originalProductResponse': instance.originalProductResponse,
+      'routeProductResponse': instance.routeProductResponse,
     };

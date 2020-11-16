@@ -9,8 +9,7 @@ class CustomerManagementRequest {
 
   CustomerManagementRequest({this.firstName, this.lastName});
 
-  factory CustomerManagementRequest.fromJson(Map<String, dynamic> json) =>
-      _$CustomerManagementRequestFromJson(json);
+  factory CustomerManagementRequest.fromJson(Map<String, dynamic> json) => _$CustomerManagementRequestFromJson(json);
   Map<String, dynamic> toJson() => _$CustomerManagementRequestToJson(this);
 }
 
@@ -22,7 +21,8 @@ class CustomerInfoResponse {
 
   CustomerInfoResponse({this.registered, this.firstName, this.lastName});
 
-  factory CustomerInfoResponse.fromJson(Map<String, dynamic> json) =>
-      _$CustomerInfoResponseFromJson(json);
+  factory CustomerInfoResponse.fromJson(Map<String, dynamic> json) => _$CustomerInfoResponseFromJson(json);
   Map<String, dynamic> toJson() => _$CustomerInfoResponseToJson(this);
+
+  String get customerFullName => "$firstName $lastName";
 }
