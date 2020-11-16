@@ -36,3 +36,17 @@ class ShipmentCustomizationRequest {
       _$ShipmentCustomizationRequestFromJson(json);
   Map<String, dynamic> toJson() => _$ShipmentCustomizationRequestToJson(this);
 }
+
+@JsonSerializable()
+class ShipmentCustomerDecisionRequest {
+  String comment;
+  CustomerDecision customerDecision;
+
+  ShipmentCustomerDecisionRequest({this.comment, this.customerDecision});
+
+  factory ShipmentCustomerDecisionRequest.fromJson(Map<String, dynamic> json) =>
+      _$ShipmentCustomerDecisionRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$ShipmentCustomerDecisionRequestToJson(this);
+}
+
+enum CustomerDecision { CANCEL }

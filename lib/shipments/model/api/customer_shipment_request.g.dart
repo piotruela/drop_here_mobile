@@ -58,3 +58,55 @@ Map<String, dynamic> _$ShipmentCustomizationRequestToJson(
     <String, dynamic>{
       'id': instance.id,
     };
+
+ShipmentCustomerDecisionRequest _$ShipmentCustomerDecisionRequestFromJson(
+    Map<String, dynamic> json) {
+  return ShipmentCustomerDecisionRequest(
+    comment: json['comment'] as String,
+    customerDecision: _$enumDecodeNullable(
+        _$CustomerDecisionEnumMap, json['customerDecision']),
+  );
+}
+
+Map<String, dynamic> _$ShipmentCustomerDecisionRequestToJson(
+        ShipmentCustomerDecisionRequest instance) =>
+    <String, dynamic>{
+      'comment': instance.comment,
+      'customerDecision': _$CustomerDecisionEnumMap[instance.customerDecision],
+    };
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$CustomerDecisionEnumMap = {
+  CustomerDecision.CANCEL: 'CANCEL',
+};
