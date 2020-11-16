@@ -49,8 +49,8 @@ class ShipmentDetailsPage extends BlocWidget<CompanyShipmentBloc> {
           AddNewItemPanel(controller: panelController)
         ],
       ),
-      bottomNavigationBar: DHBottomBar(
-        selectedIndex: 0,
+      bottomNavigationBar: CompanyBottomBar(
+        sectionIndex: 0,
       ),
     );
   }

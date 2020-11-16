@@ -19,6 +19,7 @@ import 'package:drop_here_mobile/notifications/services/observer_service/local_n
 import 'package:drop_here_mobile/notifications/services/observer_service/navigating_click_observer.dart';
 import 'package:drop_here_mobile/notifications/services/observer_service/notification_observer_service_factory.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
+import 'package:drop_here_mobile/routes/services/drops_user_service.dart';
 import 'package:drop_here_mobile/routes/services/route_management_service.dart';
 import 'package:drop_here_mobile/shipments/service/company_shipment_service.dart';
 import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
@@ -51,5 +52,6 @@ class ConfigBinding extends Bindings {
     Get.put(RouteManagementService());
     Get.put(SpotsUserService());
     Get.put(CompanyShipmentService());
+    Get.put(DropsUserService());
   }
 }

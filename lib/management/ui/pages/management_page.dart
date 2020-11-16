@@ -64,7 +64,7 @@ class ManagementPage extends StatelessWidget {
                     )
                   ],
                 ),
-                bottomNavigationBar: DHBottomBar(controller: panelController, selectedIndex: 3),
+                bottomNavigationBar: CompanyBottomBar(controller: panelController, sectionIndex: 3),
               ),
             ),
           ),

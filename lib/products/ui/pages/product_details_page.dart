@@ -21,8 +21,12 @@ class ProductDetailsPage extends StatelessWidget {
   final ProductResponse product;
   final bool editable;
   final VoidCallback backAction;
+  final bool limited;
+  final double availableAmount;
+  final double price;
 
-  ProductDetailsPage({this.product, this.editable = true, this.backAction});
+  ProductDetailsPage(
+      {this.product, this.editable = true, this.backAction, this.limited = true, this.availableAmount, this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +43,12 @@ class ProductDetailsPage extends StatelessWidget {
             pageTitle(product.name),
             pageSubtitle(product.category),
             buildInfoWithLabel(localeBundle, localeBundle.description, product.description),
-            LabeledCircledInfo(label: localeBundle.unitType, text: product.unit),
-            Divider(),
-            LabeledCircledInfo(label: localeBundle.price, text: product.productPrice),
-            Divider(),
+            LabeledCircledInfoWithDivider(label: localeBundle.unitType, text: product.unit),
+            LabeledCircledInfoWithDivider(label: localeBundle.price, text: formatPrice(price ?? product.price)),
+            availableAmount != null
+                ? LabeledCircledInfoWithDivider(
+                    label: "Available amount", text: formatAmount(limited: limited, amount: availableAmount))
+                : SizedBox.shrink(),
             LabeledCircledInfo(label: localeBundle.unitFraction, text: product.unitFraction.toString()),
             sectionTitle("Customizations"),
             Conditional.single(

@@ -13,6 +13,8 @@ extension Formatting on DateTime {
   String toStringWithTime() {
     return DateFormat('yyyy-MM-dd, HH:mm').format(this);
   }
+
+  String toStringWithoutYear() => DateFormat('dd.MM, HH:mm').format(this);
 }
 
 extension Format on TimeOfDay {

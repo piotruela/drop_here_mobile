@@ -58,3 +58,8 @@ String formatPrice(double price) {
   }
   return "${price.toString()} zł";
 }
+
+String formatAmount({bool limited, double amount}) {
+  if (limited) return "$amount zł";
+  return "unlimited";
+}

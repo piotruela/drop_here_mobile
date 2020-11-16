@@ -39,7 +39,7 @@ class CompanyMapPage extends BlocWidget<CompanySpotsBloc> {
             },
             fallbackBuilder: (_) => SizedBox.shrink()),
       ),
-      bottomNavigationBar: DHBottomBar(controller: addNewItemPanelController, selectedIndex: 2),
+      bottomNavigationBar: CompanyBottomBar(controller: addNewItemPanelController, sectionIndex: 2),
     );
   }
 
