@@ -46,7 +46,7 @@ class ClientDetailsRegistrationPage extends BlocWidget<ClientDetailsRegistration
                       builder: (context, state) {
                         return DhTextFormField(
                             onChanged: (firstName) {
-                              bloc.add(ChangeForm(firstName, state.lastName));
+                              bloc.add(ChangeForm(firstName, bloc.state.lastName));
                             },
                             labelText: Localization.of(context).bundle.firstName,
                             padding:
@@ -58,7 +58,7 @@ class ClientDetailsRegistrationPage extends BlocWidget<ClientDetailsRegistration
                       builder: (context, state) {
                         return DhTextFormField(
                             onChanged: (lastName) {
-                              bloc.add(ChangeForm(state.firstName, lastName));
+                              bloc.add(ChangeForm(bloc.state.firstName, lastName));
                             },
                             labelText: Localization.of(context).bundle.lastName,
                             padding:

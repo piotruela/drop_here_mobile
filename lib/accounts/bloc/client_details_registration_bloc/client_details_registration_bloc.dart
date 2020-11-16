@@ -25,9 +25,11 @@ class ClientDetailsRegistrationBloc
   ) async* {
     if (event is ChangeForm) {
       yield ClientDetailRegistrationState(
-          type: ClientDetailRegistrationStateType.form_changed,
-          firstName: event.firstName,
-          lastName: event.lastName);
+        type: ClientDetailRegistrationStateType.form_changed,
+        firstName: event.firstName,
+        lastName: event.lastName,
+        photo: state.photo,
+      );
     } else if (event is AddPhoto) {
       final picker = ImagePicker();
       final pickedFile = await picker.getImage(source: ImageSource.gallery);
