@@ -10,8 +10,12 @@ class AddPhoto extends ClientDetailRegistrationEvent {
 }
 
 class ChangeForm extends ClientDetailRegistrationEvent {
+  final String firstName;
+  final String lastName;
+
+  ChangeForm(this.firstName, this.lastName);
   @override
-  List<Object> get props => [];
+  List<Object> get props => [firstName, lastName];
 }
 
 class SubmitForm extends ClientDetailRegistrationEvent {
