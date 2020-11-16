@@ -33,11 +33,12 @@ class ManageRouteBloc extends Bloc<ManageRouteEvent, ManageRouteState> {
       List<ProfileInfoResponse> profiles = await companyManagementService.fetchCompanySellers();
       final ProductsPage productsPage = await productManagementService.getCompanyProducts();
       final List<SpotCompanyResponse> spots = await spotManagementService.fetchCompanySpots();
+      final List<ProductResponse> products = productsPage.content + (event.alreadyAddedProducts ?? []);
       yield ManageRouteState(
           type: ManageRouteStateType.initial,
           routeRequest: event.routeRequest,
           sellerProfiles: profiles,
-          products: productsPage.content + event.alreadyAddedProducts,
+          products: products,
           spots: spots);
     } else if (event is FormChanged) {
       yield ManageRouteState(

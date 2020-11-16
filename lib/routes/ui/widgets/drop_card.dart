@@ -5,6 +5,7 @@ import 'package:drop_here_mobile/products/model/api/product_management_api.dart'
 import 'package:drop_here_mobile/routes/model/api/drop_customer_spot_response_api.dart';
 import 'package:drop_here_mobile/routes/model/route_request_api.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
+import 'package:drop_here_mobile/routes/ui/pages/drop_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -92,7 +93,9 @@ class CustomerSpotDropCard extends DropCard {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-      onTap: () => {}, //TODO: Get.to(DropDetailsPage())
+      onTap: () => Get.to(DropDetailsPage(
+            dropUid: drop.uid,
+          )),
       child: super.build(context));
 }
 

@@ -61,4 +61,9 @@ class DropDetailedCustomerResponse {
   factory DropDetailedCustomerResponse.fromJson(Map<String, dynamic> json) =>
       _$DropDetailedCustomerResponseFromJson(json);
   Map<String, dynamic> toJson() => _$DropDetailedCustomerResponseToJson(this);
+
+  String get sellerFullName => "$profileFirstName $profileLastName";
+
+  bool get shipmentsAvailable =>
+      status == DropStatus.PREPARED || status == DropStatus.DELAYED || status == DropStatus.LIVE;
 }
