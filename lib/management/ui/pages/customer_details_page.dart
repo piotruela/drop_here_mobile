@@ -79,10 +79,16 @@ class CustomerDetailsPage extends BlocWidget<CustomerDetailsBloc> {
               child: Icon(Icons.person),
             ),
             Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100.0),
                 child: FadeInImage.memoryNetwork(
-                    fadeInDuration: Duration(milliseconds: 100),
-                    placeholder: kTransparentImage,
-                    image: bloc.state.photo))
+                  fit: BoxFit.fitWidth,
+                  fadeInDuration: Duration(milliseconds: 100),
+                  placeholder: kTransparentImage,
+                  image: bloc.state.photo,
+                ),
+              ),
+            ),
           ]),
           // Icon(
           //   Icons.person,
