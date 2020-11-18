@@ -6,7 +6,6 @@ import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart'
 import 'package:drop_here_mobile/accounts/model/api/customer_management_api.dart';
 import 'package:drop_here_mobile/app_storage/app_storage_service.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'authentication_service.dart';
@@ -46,9 +45,9 @@ class CustomerManagementService {
     }
   }
 
-  Future<Image> getCustomerPhoto() async {
+  Future<String> getCustomerPhoto() async {
     CustomerInfoResponse response = await getCustomerInfo();
     String customerId = response.id.toString();
-    return Image.network("/customers/$customerId/images");
+    return "${_httpClient.baseUrl}/customers/$customerId/images";
   }
 }
