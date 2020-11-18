@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:drop_here_mobile/accounts/model/api/authentication_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/model/api/customer_management_api.dart';
 import 'package:drop_here_mobile/app_storage/app_storage_service.dart';
@@ -48,8 +47,8 @@ class CustomerManagementService {
   }
 
   Future<Image> getCustomerPhoto() async {
-    AuthenticationResponse response = await authenticationService.authenticationInfo();
-    String customerId = response.accountId.toString();
+    CustomerInfoResponse response = await getCustomerInfo();
+    String customerId = response.id.toString();
     return Image.network("/customers/$customerId/images");
   }
 }
