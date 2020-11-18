@@ -82,7 +82,9 @@ class CustomerDetailsPage extends BlocWidget<CustomerDetailsBloc> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100.0),
                 child: FadeInImage.memoryNetwork(
-                  fit: BoxFit.fitWidth,
+                  fit: BoxFit.cover,
+                  width: 115,
+                  height: 115,
                   fadeInDuration: Duration(milliseconds: 100),
                   placeholder: kTransparentImage,
                   image: bloc.state.photo,
