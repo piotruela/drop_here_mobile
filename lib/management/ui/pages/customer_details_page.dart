@@ -95,10 +95,6 @@ class CustomerDetailsPage extends BlocWidget<CustomerDetailsBloc> {
               ),
             ),
           ]),
-          // Icon(
-          //   Icons.person,
-          //   size: 80.0,
-          // ),
           decoration: new BoxDecoration(
             color: _themeConfig.colors.white,
             shape: BoxShape.circle,
