@@ -76,7 +76,10 @@ class CustomerDetailsPage extends BlocWidget<CustomerDetailsBloc> {
           height: 115.0,
           child: Stack(children: [
             Center(
-              child: Icon(Icons.person),
+              child: Icon(
+                Icons.person,
+                size: 70.0,
+              ),
             ),
             Center(
               child: ClipRRect(
