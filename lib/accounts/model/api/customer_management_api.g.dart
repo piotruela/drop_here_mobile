@@ -23,16 +23,18 @@ Map<String, dynamic> _$CustomerManagementRequestToJson(
 
 CustomerInfoResponse _$CustomerInfoResponseFromJson(Map<String, dynamic> json) {
   return CustomerInfoResponse(
-    registered: json['registered'] as bool,
     firstName: json['firstName'] as String,
+    id: json['id'] as int,
     lastName: json['lastName'] as String,
+    registered: json['registered'] as bool,
   );
 }
 
 Map<String, dynamic> _$CustomerInfoResponseToJson(
         CustomerInfoResponse instance) =>
     <String, dynamic>{
-      'registered': instance.registered,
       'firstName': instance.firstName,
+      'id': instance.id,
       'lastName': instance.lastName,
+      'registered': instance.registered,
     };

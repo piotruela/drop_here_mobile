@@ -132,7 +132,8 @@ abstract class DropCard extends StatelessWidget {
                   width: 154,
                   height: 96,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                    borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
                     child: Icon(
                       Icons.attach_money,
                       size: 60,
