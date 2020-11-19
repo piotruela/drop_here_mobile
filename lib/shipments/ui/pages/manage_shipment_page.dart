@@ -14,7 +14,6 @@ import 'package:drop_here_mobile/routes/model/api/drop_customer_spot_response_ap
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
 import 'package:drop_here_mobile/shipments/bloc/customer_shipment_bloc/customer_shipment_bloc.dart';
 import 'package:drop_here_mobile/shipments/model/api/company_shipment_response.dart';
-import 'package:drop_here_mobile/shipments/model/api/customer_shipment_request.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';

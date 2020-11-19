@@ -5,7 +5,6 @@ import 'package:drop_here_mobile/routes/model/api/drop_customer_spot_response_ap
 import 'package:drop_here_mobile/routes/services/drops_user_service.dart';
 import 'package:drop_here_mobile/shipments/model/api/company_shipment_response.dart';
 import 'package:drop_here_mobile/shipments/model/api/customer_shipment_request.dart';
-import 'package:drop_here_mobile/shipments/model/shipment_management.dart';
 import 'package:drop_here_mobile/shipments/service/customer_shipment_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
@@ -32,7 +31,7 @@ class CustomerShipmentBloc extends Bloc<CustomerShipmentEvent, CustomerShipmentS
       yield CustomerShipmentState(
           type: CustomerShipmentStateType.products_fetched,
           drop: drop,
-          selectedProducts: null,//TODO: Fix editing order
+          selectedProducts: null, //TODO: Fix editing order
           comment: event.order.customerComment,
           sum: event.order.summarizedAmount);
     } else if (event is AddProduct) {
