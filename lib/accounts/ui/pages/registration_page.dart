@@ -83,6 +83,7 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
 
   Widget passwordField(RegistrationBloc bloc, LocaleBundle localeBundle) {
     return DhTextFormField(
+        obscureText: true,
         labelText: localeBundle.password,
         initialValue: bloc.state.form.password,
         onChanged: (val) => bloc.add(FormChanged(form: bloc.state.form.copyWith(password: val))),
@@ -91,6 +92,7 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
 
   Widget repeatPasswordField(RegistrationBloc bloc, LocaleBundle localeBundle) {
     return DhTextFormField(
+        obscureText: true,
         labelText: localeBundle.repeatPassword,
         initialValue: bloc.state.form.password,
         validator: (repeatedPassword) =>

@@ -10,6 +10,7 @@ class DhTextFormField extends StatelessWidget {
   final String initialValue;
   final void Function(String) onChanged;
   final String Function(String) validator;
+  final bool obscureText;
 
   DhTextFormField(
       {Key key,
@@ -17,7 +18,8 @@ class DhTextFormField extends StatelessWidget {
       this.padding = const EdgeInsets.only(left: 40.0, right: 40.0, bottom: 10.0),
       this.onChanged,
       this.validator,
-      this.initialValue})
+      this.initialValue,
+      this.obscureText = false})
       : super(key: key);
 
   @override
@@ -27,6 +29,7 @@ class DhTextFormField extends StatelessWidget {
       child: SizedBox(
         height: 80,
         child: TextFormField(
+            obscureText: obscureText,
             initialValue: initialValue,
             onChanged: onChanged,
             validator: validator ?? (val) => _defaultValidator(val, context),
