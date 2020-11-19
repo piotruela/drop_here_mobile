@@ -74,6 +74,7 @@ class LoginPage extends BlocWidget<LoginBloc> {
                   onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(mail: value))),
                 ),
                 DhTextFormField(
+                    obscureText: true,
                     labelText: Localization.of(context).bundle.password,
                     initialValue: bloc.state?.form?.password ?? '',
                     onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value)))),

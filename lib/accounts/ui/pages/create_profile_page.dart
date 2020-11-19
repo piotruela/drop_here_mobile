@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 
-
 abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -68,6 +67,7 @@ abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
                   labelText: Localization.of(context).bundle.lastName,
                   padding: EdgeInsets.only(left: 40, right: 40.0)),
               DhTextFormField(
+                  obscureText: true,
                   onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value))),
                   labelText: Localization.of(context).bundle.password,
                   padding: EdgeInsets.only(left: 40, right: 40.0, bottom: 20.0)),

@@ -70,6 +70,7 @@ class LogOnProfilePage extends BlocWidget<LoginProfileBloc> {
                       overflow: TextOverflow.clip, style: themeConfig.textStyles.primaryTitle),
                 ),
                 DhTextFormField(
+                    obscureText: true,
                     initialValue: bloc.state.form.password,
                     labelText: Localization.of(context).bundle.password,
                     onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value)))),
