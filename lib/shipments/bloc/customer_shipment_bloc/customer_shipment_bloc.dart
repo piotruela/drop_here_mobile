@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:drop_here_mobile/routes/model/api/drop_customer_spot_response_api.dart';
 import 'package:drop_here_mobile/routes/services/drops_user_service.dart';
+import 'package:drop_here_mobile/shipments/model/api/company_shipment_response.dart';
 import 'package:drop_here_mobile/shipments/model/api/customer_shipment_request.dart';
+import 'package:drop_here_mobile/shipments/model/shipment_management.dart';
 import 'package:drop_here_mobile/shipments/service/customer_shipment_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
@@ -30,8 +32,9 @@ class CustomerShipmentBloc extends Bloc<CustomerShipmentEvent, CustomerShipmentS
       yield CustomerShipmentState(
           type: CustomerShipmentStateType.products_fetched,
           drop: drop,
-          selectedProducts: event.order.products,
-          comment: event.order.comment);
+          selectedProducts: null,//TODO: Fix editing order
+          comment: event.order.customerComment,
+          sum: event.order.summarizedAmount);
     } else if (event is AddProduct) {
       List<ShipmentProductRequest> products = state.selectedProducts;
       products.add(event.productRequest);
@@ -56,16 +59,18 @@ class CustomerShipmentBloc extends Bloc<CustomerShipmentEvent, CustomerShipmentS
           comment: event.comment);
     } else if (event is SubmitForm) {
       CustomerShipmentState(
-          type: CustomerShipmentStateType.loading, drop: state.drop, selectedProducts: state.selectedProducts, comment: state.comment);
-      final ShipmentCustomerSubmissionRequest request = ShipmentCustomerSubmissionRequest(comment: state.comment, products: state.selectedProducts);
-      if(event.shipmentId != null) {
+          type: CustomerShipmentStateType.loading,
+          drop: state.drop,
+          selectedProducts: state.selectedProducts,
+          comment: state.comment);
+      final ShipmentCustomerSubmissionRequest request =
+          ShipmentCustomerSubmissionRequest(comment: state.comment, products: state.selectedProducts);
+      if (event.shipmentId != null) {
         await _customerShipmentService.updateShipment(event.companyUid, event.dropUid, event.shipmentId, request);
-      }
-      else{
+      } else {
         await _customerShipmentService.createShipment(event.companyUid, event.dropUid, request);
       }
-      CustomerShipmentState(
-          type: CustomerShipmentStateType.sent);
+      CustomerShipmentState(type: CustomerShipmentStateType.sent);
     }
   }
 }

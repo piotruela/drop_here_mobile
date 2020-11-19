@@ -15,7 +15,7 @@ class InitializeCreateOrder extends CustomerShipmentEvent {
 
 class InitializeEditOrder extends CustomerShipmentEvent {
   final String dropUid;
-  final ShipmentCustomerSubmissionRequest order;
+  final ShipmentResponse order;
 
   InitializeEditOrder({this.dropUid, this.order});
 
