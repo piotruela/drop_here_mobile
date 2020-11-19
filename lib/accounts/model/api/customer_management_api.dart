@@ -9,19 +9,22 @@ class CustomerManagementRequest {
 
   CustomerManagementRequest({this.firstName, this.lastName});
 
-  factory CustomerManagementRequest.fromJson(Map<String, dynamic> json) => _$CustomerManagementRequestFromJson(json);
+  factory CustomerManagementRequest.fromJson(Map<String, dynamic> json) =>
+      _$CustomerManagementRequestFromJson(json);
   Map<String, dynamic> toJson() => _$CustomerManagementRequestToJson(this);
 }
 
 @JsonSerializable()
 class CustomerInfoResponse {
-  final bool registered;
   final String firstName;
+  final int id;
   final String lastName;
+  final bool registered;
 
-  CustomerInfoResponse({this.registered, this.firstName, this.lastName});
+  CustomerInfoResponse({this.firstName, this.id, this.lastName, this.registered});
 
-  factory CustomerInfoResponse.fromJson(Map<String, dynamic> json) => _$CustomerInfoResponseFromJson(json);
+  factory CustomerInfoResponse.fromJson(Map<String, dynamic> json) =>
+      _$CustomerInfoResponseFromJson(json);
   Map<String, dynamic> toJson() => _$CustomerInfoResponseToJson(this);
 
   String get customerFullName => "$firstName $lastName";

@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
+import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/utils/datetime_utils.dart';
 import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
 import 'package:get/get.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class CustomerDetailsPage extends BlocWidget<CustomerDetailsBloc> {
   final ThemeConfig _themeConfig = Get.find<ThemeConfig>();
@@ -43,7 +45,7 @@ class CustomerDetailsPage extends BlocWidget<CustomerDetailsBloc> {
             "My account details",
             style: _themeConfig.textStyles.primaryTitle,
           ),
-          _avatar(),
+          _avatar(bloc),
           Align(
             child: Text(
               bloc.state.customerInfo.customerFullName,
@@ -52,29 +54,53 @@ class CustomerDetailsPage extends BlocWidget<CustomerDetailsBloc> {
           ),
           SizedBox(height: 20.0),
           LabeledCircledInfoWithDivider(label: "Mail", text: accountInfo.mail),
-          LabeledCircledInfoWithDivider(label: "Customer since", text: accountInfo.createdAt.toStringWithoutTime()),
-          LabeledCircledInfo(label: "Mail status", text: describeEnum(accountInfo.accountMailStatus)),
-          Align(child: ChoosableButton(text: "Log out", isChosen: false, chooseAction: () => bloc.add(LogOut()))),
+          LabeledCircledInfoWithDivider(
+              label: "Customer since", text: accountInfo.createdAt.toStringWithoutTime()),
+          LabeledCircledInfo(
+              label: "Mail status", text: describeEnum(accountInfo.accountMailStatus)),
+          Align(
+              child: ChoosableButton(
+                  text: "Log out", isChosen: false, chooseAction: () => bloc.add(LogOut()))),
         ],
       ),
     );
   }
 
-  Widget _avatar() => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 15.0),
-        child: Center(
-          child: Container(
-            width: 115.0,
-            height: 115.0,
-            child: Icon(
-              Icons.person,
-              size: 80.0,
+  Widget _avatar(CustomerDetailsBloc bloc) {
+    final AssetsConfig assetsConfig = Get.find<AssetsConfig>();
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 15.0),
+      child: Center(
+        child: Container(
+          width: 115.0,
+          height: 115.0,
+          child: Stack(children: [
+            Center(
+              child: Icon(
+                Icons.person,
+                size: 70.0,
+              ),
             ),
-            decoration: new BoxDecoration(
-              color: _themeConfig.colors.white,
-              shape: BoxShape.circle,
+            Center(
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(100.0),
+                child: FadeInImage.memoryNetwork(
+                  fit: BoxFit.cover,
+                  width: 115,
+                  height: 115,
+                  fadeInDuration: Duration(milliseconds: 100),
+                  placeholder: kTransparentImage,
+                  image: bloc.state.photo,
+                ),
+              ),
             ),
+          ]),
+          decoration: new BoxDecoration(
+            color: _themeConfig.colors.white,
+            shape: BoxShape.circle,
           ),
         ),
-      );
+      ),
+    );
+  }
 }

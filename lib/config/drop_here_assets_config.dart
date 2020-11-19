@@ -16,6 +16,9 @@ class DHAssetsConfig extends AssetsConfig {
   String get splashScreenImage => "assets/images/first_page_image.svg";
 
   @override
+  String get ph => "assets/images/ph.png";
+
+  @override
   Future<BitmapDescriptor> get spotPin async => await BitmapDescriptor.fromAssetImage(
       ImageConfiguration(size: Size(48, 48)), 'assets/images/pin_icon.png');
 }

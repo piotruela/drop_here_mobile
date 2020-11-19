@@ -5,5 +5,6 @@ abstract class AssetsConfig {
   String get sellerImage;
   String get splashScreenImage;
   String get appLogo;
+  String get ph;
   Future<BitmapDescriptor> get spotPin;
 }
