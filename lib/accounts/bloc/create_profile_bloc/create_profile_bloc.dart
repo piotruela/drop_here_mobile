@@ -26,12 +26,25 @@ class CreateProfileBloc extends Bloc<CreateProfileEvent, CreateProfileState> {
       var creatingProfileFunction = event.profileRole == ProfileRole.ADMIN
           ? () => accountsService.createAdminProfile(event.form)
           : () => accountsService.createBasicProfile(event.form);
-      try {
-        await creatingProfileFunction.call();
-        yield SuccessState();
-      } on Exception {
+      if (isFilled(event.form)) {
         yield ErrorState(form: event.form);
+      } else {
+        try {
+          await creatingProfileFunction.call();
+          yield SuccessState();
+        } on Exception {
+          yield ErrorState(form: event.form);
+        }
       }
     }
+  }
+
+  bool isFilled(AccountProfileCreationRequest form) {
+    return form.firstName == null ||
+        form.firstName == "" ||
+        form.lastName == null ||
+        form.lastName == "" ||
+        form.password == null ||
+        form.password == "";
   }
 }
