@@ -15,7 +15,7 @@ class CompanyRegistrationPage extends RegistrationPage {
   List<Widget> formElements(RegistrationBloc bloc, BuildContext context) {
     LocaleBundle localeBundle = Localization.of(context).bundle;
     return [
-      titleText("Create company account"),
+      titleText("Create company account", context),
       mailField(bloc, localeBundle),
       passwordField(bloc, localeBundle),
       repeatPasswordField(bloc, localeBundle),
