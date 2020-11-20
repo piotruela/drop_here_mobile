@@ -56,15 +56,16 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
   List<DropCustomerSpotResponse> get drops => spotAndDrops.drops;
 
   @override
-  bool get showManageButton => spot.membershipStatus != null && spot.membershipStatus != MembershipStatus.PENDING;
+  bool get showManageButton =>
+      spot.membershipStatus != null && spot.membershipStatus != MembershipStatus.PENDING;
 
   @override
   IconData get manageIcon => Icons.settings;
 
   VoidCallback manageAction(BuildContext context) => () async => showDialog(
       context: context,
-      child: manageSpotSettingDialog(
-          context, spot.uid, spot.companyUid, spotAndDrops.currentNotificationSettings, customerSpotsBloc));
+      child: manageSpotSettingDialog(context, spot.uid, spot.companyUid,
+          spotAndDrops.currentNotificationSettings, customerSpotsBloc));
 
   @override
   String get name => spot.name;
@@ -93,10 +94,11 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
           isActive: true,
           onTap: () async {
             SpotJoinRequest request = await showDialog(
-                context: context, child: _joiningDialog(context, spot.requiresPassword, spot.requiresAccept));
+                context: context,
+                child: _joiningDialog(context, spot.requiresPassword, spot.requiresAccept));
             if (request != null) {
-              customerSpotsBloc
-                  .add(SendSpotJoiningRequest(spotUid: spot.uid, companyUid: spot.companyUid, request: request));
+              customerSpotsBloc.add(SendSpotJoiningRequest(
+                  spotUid: spot.uid, companyUid: spot.companyUid, request: request));
             }
           },
           text: "Join");
@@ -105,16 +107,17 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
     } else if (spot.membershipStatus == MembershipStatus.BLOCKED) {
       return warningText(themeConfig.colors.blocked, "Company blocked you\nfrom this spot");
     } else {
-      return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [sectionTitle("Drops on this spot"), dropsList(drops)]);
+      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        sectionTitle("Drops on this spot"),
+        dropsList(drops),
+      ]);
     }
   }
 
   Widget dropsList(List<DropCustomerSpotResponse> drops) {
     return CarouselSlider(
         options: CarouselOptions(
-          aspectRatio: 14 / 7.4,
+          aspectRatio: 14 / 8.4,
           enableInfiniteScroll: false,
           viewportFraction: 0.5,
           initialPage: 0,
@@ -186,9 +189,10 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
                   onPressed: () => Navigator.pop(context, null),
                 ),
                 RaisedButton(
-                    child: Text("Update settings", style: themeConfig.textStyles.active),
+                    child: Text("Update", style: themeConfig.textStyles.active),
                     onPressed: () {
-                      bloc.add(UpdateSpotSettings(spotUid: spotUid, companyUid: companyUid, request: request));
+                      bloc.add(UpdateSpotSettings(
+                          spotUid: spotUid, companyUid: companyUid, request: request));
                       Navigator.pop(context, null);
                     }),
               ],
@@ -198,7 +202,8 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
         )));
   }
 
-  Widget _leaveSpotButton(BuildContext context, String spotUid, String companyUid, CustomerSpotsBloc bloc) {
+  Widget _leaveSpotButton(
+      BuildContext context, String spotUid, String companyUid, CustomerSpotsBloc bloc) {
     return ChoosableButton(
         text: "Leave spot",
         isChosen: false,
@@ -236,7 +241,9 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
                 initialPosition: false,
                 onSwitch: (bool) => request.receiveFinishedNotifications = bool),
             labeledSwitch(
-                text: "When live", initialPosition: false, onSwitch: (bool) => request.receiveLiveNotifications = bool),
+                text: "When live",
+                initialPosition: false,
+                onSwitch: (bool) => request.receiveLiveNotifications = bool),
             labeledSwitch(
                 text: "When prepared",
                 initialPosition: false,
@@ -248,7 +255,8 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
                     onChanged: (String password) => request.password = password)
                 : SizedBox.shrink(),
             acceptRequired
-                ? warningText(themeConfig.colors.black, "Your joining must be\napproved by the owner")
+                ? warningText(
+                    themeConfig.colors.black, "Your joining must be\napproved by the owner")
                 : SizedBox.shrink(),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -277,7 +285,8 @@ class CompanySpotDetailsPage extends AbsSpotDetailsPage {
   final SpotMembershipPage members;
   final ScrollController scrollController;
 
-  CompanySpotDetailsPage({this.spot, this.controller, this.bloc, this.members, this.scrollController});
+  CompanySpotDetailsPage(
+      {this.spot, this.controller, this.bloc, this.members, this.scrollController});
 
   @override
   String get name => spot.name;
@@ -319,7 +328,8 @@ class CompanySpotDetailsPage extends AbsSpotDetailsPage {
           closeIcon(context, controller),
           buildSpotTitle(),
           buildLocationInfo(),
-          textAndFlatButton(locale.passwordRequired, spot.requiresPassword ? locale.yes : locale.no),
+          textAndFlatButton(
+              locale.passwordRequired, spot.requiresPassword ? locale.yes : locale.no),
           spot.requiresPassword ? _PasswordInfo(password: spot.password) : SizedBox.shrink(),
           Divider(),
           textAndFlatButton(locale.acceptRequired, requiresAccept ? locale.yes : locale.no),
@@ -350,11 +360,12 @@ class CompanySpotDetailsPage extends AbsSpotDetailsPage {
           status: member.membershipStatus,
           padding: EdgeInsets.symmetric(vertical: 7.0),
           popupOptions: MembershipStatus.values
-              .where((element) => element != member.membershipStatus && element != MembershipStatus.PENDING)
+              .where((element) =>
+                  element != member.membershipStatus && element != MembershipStatus.PENDING)
               .map((e) => describeEnum(e))
               .toList(),
-          onItemSelected: (string) => bloc
-              .add(UpdateMembershipStatus(spotId: spot.id, status: string, spotMembershipId: member.spotMembershipId)),
+          onItemSelected: (string) => bloc.add(UpdateMembershipStatus(
+              spotId: spot.id, status: string, spotMembershipId: member.spotMembershipId)),
         );
       },
     );
@@ -386,7 +397,8 @@ abstract class AbsSpotDetailsPage extends StatelessWidget {
 
   BoxDecoration get _panelDecoration => BoxDecoration(
       color: themeConfig.colors.white,
-      borderRadius: const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)));
+      borderRadius:
+          const BorderRadius.only(topLeft: Radius.circular(30), topRight: Radius.circular(30)));
 
   @override
   Widget build(BuildContext context) {
@@ -538,7 +550,9 @@ class _PasswordInfoState extends State<_PasswordInfo> {
             Padding(
               padding: const EdgeInsets.only(top: 8.0),
               child: Text(
-                show ? widget.password : List.generate(widget.password.length, (index) => "*").join(),
+                show
+                    ? widget.password
+                    : List.generate(widget.password.length, (index) => "*").join(),
                 style: themeConfig.textStyles.data,
               ),
             ),
