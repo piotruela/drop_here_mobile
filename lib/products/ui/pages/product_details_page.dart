@@ -26,12 +26,7 @@ class ProductDetailsPage extends StatelessWidget {
   final double price;
 
   ProductDetailsPage(
-      {this.product,
-      this.editable = true,
-      this.backAction,
-      this.limited = true,
-      this.availableAmount,
-      this.price});
+      {this.product, this.editable = true, this.backAction, this.limited = true, this.availableAmount, this.price});
 
   @override
   Widget build(BuildContext context) {
@@ -49,15 +44,12 @@ class ProductDetailsPage extends StatelessWidget {
             pageSubtitle(product.category),
             buildInfoWithLabel(localeBundle, localeBundle.description, product.description),
             LabeledCircledInfoWithDivider(label: localeBundle.unitType, text: product.unit),
-            LabeledCircledInfoWithDivider(
-                label: localeBundle.price, text: formatPrice(price ?? product.price)),
+            LabeledCircledInfoWithDivider(label: localeBundle.price, text: formatPrice(price ?? product.price)),
             availableAmount != null
                 ? LabeledCircledInfoWithDivider(
-                    label: "Available amount",
-                    text: formatAmount(limited: limited, amount: availableAmount))
+                    label: "Available amount", text: formatAmount(limited: limited, amount: availableAmount))
                 : SizedBox.shrink(),
-            LabeledCircledInfo(
-                label: localeBundle.unitFraction, text: product.unitFraction.toString()),
+            LabeledCircledInfo(label: localeBundle.unitFraction, text: removeDecimalZeroFormat(product.unitFraction)),
             sectionTitle("Customizations"),
             Conditional.single(
                 context: context,
@@ -65,8 +57,7 @@ class ProductDetailsPage extends StatelessWidget {
                 widgetBuilder: (_) => InfoText(
                       text: "This product cannot have any customizations",
                     ),
-                fallbackBuilder: (_) =>
-                    customizationsList(context, product.customizationsWrappers)),
+                fallbackBuilder: (_) => customizationsList(context, product.customizationsWrappers)),
             sectionTitle(localeBundle.availableInDrops),
             dropsCarousel()
           ],
@@ -130,8 +121,7 @@ class ProductDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget customizationsList(
-      BuildContext context, List<ProductCustomizationWrapperResponse> customizations) {
+  Widget customizationsList(BuildContext context, List<ProductCustomizationWrapperResponse> customizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -145,8 +135,7 @@ class ProductDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget buildCustomizationsTilesList(
-      BuildContext context, List<ProductCustomizationWrapperResponse> customizations) {
+  Widget buildCustomizationsTilesList(BuildContext context, List<ProductCustomizationWrapperResponse> customizations) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -156,20 +145,17 @@ class ProductDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget buildCustomizationTile(
-      BuildContext context, ProductCustomizationWrapperResponse customization) {
+  Widget buildCustomizationTile(BuildContext context, ProductCustomizationWrapperResponse customization) {
     return ChoosableButtonWithSubText(
         text: customization.heading,
-        subText:
-            "${describeEnum(customization.type)} type, ${customization.customizations.length} options",
-        chooseAction: () async => await showDialog(
-            context: context, child: customizationDetailsDialog(context, customization)),
+        subText: "${describeEnum(customization.type)} type, ${customization.customizations.length} options",
+        chooseAction: () async =>
+            await showDialog(context: context, child: customizationDetailsDialog(context, customization)),
         isChosen: false,
         trailing: customization.required ? Icon(Icons.star, size: 30.0) : SizedBox.shrink());
   }
 
-  Widget customizationDetailsDialog(
-      BuildContext context, ProductCustomizationWrapperResponse customization) {
+  Widget customizationDetailsDialog(BuildContext context, ProductCustomizationWrapperResponse customization) {
     return AlertDialog(
       title: Align(
           child: Text(
