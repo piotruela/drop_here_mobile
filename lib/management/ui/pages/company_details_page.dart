@@ -85,9 +85,13 @@ class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
                     Icons.edit,
                   ),
                   shape: CircleBorder(),
-                  onPressed: () => Get.to(EditCompanyDetailsPage(company: state.company, companyImage: state.image)),
+                  onPressed: () => Get.to(
+                      EditCompanyDetailsPage(company: state.company, companyImage: state.image)),
                 ),
               )),
+              SizedBox(
+                width: 10,
+              ),
             ],
           ),
         ),
@@ -95,9 +99,14 @@ class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
           height: 20.0,
         ),
         companyInfoTile(state, locale.country, state.company.country),
-        companyInfoTile(state, locale.visibilityStatus,
-            state.company.visibilityStatus == VisibilityStatus.VISIBLE ? locale.visible : locale.hidden),
-        companyInfoTile(state, locale.registered, state.company.registered ? locale.yes : locale.no),
+        companyInfoTile(
+            state,
+            locale.visibilityStatus,
+            state.company.visibilityStatus == VisibilityStatus.VISIBLE
+                ? locale.visible
+                : locale.hidden),
+        companyInfoTile(
+            state, locale.registered, state.company.registered ? locale.yes : locale.no),
         companyInfoTile(state, locale.numberOfSellers, state.company.profilesCount.toString()),
         ChoosableButton(
           text: "Log out",
@@ -132,7 +141,9 @@ class CompanyDetailsPage extends BlocWidget<CompanyManagementBloc> {
           ),
         ),
         decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(width: 1.0, color: themeConfig.colors.white, style: BorderStyle.solid))),
+            border: Border(
+                bottom: BorderSide(
+                    width: 1.0, color: themeConfig.colors.white, style: BorderStyle.solid))),
       ),
     );
   }

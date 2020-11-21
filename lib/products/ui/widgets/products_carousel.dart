@@ -9,7 +9,7 @@ import 'package:get/get.dart';
 CarouselSlider productsCarousel(LocaleBundle locale, List<RouteProductRouteResponse> products) {
   return CarouselSlider(
     options: CarouselOptions(
-      aspectRatio: 14 / 6.4,
+      aspectRatio: 14 / 7.4,
       enableInfiniteScroll: false,
       viewportFraction: 0.4,
       initialPage: 0,

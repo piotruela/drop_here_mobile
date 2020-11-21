@@ -15,7 +15,7 @@ class CustomerRegistrationPage extends RegistrationPage {
   List<Widget> formElements(RegistrationBloc bloc, BuildContext context) {
     LocaleBundle localeBundle = Localization.of(context).bundle;
     return [
-      titleText(localeBundle.createABuyerAccount),
+      titleText(localeBundle.createABuyerAccount, context),
       mailField(bloc, localeBundle),
       passwordField(bloc, localeBundle),
       repeatPasswordField(bloc, localeBundle),
@@ -26,7 +26,8 @@ class CustomerRegistrationPage extends RegistrationPage {
   }
 
   @override
-  String formTitle(BuildContext context) => Localization.of(context).bundle.createASellerAccountHeader;
+  String formTitle(BuildContext context) =>
+      Localization.of(context).bundle.createASellerAccountHeader;
 
   @override
   Widget registrationForm(RegistrationBloc bloc, BuildContext context) {

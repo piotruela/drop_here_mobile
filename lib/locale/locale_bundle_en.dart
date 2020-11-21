@@ -483,4 +483,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get unblockUser => "Unblock user";
+
+  @override
+  String get fillAllData => "Please fill the whole form";
 }

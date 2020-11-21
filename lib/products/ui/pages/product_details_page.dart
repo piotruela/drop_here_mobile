@@ -193,7 +193,7 @@ class ProductDetailsPage extends StatelessWidget {
   Widget dropsCarousel() {
     return CarouselSlider(
         options: CarouselOptions(
-          aspectRatio: 14 / 7.4,
+          aspectRatio: 14 / 9.4,
           enableInfiniteScroll: false,
           viewportFraction: 0.5,
         ),

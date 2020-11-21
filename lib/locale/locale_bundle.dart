@@ -318,4 +318,6 @@ abstract class LocaleBundle {
   String get thisUserIsBlocked;
 
   String get unblockUser;
+
+  String get fillAllData;
 }

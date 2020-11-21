@@ -124,7 +124,7 @@ abstract class DropCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 6.0,
+              height: 4.0,
             ),
             Stack(
               children: [
@@ -162,6 +162,7 @@ abstract class DropCard extends StatelessWidget {
                     name,
                     style: themeConfig.textStyles.title3,
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                   extraField,
                   infoLine(Icons.calendar_today, themeConfig.colors.active, startTime),
@@ -181,17 +182,16 @@ abstract class DropCard extends StatelessWidget {
   Widget infoLine(IconData icon, Color iconColor, String text) {
     return Row(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(right: 3.0),
-          child: Icon(
-            icon,
-            color: iconColor,
-            size: 15.0,
-          ),
+        Icon(
+          icon,
+          color: iconColor,
+          size: 15.0,
         ),
         Text(
           text,
           style: themeConfig.textStyles.title3Annotation,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
       ],
     );
