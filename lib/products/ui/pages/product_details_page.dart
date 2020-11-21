@@ -49,7 +49,7 @@ class ProductDetailsPage extends StatelessWidget {
                 ? LabeledCircledInfoWithDivider(
                     label: "Available amount", text: formatAmount(limited: limited, amount: availableAmount))
                 : SizedBox.shrink(),
-            LabeledCircledInfo(label: localeBundle.unitFraction, text: product.unitFraction.toString()),
+            LabeledCircledInfo(label: localeBundle.unitFraction, text: removeDecimalZeroFormat(product.unitFraction)),
             sectionTitle("Customizations"),
             Conditional.single(
                 context: context,
