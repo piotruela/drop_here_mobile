@@ -2,9 +2,7 @@ import 'package:drop_here_mobile/accounts/bloc/list_bloc/dh_list_bloc.dart';
 import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/create_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_card.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
@@ -25,24 +23,7 @@ class SellersListPage extends BlocWidget<DhListBloc> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        DhSearchBar(bloc),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(left: 25.0),
-              child: FiltersFlatButton(
-                themeConfig: themeConfig,
-                locale: locale,
-                bloc: bloc,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(right: 10.0),
-              child: addSellerButton(locale),
-            ),
-          ],
-        ),
+        Align(alignment: Alignment.centerRight, child: SizedBox(width: 150, child: addSellerButton(locale))),
         BlocBuilder<DhListBloc, DhListState>(
           builder: (context, state) {
             if (state is DhListInitial) {

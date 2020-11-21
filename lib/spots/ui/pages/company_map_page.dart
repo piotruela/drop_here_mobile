@@ -1,5 +1,3 @@
-import 'package:drop_here_mobile/accounts/bloc/list_bloc/dh_list_bloc.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/common/ui/widgets/add_new_item_panel.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
@@ -110,8 +108,7 @@ class CompanyMapPage extends BlocWidget<CompanySpotsBloc> {
 
   Widget _spotsList(
       BuildContext context, CompanySpotsBloc bloc, List<SpotCompanyResponse> spots, ScrollController controller) {
-    return ListView(
-        controller: controller, shrinkWrap: true, children: [DhSearchBar(DhListBloc()), spotsCards(spots, bloc)]);
+    return ListView(controller: controller, shrinkWrap: true, children: [spotsCards(spots, bloc)]);
   }
 
   Widget spotsCards(List<SpotCompanyResponse> spots, CompanySpotsBloc bloc) {

@@ -1,5 +1,3 @@
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
@@ -26,15 +24,6 @@ class RoutesListPage extends BlocWidget<RoutesListBloc> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        DhSearchBar(bloc),
-        Padding(
-          padding: const EdgeInsets.only(left: 25.0),
-          child: FiltersFlatButton(
-            themeConfig: themeConfig,
-            locale: localeBundle,
-            bloc: bloc,
-          ),
-        ),
         BlocBuilder<RoutesListBloc, RoutesListState>(
           builder: (context, state) {
             if (state.type == RoutesListStateType.initial) {
