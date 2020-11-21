@@ -225,12 +225,21 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
 
   CarouselSlider dropsCarousel(
       BuildContext context, LocaleBundle localeBundle, ManageRouteBloc bloc) {
-    return CarouselSlider(options: options(), items: dropsItems(context, bloc));
+    return CarouselSlider(options: dropsOptions(), items: dropsItems(context, bloc));
   }
 
   CarouselOptions options() {
     return CarouselOptions(
       aspectRatio: 14 / 7.4,
+      enableInfiniteScroll: false,
+      viewportFraction: 0.5,
+      initialPage: 0,
+    );
+  }
+
+  CarouselOptions dropsOptions() {
+    return CarouselOptions(
+      aspectRatio: 14 / 9.4,
       enableInfiniteScroll: false,
       viewportFraction: 0.5,
       initialPage: 0,
