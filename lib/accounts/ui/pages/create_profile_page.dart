@@ -33,8 +33,7 @@ abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
                   Get.offAll(getNextPage());
                 } else if (state is ErrorState) {
                   Scaffold.of(context).showSnackBar(SnackBar(
-                      content:
-                          Text(localeBundle.registrationError + localeBundle.unexpectedError)));
+                      content: Text(localeBundle.registrationError + localeBundle.fillAllData)));
                 }
               },
               buildWhen: (previous, current) => previous.runtimeType != current.runtimeType,
