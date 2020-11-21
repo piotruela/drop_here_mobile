@@ -124,7 +124,8 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
               localeBundle.productNameExample,
               InputType.text,
               (value) => bloc.add(FormChanged(product: bloc.state.product.copyWith(name: value))),
-              bloc.state.product.name),
+              bloc.state.product.name,
+              30),
           _sectionTitle(localeBundle.photo),
           choosePhotoWidget(bloc),
           _sectionTitle(localeBundle.categoryMandatory),
@@ -154,7 +155,8 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
               "This product is...",
               InputType.text,
               (value) => bloc.add(FormChanged(product: bloc.state.product.copyWith(description: value))),
-              bloc.state.product.description),
+              bloc.state.product.description,
+              150),
           _sectionTitle(localeBundle.unitTypeMandatory),
           DropdownButton<ProductUnitResponse>(
               isExpanded: true,
@@ -163,7 +165,7 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
                 return bloc.add(FormChanged(
                     product: bloc.state.product.copyWith(
                         unit: unit.name,
-                        unitFraction: null,
+                        unitFraction: 1.0,
                         productCustomizationWrappers:
                             unit.fractionable ? [] : bloc.state.product.productCustomizationWrappers)));
               },
@@ -292,6 +294,7 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
                       children: [
                         TextField(
                           controller: controller,
+                          maxLength: 20,
                         ),
                       ],
                     ),
@@ -326,9 +329,13 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
           style: themeConfig.textStyles.secondaryTitle,
         ),
         InfoText(text: "Determines minimal amount that can be bought"),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(removeDecimalZeroFormat(bloc.state?.product?.unitFraction)),
+        ),
         Slider(
             value: bloc.state?.product?.unitFraction ?? 1,
-            label: removeDecimalZeroFormat(bloc.state?.product?.unitFraction) ?? 1.toString(),
+            label: removeDecimalZeroFormat(bloc.state?.product?.unitFraction),
             min: isFractionable ? 0.1 : 1,
             divisions: 49,
             max: isFractionable ? 5 : 50,
@@ -357,7 +364,8 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
     );
   }
 
-  Widget _field(String text, String hint, InputType inputType, Function(String) onChanged, String initialValue,
+  Widget _field(
+      String text, String hint, InputType inputType, Function(String) onChanged, String initialValue, int maxLength,
       [String infoText]) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -368,7 +376,13 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
           style: themeConfig.textStyles.secondaryTitle,
         ),
         infoText != null ? InfoText(text: infoText) : SizedBox.shrink(),
-        DhPlainTextFormField(hintText: hint, inputType: inputType, onChanged: onChanged, initialValue: initialValue)
+        DhPlainTextFormField(
+          hintText: hint,
+          inputType: inputType,
+          onChanged: onChanged,
+          initialValue: initialValue,
+          maxLength: maxLength,
+        )
       ],
     );
   }

@@ -27,9 +27,6 @@ class DhPriceField extends StatelessWidget {
             borderSide: BorderSide(color: Colors.black),
           ),
         ),
-        inputFormatters: <TextInputFormatter>[
-          FilteringTextInputFormatter.allow(RegExp("^[1-9][0-9]*\$")),
-        ],
       ),
     );
   }
@@ -40,9 +37,9 @@ class DhPlainTextFormField extends StatelessWidget {
   final InputType inputType;
   final void Function(String) onChanged;
   final VoidCallback onSuffixPressed;
-  final bool isPrice;
   final String initialValue;
   final bool isRequired;
+  final int maxLength;
   const DhPlainTextFormField(
       {this.hintText,
       this.isRequired = false,
@@ -50,7 +47,7 @@ class DhPlainTextFormField extends StatelessWidget {
       this.onChanged,
       this.initialValue,
       this.onSuffixPressed,
-      this.isPrice = false});
+      this.maxLength});
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +59,7 @@ class DhPlainTextFormField extends StatelessWidget {
         keyboardType: inputType == InputType.number ? TextInputType.number : null,
         cursorColor: Colors.black,
         validator: isRequired ? (value) => validator(value) : null,
+        maxLength: maxLength ?? null,
         decoration: InputDecoration(
           hintText: hintText,
           enabledBorder: UnderlineInputBorder(
@@ -71,11 +69,6 @@ class DhPlainTextFormField extends StatelessWidget {
             borderSide: BorderSide(color: Colors.black),
           ),
         ),
-        inputFormatters: isPrice
-            ? <TextInputFormatter>[
-                FilteringTextInputFormatter.allow(RegExp("^[0-9]*\.[0-9][0-9]")),
-              ]
-            : null,
       ),
     );
   }
