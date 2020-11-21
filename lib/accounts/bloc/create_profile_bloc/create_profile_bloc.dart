@@ -5,6 +5,7 @@ import 'package:drop_here_mobile/accounts/model/api/account_management_api.dart'
 import 'package:drop_here_mobile/accounts/services/account_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
+import 'package:quiver/strings.dart';
 
 part 'create_profile_event.dart';
 part 'create_profile_state.dart';
@@ -26,7 +27,7 @@ class CreateProfileBloc extends Bloc<CreateProfileEvent, CreateProfileState> {
       var creatingProfileFunction = event.profileRole == ProfileRole.ADMIN
           ? () => accountsService.createAdminProfile(event.form)
           : () => accountsService.createBasicProfile(event.form);
-      if (isFilled(event.form)) {
+      if (isNotFilled(event.form)) {
         yield ErrorState(form: event.form);
       } else {
         try {
@@ -39,12 +40,7 @@ class CreateProfileBloc extends Bloc<CreateProfileEvent, CreateProfileState> {
     }
   }
 
-  bool isFilled(AccountProfileCreationRequest form) {
-    return form.firstName == null ||
-        form.firstName == "" ||
-        form.lastName == null ||
-        form.lastName == "" ||
-        form.password == null ||
-        form.password == "";
+  bool isNotFilled(AccountProfileCreationRequest form) {
+    return isBlank(form.firstName) || isBlank(form.lastName) || isBlank(form.password);
   }
 }
