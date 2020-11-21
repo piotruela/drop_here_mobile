@@ -1,6 +1,4 @@
 import 'package:drop_here_mobile/accounts/bloc/list_bloc/dh_list_bloc.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/product_card.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/add_new_item_panel.dart';
@@ -35,15 +33,6 @@ class ProductsListPage extends BlocWidget<DhListBloc> {
                 child: Text(
                   locale.products,
                   style: themeConfig.textStyles.primaryTitle,
-                ),
-              ),
-              DhSearchBar(dhListBloc),
-              Padding(
-                padding: const EdgeInsets.only(left: 25.0),
-                child: FiltersFlatButton(
-                  themeConfig: themeConfig,
-                  locale: locale,
-                  bloc: dhListBloc,
                 ),
               ),
               BlocBuilder<DhListBloc, DhListState>(
