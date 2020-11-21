@@ -1,4 +1,5 @@
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/thresholds.dart';
 import 'package:drop_here_mobile/common/ui/widgets/add_new_item_panel.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
@@ -22,6 +23,7 @@ class ManagementPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final LocaleBundle locale = Localization.of(context).bundle;
+    final double width = MediaQuery.of(context).size.width;
     return Scaffold(
       body: Stack(
         children: [
@@ -41,14 +43,15 @@ class ManagementPage extends StatelessWidget {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                      padding: const EdgeInsets.symmetric(horizontal: 0.0),
                       child: TabBar(
-                        indicator:
-                            BoxDecoration(color: themeConfig.colors.white, borderRadius: BorderRadius.circular(10)),
+                        indicator: BoxDecoration(
+                            color: themeConfig.colors.white,
+                            borderRadius: BorderRadius.circular(10)),
                         tabs: <Widget>[
-                          buildTab(locale.clients),
-                          buildTab(locale.sellers),
-                          buildTab(locale.company),
+                          buildTab(locale.clients, width),
+                          buildTab(locale.sellers, width),
+                          buildTab(locale.company, width),
                         ],
                       ),
                     ),
@@ -74,7 +77,11 @@ class ManagementPage extends StatelessWidget {
     );
   }
 
-  Tab buildTab(String text) {
-    return Tab(child: Text(text, style: themeConfig.textStyles.secondaryTitle));
+  Tab buildTab(String text, double width) {
+    return Tab(
+      child: width > Thresholds.width
+          ? Text(text, style: themeConfig.textStyles.secondaryTitle)
+          : Text(text, style: themeConfig.textStyles.smallSecondaryTitle),
+    );
   }
 }

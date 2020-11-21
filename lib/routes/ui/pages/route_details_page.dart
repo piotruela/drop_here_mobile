@@ -45,8 +45,8 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
         ));
   }
 
-  SafeArea buildColumnWithData(
-      BuildContext context, RouteDetailsBloc bloc, RouteDetailsState state, LocaleBundle localeBundle) {
+  SafeArea buildColumnWithData(BuildContext context, RouteDetailsBloc bloc, RouteDetailsState state,
+      LocaleBundle localeBundle) {
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.only(left: 25.0, top: 15.0, right: 25.0),
@@ -63,7 +63,8 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
                 textAndFlatButton(localeBundle.date, state.route.routeDate),
                 textAndFlatButton("Auto-accept orders",
                     state.route.acceptShipmentsAutomatically ? localeBundle.yes : localeBundle.no),
-                textAndFlatButton(localeBundle.numberOfProducts, state.route.productsAmount.toString()),
+                textAndFlatButton(
+                    localeBundle.numberOfProducts, state.route.productsAmount.toString()),
                 textAndFlatButton(localeBundle.numberOfDrops, state.route.dropsAmount.toString()),
                 textAndFlatButton(localeBundle.status, describeEnum(state.route.status)),
                 _updateStatusButton(context, bloc),
@@ -84,7 +85,9 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
                       ),
                 SizedBox(height: 8.0),
                 annotationText(localeBundle.drops),
-                bloc.state.route.drops.isNotEmpty ? dropsCarousel(state.route.drops) : noContentText,
+                bloc.state.route.drops.isNotEmpty
+                    ? dropsCarousel(state.route.drops)
+                    : noContentText,
                 SizedBox(height: 8.0),
                 annotationText(localeBundle.products),
                 bloc.state.route.products.isNotEmpty
@@ -123,7 +126,7 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
   CarouselSlider dropsCarousel(List<DropRouteResponse> drops) {
     return CarouselSlider(
         options: CarouselOptions(
-          aspectRatio: 12 / 7.4,
+          aspectRatio: 12 / 8.4,
           enableInfiniteScroll: false,
           viewportFraction: 0.5,
           initialPage: 0,
@@ -150,7 +153,8 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
   }
 
   Widget get noContentText => Padding(
-      padding: EdgeInsets.symmetric(vertical: 5.0), child: Text("No content", style: themeConfig.textStyles.data));
+      padding: EdgeInsets.symmetric(vertical: 5.0),
+      child: Text("No content", style: themeConfig.textStyles.data));
 
   Text annotationText(String text) {
     return Text(
@@ -180,28 +184,32 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
       chooseAction: () => BlocProvider.of<RouteDetailsBloc>(context)
           .add(UpdateRouteStatus(routeId: routeId, status: RouteStatus.PREPARED)));
 
-  Widget _changeToCancelledButton(BuildContext context, {bool shouldPop = false}) => ChoosableButtonWithSubText(
-      text: "Change status to cancelled",
-      subText: "Cancel route and all\n uncompleted drops",
-      chooseAction: () {
-        BlocProvider.of<RouteDetailsBloc>(context)
-            .add(UpdateRouteStatus(routeId: routeId, status: RouteStatus.CANCELLED));
-        if (shouldPop) Navigator.pop(context);
-      });
+  Widget _changeToCancelledButton(BuildContext context, {bool shouldPop = false}) =>
+      ChoosableButtonWithSubText(
+          text: "Change status to cancelled",
+          subText: "Cancel route and all\n uncompleted drops",
+          chooseAction: () {
+            BlocProvider.of<RouteDetailsBloc>(context)
+                .add(UpdateRouteStatus(routeId: routeId, status: RouteStatus.CANCELLED));
+            if (shouldPop) Navigator.pop(context);
+          });
 
-  Widget _changeToOngoingButton(BuildContext context, {bool shouldPop = false}) => ChoosableButtonWithSubText(
-      text: "Change status to ongoing",
-      subText: "Changes status to ongoing",
-      chooseAction: () {
-        BlocProvider.of<RouteDetailsBloc>(context)
-            .add(UpdateRouteStatus(routeId: routeId, status: RouteStatus.ONGOING));
-        if (shouldPop) Navigator.pop(context);
-      });
+  Widget _changeToOngoingButton(BuildContext context, {bool shouldPop = false}) =>
+      ChoosableButtonWithSubText(
+          text: "Change status to ongoing",
+          subText: "Changes status to ongoing",
+          chooseAction: () {
+            BlocProvider.of<RouteDetailsBloc>(context)
+                .add(UpdateRouteStatus(routeId: routeId, status: RouteStatus.ONGOING));
+            if (shouldPop) Navigator.pop(context);
+          });
 
-  Widget _changeStatusButton(BuildContext context, RouteStatus currentStatus) => ChoosableButtonWithSubText(
-      text: "Change status",
-      subText: "Opens dialog where you\ncan change status",
-      chooseAction: () async => await showDialog(context: context, child: _changeStatusDialog(context, currentStatus)));
+  Widget _changeStatusButton(BuildContext context, RouteStatus currentStatus) =>
+      ChoosableButtonWithSubText(
+          text: "Change status",
+          subText: "Opens dialog where you\ncan change status",
+          chooseAction: () async => await showDialog(
+              context: context, child: _changeStatusDialog(context, currentStatus)));
 
   Widget _changeStatusDialog(BuildContext context, RouteStatus currentStatus) {
     return AlertDialog(

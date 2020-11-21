@@ -6,6 +6,7 @@ import 'package:drop_here_mobile/accounts/ui/pages/create_profile_page.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/thresholds.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/spots/ui/pages/customer_map_page.dart';
@@ -31,8 +32,9 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
           if (state is SuccessState) {
             Widget page;
             if (state.accountType == AccountType.CUSTOMER) {
-              page =
-                  state.registrationType == RegistrationType.FORM ? ClientDetailsRegistrationPage() : CustomerMapPage();
+              page = state.registrationType == RegistrationType.FORM
+                  ? ClientDetailsRegistrationPage()
+                  : CustomerMapPage();
             } else {
               page = CreateAdminProfilePage();
             }
@@ -64,10 +66,12 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
 
   bool get validate;
 
-  Widget titleText(String text) {
+  Widget titleText(String text, BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.only(top: 100.0, bottom: 10.0),
+        padding: MediaQuery.of(context).size.width > Thresholds.width
+            ? const EdgeInsets.only(top: 100.0, bottom: 10.0)
+            : const EdgeInsets.only(top: 10.0, bottom: 10.0),
         child: Text(text, style: themeConfig.textStyles.secondaryTitle),
       ),
     );
@@ -106,7 +110,8 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
         backgroundColor: themeConfig.colors.primary1);
   }
 
-  Widget orText(LocaleBundle localeBundle) => Text(localeBundle.or, style: themeConfig.textStyles.secondaryTitle);
+  Widget orText(LocaleBundle localeBundle) =>
+      Text(localeBundle.or, style: themeConfig.textStyles.secondaryTitle);
 
   Widget signUpWithFBButton(RegistrationBloc bloc, LocaleBundle localeBundle) {
     return DhButton(
@@ -127,8 +132,10 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
     return null;
   }
 
-  String repeatPasswordValidator(String password, String repeatedPassword, LocaleBundle localeBundle) {
-    if (password != repeatedPassword) return localeBundle.repeatPassword + localeBundle.isNotTheSame;
+  String repeatPasswordValidator(
+      String password, String repeatedPassword, LocaleBundle localeBundle) {
+    if (password != repeatedPassword)
+      return localeBundle.repeatPassword + localeBundle.isNotTheSame;
     return null;
   }
 }
