@@ -6,7 +6,9 @@ import 'package:drop_here_mobile/accounts/ui/widgets/dh_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_text_form_field.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/common/thresholds.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/spots/ui/pages/customer_map_page.dart';
 import 'package:flutter/material.dart';
@@ -63,27 +65,36 @@ class LoginPage extends BlocWidget<LoginBloc> {
             key: key,
             child: Column(
               children: [
+                DhBackButton(
+                  padding: EdgeInsets.zero,
+                ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 100.0, bottom: 10),
+                  padding: MediaQuery.of(context).size.width > Thresholds.width
+                      ? const EdgeInsets.only(top: 70.0, bottom: 10.0)
+                      : const EdgeInsets.only(top: 0.0, bottom: 6.0),
                   child: Text(Localization.of(context).bundle.loginPageHeader,
                       style: themeConfig.textStyles.secondaryTitle),
                 ),
                 DhTextFormField(
                   labelText: Localization.of(context).bundle.email,
                   initialValue: bloc.state?.form?.mail ?? '',
-                  onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(mail: value))),
+                  onChanged: (value) =>
+                      bloc.add(FormChanged(form: bloc.state.form.copyWith(mail: value))),
                 ),
                 DhTextFormField(
                     obscureText: true,
                     labelText: Localization.of(context).bundle.password,
                     initialValue: bloc.state?.form?.password ?? '',
-                    onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value)))),
+                    onChanged: (value) =>
+                        bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value)))),
                 DhButton(
-                  onPressed: () => bloc.add(FormSubmitted(isValid: key.currentState.validate(), form: bloc.state.form)),
+                  onPressed: () => bloc.add(
+                      FormSubmitted(isValid: key.currentState.validate(), form: bloc.state.form)),
                   text: Localization.of(context).bundle.logIn,
                   backgroundColor: themeConfig.colors.primary1,
                 ),
-                Text(Localization.of(context).bundle.or, style: themeConfig.textStyles.secondaryTitle),
+                Text(Localization.of(context).bundle.or,
+                    style: themeConfig.textStyles.secondaryTitle),
                 DhButton(
                   onPressed: () => bloc.add(FacebookSigningSubmitted()),
                   text: Localization.of(context).bundle.logInWithFacebook,
