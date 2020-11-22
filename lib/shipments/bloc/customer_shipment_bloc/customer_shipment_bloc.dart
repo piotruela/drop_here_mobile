@@ -17,7 +17,7 @@ class CustomerShipmentBloc extends Bloc<CustomerShipmentEvent, CustomerShipmentS
   final CustomerShipmentService _customerShipmentService = Get.find<CustomerShipmentService>();
   CustomerShipmentBloc()
       : super(CustomerShipmentState(
-            type: CustomerShipmentStateType.loading, drop: null, selectedProducts: null, comment: ""));
+            type: CustomerShipmentStateType.loading, drop: null, selectedProducts: null, comment: "", sum: 0));
 
   @override
   Stream<CustomerShipmentState> mapEventToState(
@@ -31,25 +31,37 @@ class CustomerShipmentBloc extends Bloc<CustomerShipmentEvent, CustomerShipmentS
       yield CustomerShipmentState(
           type: CustomerShipmentStateType.products_fetched,
           drop: drop,
-          selectedProducts: null, //TODO: Fix editing order
+          selectedProducts: event.order.products.map((e) => e.toRequest).toList(),
           comment: event.order.customerComment,
           sum: event.order.summarizedAmount);
     } else if (event is AddProduct) {
       List<ShipmentProductRequest> products = state.selectedProducts;
-      products.add(event.productRequest);
+      double amount = 0;
+      if(event.productRequest != null){
+        state.selectedProducts.add(event.productRequest);
+        amount = event.amount;
+      }
       yield CustomerShipmentState(
           type: CustomerShipmentStateType.products_changed,
           drop: state.drop,
           selectedProducts: products,
-          comment: state.comment);
+          comment: state.comment,
+          sum: state.sum + amount
+      );
     } else if (event is RemoveProduct) {
+      yield CustomerShipmentState(
+          type: CustomerShipmentStateType.loading,
+          drop: state.drop,
+          selectedProducts: state.selectedProducts,
+          comment: state.comment);
       List<ShipmentProductRequest> products = state.selectedProducts;
-      products.removeWhere((element) => element.routeProductId == event.productId);
+      products.remove(event.product);
       yield CustomerShipmentState(
           type: CustomerShipmentStateType.products_changed,
           drop: state.drop,
           selectedProducts: products,
-          comment: state.comment);
+          comment: state.comment,
+          sum: state.sum - event.amount);
     } else if (event is CommentChanged) {
       yield CustomerShipmentState(
           type: CustomerShipmentStateType.comment_changed,

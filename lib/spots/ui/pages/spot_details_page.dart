@@ -24,6 +24,7 @@ import 'package:get/get.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
+  //TODO: Fetch spotDetails
   final SpotDetailedCustomerResponse spotAndDrops;
   final PanelController controller;
   final CustomerSpotsBloc customerSpotsBloc;
@@ -105,16 +106,17 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
     } else if (spot.membershipStatus == MembershipStatus.BLOCKED) {
       return warningText(themeConfig.colors.blocked, "Company blocked you\nfrom this spot");
     } else {
-      return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [sectionTitle("Drops on this spot"), dropsList(drops)]);
+      return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        sectionTitle("Drops on this spot"),
+        dropsList(drops),
+      ]);
     }
   }
 
   Widget dropsList(List<DropCustomerSpotResponse> drops) {
     return CarouselSlider(
         options: CarouselOptions(
-          aspectRatio: 14 / 7.4,
+          aspectRatio: 14 / 8.4,
           enableInfiniteScroll: false,
           viewportFraction: 0.5,
           initialPage: 0,
@@ -186,7 +188,7 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
                   onPressed: () => Navigator.pop(context, null),
                 ),
                 RaisedButton(
-                    child: Text("Update settings", style: themeConfig.textStyles.active),
+                    child: Text("Update", style: themeConfig.textStyles.active),
                     onPressed: () {
                       bloc.add(UpdateSpotSettings(spotUid: spotUid, companyUid: companyUid, request: request));
                       Navigator.pop(context, null);

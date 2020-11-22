@@ -1,6 +1,4 @@
 import 'package:drop_here_mobile/accounts/bloc/list_bloc/dh_list_bloc.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/filters_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/product_card.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/add_new_item_panel.dart';
@@ -9,6 +7,7 @@ import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/products/ui/pages/product_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
@@ -35,15 +34,6 @@ class ProductsListPage extends BlocWidget<DhListBloc> {
                 child: Text(
                   locale.products,
                   style: themeConfig.textStyles.primaryTitle,
-                ),
-              ),
-              DhSearchBar(dhListBloc),
-              Padding(
-                padding: const EdgeInsets.only(left: 25.0),
-                child: FiltersFlatButton(
-                  themeConfig: themeConfig,
-                  locale: locale,
-                  bloc: dhListBloc,
                 ),
               ),
               BlocBuilder<DhListBloc, DhListState>(
@@ -83,6 +73,10 @@ class ProductsListPage extends BlocWidget<DhListBloc> {
               product: product,
               popupOptions: [locale.delete],
               bloc: bloc,
+              onTap: () => Get.to(ProductDetailsPage(
+                product: product,
+                backAction: () => Get.to(ProductsListPage()),
+              )),
             );
           }),
     );

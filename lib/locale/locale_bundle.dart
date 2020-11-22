@@ -330,4 +330,5 @@ abstract class LocaleBundle {
   String get pieces;
 
   String get customizations;
+  String get fillAllData;
 }

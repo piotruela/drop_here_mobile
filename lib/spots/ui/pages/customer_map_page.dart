@@ -1,5 +1,3 @@
-import 'package:drop_here_mobile/accounts/bloc/list_bloc/dh_list_bloc.dart';
-import 'package:drop_here_mobile/accounts/ui/widgets/dh_search_bar.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
@@ -134,8 +132,7 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
 
   Widget _spotsList(
       BuildContext context, SpotDetailsBloc bloc, List<SpotBaseCustomerResponse> spots, ScrollController controller) {
-    return ListView(
-        controller: controller, shrinkWrap: true, children: [DhSearchBar(DhListBloc()), spotsCards(spots, bloc)]);
+    return ListView(controller: controller, shrinkWrap: true, children: [spotsCards(spots, bloc)]);
   }
 
   Widget spotsCards(List<SpotBaseCustomerResponse> spots, SpotDetailsBloc bloc) {

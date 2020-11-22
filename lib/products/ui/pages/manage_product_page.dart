@@ -124,7 +124,8 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
               localeBundle.productNameExample,
               InputType.text,
               (value) => bloc.add(FormChanged(product: bloc.state.product.copyWith(name: value))),
-              bloc.state.product.name),
+              bloc.state.product.name,
+              30),
           _sectionTitle(localeBundle.photo),
           choosePhotoWidget(bloc),
           _sectionTitle(localeBundle.categoryMandatory),
@@ -150,11 +151,12 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
             height: 8.0,
           ),
           _field(
-              localeBundle.descriptionMandatory,
+              localeBundle.description,
               "This product is...",
               InputType.text,
               (value) => bloc.add(FormChanged(product: bloc.state.product.copyWith(description: value))),
-              bloc.state.product.description),
+              bloc.state.product.description,
+              150),
           _sectionTitle(localeBundle.unitTypeMandatory),
           DropdownButton<ProductUnitResponse>(
               isExpanded: true,
@@ -163,6 +165,7 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
                 return bloc.add(FormChanged(
                     product: bloc.state.product.copyWith(
                         unit: unit.name,
+                        unitFraction: 1.0,
                         productCustomizationWrappers:
                             unit.fractionable ? [] : bloc.state.product.productCustomizationWrappers)));
               },
@@ -177,21 +180,10 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
               ]),
           Conditional.single(
               context: context,
-              conditionBuilder: (_) => bloc.state.product?.unit != null,
-              widgetBuilder: (_) => _field(
-                  localeBundle.unitFractionMandatory,
-                  localeBundle.unitFractionNonFractionableExample,
-                  InputType.number,
-                  (value) =>
-                      bloc.add(FormChanged(product: bloc.state.product.copyWith(unitFraction: double.parse(value)))),
-                  bloc.state.product?.unitFraction?.toString() ?? ""),
+              conditionBuilder: (_) => bloc.state.product.unit != null,
+              widgetBuilder: (_) => _fractionInput(localeBundle, bloc),
               fallbackBuilder: (_) => SizedBox.shrink()),
-          _field(
-              localeBundle.pricePerUnitMandatory,
-              localeBundle.pricePerUnitExample,
-              InputType.number,
-              (value) => bloc.add(FormChanged(product: bloc.state.product.copyWith(price: double.parse(value)))),
-              bloc.state.product?.price?.toString() ?? ""),
+          _priceField(localeBundle, bloc),
           _sectionTitle("Customizations"),
           SizedBox(
             height: 4.0,
@@ -265,22 +257,22 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
 
   Widget _addedCategoryButton(BuildContext context, ManageProductBloc bloc) {
     return ChoosableButton(
-      text: bloc.state.addedCategory,
-      isChosen: bloc.state.addedCategory == bloc.state.product.category,
-      chooseAction: () {
-        FocusScope.of(context).requestFocus(FocusNode());
-        bloc.add(FormChanged(
-            product: bloc.state.product.copyWith(
-          category: bloc.state.addedCategory,
-        )));
-      },
-      trailing: IconButton(
-          icon: Icon(
+        text: bloc.state.addedCategory,
+        isChosen: bloc.state.addedCategory == bloc.state.product.category,
+        chooseAction: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+          bloc.add(FormChanged(
+              product: bloc.state.product.copyWith(
+            category: bloc.state.addedCategory,
+          )));
+        },
+        trailing: GestureDetector(
+          onTap: () => bloc.add(CategoryRemoved()),
+          child: Icon(
             Icons.close,
             size: 20.0,
           ),
-          onPressed: () => bloc.add(CategoryRemoved())),
-    );
+        ));
   }
 
   Widget _addCategoryButton(BuildContext context, ManageProductBloc bloc) {
@@ -302,6 +294,7 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
                       children: [
                         TextField(
                           controller: controller,
+                          maxLength: 20,
                         ),
                       ],
                     ),
@@ -326,7 +319,54 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
     );
   }
 
-  Widget _field(String text, String hint, InputType inputType, Function(String) onChanged, String initialValue) {
+  Widget _fractionInput(LocaleBundle localeBundle, ManageProductBloc bloc) {
+    final bool isFractionable = bloc.state.selectedUnitType.fractionable;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          localeBundle.unitFractionMandatory,
+          style: themeConfig.textStyles.secondaryTitle,
+        ),
+        InfoText(text: "Determines minimal amount that can be bought"),
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Text(removeDecimalZeroFormat(bloc.state?.product?.unitFraction)),
+        ),
+        Slider(
+            value: bloc.state?.product?.unitFraction ?? 1,
+            label: removeDecimalZeroFormat(bloc.state?.product?.unitFraction),
+            min: isFractionable ? 0.1 : 1,
+            divisions: 49,
+            max: isFractionable ? 5 : 50,
+            onChanged: (value) =>
+                bloc.add(FormChanged(product: bloc.state.product.copyWith(unitFraction: value.toPrecision(1)))))
+      ],
+    );
+  }
+
+  // FIXME: Fix price input field
+  Widget _priceField(LocaleBundle localeBundle, ManageProductBloc bloc) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          localeBundle.pricePerUnitMandatory,
+          style: themeConfig.textStyles.secondaryTitle,
+        ),
+        DhPriceField(
+            hintText: "5.99",
+            initialValue: bloc.state.product?.price?.toString() ?? "",
+            onChanged: (value) =>
+                bloc.add(FormChanged(product: bloc.state.product.copyWith(price: double.parse(value))))),
+      ],
+    );
+  }
+
+  Widget _field(
+      String text, String hint, InputType inputType, Function(String) onChanged, String initialValue, int maxLength,
+      [String infoText]) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -335,7 +375,14 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
           text,
           style: themeConfig.textStyles.secondaryTitle,
         ),
-        DhPlainTextFormField(hintText: hint, inputType: inputType, onChanged: onChanged, initialValue: initialValue)
+        infoText != null ? InfoText(text: infoText) : SizedBox.shrink(),
+        DhPlainTextFormField(
+          hintText: hint,
+          inputType: inputType,
+          onChanged: onChanged,
+          initialValue: initialValue,
+          maxLength: maxLength,
+        )
       ],
     );
   }

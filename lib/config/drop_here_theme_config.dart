@@ -50,6 +50,7 @@ class DHThemeConfig extends ThemeConfig {
       bigColoredButtonNotActiveTextStyle: _bigColoredButtonNotActiveTextStyle,
       valueChosenFlatButtonTextStyle: _valueChosenFlatButtonTextStyle,
       submitButtonTextStyle: _submitButtonTextStyle,
+      smallSecondaryTitle: _smallSecondaryTitleTextStyle,
     );
   }
 
@@ -79,43 +80,54 @@ class DHThemeConfig extends ThemeConfig {
       fontWeight: FontWeight.w600,
       decoration: TextDecoration.underline);
 
-  static final TextStyle _baseTextStyle =
-      TextStyle(fontFamily: 'Roboto', color: _black, letterSpacing: 0.0, fontWeight: FontWeight.normal);
+  static final TextStyle _baseTextStyle = TextStyle(
+      fontFamily: 'Roboto', color: _black, letterSpacing: 0.0, fontWeight: FontWeight.normal);
 
   static final TextStyle _primaryTitleTextStyle =
       _baseTextStyle.copyWith(fontSize: 30.0, height: 35.0 / 30.0, fontWeight: FontWeight.bold);
   static final TextStyle _secondaryTitleTextStyle =
       _baseTextStyle.copyWith(fontSize: 18.0, height: 21.0 / 18.0, fontWeight: FontWeight.bold);
+  static final TextStyle _smallSecondaryTitleTextStyle =
+      _baseTextStyle.copyWith(fontSize: 16.0, height: 21.0 / 16.0, fontWeight: FontWeight.w600);
   static final TextStyle _dhButtonTextStyle = _baseTextStyle.copyWith(
       color: _dhButtonTextColor, fontSize: 18.0, height: 21.0 / 18.0, fontWeight: FontWeight.bold);
   static final TextStyle _contentTextStyle =
       _baseTextStyle.copyWith(fontSize: 14.0, height: 16.0 / 14.0, fontWeight: FontWeight.bold);
   static final TextStyle _textFieldHintTextStyle = _baseTextStyle.copyWith(
       fontSize: 18.0, color: _textFieldHintColor, height: 21.0 / 18.0, fontWeight: FontWeight.bold);
-  static final TextStyle _cardCaptionTextStyle =
-      _baseTextStyle.copyWith(fontSize: 20.0, color: _white, height: 23.0 / 20.0, fontWeight: FontWeight.bold);
-  static final TextStyle _title2TextStyle =
-      _baseTextStyle.copyWith(fontSize: 20.0, color: _black, height: 23.0 / 20.0, fontWeight: FontWeight.bold);
+  static final TextStyle _cardCaptionTextStyle = _baseTextStyle.copyWith(
+      fontSize: 20.0, color: _white, height: 23.0 / 20.0, fontWeight: FontWeight.bold);
+  static final TextStyle _title2TextStyle = _baseTextStyle.copyWith(
+      fontSize: 20.0, color: _black, height: 23.0 / 20.0, fontWeight: FontWeight.bold);
 
   static final TextStyle _filledTextField =
       _secondaryTitleTextStyle.copyWith(color: _black, fontWeight: FontWeight.normal);
 
   static final TextStyle _listTileTitleTextStyle = _baseTextStyle.copyWith(
-      fontSize: 20.0, color: _listTileMenuTextColor, height: 23.0 / 20.0, fontWeight: FontWeight.bold);
+      fontSize: 20.0,
+      color: _listTileMenuTextColor,
+      height: 23.0 / 20.0,
+      fontWeight: FontWeight.bold);
 
   static final TextStyle _cardSubtitleTextStyle = _baseTextStyle.copyWith(
-      fontSize: 12.0, color: _listTileMenuTextColor, height: 14.0 / 12.0, fontWeight: FontWeight.w300);
+      fontSize: 12.0,
+      color: _listTileMenuTextColor,
+      height: 14.0 / 12.0,
+      fontWeight: FontWeight.w300);
 
   static final TextStyle _flatButtonOffTextStyle = _baseTextStyle.copyWith(
-      fontSize: 14.0, color: _listTileMenuTextColor, height: 16.0 / 14.0, fontWeight: FontWeight.w400);
+      fontSize: 14.0,
+      color: _listTileMenuTextColor,
+      height: 16.0 / 14.0,
+      fontWeight: FontWeight.w400);
 
   static final TextStyle _popupMenuTextStyle =
       _baseTextStyle.copyWith(fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w400);
 
-  static final TextStyle _activeTextStyle =
-      _baseTextStyle.copyWith(fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w500, color: _activeColor);
-  static final TextStyle _blockedTextStyle =
-      _baseTextStyle.copyWith(fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w500, color: _blockedColor);
+  static final TextStyle _activeTextStyle = _baseTextStyle.copyWith(
+      fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w500, color: _activeColor);
+  static final TextStyle _blockedTextStyle = _baseTextStyle.copyWith(
+      fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w500, color: _blockedColor);
   static final TextStyle _coloredFlatButtonTextStyle =
       _baseTextStyle.copyWith(fontSize: 14.0, height: 16.0 / 14.0, color: _primaryColor1);
   static final TextStyle _managementListTileTextStyle =
@@ -124,29 +136,32 @@ class DHThemeConfig extends ThemeConfig {
   static final TextStyle _valueChosenFlatButtonTextStyle =
       _baseTextStyle.copyWith(fontSize: 14.0, height: 16.0 / 14.0, color: _black);
 
-  static final TextStyle _title3TextStyle =
-      _baseTextStyle.copyWith(fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w700, color: _black);
+  static final TextStyle _title3TextStyle = _baseTextStyle.copyWith(
+      fontSize: 12.0, height: 14.0 / 12.0, fontWeight: FontWeight.w700, color: _black);
 
   static final TextStyle _categoryTextStyle = _baseTextStyle.copyWith(
       fontSize: 20.0, height: 23.0 / 20.0, color: _textFieldHintColor, fontWeight: FontWeight.w300);
 
   static final TextStyle _dataAnnotationTextStyle = _baseTextStyle.copyWith(
-      fontSize: 14.0, height: 16.0 / 14.0, color: _listTileMenuIconColor, fontWeight: FontWeight.w300);
+      fontSize: 14.0,
+      height: 16.0 / 14.0,
+      color: _listTileMenuIconColor,
+      fontWeight: FontWeight.w300);
 
-  static final TextStyle _dataTextStyle =
-      _baseTextStyle.copyWith(fontSize: 16.0, height: 18.0 / 16.0, color: _black, fontWeight: FontWeight.w400);
+  static final TextStyle _dataTextStyle = _baseTextStyle.copyWith(
+      fontSize: 16.0, height: 18.0 / 16.0, color: _black, fontWeight: FontWeight.w400);
 
   static final TextStyle _title3AnnotationTextStyle = _baseTextStyle.copyWith(
       fontSize: 12.0, height: 11.0 / 9.0, color: _textFieldHintColor, fontWeight: FontWeight.w300);
 
-  static final TextStyle _bigColoredButtonActiveTextStyle =
-      _baseTextStyle.copyWith(fontSize: 24.0, height: 28.0 / 24.0, color: _primaryColor1, fontWeight: FontWeight.w400);
+  static final TextStyle _bigColoredButtonActiveTextStyle = _baseTextStyle.copyWith(
+      fontSize: 24.0, height: 28.0 / 24.0, color: _primaryColor1, fontWeight: FontWeight.w400);
 
   static final TextStyle _bigColoredButtonNotActiveTextStyle =
       _bigColoredButtonActiveTextStyle.copyWith(color: _addSthHereColor);
 
-  static final TextStyle _submitButtonTextStyle =
-      _baseTextStyle.copyWith(fontSize: 18.0, height: 21.0 / 18.0, color: _activeColor, fontWeight: FontWeight.w400);
+  static final TextStyle _submitButtonTextStyle = _baseTextStyle.copyWith(
+      fontSize: 18.0, height: 21.0 / 18.0, color: _activeColor, fontWeight: FontWeight.w400);
 
   static final Color _primaryColor1 = const Color(0xfff5550a);
   static final Color _primaryColor2 = const Color(0xfff99363);

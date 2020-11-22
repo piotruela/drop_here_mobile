@@ -52,14 +52,14 @@ String formatTimeOfDay(TimeOfDay tod) {
   return format.format(dt);
 }
 
-String formatPrice(double price) {
-  if (price % 1 == 0) {
-    return "${price.toInt().toString()} zł";
-  }
-  return "${price.toString()} zł";
-}
+String formatPrice(double price) => "${removeDecimalZeroFormat(price)} zł";
 
 String formatAmount({bool limited, double amount}) {
   if (limited) return "$amount zł";
   return "unlimited";
+}
+
+String removeDecimalZeroFormat(double n) {
+  if (n == null) return null;
+  return n.toStringAsFixed(n.truncateToDouble() == n ? 0 : 2);
 }

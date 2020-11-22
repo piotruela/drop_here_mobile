@@ -14,9 +14,8 @@ class ManageProductState extends Equatable {
   List<Object> get props => [type, product, photo, categories, unitTypes, addedCategory];
 
   bool get isFormFilled =>
-      product.name != null &&
+      isNotEmpty(product.name) &&
       product.category != null &&
-      product.description != null &&
       product.price != null &&
       product.unit != null &&
       product.unitFraction != null;

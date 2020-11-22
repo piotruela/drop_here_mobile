@@ -501,4 +501,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get customizations => "Customizations";
+
+  @override
+  String get fillAllData => "Please fill the whole form";
 }

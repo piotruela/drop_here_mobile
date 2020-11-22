@@ -82,7 +82,7 @@ class CompanyManagementService {
       headers: {"authorization": "${_appStorage.authorizationHeader}"},
       errorBuilder: (context, _, __) => FittedBox(
           child: CircleAvatar(
-              backgroundColor: Colors.white, child: Icon(Icons.person, color: Colors.black))),
+              backgroundColor: Colors.white, child: Icon(Icons.apartment, color: Colors.black))),
     );
   }
 

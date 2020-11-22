@@ -106,6 +106,10 @@ class ShipmentProductResponse {
   factory ShipmentProductResponse.fromJson(Map<String, dynamic> json) => _$ShipmentProductResponseFromJson(json);
   Map<String, dynamic> toJson() => _$ShipmentProductResponseToJson(this);
 
+  ShipmentProductRequest get toRequest => ShipmentProductRequest(
+      quantity: quantity,
+      routeProductId: productId,
+      customizations: customizations.map((e) => ShipmentCustomizationRequest(id: e.id)).toList());
 }
 
 @JsonSerializable()
@@ -113,6 +117,7 @@ class ShipmentProductCustomizationResponse {
   double customizationPrice;
   String customizationValue;
   String wrapperHeading;
+  int id;
   int wrapperId;
   CustomizationType wrapperType;
 
