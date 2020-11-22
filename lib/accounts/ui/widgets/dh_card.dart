@@ -38,6 +38,12 @@ class DhCard extends StatelessWidget {
           child: ListTile(
             leading: CircleAvatar(
               radius: 30,
+              backgroundColor: themeConfig.colors.white,
+              child: Icon(
+                Icons.person,
+                size: 40.0,
+                color: themeConfig.colors.black,
+              ),
             ),
             title: Text(
               title,
@@ -49,7 +55,9 @@ class DhCard extends StatelessWidget {
                     children: [
                       statusText(locale, themeConfig, status),
                       Text(
-                        dropsNumber != null ? locale.memberOf + ' ' + dropsNumber.toString() + ' ' + locale.spots : '',
+                        dropsNumber != null
+                            ? locale.memberOf + ' ' + dropsNumber.toString() + ' ' + locale.spots
+                            : '',
                         style: themeConfig.textStyles.cardSubtitle,
                       )
                     ],
