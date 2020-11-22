@@ -168,12 +168,17 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
           productsCarousel(context, localeBundle, bloc),
           BlocBuilder<ManageRouteBloc, ManageRouteState>(
               buildWhen: (previous, current) => previous.isFilled != current.isFilled,
-              builder: (context, state) => SubmitFormButton(
-                    text: localeBundle.addRouteButton,
-                    isActive: state.isFilled,
-                    onTap: () =>
-                        bloc.add(FormSubmitted(request: state.routeRequest, routeId: routeId)),
-                  ))
+              builder: (context, state) => Center(
+                    child: SubmitFormButton(
+                      text: localeBundle.addRouteButton,
+                      isActive: state.isFilled,
+                      onTap: () =>
+                          bloc.add(FormSubmitted(request: state.routeRequest, routeId: routeId)),
+                    ),
+                  )),
+          SizedBox(
+            height: 15.0,
+          ),
         ],
       ),
     );

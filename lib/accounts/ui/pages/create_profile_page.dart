@@ -53,13 +53,13 @@ abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
       key: formKey,
       child: ListView(
         children: [
-          DhBackButton(),
+          showBackButton ? DhBackButton() : SizedBox.shrink(),
           Column(
             children: [
               Padding(
                 padding: width > Thresholds.width
-                    ? const EdgeInsets.only(top: 144.0, bottom: 22.0)
-                    : const EdgeInsets.only(top: 40.0, bottom: 22.0),
+                    ? const EdgeInsets.only(top: 64.0, bottom: 22.0)
+                    : const EdgeInsets.only(top: 5.0, bottom: 22.0),
                 child: Text(getTitleText(context), style: themeConfig.textStyles.secondaryTitle),
               ),
               DhTextFormField(
@@ -96,6 +96,8 @@ abstract class CreateProfilePage extends BlocWidget<CreateProfileBloc> {
   Widget getNextPage();
 
   ProfileRole get profileRole;
+
+  bool get showBackButton;
 }
 
 class CreateAdminProfilePage extends CreateProfilePage {
@@ -107,6 +109,9 @@ class CreateAdminProfilePage extends CreateProfilePage {
 
   @override
   ProfileRole get profileRole => ProfileRole.ADMIN;
+
+  @override
+  bool get showBackButton => false;
 }
 
 class CreateRegularProfilePage extends CreateProfilePage {
@@ -118,4 +123,7 @@ class CreateRegularProfilePage extends CreateProfilePage {
 
   @override
   ProfileRole get profileRole => ProfileRole.BASIC;
+
+  @override
+  bool get showBackButton => true;
 }

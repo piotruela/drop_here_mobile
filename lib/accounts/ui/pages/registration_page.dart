@@ -70,8 +70,8 @@ abstract class RegistrationPage extends BlocWidget<RegistrationBloc> {
     return Center(
       child: Padding(
         padding: MediaQuery.of(context).size.width > Thresholds.width
-            ? const EdgeInsets.only(top: 100.0, bottom: 10.0)
-            : const EdgeInsets.only(top: 10.0, bottom: 10.0),
+            ? const EdgeInsets.only(top: 70.0, bottom: 10.0)
+            : const EdgeInsets.only(top: 0.0, bottom: 6.0),
         child: Text(text, style: themeConfig.textStyles.secondaryTitle),
       ),
     );
