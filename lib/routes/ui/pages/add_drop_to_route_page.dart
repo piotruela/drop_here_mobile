@@ -137,6 +137,7 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
 
   Widget endTimePicker(AddDropToRouteBloc bloc, BuildContext context) {
     TimeOfDay minEndTime = bloc.state.drop?.startTime?.toTimeOfDay;
+
     return ChoosableButton(
         text: bloc.state.drop?.endTime ?? "End time",
         chooseAction: () async {
@@ -145,7 +146,7 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
               context: context,
               initialTime: TimeOfDay.now());
           if (pickedTime != null) {
-            if (minEndTime.isAfter(pickedTime)) {
+            if (minEndTime.plusMinutes(1).isAfter(pickedTime)) {
               pickedTime = await showDialog(
                   context: context, child: wrongTimeDialog(context: context, minTime: minEndTime));
             }
