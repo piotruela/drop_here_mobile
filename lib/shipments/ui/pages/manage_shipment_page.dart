@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:drop_here_mobile/accounts/ui/widgets/big_colored_rounded_flat_button.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_plain_text_form_field.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/secondary_title.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
@@ -30,6 +31,12 @@ class CreateShipmentPage extends ManageShipmentPage {
   CustomerShipmentEvent get initializingEvent => InitializeCreateOrder(drop: drop);
   @override
   String get pageTitle => "New order";
+
+  @override
+  String get companyUid => drop.spot.companyUid;
+
+  @override
+  String get dropUid => drop.uid;
 }
 
 class EditShipmentPage extends ManageShipmentPage {
@@ -43,6 +50,9 @@ class EditShipmentPage extends ManageShipmentPage {
 
   @override
   String get pageTitle => "Edit order";
+
+  @override
+  String get companyUid => order.companyUid;
 }
 
 abstract class ManageShipmentPage extends BlocWidget<CustomerShipmentBloc> {
@@ -50,6 +60,10 @@ abstract class ManageShipmentPage extends BlocWidget<CustomerShipmentBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
 
   CustomerShipmentEvent get initializingEvent;
+
+  String get companyUid;
+
+  String get dropUid;
 
   @override
   CustomerShipmentBloc bloc() => CustomerShipmentBloc()..add(initializingEvent);
@@ -92,7 +106,20 @@ abstract class ManageShipmentPage extends BlocWidget<CustomerShipmentBloc> {
                 onChanged: (value) =>
                     BlocProvider.of<CustomerShipmentBloc>(context).add(CommentChanged(comment: value)),
                 initialValue: state.comment),
-            LabeledCircledColoredInfo(label: "Summarized price", text: "0 zł")
+            LabeledCircledColoredInfo(label: "Summarized price", text: formatPrice(state.sum)),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Align(
+                child: SubmitFormButton(
+                  isActive: state.selectedProducts.isNotEmpty,
+                  text: "Create order",
+                  onTap: () => bloc.add(SubmitForm(
+                    companyUid: companyUid,
+                    dropUid: dropUid,
+                  )),
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -103,7 +130,7 @@ abstract class ManageShipmentPage extends BlocWidget<CustomerShipmentBloc> {
       BuildContext context, LocaleBundle localeBundle, CustomerShipmentBloc bloc, CustomerShipmentState state) {
     return CarouselSlider(
         options: CarouselOptions(
-          aspectRatio: 14 / 7.4,
+          aspectRatio: 14 / 5.4,
           enableInfiniteScroll: false,
           viewportFraction: 0.38,
           initialPage: 0,
@@ -111,8 +138,7 @@ abstract class ManageShipmentPage extends BlocWidget<CustomerShipmentBloc> {
         items: [
           for (ShipmentProductRequest product in state.selectedProducts ?? [])
             ProductInShipmentManagementCard(
-              product: state.drop.products
-                  .firstWhere((element) => element.routeProductResponse.id == product.routeProductId),
+              product: state.drop.products.firstWhere((element) => element.id == product.routeProductId),
               amount: product.quantity,
               deleteProductAction: () => bloc.add(RemoveProduct(product: product)),
             ),
@@ -141,13 +167,13 @@ class ProductInShipmentManagementCard extends NarrowTile {
   ProductInShipmentManagementCard({this.product, this.amount, this.deleteProductAction});
 
   @override
-  String get firstLineText => amount.toString();
+  String get firstLineText => "amount: ${removeDecimalZeroFormat(amount)}";
 
   @override
   IconData get iconType => Icons.shopping_basket_outlined;
 
   @override
-  String get secondLineText => formatPrice(amount * product.price);
+  String get secondLineText => "";
 
   @override
   String get tileTitle => product.routeProductResponse.name;

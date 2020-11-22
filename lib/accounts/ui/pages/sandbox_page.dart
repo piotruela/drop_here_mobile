@@ -14,6 +14,7 @@ import 'package:drop_here_mobile/products/services/product_management_service.da
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
 import 'package:drop_here_mobile/shipments/ui/pages/add_product_page.dart';
 import 'package:drop_here_mobile/shipments/ui/pages/dashboard_page.dart';
+import 'package:drop_here_mobile/shipments/ui/pages/shipment_details_page.dart';
 import 'package:drop_here_mobile/spots/services/spot_management_service.dart';
 import 'package:drop_here_mobile/spots/services/spots_user_service.dart';
 import 'package:drop_here_mobile/spots/ui/pages/company_map_page.dart';
@@ -49,6 +50,11 @@ class SandboxPage extends StatelessWidget {
                     child: Text("Dashboard page"),
                     onPressed: () {
                       Get.to(DashboardPage());
+                    }),
+                FlatButton(
+                    child: Text("Shipment details page"),
+                    onPressed: () {
+                      Get.to(ShipmentDetailsPage(shipmentId: 2));
                     }),
                 FlatButton(
                     child: Text("Add product to shipment"),

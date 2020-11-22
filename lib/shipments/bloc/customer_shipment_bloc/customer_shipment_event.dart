@@ -25,22 +25,20 @@ class InitializeEditOrder extends CustomerShipmentEvent {
 
 class AddProduct extends CustomerShipmentEvent {
   final ShipmentProductRequest productRequest;
-  final double amount;
 
-  AddProduct({this.productRequest, this.amount});
+  AddProduct({this.productRequest});
 
   @override
-  List<Object> get props => [productRequest, amount];
+  List<Object> get props => [productRequest];
 }
 
 class RemoveProduct extends CustomerShipmentEvent {
   final ShipmentProductRequest product;
-  final double amount;
 
-  RemoveProduct({this.product, this.amount});
+  RemoveProduct({this.product});
 
   @override
-  List<Object> get props => [product, amount];
+  List<Object> get props => [product];
 }
 
 class CommentChanged extends CustomerShipmentEvent {

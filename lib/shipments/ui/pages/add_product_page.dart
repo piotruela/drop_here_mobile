@@ -68,7 +68,9 @@ class _AddProductToShipmentDialogState extends State<AddProductToShipmentDialog>
   @override
   void initState() {
     request.quantity = widget.product.routeProductResponse.unitFraction;
-    request.routeProductId = widget.product.routeProductResponse.id;
+    request.routeProductId = widget.product.id;
+    widget.product.routeProductResponse.customizationsWrappers
+        .forEach((element) => element.required ? customizations.add(element.customizations.first) : {});
     super.initState();
   }
 
@@ -136,7 +138,7 @@ class _AddProductToShipmentDialogState extends State<AddProductToShipmentDialog>
         ),
         GestureDetector(
           child: Text("Submit", style: themeConfig.textStyles.active.copyWith(fontSize: 20.0)),
-          onTap: () => Navigator.pop(context, [prepareToReturn(),product.price * request.quantity + calculateCustomizationsPrice()]),
+          onTap: () => Navigator.pop(context, prepareToReturn()),
         ),
       ],
     );
