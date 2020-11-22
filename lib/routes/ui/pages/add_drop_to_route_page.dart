@@ -146,7 +146,7 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
               context: context,
               initialTime: TimeOfDay.now());
           if (pickedTime != null) {
-            if (minEndTime.plusMinutes(1).isAfter(pickedTime)) {
+            if (!pickedTime.isAfter(minEndTime)) {
               pickedTime = await showDialog(
                   context: context, child: wrongTimeDialog(context: context, minTime: minEndTime));
             }
