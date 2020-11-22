@@ -217,6 +217,7 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
   Widget _joiningDialog(BuildContext context, bool passwordRequired, bool acceptRequired) {
     SpotJoinRequest request = SpotJoinRequest();
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+    LocaleBundle locale = Localization.of(context).bundle;
     return AlertDialog(
       content: SingleChildScrollView(
         child: Column(
@@ -251,7 +252,7 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
             passwordRequired
                 ? DhPlainTextFormField(
                     inputType: InputType.text,
-                    hintText: "Aezakmi",
+                    hintText: locale.passwordHint,
                     onChanged: (String password) => request.password = password)
                 : SizedBox.shrink(),
             acceptRequired

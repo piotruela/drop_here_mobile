@@ -320,4 +320,6 @@ abstract class LocaleBundle {
   String get unblockUser;
 
   String get fillAllData;
+
+  String get passwordHint;
 }
