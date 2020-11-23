@@ -2,6 +2,7 @@ import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart'
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
@@ -50,6 +51,9 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
         child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        DhBackButton(
+          padding: EdgeInsets.zero,
+        ),
         _userName(bloc.state.customerResponse.fullName),
         _avatar(),
         SizedBox(
