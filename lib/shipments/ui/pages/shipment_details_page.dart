@@ -16,6 +16,7 @@ import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/shipments/bloc/company_shipment_bloc/company_shipment_bloc.dart';
 import 'package:drop_here_mobile/shipments/model/api/company_shipment_request.dart';
 import 'package:drop_here_mobile/shipments/model/api/company_shipment_response.dart';
+import 'package:drop_here_mobile/shipments/ui/pages/dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
@@ -44,7 +45,7 @@ class ShipmentDetailsPage extends BlocWidget<CompanyShipmentBloc> {
                 context: context,
                 conditionBuilder: (_) => state.type == CompanyShipmentStateType.shipment_fetched,
                 widgetBuilder: (_) => _buildContent(context, bloc),
-                fallbackBuilder: (_) => CircularProgressIndicator()),
+                fallbackBuilder: (_) => Center(child: CircularProgressIndicator())),
           ),
           AddNewItemPanel(controller: panelController)
         ],
@@ -66,7 +67,7 @@ class ShipmentDetailsPage extends BlocWidget<CompanyShipmentBloc> {
           children: [
             DhBackButton(
               padding: EdgeInsets.zero,
-              //TODO: Change to go back to shipments list backAction: () => Get.to(DashboardPage(initialIndex: 1)),
+              backAction: () => Get.to(DashboardPage(initialIndex: 1)),
             ),
             Text(
               "Order No. ${shipmentResponse.id.toString()}",

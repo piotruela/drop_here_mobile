@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart';
 import 'package:drop_here_mobile/accounts/services/company_management_service.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
@@ -29,7 +31,10 @@ class CompanyShipmentService {
       ShipmentCompanyDecisionRequest shipmentCompanyDecisionRequest, String shipmentId) async {
     String companyId = await _companyManagementService.getCompanyId();
     dynamic response = await _httpClient.patch(
-        canRepeatRequest: true, path: "/companies/$companyId/shipments/$shipmentId", out: (dynamic json) => json);
+        canRepeatRequest: true,
+        body: json.encode(shipmentCompanyDecisionRequest.toJson()),
+        path: "/companies/$companyId/shipments/$shipmentId",
+        out: (dynamic json) => json);
     return ResourceOperationResponse.fromJson(response);
   }
 }
