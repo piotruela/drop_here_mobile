@@ -18,6 +18,9 @@ import 'package:get/get.dart';
 class LoginPage extends BlocWidget<LoginBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final AssetsConfig assetsConfig = Get.find<AssetsConfig>();
+  final VoidCallback backAction;
+
+  LoginPage({this.backAction});
 
   @override
   LoginBloc bloc() => LoginBloc();
@@ -67,6 +70,7 @@ class LoginPage extends BlocWidget<LoginBloc> {
               children: [
                 DhBackButton(
                   padding: EdgeInsets.zero,
+                  backAction: backAction,
                 ),
                 Padding(
                   padding: MediaQuery.of(context).size.width > Thresholds.width
