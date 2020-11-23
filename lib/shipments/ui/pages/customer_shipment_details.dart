@@ -1,7 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/utils/datetime_utils.dart';
-import 'package:drop_here_mobile/common/ui/utils/double_utils.dart';
 import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
@@ -64,7 +63,7 @@ class CustomerShipmentDetailsPage extends BlocWidget<CustomerShipmentDetailsBloc
             ),
             LabeledCircledInfoWithDivider(
               label: "Summarized price",
-              text: shipmentResponse.summarizedAmount.formatPrice(),
+              text: formatPrice(shipmentResponse.summarizedAmount),
             ),
             LabeledCircledInfoWithDivider(
               label: "No. of products",
@@ -174,13 +173,13 @@ class ProductInShipmentDetails extends NarrowTile {
   ProductInShipmentDetails({this.product});
 
   @override
-  String get firstLineText => product.quantity.toString();
+  String get firstLineText => "amount: ${removeDecimalZeroFormat(product.quantity)}";
 
   @override
   IconData get iconType => Icons.shopping_basket_outlined;
 
   @override
-  String get secondLineText => product.summarizedPrice.formatPrice();
+  String get secondLineText => formatPrice(product.summarizedPrice);
 
   @override
   String get tileTitle => product.productName;

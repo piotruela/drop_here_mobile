@@ -40,6 +40,9 @@ class EditRoutePage extends ManageRoutePage {
   List<ProductResponse> get products => route.products.map((e) => e.routeProductResponse).toList();
 
   int get routeId => route.id;
+
+  @override
+  String get submitButtonText => "Edit route";
 }
 
 class AddRoutePage extends ManageRoutePage {
@@ -51,14 +54,16 @@ class AddRoutePage extends ManageRoutePage {
       UnpreparedRouteRequest(drops: [], acceptShipmentsAutomatically: false, products: []);
 
   int get routeId => null;
+
+  @override
+  String get submitButtonText => "Add route";
 }
 
 abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
 
   @override
-  bloc() => ManageRouteBloc()
-    ..add(InitializeForm(routeRequest: initialRoute, alreadyAddedProducts: products));
+  bloc() => ManageRouteBloc()..add(InitializeForm(routeRequest: initialRoute, alreadyAddedProducts: products));
 
   String get pageTitle;
 
@@ -67,6 +72,8 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
   List<ProductResponse> get products => null;
 
   int get routeId;
+
+  String get submitButtonText;
 
   @override
   Widget build(BuildContext context, ManageRouteBloc bloc, _) {
@@ -114,36 +121,33 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
           labeledSwitch(
               text: "Auto-accept order",
               initialPosition: bloc.state.routeRequest.acceptShipmentsAutomatically,
-              onSwitch: (value) => bloc.add(
-                  FormChanged(routeRequest: bloc.state.routeRequest.copyWith(autoAccept: value)))),
+              onSwitch: (value) =>
+                  bloc.add(FormChanged(routeRequest: bloc.state.routeRequest.copyWith(autoAccept: value)))),
           secondaryTitle(localeBundle.dateMandatory),
           BlocBuilder<ManageRouteBloc, ManageRouteState>(
-              buildWhen: (previous, current) =>
-                  previous.routeRequest.date != current.routeRequest.date,
+              buildWhen: (previous, current) => previous.routeRequest.date != current.routeRequest.date,
               builder: (context, state) => Conditional.single(
                   context: context,
                   conditionBuilder: (_) => state.routeRequest?.date != null,
                   widgetBuilder: (_) => ChoosableButton(
-                      text: state.routeRequest.date,
-                      chooseAction: () async => chooseDate(context, bloc)),
-                  fallbackBuilder: (_) => ChoosableButton(
-                      text: "Add date +", chooseAction: () async => chooseDate(context, bloc)))),
+                      text: state.routeRequest.date, chooseAction: () async => chooseDate(context, bloc)),
+                  fallbackBuilder: (_) =>
+                      ChoosableButton(text: "Add date", chooseAction: () async => chooseDate(context, bloc)))),
           secondaryTitle("Drops"),
           dropsCarousel(context, localeBundle, bloc),
           secondaryTitle(localeBundle.assignedSeller),
           BlocBuilder<ManageRouteBloc, ManageRouteState>(
-              buildWhen: (previous, current) =>
-                  previous.routeRequest.profileUid != current.routeRequest.profileUid,
+              buildWhen: (previous, current) => previous.routeRequest.profileUid != current.routeRequest.profileUid,
               builder: (context, state) => Conditional.single(
                     context: context,
                     conditionBuilder: (_) => state.routeRequest.profileUid == null,
                     widgetBuilder: (_) => ChoosableButton(
-                        text: "Asign seller +",
+                        text: "Assign seller",
                         chooseAction: () async {
                           FocusScope.of(context).unfocus();
                           bloc.add(FormChanged(
-                              routeRequest: bloc.state.routeRequest
-                                  .copyWith(profileUid: await Get.to(ChooseSellerPage()))));
+                              routeRequest:
+                                  bloc.state.routeRequest.copyWith(profileUid: await Get.to(ChooseSellerPage()))));
                         }),
                     fallbackBuilder: (_) => SellerCard(
                       title: state.sellerFullName ?? "",
@@ -152,8 +156,8 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
                         FocusScope.of(context).unfocus();
                         bloc.add(FormChanged(
                             routeRequest: bloc.state.routeRequest.copyWith(
-                                profileUid: await Get.to(ChooseSellerPage(
-                                    selectedProfileUid: state.routeRequest.profileUid)))));
+                                profileUid: await Get.to(
+                                    ChooseSellerPage(selectedProfileUid: state.routeRequest.profileUid)))));
                       },
                     ),
                   )),
@@ -161,8 +165,8 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
               label: localeBundle.description,
               hint: "This route is the best opportunity to get vegetables straight from",
               inputType: InputType.text,
-              onChanged: (String description) => bloc.add(FormChanged(
-                  routeRequest: bloc.state.routeRequest.copyWith(description: description))),
+              onChanged: (String description) =>
+                  bloc.add(FormChanged(routeRequest: bloc.state.routeRequest.copyWith(description: description))),
               initialValue: bloc.state.routeRequest?.description ?? ""),
           secondaryTitle("Products"),
           productsCarousel(context, localeBundle, bloc),
@@ -170,10 +174,9 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
               buildWhen: (previous, current) => previous.isFilled != current.isFilled,
               builder: (context, state) => Center(
                     child: SubmitFormButton(
-                      text: localeBundle.addRouteButton,
+                      text: submitButtonText,
                       isActive: state.isFilled,
-                      onTap: () =>
-                          bloc.add(FormSubmitted(request: state.routeRequest, routeId: routeId)),
+                      onTap: () => bloc.add(FormSubmitted(request: state.routeRequest, routeId: routeId)),
                     ),
                   )),
           SizedBox(
@@ -198,12 +201,7 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
     }
   }
 
-  Widget _field(
-      {String label,
-      String hint,
-      InputType inputType,
-      Function(String) onChanged,
-      String initialValue}) {
+  Widget _field({String label, String hint, InputType inputType, Function(String) onChanged, String initialValue}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -212,8 +210,7 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
           label,
           style: themeConfig.textStyles.secondaryTitle,
         ),
-        DhPlainTextFormField(
-            hintText: hint, inputType: inputType, onChanged: onChanged, initialValue: initialValue)
+        DhPlainTextFormField(hintText: hint, inputType: inputType, onChanged: onChanged, initialValue: initialValue)
       ],
     );
   }
@@ -232,7 +229,7 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
 
   Widget addDropButton(ManageRouteBloc bloc) {
     return ChoosableButton(
-      text: "Add drop +",
+      text: "Add drop",
       chooseAction: () async {
         final TimeOfDay minTime = bloc.state.routeRequest.drops.isNotEmpty
             ? bloc.state.routeRequest.drops.last.endTime.toTimeOfDay
@@ -271,9 +268,7 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
       for (RouteDropRequest drop in bloc.state.routeRequest.drops ?? [])
         CompanyRouteDropCard(
           drop: drop,
-          dropSpotName: bloc.state.spots
-              .firstWhere((element) => element.id == drop.spotId, orElse: () => null)
-              ?.name,
+          dropSpotName: bloc.state.spots.firstWhere((element) => element.id == drop.spotId, orElse: () => null)?.name,
           onClosePressed: () => bloc.add(RemoveDrop(drop: drop)),
         ),
       addDropButton(bloc),
@@ -285,9 +280,8 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
       for (RouteProductRequest product in bloc.state.routeRequest.products ?? [])
         ProductInDropManagementTile(
           product: product,
-          productName: bloc.state.products
-              .firstWhere((element) => element.id == product.productId, orElse: () => null)
-              ?.name,
+          productName:
+              bloc.state.products.firstWhere((element) => element.id == product.productId, orElse: () => null)?.name,
           closeAction: () => bloc.add(RemoveProduct(productId: product.productId)),
         ),
       addProductButton(context, bloc),
@@ -296,7 +290,7 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
 
   Widget addProductButton(BuildContext context, ManageRouteBloc bloc) {
     return ChoosableButton(
-      text: "Add product +",
+      text: "Add product",
       chooseAction: () async {
         FocusScope.of(context).requestFocus(FocusNode());
         bloc.add(FormChanged(
