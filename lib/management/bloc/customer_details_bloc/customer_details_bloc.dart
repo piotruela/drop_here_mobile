@@ -7,6 +7,7 @@ import 'package:drop_here_mobile/accounts/services/account_service.dart';
 import 'package:drop_here_mobile/accounts/services/authentication_service.dart';
 import 'package:drop_here_mobile/accounts/services/customer_management_service.dart';
 import 'package:drop_here_mobile/accounts/ui/pages/login_page.dart';
+import 'package:drop_here_mobile/accounts/ui/pages/welcome_page.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 
@@ -42,7 +43,11 @@ class CustomerDetailsBloc extends Bloc<CustomerDetailsEvent, CustomerDetailsStat
           customerInfo: state.customerInfo,
           accountInfo: state.accountInfo);
       await _authenticationService.logOutFromAccount();
-      Get.offAll(LoginPage());
+      Get.offAll(LoginPage(
+        backAction: () {
+          Get.to(WelcomePage());
+        },
+      ));
     } else if (event is UpdateClientDetails) {
       CustomerDetailsState(
           type: CustomerDetailsStateType.loading,
