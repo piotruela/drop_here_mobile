@@ -11,13 +11,13 @@ class CompanyShipmentService {
   final DhHttpClient _httpClient = Get.find<DhHttpClient>();
   final CompanyManagementService _companyManagementService = Get.find<CompanyManagementService>();
 
-  Future<CompanyShipmentsPage> getCompanyShipments(CompanyShipmentRequest companyShipmentRequest) async {
+  Future<ShipmentsPage> getCompanyShipments(CompanyShipmentRequest companyShipmentRequest) async {
     String companyId = await _companyManagementService.getCompanyId();
     dynamic response = await _httpClient.get(
         canRepeatRequest: true,
         path: "/companies/$companyId/shipments?${companyShipmentRequest?.toQueryParams() ?? ''}",
         out: (dynamic json) => json);
-    return CompanyShipmentsPage.fromJson(response);
+    return ShipmentsPage.fromJson(response);
   }
 
   Future<ShipmentResponse> getCompanyShipment(String shipmentId) async {
@@ -28,11 +28,11 @@ class CompanyShipmentService {
   }
 
   Future<ResourceOperationResponse> updateShipmentStatus(
-      ShipmentCompanyDecisionRequest shipmentCompanyDecisionRequest, String shipmentId) async {
+      ShipmentDecisionRequest shipmentDecisionRequest, String shipmentId) async {
     String companyId = await _companyManagementService.getCompanyId();
     dynamic response = await _httpClient.patch(
         canRepeatRequest: true,
-        body: json.encode(shipmentCompanyDecisionRequest.toJson()),
+        body: json.encode(shipmentDecisionRequest.toJson()),
         path: "/companies/$companyId/shipments/$shipmentId",
         out: (dynamic json) => json);
     return ResourceOperationResponse.fromJson(response);

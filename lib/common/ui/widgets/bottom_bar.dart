@@ -2,6 +2,7 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/management/ui/pages/customer_details_page.dart';
 import 'package:drop_here_mobile/management/ui/pages/management_page.dart';
 import 'package:drop_here_mobile/products/ui/pages/products_list_page.dart';
+import 'package:drop_here_mobile/shipments/ui/pages/customer_shipments_list_page.dart';
 import 'package:drop_here_mobile/shipments/ui/pages/dashboard_page.dart';
 import 'package:drop_here_mobile/spots/ui/pages/company_map_page.dart';
 import 'package:drop_here_mobile/spots/ui/pages/customer_map_page.dart';
@@ -16,7 +17,7 @@ class CustomerBottomBar extends DHBottomBar {
 
   @override
   List<VoidCallback> get bottomBarActions => [
-        () => {}, //TODO navigate to shipments list
+        () => Get.offAll(CustomerShipmentsListPage()),
         () => {}, //TODO: navigate to ??
         () => Get.offAll(CustomerMapPage()),
         () => Get.offAll(CustomerDetailsPage())
@@ -75,7 +76,7 @@ abstract class DHBottomBar extends StatelessWidget {
         ]),
         child: Row(
           mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
             IconButton(
               onPressed: bottomBarActions[0],

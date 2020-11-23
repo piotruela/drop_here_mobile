@@ -10,7 +10,9 @@ import 'package:drop_here_mobile/products/model/api/product_management_api.dart'
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
 import 'package:drop_here_mobile/shipments/model/api/company_shipment_request.dart';
 import 'package:drop_here_mobile/shipments/model/api/company_shipment_response.dart';
+import 'package:drop_here_mobile/shipments/model/api/customer_shipment_request.dart';
 import 'package:drop_here_mobile/shipments/service/company_shipment_service.dart';
+import 'package:drop_here_mobile/shipments/service/customer_shipment_service.dart';
 import 'package:equatable/equatable.dart';
 import 'package:get/get.dart';
 import 'package:meta/meta.dart';
@@ -22,6 +24,7 @@ class DhListBloc extends Bloc<DhListEvent, DhListState> {
   final CompanyManagementService companyManagementService = Get.find<CompanyManagementService>();
   final ProductManagementService productManagementService = Get.find<ProductManagementService>();
   final CompanyShipmentService companyShipmentService = Get.find<CompanyShipmentService>();
+  final CustomerShipmentService customerShipmentService = Get.find<CustomerShipmentService>();
 
   DhListBloc() : super(DhListInitial());
 
@@ -70,8 +73,10 @@ class DhListBloc extends Bloc<DhListEvent, DhListState> {
       final ProductsPage products = await productManagementService.getCompanyProducts();
       yield ProductsFetched(products: products.content);
     } else if (event is FetchShipments) {
-      final CompanyShipmentsPage shipmentsPage =
-          await companyShipmentService.getCompanyShipments(CompanyShipmentRequest());
+      final ShipmentsPage shipmentsPage = await companyShipmentService.getCompanyShipments(CompanyShipmentRequest());
+      yield ShipmentsFetched(shipments: shipmentsPage.content);
+    } else if (event is FetchCustomerShipments) {
+      final ShipmentsPage shipmentsPage = await customerShipmentService.getShipments(CustomerShipmentRequest());
       yield ShipmentsFetched(shipments: shipmentsPage.content);
     }
   }

@@ -6,7 +6,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'company_shipment_response.g.dart';
 
 @JsonSerializable()
-class CompanyShipmentsPage {
+class ShipmentsPage {
   List<ShipmentResponse> content;
   bool empty;
   bool first;
@@ -19,10 +19,10 @@ class CompanyShipmentsPage {
   int totalElements;
   int totalPages;
 
-  CompanyShipmentsPage();
+  ShipmentsPage();
 
-  factory CompanyShipmentsPage.fromJson(Map<String, dynamic> json) => _$CompanyShipmentsPageFromJson(json);
-  Map<String, dynamic> toJson() => _$CompanyShipmentsPageToJson(this);
+  factory ShipmentsPage.fromJson(Map<String, dynamic> json) => _$ShipmentsPageFromJson(json);
+  Map<String, dynamic> toJson() => _$ShipmentsPageToJson(this);
 }
 
 @JsonSerializable()
