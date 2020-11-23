@@ -110,3 +110,39 @@ T _$enumDecodeNullable<T>(
 const _$CustomerDecisionEnumMap = {
   CustomerDecision.CANCEL: 'CANCEL',
 };
+
+CustomerShipmentRequest _$CustomerShipmentRequestFromJson(
+    Map<String, dynamic> json) {
+  return CustomerShipmentRequest(
+    offset: json['offset'] as int,
+    pageNumber: json['pageNumber'] as int,
+    pageSize: json['pageSize'] as int,
+    paged: json['paged'] as bool,
+    sortSorted: json['sortSorted'] as bool,
+    sortUnsorted: json['sortUnsorted'] as bool,
+    unpaged: json['unpaged'] as bool,
+    status: _$enumDecodeNullable(_$ShipmentStatusEnumMap, json['status']),
+  );
+}
+
+Map<String, dynamic> _$CustomerShipmentRequestToJson(
+        CustomerShipmentRequest instance) =>
+    <String, dynamic>{
+      'offset': instance.offset,
+      'pageNumber': instance.pageNumber,
+      'pageSize': instance.pageSize,
+      'paged': instance.paged,
+      'sortSorted': instance.sortSorted,
+      'sortUnsorted': instance.sortUnsorted,
+      'status': _$ShipmentStatusEnumMap[instance.status],
+      'unpaged': instance.unpaged,
+    };
+
+const _$ShipmentStatusEnumMap = {
+  ShipmentStatus.PLACED: 'PLACED',
+  ShipmentStatus.ACCEPTED: 'ACCEPTED',
+  ShipmentStatus.CANCEL_REQUESTED: 'CANCEL_REQUESTED',
+  ShipmentStatus.CANCELLED: 'CANCELLED',
+  ShipmentStatus.DELIVERED: 'DELIVERED',
+  ShipmentStatus.REJECTED: 'REJECTED',
+};

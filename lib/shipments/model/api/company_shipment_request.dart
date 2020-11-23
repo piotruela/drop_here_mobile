@@ -43,15 +43,14 @@ class CompanyShipmentRequest {
 }
 
 @JsonSerializable()
-class ShipmentCompanyDecisionRequest {
+class ShipmentDecisionRequest {
   String comment;
-  CompanyDecision companyDecision;
+  Decision companyDecision;
 
-  ShipmentCompanyDecisionRequest({this.comment, this.companyDecision});
+  ShipmentDecisionRequest({this.comment, this.companyDecision});
 
-  factory ShipmentCompanyDecisionRequest.fromJson(Map<String, dynamic> json) =>
-      _$ShipmentCompanyDecisionRequestFromJson(json);
-  Map<String, dynamic> toJson() => _$ShipmentCompanyDecisionRequestToJson(this);
+  factory ShipmentDecisionRequest.fromJson(Map<String, dynamic> json) => _$ShipmentDecisionRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$ShipmentDecisionRequestToJson(this);
 }
 
-enum CompanyDecision { REJECT, ACCEPT, CANCEL, DELIVER }
+enum Decision { REJECT, ACCEPT, CANCEL, DELIVER }

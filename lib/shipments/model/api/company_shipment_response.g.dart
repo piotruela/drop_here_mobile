@@ -6,8 +6,8 @@ part of 'company_shipment_response.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-CompanyShipmentsPage _$CompanyShipmentsPageFromJson(Map<String, dynamic> json) {
-  return CompanyShipmentsPage()
+ShipmentsPage _$ShipmentsPageFromJson(Map<String, dynamic> json) {
+  return ShipmentsPage()
     ..content = (json['content'] as List)
         ?.map((e) => e == null
             ? null
@@ -29,8 +29,7 @@ CompanyShipmentsPage _$CompanyShipmentsPageFromJson(Map<String, dynamic> json) {
     ..totalPages = json['totalPages'] as int;
 }
 
-Map<String, dynamic> _$CompanyShipmentsPageToJson(
-        CompanyShipmentsPage instance) =>
+Map<String, dynamic> _$ShipmentsPageToJson(ShipmentsPage instance) =>
     <String, dynamic>{
       'content': instance.content,
       'empty': instance.empty,
