@@ -180,7 +180,7 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
 
   Widget _changeToPreparedButton(BuildContext context) => ChoosableButtonWithSubText(
       text: "Change status to prepared",
-      subText: "Allows to order products from\n this route",
+      subText: "Allows to order products",
       chooseAction: () => BlocProvider.of<RouteDetailsBloc>(context)
           .add(UpdateRouteStatus(routeId: routeId, status: RouteStatus.PREPARED)));
 
@@ -197,19 +197,17 @@ class RouteDetailsPage extends BlocWidget<RouteDetailsBloc> {
   Widget _changeToOngoingButton(BuildContext context, {bool shouldPop = false}) =>
       ChoosableButtonWithSubText(
           text: "Change status to ongoing",
-          subText: "Changes status to ongoing",
+          subText: "Start delivering",
           chooseAction: () {
             BlocProvider.of<RouteDetailsBloc>(context)
                 .add(UpdateRouteStatus(routeId: routeId, status: RouteStatus.ONGOING));
             if (shouldPop) Navigator.pop(context);
           });
 
-  Widget _changeStatusButton(BuildContext context, RouteStatus currentStatus) =>
-      ChoosableButtonWithSubText(
-          text: "Change status",
-          subText: "Opens dialog where you\ncan change status",
-          chooseAction: () async => await showDialog(
-              context: context, child: _changeStatusDialog(context, currentStatus)));
+  Widget _changeStatusButton(BuildContext context, RouteStatus currentStatus) => ChoosableButton(
+      text: "Change status",
+      chooseAction: () async =>
+          await showDialog(context: context, child: _changeStatusDialog(context, currentStatus)));
 
   Widget _changeStatusDialog(BuildContext context, RouteStatus currentStatus) {
     return AlertDialog(
