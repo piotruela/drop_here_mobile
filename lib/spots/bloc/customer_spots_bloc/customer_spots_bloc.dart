@@ -13,7 +13,8 @@ part 'customer_spots_state.dart';
 class CustomerSpotsBloc extends Bloc<CustomerSpotsEvent, CustomerSpotsState> {
   final SpotsUserService spotsUserService = Get.find<SpotsUserService>();
 
-  CustomerSpotsBloc() : super(CustomerSpotsState(spots: null, type: CustomerSpotsStateType.loading));
+  CustomerSpotsBloc()
+      : super(CustomerSpotsState(spots: null, type: CustomerSpotsStateType.loading));
 
   @override
   Stream<CustomerSpotsState> mapEventToState(
@@ -22,17 +23,24 @@ class CustomerSpotsBloc extends Bloc<CustomerSpotsEvent, CustomerSpotsState> {
     if (event is FetchSpotsEvent) {
       yield CustomerSpotsState(spots: null, type: CustomerSpotsStateType.loading);
       final List<SpotBaseCustomerResponse> spots = await spotsUserService.getSpots(
-          SpotCustomerRequest(radius: event.radius, xCoordinate: event.xCoordinate, yCoordinate: event.yCoordinate));
+          SpotCustomerRequest(
+              radius: event.radius,
+              xCoordinate: event.xCoordinate,
+              yCoordinate: event.yCoordinate));
       yield CustomerSpotsState(spots: spots, type: CustomerSpotsStateType.success);
     } else if (event is SendSpotJoiningRequest) {
       yield CustomerSpotsState(spots: null, type: CustomerSpotsStateType.loading);
       ResourceOperationResponse response =
           await spotsUserService.joinSpot(event.spotUid, event.companyUid, event.request);
-      yield CustomerSpotsState(
-          spots: null,
-          type: response.operationStatus == OperationStatus.ERROR
-              ? CustomerSpotsStateType.failure
-              : CustomerSpotsStateType.spot_managed);
+      if (response == null) {
+        yield CustomerSpotsState(spots: null, type: CustomerSpotsStateType.failure);
+      } else {
+        yield CustomerSpotsState(
+            spots: null,
+            type: response.operationStatus == OperationStatus.ERROR
+                ? CustomerSpotsStateType.failure
+                : CustomerSpotsStateType.spot_managed);
+      }
     } else if (event is UpdateSpotSettings) {
       yield CustomerSpotsState(spots: null, type: CustomerSpotsStateType.loading);
       ResourceOperationResponse response =
@@ -44,7 +52,8 @@ class CustomerSpotsBloc extends Bloc<CustomerSpotsEvent, CustomerSpotsState> {
               : CustomerSpotsStateType.spot_managed);
     } else if (event is LeaveSpot) {
       yield CustomerSpotsState(spots: null, type: CustomerSpotsStateType.loading);
-      ResourceOperationResponse response = await spotsUserService.leavingSpot(event.spotUid, event.companyUid);
+      ResourceOperationResponse response =
+          await spotsUserService.leavingSpot(event.spotUid, event.companyUid);
       yield CustomerSpotsState(
           spots: null,
           type: response.operationStatus == OperationStatus.ERROR

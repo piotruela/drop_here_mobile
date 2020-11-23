@@ -218,14 +218,34 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
     );
   }
 
-  CarouselSlider productsCarousel(
-      BuildContext context, LocaleBundle localeBundle, ManageRouteBloc bloc) {
-    return CarouselSlider(options: options(), items: productItems(context, bloc));
+  Widget productsCarousel(BuildContext context, LocaleBundle localeBundle, ManageRouteBloc bloc) {
+    return bloc.state.routeRequest.products.length == 0
+        ? addProductButton(context, bloc)
+        : CarouselSlider(options: options(), items: productItems(context, bloc));
   }
 
-  CarouselSlider dropsCarousel(
-      BuildContext context, LocaleBundle localeBundle, ManageRouteBloc bloc) {
-    return CarouselSlider(options: dropsOptions(), items: dropsItems(context, bloc));
+  Widget dropsCarousel(BuildContext context, LocaleBundle localeBundle, ManageRouteBloc bloc) {
+    return bloc.state.routeRequest.drops.length == 0
+        ? addDropButton(bloc)
+        : CarouselSlider(options: dropsOptions(), items: dropsItems(context, bloc));
+  }
+
+  Widget addDropButton(ManageRouteBloc bloc) {
+    return ChoosableButton(
+      text: "Add drop +",
+      chooseAction: () async {
+        final TimeOfDay minTime = bloc.state.routeRequest.drops.isNotEmpty
+            ? bloc.state.routeRequest.drops.last.endTime.toTimeOfDay
+            : TimeOfDay(hour: 00, minute: 00);
+        RouteDropRequest drop = await Get.to(AddDropToRoutePage(
+          drop: RouteDropRequest(),
+          minTime: minTime,
+        ));
+        if (drop != null) {
+          bloc.add(AddDrop(drop: drop));
+        }
+      },
+    );
   }
 
   CarouselOptions options() {
@@ -256,21 +276,7 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
               ?.name,
           onClosePressed: () => bloc.add(RemoveDrop(drop: drop)),
         ),
-      ChoosableButton(
-        text: "Add drop +",
-        chooseAction: () async {
-          final TimeOfDay minTime = bloc.state.routeRequest.drops.isNotEmpty
-              ? bloc.state.routeRequest.drops.last.endTime.toTimeOfDay
-              : TimeOfDay(hour: 00, minute: 00);
-          RouteDropRequest drop = await Get.to(AddDropToRoutePage(
-            drop: RouteDropRequest(),
-            minTime: minTime,
-          ));
-          if (drop != null) {
-            bloc.add(AddDrop(drop: drop));
-          }
-        },
-      )
+      addDropButton(bloc),
     ];
   }
 
@@ -284,18 +290,22 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
               ?.name,
           closeAction: () => bloc.add(RemoveProduct(productId: product.productId)),
         ),
-      ChoosableButton(
-        text: "Add product +",
-        chooseAction: () async {
-          FocusScope.of(context).requestFocus(FocusNode());
-          bloc.add(FormChanged(
-              routeRequest: bloc.state.routeRequest.copyWith(
-                  products: await Get.to(AddProductsToRoutePage(
-            selectedProducts: bloc.state.routeRequest.products,
-          )))));
-        },
-      )
+      addProductButton(context, bloc),
     ];
+  }
+
+  Widget addProductButton(BuildContext context, ManageRouteBloc bloc) {
+    return ChoosableButton(
+      text: "Add product +",
+      chooseAction: () async {
+        FocusScope.of(context).requestFocus(FocusNode());
+        bloc.add(FormChanged(
+            routeRequest: bloc.state.routeRequest.copyWith(
+                products: await Get.to(AddProductsToRoutePage(
+          selectedProducts: bloc.state.routeRequest.products,
+        )))));
+      },
+    );
   }
 }
 

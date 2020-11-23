@@ -504,4 +504,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get fillAllData => "Please fill the whole form";
+
+  @override
+  String get passwordHint => "Password";
 }

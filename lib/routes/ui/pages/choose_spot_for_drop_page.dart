@@ -1,5 +1,6 @@
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
+import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/routes/bloc/choose_spot_for_drop_bloc/choose_spot_for_drop_bloc.dart';
@@ -15,7 +16,8 @@ class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
 
   ChooseSpotForDropPage({this.selectedSpot});
   @override
-  ChooseSpotForDropBloc bloc() => ChooseSpotForDropBloc()..add(AddSpotToDropPageEntered(selectedSpot: selectedSpot));
+  ChooseSpotForDropBloc bloc() =>
+      ChooseSpotForDropBloc()..add(AddSpotToDropPageEntered(selectedSpot: selectedSpot));
 
   @override
   Widget build(BuildContext context, ChooseSpotForDropBloc bloc, _) {
@@ -26,6 +28,9 @@ class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              DhBackButton(
+                padding: EdgeInsets.zero,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0, vertical: 5.0),
                 child: Text(
@@ -49,7 +54,8 @@ class ChooseSpotForDropPage extends BlocWidget<ChooseSpotForDropBloc> {
     );
   }
 
-  SafeArea buildColumnWithData(LocaleBundle locale, BuildContext context, ChooseSpotForDropBloc bloc) {
+  SafeArea buildColumnWithData(
+      LocaleBundle locale, BuildContext context, ChooseSpotForDropBloc bloc) {
     return SafeArea(
       child: SingleChildScrollView(
         child: Column(
