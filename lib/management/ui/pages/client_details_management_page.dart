@@ -21,7 +21,8 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
 
   ClientDetailsManagementPage(this.customer);
   @override
-  ClientDetailsManagementBloc bloc() => ClientDetailsManagementBloc()..add(ClientDetailsInitial(customer));
+  ClientDetailsManagementBloc bloc() =>
+      ClientDetailsManagementBloc()..add(ClientDetailsInitial(customer));
 
   @override
   Widget build(BuildContext context, ClientDetailsManagementBloc bloc, _) {
@@ -34,9 +35,11 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
               context: context,
               valueBuilder: (_) => state.type,
               caseBuilders: {
-                ClientDetailsManagementStateType.loading: (_) => Center(child: CircularProgressIndicator()),
+                ClientDetailsManagementStateType.loading: (_) =>
+                    Center(child: CircularProgressIndicator()),
                 ClientDetailsManagementStateType.initial: (_) => _buildPageContent(locale, bloc),
-                ClientDetailsManagementStateType.clientUpdated: (_) => _buildPageContent(locale, bloc),
+                ClientDetailsManagementStateType.clientUpdated: (_) =>
+                    _buildPageContent(locale, bloc),
               },
               fallbackBuilder: (_) => SizedBox.shrink()),
         ));
@@ -52,7 +55,8 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
         SizedBox(
           height: 15.0,
         ),
-        companyInfoTile(locale.relationshipStatus, describeEnum(bloc.state.customerResponse.relationshipStatus)),
+        companyInfoTile(locale.relationshipStatus,
+            describeEnum(bloc.state.customerResponse.relationshipStatus)),
         //todo change to active
         bloc.state.customerResponse.relationshipStatus == RelationshipStatus.ACTIVE
             ? _spotsList(bloc.state.customerResponse.companyCustomerSpotMemberships, locale, bloc)
@@ -99,6 +103,10 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
       padding: const EdgeInsets.all(13.0),
       child: Center(
         child: Container(
+          child: Icon(
+            Icons.person,
+            size: 70.0,
+          ),
           width: 115.0,
           height: 115.0,
           decoration: new BoxDecoration(
@@ -110,8 +118,8 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
     );
   }
 
-  Widget _spotsList(
-      List<CompanyCustomerSpotMembershipResponse> spots, LocaleBundle locale, ClientDetailsManagementBloc bloc) {
+  Widget _spotsList(List<CompanyCustomerSpotMembershipResponse> spots, LocaleBundle locale,
+      ClientDetailsManagementBloc bloc) {
     return Expanded(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -139,7 +147,9 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
               ),
             ),
           ),
-          _blockUserButton(locale.blockUser, () => {bloc.add(BlockUser(bloc.state.customerResponse.customerId, block))},
+          _blockUserButton(
+              locale.blockUser,
+              () => {bloc.add(BlockUser(bloc.state.customerResponse.customerId, block))},
               themeConfig.textStyles.blocked),
         ],
       ),
@@ -167,7 +177,9 @@ class ClientDetailsManagementPage extends BlocWidget<ClientDetailsManagementBloc
           ),
         ),
         decoration: BoxDecoration(
-            border: Border(bottom: BorderSide(width: 1.0, color: themeConfig.colors.white, style: BorderStyle.solid))),
+            border: Border(
+                bottom: BorderSide(
+                    width: 1.0, color: themeConfig.colors.white, style: BorderStyle.solid))),
       ),
     );
   }
@@ -229,12 +241,14 @@ class SpotTile extends DhTile {
   @override
   Widget get trailing {
     final List<PopupItem> popupOptions = [];
-    if (spot.membershipStatus == MembershipStatus.BLOCKED || spot.membershipStatus == MembershipStatus.PENDING) {
+    if (spot.membershipStatus == MembershipStatus.BLOCKED ||
+        spot.membershipStatus == MembershipStatus.PENDING) {
       popupOptions.add(PopupItem(locale.acceptUserOnSpot, () {
         bloc.add(ToggleSpotMembershipStatus(true, spot.spotUid));
       }));
     }
-    if (spot.membershipStatus == MembershipStatus.ACTIVE || spot.membershipStatus == MembershipStatus.PENDING) {
+    if (spot.membershipStatus == MembershipStatus.ACTIVE ||
+        spot.membershipStatus == MembershipStatus.PENDING) {
       popupOptions.add(PopupItem(locale.blockUserOnSpot, () {
         bloc.add(ToggleSpotMembershipStatus(false, spot.spotUid));
       }));
