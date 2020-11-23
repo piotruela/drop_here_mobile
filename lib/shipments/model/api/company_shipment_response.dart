@@ -1,5 +1,6 @@
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/shipments/model/api/customer_shipment_request.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'company_shipment_response.g.dart';
@@ -104,6 +105,11 @@ class ShipmentProductResponse {
 
   factory ShipmentProductResponse.fromJson(Map<String, dynamic> json) => _$ShipmentProductResponseFromJson(json);
   Map<String, dynamic> toJson() => _$ShipmentProductResponseToJson(this);
+
+  ShipmentProductRequest get toRequest => ShipmentProductRequest(
+      quantity: quantity,
+      routeProductId: productId,
+      customizations: customizations.map((e) => ShipmentCustomizationRequest(id: e.id)).toList());
 }
 
 @JsonSerializable()
@@ -111,6 +117,7 @@ class ShipmentProductCustomizationResponse {
   double customizationPrice;
   String customizationValue;
   String wrapperHeading;
+  int id;
   int wrapperId;
   CustomizationType wrapperType;
 

@@ -61,5 +61,5 @@ String formatAmount({bool limited, double amount}) {
 
 String removeDecimalZeroFormat(double n) {
   if (n == null) return null;
-  return n.toStringAsFixed(n.truncateToDouble() == n ? 0 : 1);
+  return n.toStringAsFixed(n.truncateToDouble() == n ? 0 : 2);
 }

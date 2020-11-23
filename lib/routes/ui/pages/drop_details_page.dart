@@ -11,6 +11,7 @@ import 'package:drop_here_mobile/products/ui/pages/product_details_page.dart';
 import 'package:drop_here_mobile/routes/bloc/drop_details_bloc/drop_details_bloc.dart';
 import 'package:drop_here_mobile/routes/model/api/drop_customer_spot_response_api.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
+import 'package:drop_here_mobile/shipments/ui/pages/manage_shipment_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
@@ -85,10 +86,10 @@ class DropDetailsPage extends BlocWidget<DropDetailsBloc> {
                 child: SubmitFormButton(
                   isActive: drop.shipmentsAvailable,
                   text: "Create order",
-                  onTap: () => {},
+                  onTap: () => Get.to(CreateShipmentPage(drop: drop)),
                 ),
               ),
-            ) //TODO: Navigate to create shipment page
+            )
           ],
         ),
       ),

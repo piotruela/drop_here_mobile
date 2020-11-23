@@ -479,10 +479,28 @@ class LocaleBundleEn extends LocaleBundle {
   String get dropStartTimeBeforePreviousDropEndTime => "Start time is before last drop end time";
 
   @override
+  String get placeOrder => "Place order";
+
+  @override
+  String get addProductsToOrder => "Add products to order";
+
+  @override
   String get thisUserIsBlocked => "This user is blocked";
 
   @override
   String get unblockUser => "Unblock user";
+
+  @override
+  String get addProductToOrder => "Add product to order";
+
+  @override
+  String get productName => "Product name";
+
+  @override
+  String get pieces => "Pieces";
+
+  @override
+  String get customizations => "Customizations";
 
   @override
   String get fillAllData => "Please fill the whole form";
