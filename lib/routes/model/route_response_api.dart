@@ -138,7 +138,7 @@ class RouteProductRouteResponse {
   String get productAmountToString => "Amount:  ${!limitedAmount ? "unlimited" : amount}";
 
   RouteProductRequest get toRouteProductRequest => RouteProductRequest(
-      amount: amount, limitedAmount: limitedAmount, price: price, productId: routeProductResponse.id);
+      amount: amount, limitedAmount: limitedAmount, price: price, productId: originalProductResponse.id);
 }
 
 enum RouteStatus { UNPREPARED, PREPARED, CANCELLED, ONGOING, FINISHED }
