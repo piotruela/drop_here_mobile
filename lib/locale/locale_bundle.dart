@@ -331,4 +331,6 @@ abstract class LocaleBundle {
 
   String get customizations;
   String get fillAllData;
+
+  String get passwordHint;
 }

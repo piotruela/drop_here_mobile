@@ -39,7 +39,8 @@ class RoutesListPage extends BlocWidget<RoutesListBloc> {
     );
   }
 
-  Widget buildColumnWithData(LocaleBundle locale, RoutesListState state, BuildContext context, RoutesListBloc bloc) {
+  Widget buildColumnWithData(
+      LocaleBundle locale, RoutesListState state, BuildContext context, RoutesListBloc bloc) {
     return Expanded(
       child: ListView.builder(
           shrinkWrap: true,
@@ -84,22 +85,26 @@ class RouteCard extends DhTile {
   String get title => route.name;
 
   @override
-  Widget get trailing => PopupMenuButton<String>(
-        icon: Icon(
-          Icons.more_vert,
-          color: themeConfig.colors.black,
-          size: 30.0,
-        ),
-        onSelected: (_) {},
-        itemBuilder: (context) => <PopupMenuItem<String>>[
-          new PopupMenuItem<String>(
-              child: GestureDetector(
-            child: Text(Localization.of(context).bundle.delete),
-            onTap: () {
-              bloc.add(DeleteRoute(route.id.toString()));
-              Navigator.pop(context);
-            },
-          )),
-        ],
-      );
+  Widget get trailing {
+    return route.status == RouteStatus.FINISHED
+        ? SizedBox.shrink()
+        : PopupMenuButton<String>(
+            icon: Icon(
+              Icons.more_vert,
+              color: themeConfig.colors.black,
+              size: 30.0,
+            ),
+            onSelected: (_) {},
+            itemBuilder: (context) => <PopupMenuItem<String>>[
+              new PopupMenuItem<String>(
+                  child: GestureDetector(
+                child: Text(Localization.of(context).bundle.delete),
+                onTap: () {
+                  bloc.add(DeleteRoute(route.id.toString()));
+                  Navigator.pop(context);
+                },
+              )),
+            ],
+          );
+  }
 }

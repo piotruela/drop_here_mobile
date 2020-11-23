@@ -6,6 +6,7 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/utils/datetime_utils.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
+import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
 import 'package:drop_here_mobile/common/ui/widgets/info_text.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
@@ -41,6 +42,9 @@ class AddDropToRoutePage extends BlocWidget<AddDropToRouteBloc> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  DhBackButton(
+                    padding: EdgeInsets.zero,
+                  ),
                   Text(
                     locale.addDropToRoute,
                     style: themeConfig.textStyles.primaryTitle,

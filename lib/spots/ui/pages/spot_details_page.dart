@@ -21,6 +21,7 @@ import 'package:drop_here_mobile/spots/model/api/spot_user_api.dart';
 import 'package:drop_here_mobile/spots/ui/pages/edit_spot_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:quiver/strings.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
@@ -214,6 +215,7 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
   Widget _joiningDialog(BuildContext context, bool passwordRequired, bool acceptRequired) {
     SpotJoinRequest request = SpotJoinRequest();
     final ThemeConfig themeConfig = Get.find<ThemeConfig>();
+    LocaleBundle locale = Localization.of(context).bundle;
     return AlertDialog(
       content: SingleChildScrollView(
         child: Column(
@@ -246,7 +248,7 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
             passwordRequired
                 ? DhPlainTextFormField(
                     inputType: InputType.text,
-                    hintText: "Aezakmi",
+                    hintText: locale.passwordHint,
                     onChanged: (String password) => request.password = password)
                 : SizedBox.shrink(),
             acceptRequired
@@ -261,7 +263,14 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
                 ),
                 RaisedButton(
                   child: Text("Submit", style: themeConfig.textStyles.active),
-                  onPressed: () => Navigator.pop(context, request),
+                  onPressed: () {
+                    if (isBlank(request.password) && passwordRequired) {
+                      Scaffold.of(context)
+                          .showSnackBar(SnackBar(content: Text(locale.passwordRequired)));
+                    } else {
+                      Navigator.pop(context, request);
+                    }
+                  },
                 ),
               ],
             )
