@@ -89,7 +89,7 @@ class _CustomizationDialogState extends State<CustomizationDialog> {
               InfoText(text: "Click on customization to delete it"),
               _customizationsList(customizationValues),
               ChoosableButton(
-                  text: "Add value +",
+                  text: "Add value",
                   isChosen: false,
                   chooseAction: () async {
                     ProductCustomizationRequest customization = ProductCustomizationRequest();

@@ -233,7 +233,7 @@ class LocaleBundleEn extends LocaleBundle {
   String get management => "Management";
 
   @override
-  String get addSeller => "Add seller +";
+  String get addSeller => "Add seller";
 
   @override
   String get markAsActive => "Mark as active";
@@ -329,13 +329,13 @@ class LocaleBundleEn extends LocaleBundle {
   String get locationMandatory => "Location*";
 
   @override
-  String get addLocationButton => "Add location +";
+  String get addLocationButton => "Add location";
 
   @override
-  String get addMemberButton => "Add member +";
+  String get addMemberButton => "Add member";
 
   @override
-  String get addRouteButton => "Add route +";
+  String get addRouteButton => "Add route";
 
   @override
   String get members => "Members";
@@ -374,7 +374,7 @@ class LocaleBundleEn extends LocaleBundle {
   String get dateMandatory => "Date*";
 
   @override
-  String get pickADate => "Date +";
+  String get pickADate => "Date";
 
   @override
   String get assignedSeller => "Assigned seller";
@@ -404,7 +404,7 @@ class LocaleBundleEn extends LocaleBundle {
   String get pickTime => "Pick time";
 
   @override
-  String get addSpotButton => "Add spot +";
+  String get addSpotButton => "Add spot";
 
   @override
   String get endTimeMandatory => "End time*";

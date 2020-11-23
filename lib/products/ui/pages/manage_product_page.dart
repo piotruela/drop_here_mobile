@@ -196,7 +196,7 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
                   conditionBuilder: (_) => bloc.state.selectedUnitType?.fractionable,
                   widgetBuilder: (_) => InfoText(text: "You cannot create customization for fractionable product"),
                   fallbackBuilder: (_) => ChoosableButton(
-                        text: "Add customization +",
+                        text: "Add customization",
                         isChosen: false,
                         chooseAction: () async {
                           FocusScope.of(context).requestFocus(FocusNode());
@@ -278,7 +278,7 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
   Widget _addCategoryButton(BuildContext context, ManageProductBloc bloc) {
     final TextEditingController controller = TextEditingController();
     return ChoosableButton(
-        text: "Add new +",
+        text: "Add new",
         isChosen: false,
         chooseAction: () async {
           FocusScope.of(context).requestFocus(FocusNode());
@@ -411,7 +411,7 @@ abstract class ManageProductPage extends BlocWidget<ManageProductBloc> {
             fallbackBuilder: (_) => Wrap(
                   children: [
                     ChoosableButton(
-                      text: "Add photo +",
+                      text: "Add photo",
                       chooseAction: () async =>
                           bloc.add(PhotoChanged(photo: await picker.getImage(source: ImageSource.gallery))),
                     ),

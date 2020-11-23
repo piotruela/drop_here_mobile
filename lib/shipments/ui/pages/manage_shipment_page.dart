@@ -143,7 +143,7 @@ abstract class ManageShipmentPage extends BlocWidget<CustomerShipmentBloc> {
               deleteProductAction: () => bloc.add(RemoveProduct(product: product)),
             ),
           ChoosableButton(
-              text: "Add product +",
+              text: "Add product",
               chooseAction: () async {
                 bloc.add(AddProduct(
                     productRequest: await Get.to(AddProductPage(

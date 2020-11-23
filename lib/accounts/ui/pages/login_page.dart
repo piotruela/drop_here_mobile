@@ -42,7 +42,13 @@ class LoginPage extends BlocWidget<LoginBloc> {
               }
             }
             if (state is ErrorState) {
-              Scaffold.of(context).showSnackBar(SnackBar(content: Text("Login error")));
+              Scaffold.of(context).showSnackBar(SnackBar(
+                content: Text("Login error"),
+                duration: Duration(seconds: 1),
+                backgroundColor: themeConfig.colors.blocked,
+                behavior: SnackBarBehavior.floating,
+                elevation: 6.0,
+              ));
             }
           },
           child: BlocBuilder<LoginBloc, LoginFormState>(
@@ -82,23 +88,19 @@ class LoginPage extends BlocWidget<LoginBloc> {
                 DhTextFormField(
                   labelText: Localization.of(context).bundle.email,
                   initialValue: bloc.state?.form?.mail ?? '',
-                  onChanged: (value) =>
-                      bloc.add(FormChanged(form: bloc.state.form.copyWith(mail: value))),
+                  onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(mail: value))),
                 ),
                 DhTextFormField(
                     obscureText: true,
                     labelText: Localization.of(context).bundle.password,
                     initialValue: bloc.state?.form?.password ?? '',
-                    onChanged: (value) =>
-                        bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value)))),
+                    onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value)))),
                 DhButton(
-                  onPressed: () => bloc.add(
-                      FormSubmitted(isValid: key.currentState.validate(), form: bloc.state.form)),
+                  onPressed: () => bloc.add(FormSubmitted(isValid: key.currentState.validate(), form: bloc.state.form)),
                   text: Localization.of(context).bundle.logIn,
                   backgroundColor: themeConfig.colors.primary1,
                 ),
-                Text(Localization.of(context).bundle.or,
-                    style: themeConfig.textStyles.secondaryTitle),
+                Text(Localization.of(context).bundle.or, style: themeConfig.textStyles.secondaryTitle),
                 DhButton(
                   onPressed: () => bloc.add(FacebookSigningSubmitted()),
                   text: Localization.of(context).bundle.logInWithFacebook,

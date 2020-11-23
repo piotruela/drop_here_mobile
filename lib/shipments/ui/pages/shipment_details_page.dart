@@ -75,7 +75,7 @@ class ShipmentDetailsPage extends BlocWidget<CompanyShipmentBloc> {
             ),
             LabeledCircledInfoWithDivider(
               label: "Summarized price",
-              text: shipmentResponse.summarizedAmount.formatPrice(),
+              text: formatPrice(shipmentResponse.summarizedAmount),
             ),
             LabeledCircledInfoWithDivider(
               label: "No. of products",
