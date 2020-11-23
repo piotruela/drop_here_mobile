@@ -181,22 +181,22 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
                 text: "When prepared",
                 initialPosition: request.receivePreparedNotifications,
                 onSwitch: (bool) => request.receivePreparedNotifications = bool),
+            Align(child: _leaveSpotButton(context, spotUid, companyUid, bloc)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                RaisedButton(
-                  child: Text("Cancel", style: themeConfig.textStyles.blocked),
-                  onPressed: () => Navigator.pop(context, null),
+                GestureDetector(
+                  child: Text("Cancel", style: themeConfig.textStyles.blocked.copyWith(fontSize: 20.0)),
+                  onTap: () => Navigator.pop(context, null),
                 ),
-                RaisedButton(
-                    child: Text("Update", style: themeConfig.textStyles.active),
-                    onPressed: () {
+                GestureDetector(
+                    child: Text("Update", style: themeConfig.textStyles.active.copyWith(fontSize: 20.0)),
+                    onTap: () {
                       bloc.add(UpdateSpotSettings(spotUid: spotUid, companyUid: companyUid, request: request));
                       Navigator.pop(context, null);
                     }),
               ],
             ),
-            Align(child: _leaveSpotButton(context, spotUid, companyUid, bloc))
           ],
         )));
   }
@@ -257,21 +257,19 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                RaisedButton(
-                  child: Text("Cancel", style: themeConfig.textStyles.blocked),
-                  onPressed: () => Navigator.pop(context, null),
+                GestureDetector(
+                  child: Text("Cancel", style: themeConfig.textStyles.blocked.copyWith(fontSize: 20.0)),
+                  onTap: () => Navigator.pop(context, null),
                 ),
-                RaisedButton(
-                  child: Text("Submit", style: themeConfig.textStyles.active),
-                  onPressed: () {
-                    if (isBlank(request.password) && passwordRequired) {
-                      Scaffold.of(context)
-                          .showSnackBar(SnackBar(content: Text(locale.passwordRequired)));
-                    } else {
-                      Navigator.pop(context, request);
-                    }
-                  },
-                ),
+                GestureDetector(
+                    child: Text("Submit", style: themeConfig.textStyles.active.copyWith(fontSize: 20.0)),
+                    onTap: () {
+                      if (isBlank(request.password) && passwordRequired) {
+                        Scaffold.of(context).showSnackBar(SnackBar(content: Text(locale.passwordRequired)));
+                      } else {
+                        Navigator.pop(context, request);
+                      }
+                    })
               ],
             )
           ],

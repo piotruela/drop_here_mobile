@@ -24,6 +24,9 @@ class CustomerSpotCard extends SpotCard {
 
   @override
   double get ycoordinate => spot.ycoordinate;
+
+  @override
+  Widget get trailing => SizedBox.shrink();
 }
 
 class CompanyDropSpotCard extends SpotCard {

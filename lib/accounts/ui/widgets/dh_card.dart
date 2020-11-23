@@ -55,33 +55,33 @@ class DhCard extends StatelessWidget {
                     children: [
                       statusText(locale, themeConfig, status),
                       Text(
-                        dropsNumber != null
-                            ? locale.memberOf + ' ' + dropsNumber.toString() + ' ' + locale.spots
-                            : '',
+                        dropsNumber != null ? locale.memberOf + ' ' + dropsNumber.toString() + ' ' + locale.spots : '',
                         style: themeConfig.textStyles.cardSubtitle,
                       )
                     ],
                   )
                 : SizedBox.shrink(),
-            trailing: PopupMenuButton<String>(
-              icon: Icon(
-                Icons.more_vert,
-                color: themeConfig.colors.black,
-                size: 30.0,
-              ),
-              onSelected: (value) => onItemSelected(value),
-              itemBuilder: (BuildContext context) {
-                return popupOptions.map((String choice) {
-                  return PopupMenuItem<String>(
-                    value: choice,
-                    child: Text(
-                      choice,
-                      style: themeConfig.textStyles.popupMenu,
+            trailing: popupOptions != null
+                ? PopupMenuButton<String>(
+                    icon: Icon(
+                      Icons.more_vert,
+                      color: themeConfig.colors.black,
+                      size: 30.0,
                     ),
-                  );
-                }).toList();
-              },
-            ),
+                    onSelected: (value) => onItemSelected(value),
+                    itemBuilder: (BuildContext context) {
+                      return popupOptions.map((String choice) {
+                        return PopupMenuItem<String>(
+                          value: choice,
+                          child: Text(
+                            choice,
+                            style: themeConfig.textStyles.popupMenu,
+                          ),
+                        );
+                      }).toList();
+                    },
+                  )
+                : SizedBox.shrink(),
           ),
           decoration: BoxDecoration(
             color: themeConfig.colors.white,
