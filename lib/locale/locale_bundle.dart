@@ -1,7 +1,7 @@
 abstract class LocaleBundle {
   String get appTitle;
 
-  String get lorem;
+  String get openingText;
 
   String get getStarted;
 

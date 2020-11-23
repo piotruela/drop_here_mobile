@@ -5,8 +5,8 @@ class LocaleBundleEn extends LocaleBundle {
   String get appTitle => "drop.here";
 
   @override
-  String get lorem =>
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.";
+  String get openingText =>
+      "The drop.here application was created to facilitate the local sale of products, connecting sellers with their customers.";
 
   @override
   String get getStarted => "Get Started";

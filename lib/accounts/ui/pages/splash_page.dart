@@ -34,12 +34,11 @@ class SplashPage extends StatelessWidget {
                 ),
                 Padding(
                   padding: const EdgeInsets.only(top: 19.0, bottom: 17.0),
-                  child: Text(Localization.of(context).bundle.appTitle,
-                      style: themeConfig.textStyles.primaryTitle),
+                  child: Text(Localization.of(context).bundle.appTitle, style: themeConfig.textStyles.primaryTitle),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(left: 67.0, right: 67.0),
-                  child: Text(Localization.of(context).bundle.lorem,
+                  child: Text(Localization.of(context).bundle.openingText,
                       style: themeConfig.textStyles.contentTitle, textAlign: TextAlign.center),
                 ),
                 Padding(
