@@ -10,6 +10,12 @@ class FetchSpotsEvent extends CustomerSpotsEvent {
   FetchSpotsEvent({this.radius, this.xCoordinate, this.yCoordinate});
 }
 
+class FetchSpotDetails extends CustomerSpotsEvent {
+  final String spotUid;
+
+  FetchSpotDetails({this.spotUid});
+}
+
 class SendSpotJoiningRequest extends CustomerSpotsEvent {
   final String spotUid;
   final String companyUid;

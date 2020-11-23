@@ -10,4 +10,5 @@ class DropsUserService {
         await _httpClient.get(canRepeatRequest: true, path: "/drops/$dropUid", out: (dynamic json) => json);
     return DropDetailedCustomerResponse.fromJson(response);
   }
+
 }

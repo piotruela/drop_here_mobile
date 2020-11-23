@@ -207,7 +207,7 @@ ShipmentProductCustomizationResponse
     wrapperId: json['wrapperId'] as int,
     wrapperType:
         _$enumDecodeNullable(_$CustomizationTypeEnumMap, json['wrapperType']),
-  );
+  )..id = json['id'] as int;
 }
 
 Map<String, dynamic> _$ShipmentProductCustomizationResponseToJson(
@@ -216,6 +216,7 @@ Map<String, dynamic> _$ShipmentProductCustomizationResponseToJson(
       'customizationPrice': instance.customizationPrice,
       'customizationValue': instance.customizationValue,
       'wrapperHeading': instance.wrapperHeading,
+      'id': instance.id,
       'wrapperId': instance.wrapperId,
       'wrapperType': _$CustomizationTypeEnumMap[instance.wrapperType],
     };

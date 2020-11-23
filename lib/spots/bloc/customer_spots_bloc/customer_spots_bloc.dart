@@ -59,6 +59,9 @@ class CustomerSpotsBloc extends Bloc<CustomerSpotsEvent, CustomerSpotsState> {
           type: response.operationStatus == OperationStatus.ERROR
               ? CustomerSpotsStateType.failure
               : CustomerSpotsStateType.spot_managed);
+    } else if (event is FetchSpotDetails) {
+      SpotDetailedCustomerResponse spotDetails = await spotsUserService.getSpotDetails(event.spotUid);
+      yield CustomerSpotsState(spots: state.spots, type: CustomerSpotsStateType.spot_fetched, spotDetails: spotDetails);
     }
   }
 }
