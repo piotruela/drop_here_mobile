@@ -6,20 +6,16 @@ part of 'company_shipment_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ShipmentCompanyDecisionRequest _$ShipmentCompanyDecisionRequestFromJson(
-    Map<String, dynamic> json) {
-  return ShipmentCompanyDecisionRequest(
+ShipmentDecisionRequest _$ShipmentDecisionRequestFromJson(Map<String, dynamic> json) {
+  return ShipmentDecisionRequest(
     comment: json['comment'] as String,
-    companyDecision:
-        _$enumDecodeNullable(_$CompanyDecisionEnumMap, json['companyDecision']),
+    companyDecision: _$enumDecodeNullable(_$DecisionEnumMap, json['companyDecision']),
   );
 }
 
-Map<String, dynamic> _$ShipmentCompanyDecisionRequestToJson(
-        ShipmentCompanyDecisionRequest instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$ShipmentDecisionRequestToJson(ShipmentDecisionRequest instance) => <String, dynamic>{
       'comment': instance.comment,
-      'companyDecision': _$CompanyDecisionEnumMap[instance.companyDecision],
+      'companyDecision': _$DecisionEnumMap[instance.companyDecision],
     };
 
 T _$enumDecode<T>(
@@ -32,9 +28,7 @@ T _$enumDecode<T>(
         '${enumValues.values.join(', ')}');
   }
 
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
+  final value = enumValues.entries.singleWhere((e) => e.value == source, orElse: () => null)?.key;
 
   if (value == null && unknownValue == null) {
     throw ArgumentError('`$source` is not one of the supported values: '
@@ -54,9 +48,9 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
-const _$CompanyDecisionEnumMap = {
-  CompanyDecision.REJECT: 'REJECT',
-  CompanyDecision.ACCEPT: 'ACCEPT',
-  CompanyDecision.CANCEL: 'CANCEL',
-  CompanyDecision.DELIVER: 'DELIVER',
+const _$DecisionEnumMap = {
+  Decision.REJECT: 'REJECT',
+  Decision.ACCEPT: 'ACCEPT',
+  Decision.CANCEL: 'CANCEL',
+  Decision.DELIVER: 'DELIVER',
 };

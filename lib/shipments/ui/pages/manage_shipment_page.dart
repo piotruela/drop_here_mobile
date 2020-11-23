@@ -112,7 +112,7 @@ abstract class ManageShipmentPage extends BlocWidget<CustomerShipmentBloc> {
               child: Align(
                 child: SubmitFormButton(
                   isActive: state.selectedProducts.isNotEmpty,
-                  text: "Create order",
+                  text: "Place order",
                   onTap: () => bloc.add(SubmitForm(
                     companyUid: companyUid,
                     dropUid: dropUid,
