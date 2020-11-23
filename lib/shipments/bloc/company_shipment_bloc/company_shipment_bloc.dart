@@ -21,14 +21,14 @@ class CompanyShipmentBloc extends Bloc<CompanyShipmentEvent, CompanyShipmentStat
   ) async* {
     if (event is FetchShipmentDetails) {
       yield CompanyShipmentState(type: CompanyShipmentStateType.loading, shipment: null);
-      Future.delayed(const Duration(milliseconds: 500));
       ShipmentResponse shipmentResponse = await companyShipmentService.getCompanyShipment(event.shipmentId.toString());
       yield CompanyShipmentState(type: CompanyShipmentStateType.shipment_fetched, shipment: shipmentResponse);
     }
     if (event is UpdateShipmentStatus) {
       yield CompanyShipmentState(type: CompanyShipmentStateType.loading, shipment: null);
       ResourceOperationResponse response = await companyShipmentService.updateShipmentStatus(
-          ShipmentCompanyDecisionRequest(), event.shipmentId.toString());
+          ShipmentDecisionRequest(comment: event.comment, companyDecision: event.companyDecision),
+          event.shipmentId.toString());
       ShipmentResponse shipmentResponse = await companyShipmentService.getCompanyShipment(event.shipmentId.toString());
       yield CompanyShipmentState(type: CompanyShipmentStateType.shipment_fetched, shipment: shipmentResponse);
     }

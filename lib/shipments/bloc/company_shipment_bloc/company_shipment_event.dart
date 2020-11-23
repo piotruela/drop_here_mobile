@@ -16,7 +16,7 @@ class FetchShipmentDetails extends CompanyShipmentEvent {
 class UpdateShipmentStatus extends CompanyShipmentEvent {
   final int shipmentId;
   final String comment;
-  final CompanyDecision companyDecision;
+  final Decision companyDecision;
 
   UpdateShipmentStatus({this.shipmentId, this.comment, this.companyDecision});
 
