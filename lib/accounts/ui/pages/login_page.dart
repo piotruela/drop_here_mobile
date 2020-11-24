@@ -9,6 +9,7 @@ import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/thresholds.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/dh_back_button.dart';
+import 'package:drop_here_mobile/common/ui/widgets/snackbar.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/spots/ui/pages/customer_map_page.dart';
 import 'package:flutter/material.dart';
@@ -47,13 +48,7 @@ class LoginPage extends BlocWidget<LoginBloc> {
                 }
               }
               if (state is ErrorState) {
-                Scaffold.of(context).showSnackBar(SnackBar(
-                  content: Text("Login error"),
-                  duration: Duration(seconds: 1),
-                  backgroundColor: themeConfig.colors.blocked,
-                  behavior: SnackBarBehavior.floating,
-                  elevation: 6.0,
-                ));
+                Scaffold.of(context).showSnackBar(dhSnackBar("Login error"));
               }
             },
             child: BlocBuilder<LoginBloc, LoginFormState>(

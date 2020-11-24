@@ -2,6 +2,7 @@ import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
+import 'package:drop_here_mobile/common/ui/widgets/snackbar.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/spots/bloc/customer_spots_bloc/customer_spots_bloc.dart';
@@ -49,7 +50,7 @@ class CustomerMapPage extends BlocWidget<CustomerSpotsBloc> {
       },
       child: Scaffold(
           body: DoubleBackToCloseApp(
-            snackBar: SnackBar(content: Text(locale.tapBackButtonAgainHint)),
+            snackBar: dhSnackBar(locale.tapBackButtonAgainHint),
             child: BlocBuilder<CustomerSpotsBloc, CustomerSpotsState>(
               buildWhen: (previous, current) => previous.type != current.type,
               builder: (context, state) => ConditionalSwitch.single(

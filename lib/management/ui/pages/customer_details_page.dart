@@ -8,6 +8,7 @@ import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
 import 'package:drop_here_mobile/common/ui/widgets/choosable_button.dart';
 import 'package:drop_here_mobile/common/ui/widgets/labeled_circled_info.dart';
+import 'package:drop_here_mobile/common/ui/widgets/snackbar.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/management/bloc/customer_details_bloc/customer_details_bloc.dart';
@@ -27,7 +28,7 @@ class CustomerDetailsPage extends BlocWidget<CustomerDetailsBloc> {
     LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
       body: DoubleBackToCloseApp(
-        snackBar: SnackBar(content: Text(locale.tapBackButtonAgainHint)),
+        snackBar: dhSnackBar(locale.tapBackButtonAgainHint),
         child: BlocBuilder<CustomerDetailsBloc, CustomerDetailsState>(
           buildWhen: (previous, current) => previous.type != current.type,
           builder: (context, state) => Conditional.single(

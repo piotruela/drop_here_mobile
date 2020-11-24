@@ -5,6 +5,7 @@ import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
 import 'package:drop_here_mobile/common/ui/widgets/icon_in_circle.dart';
+import 'package:drop_here_mobile/common/ui/widgets/snackbar.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/routes/ui/pages/add_products_to_route.dart';
@@ -25,25 +26,27 @@ class CustomerShipmentsListPage extends BlocWidget<DhListBloc> {
     final LocaleBundle localeBundle = Localization.of(context).bundle;
     return Scaffold(
       body: DoubleBackToCloseApp(
-        snackBar: SnackBar(content: Text(localeBundle.tapBackButtonAgainHint)),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            BlocBuilder<DhListBloc, DhListState>(
-              builder: (context, state) {
-                if (state is DhListInitial) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (state is ListLoading) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (state is FetchingError) {
-                  return Container(child: Text(state.error));
-                } else if (state is ShipmentsFetched) {
-                  return buildColumnWithData(localeBundle, state, context, bloc);
-                }
-                return Container();
-              },
-            ),
-          ],
+        snackBar: dhSnackBar(localeBundle.tapBackButtonAgainHint),
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              BlocBuilder<DhListBloc, DhListState>(
+                builder: (context, state) {
+                  if (state is DhListInitial) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (state is ListLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  } else if (state is FetchingError) {
+                    return Container(child: Text(state.error));
+                  } else if (state is ShipmentsFetched) {
+                    return buildColumnWithData(localeBundle, state, context, bloc);
+                  }
+                  return Container();
+                },
+              ),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: CustomerBottomBar(sectionIndex: 0),
