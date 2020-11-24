@@ -29,37 +29,43 @@ class LoginPage extends BlocWidget<LoginBloc> {
   Widget build(BuildContext context, LoginBloc bloc, BlocWidgetState<LoginBloc> widgetState) {
     final GlobalKey<FormState> key = GlobalKey<FormState>();
     return MainLayout(
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: BlocListener<LoginBloc, LoginFormState>(
-          listenWhen: (previous, current) => previous != current,
-          listener: (context, state) {
-            if (state is SuccessState) {
-              if (state.accountType == AccountType.COMPANY) {
-                Get.offAll(ChooseProfilePage());
-              } else {
-                Get.offAll(CustomerMapPage());
+      child: WillPopScope(
+        onWillPop: () async {
+          backAction ?? Get.back();
+          return false;
+        },
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: BlocListener<LoginBloc, LoginFormState>(
+            listenWhen: (previous, current) => previous != current,
+            listener: (context, state) {
+              if (state is SuccessState) {
+                if (state.accountType == AccountType.COMPANY) {
+                  Get.offAll(ChooseProfilePage());
+                } else {
+                  Get.offAll(CustomerMapPage());
+                }
               }
-            }
-            if (state is ErrorState) {
-              Scaffold.of(context).showSnackBar(SnackBar(
-                content: Text("Login error"),
-                duration: Duration(seconds: 1),
-                backgroundColor: themeConfig.colors.blocked,
-                behavior: SnackBarBehavior.floating,
-                elevation: 6.0,
-              ));
-            }
-          },
-          child: BlocBuilder<LoginBloc, LoginFormState>(
-            buildWhen: (previous, current) => previous != current,
-            builder: (context, state) {
-              if (state is LoginLoadingState || state is SuccessState) {
-                return Center(child: CircularProgressIndicator());
-              } else {
-                return _pageBody(context, bloc, key);
+              if (state is ErrorState) {
+                Scaffold.of(context).showSnackBar(SnackBar(
+                  content: Text("Login error"),
+                  duration: Duration(seconds: 1),
+                  backgroundColor: themeConfig.colors.blocked,
+                  behavior: SnackBarBehavior.floating,
+                  elevation: 6.0,
+                ));
               }
             },
+            child: BlocBuilder<LoginBloc, LoginFormState>(
+              buildWhen: (previous, current) => previous != current,
+              builder: (context, state) {
+                if (state is LoginLoadingState || state is SuccessState) {
+                  return Center(child: CircularProgressIndicator());
+                } else {
+                  return _pageBody(context, bloc, key);
+                }
+              },
+            ),
           ),
         ),
       ),
@@ -88,19 +94,23 @@ class LoginPage extends BlocWidget<LoginBloc> {
                 DhTextFormField(
                   labelText: Localization.of(context).bundle.email,
                   initialValue: bloc.state?.form?.mail ?? '',
-                  onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(mail: value))),
+                  onChanged: (value) =>
+                      bloc.add(FormChanged(form: bloc.state.form.copyWith(mail: value))),
                 ),
                 DhTextFormField(
                     obscureText: true,
                     labelText: Localization.of(context).bundle.password,
                     initialValue: bloc.state?.form?.password ?? '',
-                    onChanged: (value) => bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value)))),
+                    onChanged: (value) =>
+                        bloc.add(FormChanged(form: bloc.state.form.copyWith(password: value)))),
                 DhButton(
-                  onPressed: () => bloc.add(FormSubmitted(isValid: key.currentState.validate(), form: bloc.state.form)),
+                  onPressed: () => bloc.add(
+                      FormSubmitted(isValid: key.currentState.validate(), form: bloc.state.form)),
                   text: Localization.of(context).bundle.logIn,
                   backgroundColor: themeConfig.colors.primary1,
                 ),
-                Text(Localization.of(context).bundle.or, style: themeConfig.textStyles.secondaryTitle),
+                Text(Localization.of(context).bundle.or,
+                    style: themeConfig.textStyles.secondaryTitle),
                 DhButton(
                   onPressed: () => bloc.add(FacebookSigningSubmitted()),
                   text: Localization.of(context).bundle.logInWithFacebook,
