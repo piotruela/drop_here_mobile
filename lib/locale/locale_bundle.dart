@@ -335,4 +335,6 @@ abstract class LocaleBundle {
   String get fillAllData;
 
   String get passwordHint;
+
+  String get tapBackButtonAgainHint;
 }

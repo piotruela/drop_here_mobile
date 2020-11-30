@@ -510,4 +510,7 @@ class LocaleBundleEn extends LocaleBundle {
 
   @override
   String get passwordHint => "Password";
+
+  @override
+  String get tapBackButtonAgainHint => "Tap back button again to exit the app";
 }
