@@ -23,24 +23,26 @@ class CustomerShipmentsListPage extends BlocWidget<DhListBloc> {
   Widget build(BuildContext context, DhListBloc bloc, _) {
     final LocaleBundle localeBundle = Localization.of(context).bundle;
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          BlocBuilder<DhListBloc, DhListState>(
-            builder: (context, state) {
-              if (state is DhListInitial) {
-                return Center(child: CircularProgressIndicator());
-              } else if (state is ListLoading) {
-                return Center(child: CircularProgressIndicator());
-              } else if (state is FetchingError) {
-                return Container(child: Text(state.error));
-              } else if (state is ShipmentsFetched) {
-                return buildColumnWithData(localeBundle, state, context, bloc);
-              }
-              return Container();
-            },
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            BlocBuilder<DhListBloc, DhListState>(
+              builder: (context, state) {
+                if (state is DhListInitial) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (state is ListLoading) {
+                  return Center(child: CircularProgressIndicator());
+                } else if (state is FetchingError) {
+                  return Container(child: Text(state.error));
+                } else if (state is ShipmentsFetched) {
+                  return buildColumnWithData(localeBundle, state, context, bloc);
+                }
+                return Container();
+              },
+            ),
+          ],
+        ),
       ),
       bottomNavigationBar: CustomerBottomBar(sectionIndex: 0),
     );

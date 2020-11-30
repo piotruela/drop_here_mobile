@@ -193,6 +193,8 @@ abstract class LocaleBundle {
 
   String get delete;
 
+  String get cancel;
+
   String get category;
 
   String get price;

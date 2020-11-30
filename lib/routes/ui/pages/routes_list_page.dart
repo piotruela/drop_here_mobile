@@ -39,8 +39,7 @@ class RoutesListPage extends BlocWidget<RoutesListBloc> {
     );
   }
 
-  Widget buildColumnWithData(
-      LocaleBundle locale, RoutesListState state, BuildContext context, RoutesListBloc bloc) {
+  Widget buildColumnWithData(LocaleBundle locale, RoutesListState state, BuildContext context, RoutesListBloc bloc) {
     return Expanded(
       child: ListView.builder(
           shrinkWrap: true,
@@ -98,7 +97,7 @@ class RouteCard extends DhTile {
             itemBuilder: (context) => <PopupMenuItem<String>>[
               new PopupMenuItem<String>(
                   child: GestureDetector(
-                child: Text(Localization.of(context).bundle.delete),
+                child: Text(Localization.of(context).bundle.cancel),
                 onTap: () {
                   bloc.add(DeleteRoute(route.id.toString()));
                   Navigator.pop(context);

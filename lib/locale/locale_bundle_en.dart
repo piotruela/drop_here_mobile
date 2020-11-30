@@ -296,6 +296,9 @@ class LocaleBundleEn extends LocaleBundle {
   String get delete => "Delete";
 
   @override
+  String get cancel => "Cancel";
+
+  @override
   String get category => "Category";
 
   @override
@@ -308,7 +311,7 @@ class LocaleBundleEn extends LocaleBundle {
   String get addSpot => "Add spot";
 
   @override
-  String get addSpotNameHint => "e.g. Next to Jubilat";
+  String get addSpotNameHint => "Next to grocery";
 
   @override
   String get passwordRequired => "Password required";
@@ -317,7 +320,7 @@ class LocaleBundleEn extends LocaleBundle {
   String get passwordMandatory => "Password*";
 
   @override
-  String get passwordHintText => "e.g. Aezakmi";
+  String get passwordHintText => "Define password";
 
   @override
   String get acceptRequired => "Accept required";

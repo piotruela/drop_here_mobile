@@ -117,7 +117,8 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
               inputType: InputType.text,
               onChanged: (String name) =>
                   bloc.add(FormChanged(routeRequest: bloc.state.routeRequest.copyWith(name: name))),
-              initialValue: bloc.state.routeRequest?.name ?? ""),
+              initialValue: bloc.state.routeRequest?.name ?? "",
+              maxLength: 50),
           labeledSwitch(
               text: "Auto-accept order",
               initialPosition: bloc.state.routeRequest.acceptShipmentsAutomatically,
@@ -167,7 +168,8 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
               inputType: InputType.text,
               onChanged: (String description) =>
                   bloc.add(FormChanged(routeRequest: bloc.state.routeRequest.copyWith(description: description))),
-              initialValue: bloc.state.routeRequest?.description ?? ""),
+              initialValue: bloc.state.routeRequest?.description ?? "",
+              maxLength: 150),
           secondaryTitle("Products"),
           productsCarousel(context, localeBundle, bloc),
           BlocBuilder<ManageRouteBloc, ManageRouteState>(
@@ -201,7 +203,13 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
     }
   }
 
-  Widget _field({String label, String hint, InputType inputType, Function(String) onChanged, String initialValue}) {
+  Widget _field(
+      {String label,
+      String hint,
+      InputType inputType,
+      Function(String) onChanged,
+      String initialValue,
+      int maxLength}) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -210,7 +218,12 @@ abstract class ManageRoutePage extends BlocWidget<ManageRouteBloc> {
           label,
           style: themeConfig.textStyles.secondaryTitle,
         ),
-        DhPlainTextFormField(hintText: hint, inputType: inputType, onChanged: onChanged, initialValue: initialValue)
+        DhPlainTextFormField(
+            hintText: hint,
+            inputType: inputType,
+            onChanged: onChanged,
+            initialValue: initialValue,
+            maxLength: maxLength)
       ],
     );
   }

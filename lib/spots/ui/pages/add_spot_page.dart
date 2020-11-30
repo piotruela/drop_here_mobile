@@ -144,8 +144,10 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
         DhPlainTextFormField(
           inputType: InputType.text,
           hintText: locale.addSpotNameHint,
-          onChanged: (String name) =>
-              bloc.add(FormChanged(spotManagementRequest: bloc.state.spotManagementRequest.copyWith(name: name))),
+          onChanged: (String name) => bloc.add(
+            FormChanged(spotManagementRequest: bloc.state.spotManagementRequest.copyWith(name: name)),
+          ),
+          maxLength: 50,
         ),
       ],
     );
@@ -171,8 +173,9 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
         DhPlainTextFormField(
             inputType: InputType.text,
             hintText: locale.passwordHintText,
-            onChanged: (String password) => bloc.add(
-                FormChanged(spotManagementRequest: bloc.state.spotManagementRequest.copyWith(password: password)))),
+            onChanged: (String password) => bloc
+                .add(FormChanged(spotManagementRequest: bloc.state.spotManagementRequest.copyWith(password: password))),
+            maxLength: 30),
       ],
     );
   }
@@ -184,6 +187,7 @@ class AddSpotPage extends BlocWidget<AddSpotBloc> {
         inputType: InputType.text,
         onChanged: (String description) => bloc.add(
             FormChanged(spotManagementRequest: bloc.state.spotManagementRequest.copyWith(description: description))),
+        maxLength: 150,
       ),
     ]);
   }
