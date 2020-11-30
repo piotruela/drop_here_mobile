@@ -1,9 +1,11 @@
+import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:drop_here_mobile/accounts/bloc/list_bloc/dh_list_bloc.dart';
 import 'package:drop_here_mobile/accounts/ui/widgets/product_card.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/widgets/add_new_item_panel.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bloc_widget.dart';
 import 'package:drop_here_mobile/common/ui/widgets/bottom_bar.dart';
+import 'package:drop_here_mobile/common/ui/widgets/snackbar.dart';
 import 'package:drop_here_mobile/locale/locale_bundle.dart';
 import 'package:drop_here_mobile/locale/localization.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
@@ -24,36 +26,39 @@ class ProductsListPage extends BlocWidget<DhListBloc> {
   Widget build(BuildContext context, DhListBloc bloc, _) {
     final LocaleBundle locale = Localization.of(context).bundle;
     return Scaffold(
-      body: Stack(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(left: 25.0, top: 25.0),
-                child: Text(
-                  locale.products,
-                  style: themeConfig.textStyles.primaryTitle,
+      body: DoubleBackToCloseApp(
+        snackBar: dhSnackBar(locale.tapBackButtonAgainHint),
+        child: Stack(
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 25.0, top: 25.0),
+                  child: Text(
+                    locale.products,
+                    style: themeConfig.textStyles.primaryTitle,
+                  ),
                 ),
-              ),
-              BlocBuilder<DhListBloc, DhListState>(
-                builder: (context, state) {
-                  if (state is DhListInitial) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (state is ListLoading) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (state is FetchingError) {
-                    return Container(child: Text(state.error));
-                  } else if (state is ProductsFetched) {
-                    return buildColumnWithData(locale, state, context, dhListBloc);
-                  }
-                  return Container();
-                },
-              ),
-            ],
-          ),
-          AddNewItemPanel(controller: controller)
-        ],
+                BlocBuilder<DhListBloc, DhListState>(
+                  builder: (context, state) {
+                    if (state is DhListInitial) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (state is ListLoading) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (state is FetchingError) {
+                      return Container(child: Text(state.error));
+                    } else if (state is ProductsFetched) {
+                      return buildColumnWithData(locale, state, context, dhListBloc);
+                    }
+                    return Container();
+                  },
+                ),
+              ],
+            ),
+            AddNewItemPanel(controller: controller)
+          ],
+        ),
       ),
       bottomNavigationBar: CompanyBottomBar(
         sectionIndex: 1,
@@ -62,7 +67,8 @@ class ProductsListPage extends BlocWidget<DhListBloc> {
     );
   }
 
-  Widget buildColumnWithData(LocaleBundle locale, ProductsFetched state, BuildContext context, DhListBloc bloc) {
+  Widget buildColumnWithData(
+      LocaleBundle locale, ProductsFetched state, BuildContext context, DhListBloc bloc) {
     return Expanded(
       child: ListView.builder(
           shrinkWrap: true,

@@ -61,6 +61,7 @@ dependencies:
   flutter_secure_storage: ^3.3.5
   url_launcher: ^5.7.10
   transparent_image: ^1.0.0
+  double_back_to_close_app: ^1.2.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -9,6 +9,7 @@ import 'package:drop_here_mobile/accounts/services/customer_management_service.d
 import 'package:drop_here_mobile/accounts/ui/layout/main_layout.dart';
 import 'package:drop_here_mobile/common/config/assets_config.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
+import 'package:drop_here_mobile/management/ui/pages/customer_details_page.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:drop_here_mobile/products/services/product_management_service.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
@@ -81,7 +82,8 @@ class SandboxPage extends StatelessWidget {
                                         type: CustomizationType.SINGLE,
                                         required: true,
                                         customizations: [
-                                          ProductCustomizationResponse(id: 16, price: 0.50, value: "Classic")
+                                          ProductCustomizationResponse(
+                                              id: 16, price: 0.50, value: "Classic")
                                         ]),
                                     ProductCustomizationWrapperResponse(
                                         id: 190,
@@ -89,8 +91,10 @@ class SandboxPage extends StatelessWidget {
                                         type: CustomizationType.MULTIPLE,
                                         required: false,
                                         customizations: [
-                                          ProductCustomizationResponse(id: 15656, price: 0.50, value: "Classic"),
-                                          ProductCustomizationResponse(id: 1343, price: 0.50, value: "BBQ")
+                                          ProductCustomizationResponse(
+                                              id: 15656, price: 0.50, value: "Classic"),
+                                          ProductCustomizationResponse(
+                                              id: 1343, price: 0.50, value: "BBQ")
                                         ])
                                   ]),
                               routeProductResponse: ProductResponse(
@@ -108,8 +112,10 @@ class SandboxPage extends StatelessWidget {
                                         type: CustomizationType.SINGLE,
                                         required: true,
                                         customizations: [
-                                          ProductCustomizationResponse(id: 16, price: 0.50, value: "Classic"),
-                                          ProductCustomizationResponse(id: 1236, price: 0.60, value: "non-Classic"),
+                                          ProductCustomizationResponse(
+                                              id: 16, price: 0.50, value: "Classic"),
+                                          ProductCustomizationResponse(
+                                              id: 1236, price: 0.60, value: "non-Classic"),
                                         ]),
                                     ProductCustomizationWrapperResponse(
                                         id: 134444,
@@ -117,8 +123,10 @@ class SandboxPage extends StatelessWidget {
                                         type: CustomizationType.SINGLE,
                                         required: false,
                                         customizations: [
-                                          ProductCustomizationResponse(id: 16231, price: 1.50, value: "Beef"),
-                                          ProductCustomizationResponse(id: 12236, price: 2.60, value: "Chicken"),
+                                          ProductCustomizationResponse(
+                                              id: 16231, price: 1.50, value: "Beef"),
+                                          ProductCustomizationResponse(
+                                              id: 12236, price: 2.60, value: "Chicken"),
                                         ]),
                                     ProductCustomizationWrapperResponse(
                                         id: 190,
@@ -126,8 +134,10 @@ class SandboxPage extends StatelessWidget {
                                         type: CustomizationType.MULTIPLE,
                                         required: false,
                                         customizations: [
-                                          ProductCustomizationResponse(id: 15656, price: 0.50, value: "Classic"),
-                                          ProductCustomizationResponse(id: 1343, price: 0.50, value: "BBQ")
+                                          ProductCustomizationResponse(
+                                              id: 15656, price: 0.50, value: "Classic"),
+                                          ProductCustomizationResponse(
+                                              id: 1343, price: 0.50, value: "BBQ")
                                         ])
                                   ])),
                           RouteProductRouteResponse(
@@ -158,12 +168,13 @@ class SandboxPage extends StatelessWidget {
                     }),
                 FlatButton(
                     child: Text("Log in to company account"),
-                    onPressed: () =>
-                        authenticationService.authenticate(LoginRequest(mail: "zrobilem@g.pl", password: "12345678"))),
+                    onPressed: () => authenticationService
+                        .authenticate(LoginRequest(mail: "zrobilem@g.pl", password: "12345678"))),
                 FlatButton(
                     child: Text("Log in to admin profile"),
                     onPressed: () async {
-                      List<ProfileInfoResponse> profileInfoResponse = await accountService.fetchProfiles();
+                      List<ProfileInfoResponse> profileInfoResponse =
+                          await accountService.fetchProfiles();
                       authenticationService.loginToProfile(ProfileLoginRequest(
                           profileUid: profileInfoResponse
                               .firstWhere((element) => element.profileType == ProfileType.MAIN)
@@ -172,12 +183,20 @@ class SandboxPage extends StatelessWidget {
                     }),
                 FlatButton(
                     child: Text("Log in to customer account"),
-                    onPressed: () =>
-                        authenticationService.authenticate(LoginRequest(mail: "klient@g.pl", password: "12345678"))),
+                    onPressed: () => authenticationService
+                        .authenticate(LoginRequest(mail: "klient@g.pl", password: "12345678"))),
                 FlatButton(
-                    child: Text("log out from account"), onPressed: () => authenticationService.logOutFromAccount()),
-                FlatButton(child: Text("company spots map page"), onPressed: () => Get.to(CompanyMapPage())),
-                FlatButton(child: Text("customer spots map page"), onPressed: () => Get.offAll(CustomerMapPage())),
+                    child: Text("log out from account"),
+                    onPressed: () => authenticationService.logOutFromAccount()),
+                FlatButton(
+                    child: Text("company spots map page"),
+                    onPressed: () => Get.to(CompanyMapPage())),
+                FlatButton(
+                    child: Text("customer spots map page"),
+                    onPressed: () => Get.offAll(CustomerMapPage())),
+                FlatButton(
+                    child: Text("customer details"),
+                    onPressed: () => Get.offAll(CustomerDetailsPage())),
               ],
             ),
           ),
