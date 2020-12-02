@@ -8,11 +8,11 @@ import 'package:drop_here_mobile/accounts/model/api/company_management_api.dart'
 import 'package:drop_here_mobile/app_storage/app_storage_service.dart';
 import 'package:drop_here_mobile/common/data/http/http_client.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' as di;
 
 class AccountService {
-  final DhHttpClient _httpClient = Get.find<DhHttpClient>();
-  final AppStorageService _appStorageService = Get.find<AppStorageService>();
+  final DhHttpClient _httpClient = di.Get.find<DhHttpClient>();
+  final AppStorageService _appStorageService = di.Get.find<AppStorageService>();
 
   Future<LoginResponse> createNewAccount(AccountCreationRequest accountCreationRequest) async {
     try {
@@ -29,8 +29,7 @@ class AccountService {
   }
 
   Future<AccountInfoResponse> fetchAccountDetails() async {
-    dynamic response = await _httpClient.get(
-        canRepeatRequest: true, path: "/accounts", out: (dynamic json) => json);
+    dynamic response = await _httpClient.get(canRepeatRequest: true, path: "/accounts", out: (dynamic json) => json);
     return AccountInfoResponse.fromJson(response);
   }
 
@@ -82,8 +81,7 @@ class AccountService {
       dio.options.headers[HttpHeaders.authorizationHeader] = _appStorageService.authorizationHeader;
       MultipartFile multipartFile = await MultipartFile.fromFile(file.path);
       FormData formData = FormData.fromMap({"image": multipartFile});
-      Response response = await dio.post("${_httpClient.baseUrl}/accounts/profiles/images",
-          data: formData);
+      Response response = await dio.post("${_httpClient.baseUrl}/accounts/profiles/images", data: formData);
       return ResourceOperationResponse.fromJson(response.data);
     } catch (error) {
       return ResourceOperationResponse()..operationStatus = OperationStatus.ERROR;
@@ -91,8 +89,7 @@ class AccountService {
   }
 
   Future<List<ProfileInfoResponse>> fetchProfiles() async {
-    dynamic response = await _httpClient.get(
-        canRepeatRequest: true, path: "/accounts", out: (dynamic json) => json);
+    dynamic response = await _httpClient.get(canRepeatRequest: true, path: "/accounts", out: (dynamic json) => json);
     AccountInfoResponse account = AccountInfoResponse.fromJson(response);
     return account.profiles;
   }

@@ -50,7 +50,7 @@ class CreateNewItemPage extends StatelessWidget {
             children: [
               cardButton(() => Get.to(AddProductPage()), locale.product, Icons.shopping_basket),
               cardButton(() => Get.to(AddSpotPage()), locale.spot, Icons.store),
-              cardButton(() => Get.to(AddRoutePage()), locale.route, Icons.map),
+              cardButton(() => Get.to(AddRoutePage()), locale.route, Icons.assistant_direction),
               cardButton(() => Get.to(CreateRegularProfilePage()), locale.profile, Icons.person),
             ],
           ),

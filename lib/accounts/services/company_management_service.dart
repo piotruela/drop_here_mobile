@@ -11,23 +11,23 @@ import 'package:drop_here_mobile/common/data/http/http_client.dart';
 import 'package:drop_here_mobile/products/model/api/page_api.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
 import 'package:flutter/material.dart' hide Page;
-import 'package:get/get.dart';
+import 'package:get/get.dart' as di;
 
 class CompanyManagementService {
-  final DhHttpClient _httpClient = Get.find<DhHttpClient>();
-  final AppStorageService _appStorage = Get.find<AppStorageService>();
+  final DhHttpClient _httpClient = di.Get.find<DhHttpClient>();
+  final AppStorageService _appStorage = di.Get.find<AppStorageService>();
 
   CompanyManagementService();
 
   Future<Company> getCompanyInfo() async {
-    dynamic response = await _httpClient.get(
-        canRepeatRequest: true, path: "/management/companies", out: (dynamic json) => json);
+    dynamic response =
+        await _httpClient.get(canRepeatRequest: true, path: "/management/companies", out: (dynamic json) => json);
     return Company.fromJson(response);
   }
 
   Future<String> getCompanyId() async {
-    dynamic response = await _httpClient.get(
-        canRepeatRequest: true, path: "/management/companies", out: (dynamic json) => json);
+    dynamic response =
+        await _httpClient.get(canRepeatRequest: true, path: "/management/companies", out: (dynamic json) => json);
     Company companyInfo = Company.fromJson(response);
     return companyInfo.uid;
   }
@@ -55,8 +55,7 @@ class CompanyManagementService {
   }
 
   Future<List<ProfileInfoResponse>> fetchCompanySellers() async {
-    dynamic response = await _httpClient.get(
-        canRepeatRequest: true, path: "/accounts", out: (dynamic json) => json);
+    dynamic response = await _httpClient.get(canRepeatRequest: true, path: "/accounts", out: (dynamic json) => json);
     AccountInfoResponse account = AccountInfoResponse.fromJson(response);
     return account.profiles;
   }
@@ -81,8 +80,7 @@ class CompanyManagementService {
       "${_httpClient.baseUrl}/companies/$companyId/images",
       headers: {"authorization": "${_appStorage.authorizationHeader}"},
       errorBuilder: (context, _, __) => FittedBox(
-          child: CircleAvatar(
-              backgroundColor: Colors.white, child: Icon(Icons.apartment, color: Colors.black))),
+          child: CircleAvatar(backgroundColor: Colors.white, child: Icon(Icons.apartment, color: Colors.black))),
     );
   }
 

@@ -42,19 +42,13 @@ class ShipmentsListPage extends BlocWidget<DhListBloc> {
     );
   }
 
-  SafeArea buildColumnWithData(
-      LocaleBundle localeBundle, ShipmentsFetched state, BuildContext context, DhListBloc bloc) {
-    return SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ListView.builder(
-              shrinkWrap: true,
-              itemCount: state.shipments.length,
-              itemBuilder: (BuildContext context, int index) =>
-                  ShipmentTile(shipment: state.shipments.elementAt(index), localeBundle: localeBundle)),
-        ],
-      ),
+  Widget buildColumnWithData(LocaleBundle localeBundle, ShipmentsFetched state, BuildContext context, DhListBloc bloc) {
+    return Expanded(
+      child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: state.shipments.length,
+          itemBuilder: (BuildContext context, int index) =>
+              ShipmentTile(shipment: state.shipments.elementAt(index), localeBundle: localeBundle)),
     );
   }
 }

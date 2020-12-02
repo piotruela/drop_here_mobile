@@ -86,7 +86,7 @@ class CustomerShipmentBloc extends Bloc<CustomerShipmentEvent, CustomerShipmentS
       } else {
         await _customerShipmentService.createShipment(event.companyUid, event.dropUid, request);
       }
-      CustomerShipmentState(type: CustomerShipmentStateType.sent);
+      yield CustomerShipmentState(type: CustomerShipmentStateType.sent, drop: state.drop);
     }
   }
 

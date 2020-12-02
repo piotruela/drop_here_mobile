@@ -17,6 +17,8 @@ import 'package:drop_here_mobile/shipments/bloc/customer_shipment_bloc/customer_
 import 'package:drop_here_mobile/shipments/model/api/company_shipment_response.dart';
 import 'package:drop_here_mobile/shipments/model/api/customer_shipment_request.dart';
 import 'package:drop_here_mobile/shipments/ui/pages/add_product_page.dart';
+import 'package:drop_here_mobile/spots/bloc/spot_details_bloc/spot_details_bloc.dart';
+import 'package:drop_here_mobile/spots/ui/pages/customer_map_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_conditional_rendering/conditional.dart';
@@ -71,13 +73,23 @@ abstract class ManageShipmentPage extends BlocWidget<CustomerShipmentBloc> {
   @override
   Widget build(BuildContext context, CustomerShipmentBloc bloc, _) {
     return Scaffold(
-      body: BlocBuilder<CustomerShipmentBloc, CustomerShipmentState>(
+      body: BlocConsumer<CustomerShipmentBloc, CustomerShipmentState>(
           buildWhen: (previous, current) => previous.type != current.type,
           builder: (context, state) => Conditional.single(
               context: context,
-              conditionBuilder: (_) => state.type != CustomerShipmentStateType.loading,
+              conditionBuilder: (_) =>
+                  state.type != CustomerShipmentStateType.loading && state.type != CustomerShipmentStateType.sent,
               widgetBuilder: (_) => _buildContent(context, bloc, bloc.state),
-              fallbackBuilder: (_) => Center(child: CircularProgressIndicator()))),
+              fallbackBuilder: (_) => Center(child: CircularProgressIndicator())),
+          listenWhen: (previous, current) => previous.type != current.type,
+          listener: (context, state) {
+            if (state.type == CustomerShipmentStateType.sent) {
+              Get.offAll(CustomerMapPage(
+                  spotDetailsOnLoadEvent: FetchSpotDetailsEvent(spotUid: state.drop.spot.uid),
+                  initialXCoordinate: state.drop.spot.xcoordinate,
+                  initialYCoordinate: state.drop.spot.ycoordinate));
+            }
+          }),
     );
   }
 

@@ -28,24 +28,26 @@ class CustomerShipmentsListPage extends BlocWidget<DhListBloc> {
       body: DoubleBackToCloseApp(
         snackBar: dhSnackBar(localeBundle.tapBackButtonAgainHint),
         child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              BlocBuilder<DhListBloc, DhListState>(
-                builder: (context, state) {
-                  if (state is DhListInitial) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (state is ListLoading) {
-                    return Center(child: CircularProgressIndicator());
-                  } else if (state is FetchingError) {
-                    return Container(child: Text(state.error));
-                  } else if (state is ShipmentsFetched) {
-                    return buildColumnWithData(localeBundle, state, context, bloc);
-                  }
-                  return Container();
-                },
-              ),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                BlocBuilder<DhListBloc, DhListState>(
+                  builder: (context, state) {
+                    if (state is DhListInitial) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (state is ListLoading) {
+                      return Center(child: CircularProgressIndicator());
+                    } else if (state is FetchingError) {
+                      return Container(child: Text(state.error));
+                    } else if (state is ShipmentsFetched) {
+                      return buildColumnWithData(localeBundle, state, context, bloc);
+                    }
+                    return Container();
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -53,8 +55,7 @@ class CustomerShipmentsListPage extends BlocWidget<DhListBloc> {
     );
   }
 
-  Widget buildColumnWithData(
-      LocaleBundle localeBundle, ShipmentsFetched state, BuildContext context, DhListBloc bloc) {
+  Widget buildColumnWithData(LocaleBundle localeBundle, ShipmentsFetched state, BuildContext context, DhListBloc bloc) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
