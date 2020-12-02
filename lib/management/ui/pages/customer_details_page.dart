@@ -38,7 +38,7 @@ class CustomerDetailsPage extends BlocWidget<CustomerDetailsBloc> {
               fallbackBuilder: (_) => Center(child: CircularProgressIndicator())),
         ),
       ),
-      bottomNavigationBar: CustomerBottomBar(sectionIndex: 3),
+      bottomNavigationBar: CustomerBottomBar(sectionIndex: 2),
     );
   }
 
@@ -62,13 +62,9 @@ class CustomerDetailsPage extends BlocWidget<CustomerDetailsBloc> {
           ),
           SizedBox(height: 20.0),
           LabeledCircledInfoWithDivider(label: "Mail", text: accountInfo.mail),
-          LabeledCircledInfoWithDivider(
-              label: "Customer since", text: accountInfo.createdAt.toStringWithoutTime()),
-          LabeledCircledInfo(
-              label: "Mail status", text: describeEnum(accountInfo.accountMailStatus)),
-          Align(
-              child: ChoosableButton(
-                  text: "Log out", isChosen: false, chooseAction: () => bloc.add(LogOut()))),
+          LabeledCircledInfoWithDivider(label: "Customer since", text: accountInfo.createdAt.toStringWithoutTime()),
+          LabeledCircledInfo(label: "Mail status", text: describeEnum(accountInfo.accountMailStatus)),
+          Align(child: ChoosableButton(text: "Log out", isChosen: false, chooseAction: () => bloc.add(LogOut()))),
         ],
       ),
     );

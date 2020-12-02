@@ -15,12 +15,10 @@ class CustomerBottomBar extends DHBottomBar {
 
   CustomerBottomBar({this.sectionIndex}) : super(selectedIndex: sectionIndex);
 
-  @override
-  List<VoidCallback> get bottomBarActions => [
-        () => Get.offAll(CustomerShipmentsListPage()),
-        () => {}, //TODO: navigate to ??
-        () => Get.offAll(CustomerMapPage()),
-        () => Get.offAll(CustomerDetailsPage())
+  List<Widget> get bottomBarItems => [
+        bottomBarItem(sectionIndex == 0, Icons.home, CustomerShipmentsListPage()),
+        bottomBarItem(sectionIndex == 1, Icons.map, CustomerMapPage()),
+        bottomBarItem(sectionIndex == 2, Icons.person, CustomerDetailsPage()),
       ];
 }
 
@@ -41,12 +39,12 @@ class CompanyBottomBar extends DHBottomBar {
         elevation: 4.0,
       );
 
-  @override
-  List<VoidCallback> get bottomBarActions => [
-        () => Get.offAll(DashboardPage()),
-        () => Get.offAll(ProductsListPage()),
-        () => Get.offAll(CompanyMapPage()),
-        () => Get.offAll(ManagementPage())
+  List<Widget> get bottomBarItems => [
+        bottomBarItem(sectionIndex == 0, Icons.home, DashboardPage()),
+        bottomBarItem(sectionIndex == 1, Icons.shopping_basket, ProductsListPage()),
+        centerButton(),
+        bottomBarItem(sectionIndex == 2, Icons.map, CompanyMapPage()),
+        bottomBarItem(sectionIndex == 3, Icons.person, ManagementPage()),
       ];
 }
 
@@ -54,7 +52,9 @@ abstract class DHBottomBar extends StatelessWidget {
   final ThemeConfig themeConfig = Get.find<ThemeConfig>();
   final int selectedIndex;
 
-  List<VoidCallback> get bottomBarActions;
+  List<Widget> get bottomBarItems => null;
+
+  Widget centerButton() => SizedBox.shrink();
 
   DHBottomBar({this.selectedIndex});
 
@@ -75,47 +75,20 @@ abstract class DHBottomBar extends StatelessWidget {
           )
         ]),
         child: Row(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: <Widget>[
-            IconButton(
-              onPressed: bottomBarActions[0],
-              iconSize: 35.0,
-              icon: Icon(
-                Icons.home,
-                color: selectedIndex == 0 ? themeConfig.colors.primary1 : themeConfig.colors.textFieldHint,
-              ),
-            ),
-            IconButton(
-              onPressed: bottomBarActions[1],
-              iconSize: 35.0,
-              icon: Icon(
-                Icons.shopping_basket,
-                color: selectedIndex == 1 ? themeConfig.colors.primary1 : themeConfig.colors.textFieldHint,
-              ),
-            ),
-            centerButton(),
-            IconButton(
-              onPressed: bottomBarActions[2],
-              iconSize: 35.0,
-              icon: Icon(
-                Icons.map,
-                color: selectedIndex == 2 ? themeConfig.colors.primary1 : themeConfig.colors.textFieldHint,
-              ),
-            ),
-            IconButton(
-              onPressed: bottomBarActions[3],
-              iconSize: 35.0,
-              icon: Icon(
-                Icons.person,
-                color: selectedIndex == 3 ? themeConfig.colors.primary1 : themeConfig.colors.textFieldHint,
-              ),
-            ),
-          ],
-        ),
+            mainAxisSize: MainAxisSize.max, mainAxisAlignment: MainAxisAlignment.spaceAround, children: bottomBarItems),
       ),
     );
   }
 
-  Widget centerButton() => SizedBox.shrink();
+  Widget bottomBarItem(bool isSelected, IconData icon, Widget page) {
+    final ColorTheme colors = themeConfig.colors;
+    return IconButton(
+      onPressed: () => Get.offAll(page),
+      iconSize: 35.0,
+      icon: Icon(
+        icon,
+        color: isSelected ? colors.primary1 : colors.textFieldHint,
+      ),
+    );
+  }
 }

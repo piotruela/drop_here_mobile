@@ -16,8 +16,10 @@ import 'package:drop_here_mobile/routes/model/api/drop_customer_spot_response_ap
 import 'package:drop_here_mobile/routes/ui/widgets/drop_card.dart';
 import 'package:drop_here_mobile/spots/bloc/company_spots_bloc/company_spots_bloc.dart';
 import 'package:drop_here_mobile/spots/bloc/customer_spots_bloc/customer_spots_bloc.dart';
+import 'package:drop_here_mobile/spots/bloc/spot_details_bloc/spot_details_bloc.dart' as spt;
 import 'package:drop_here_mobile/spots/model/api/spot_management_api.dart';
 import 'package:drop_here_mobile/spots/model/api/spot_user_api.dart';
+import 'package:drop_here_mobile/spots/ui/pages/customer_map_page.dart';
 import 'package:drop_here_mobile/spots/ui/pages/edit_spot_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -99,6 +101,10 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
             if (request != null) {
               customerSpotsBloc
                   .add(SendSpotJoiningRequest(spotUid: spot.uid, companyUid: spot.companyUid, request: request));
+              Get.offAll(CustomerMapPage(
+                  spotDetailsOnLoadEvent: spt.FetchSpotDetailsEvent(spotUid: spot.uid),
+                  initialXCoordinate: spot.xcoordinate,
+                  initialYCoordinate: spot.ycoordinate));
             }
           },
           text: "Join");
@@ -115,6 +121,7 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
   }
 
   Widget dropsList(List<DropCustomerSpotResponse> drops) {
+    drops.sort((a, b) => a.startTime.compareTo(b.startTime));
     return CarouselSlider(
         options: CarouselOptions(
           aspectRatio: 14 / 8.4,
@@ -151,7 +158,7 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
   Widget manageSpotSettingDialog(BuildContext context, String spotUid, String companyUid,
       SpotMembershipManagementRequest request, CustomerSpotsBloc bloc) {
     return AlertDialog(
-        title: Align(child: Text("Joining spot", style: themeConfig.textStyles.secondaryTitle)),
+        title: Align(child: Text("Spot settings", style: themeConfig.textStyles.secondaryTitle)),
         content: SingleChildScrollView(
             child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -193,7 +200,10 @@ class CustomerSpotDetailsPage extends AbsSpotDetailsPage {
                     child: Text("Update", style: themeConfig.textStyles.active.copyWith(fontSize: 20.0)),
                     onTap: () {
                       bloc.add(UpdateSpotSettings(spotUid: spotUid, companyUid: companyUid, request: request));
-                      Navigator.pop(context, null);
+                      Get.offAll(CustomerMapPage(
+                          spotDetailsOnLoadEvent: spt.FetchSpotDetailsEvent(spotUid: spotUid),
+                          initialXCoordinate: spot.xcoordinate,
+                          initialYCoordinate: spot.ycoordinate));
                     }),
               ],
             ),
