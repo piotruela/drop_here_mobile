@@ -20,3 +20,13 @@ class UpdateRouteStatus extends RouteDetailsEvent {
   @override
   List<Object> get props => [routeId, status];
 }
+
+class UpdateDropStatus extends RouteDetailsEvent {
+  final String dropUid;
+  final DropStatus status;
+  final int delayDuration;
+
+  UpdateDropStatus({this.dropUid, this.status, this.delayDuration});
+  @override
+  List<Object> get props => [dropUid, status, delayDuration];
+}

@@ -27,6 +27,12 @@ class RouteDetailsBloc extends Bloc<RouteDetailsEvent, RouteDetailsState> {
           await routeManagementService.updateRouteStatus(event.routeId, event.status);
       final RouteResponse route = await routeManagementService.fetchRoute(response.id);
       yield RouteDetailsState(type: RouteDetailsStateType.route_fetched, route: route);
+    } else if (event is UpdateDropStatus) {
+      yield RouteDetailsState(type: RouteDetailsStateType.loading, route: state.route);
+      final ResourceOperationResponse response =
+          await routeManagementService.updateDropStatus(event.dropUid, event.status, event.delayDuration);
+      final RouteResponse route = await routeManagementService.fetchRoute(state.route.id);
+      yield RouteDetailsState(type: RouteDetailsStateType.route_fetched, route: route);
     }
   }
 }

@@ -115,3 +115,14 @@ class RouteStateChangeRequest {
   factory RouteStateChangeRequest.fromJson(Map<String, dynamic> json) => _$RouteStateChangeRequestFromJson(json);
   Map<String, dynamic> toJson() => _$RouteStateChangeRequestToJson(this);
 }
+
+@JsonSerializable()
+class DropManagementRequest {
+  DropStatus newStatus;
+  int delayByMinutes;
+
+  DropManagementRequest({this.newStatus, this.delayByMinutes});
+
+  factory DropManagementRequest.fromJson(Map<String, dynamic> json) => _$DropManagementRequestFromJson(json);
+  Map<String, dynamic> toJson() => _$DropManagementRequestToJson(this);
+}

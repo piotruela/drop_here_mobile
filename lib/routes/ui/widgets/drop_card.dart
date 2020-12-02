@@ -1,18 +1,31 @@
 import 'package:drop_here_mobile/accounts/ui/widgets/dh_shadow.dart';
 import 'package:drop_here_mobile/common/config/theme_config.dart';
 import 'package:drop_here_mobile/common/ui/utils/datetime_utils.dart';
+import 'package:drop_here_mobile/common/ui/utils/string_utils.dart';
 import 'package:drop_here_mobile/products/model/api/product_management_api.dart';
+import 'package:drop_here_mobile/routes/bloc/route_details_bloc/route_details_bloc.dart';
 import 'package:drop_here_mobile/routes/model/api/drop_customer_spot_response_api.dart';
 import 'package:drop_here_mobile/routes/model/route_request_api.dart';
 import 'package:drop_here_mobile/routes/model/route_response_api.dart';
 import 'package:drop_here_mobile/routes/ui/pages/drop_details_page.dart';
+import 'package:drop_here_mobile/routes/ui/pages/route_details_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CompanyRouteDetailsDropCard extends DropCard {
   final DropRouteResponse drop;
+  final RouteDetailsBloc bloc;
 
-  CompanyRouteDetailsDropCard({this.drop});
+  CompanyRouteDetailsDropCard({this.drop, this.bloc});
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onLongPress: () =>
+          showDialog(context: context, child: DropStatusDialog(currentStatus: drop.status, drop: drop, bloc: bloc)),
+      child: super.build(context),
+    );
+  }
 
   @override
   String get endTime => drop.endTime.toTime();
@@ -28,6 +41,9 @@ class CompanyRouteDetailsDropCard extends DropCard {
 
   @override
   Widget get extraField => infoLine(Icons.pin_drop_outlined, Colors.black, drop.spot.name);
+
+  @override
+  Widget get statusField => infoLine(Icons.timer, Colors.black, describeEnum(drop.status));
 }
 
 class CompanyProductDetailsDropCard extends DropCard {
@@ -107,6 +123,7 @@ abstract class DropCard extends StatelessWidget {
   String get startTime;
   String get endTime;
   Widget get extraField => SizedBox.shrink();
+  Widget get statusField => SizedBox.shrink();
 
   @override
   Widget build(BuildContext context) {
@@ -132,8 +149,7 @@ abstract class DropCard extends StatelessWidget {
                   width: 154,
                   height: 96,
                   child: ClipRRect(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(10.0), topRight: Radius.circular(10.0)),
                     child: Icon(
                       Icons.attach_money,
                       size: 60,
@@ -167,9 +183,7 @@ abstract class DropCard extends StatelessWidget {
                   extraField,
                   infoLine(Icons.calendar_today, themeConfig.colors.active, startTime),
                   infoLine(Icons.calendar_today, themeConfig.colors.blocked, endTime),
-                  SizedBox(
-                    height: 4.0,
-                  ),
+                  statusField
                 ],
               ),
             ),

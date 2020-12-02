@@ -6,14 +6,18 @@ part of 'company_shipment_request.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-ShipmentDecisionRequest _$ShipmentDecisionRequestFromJson(Map<String, dynamic> json) {
+ShipmentDecisionRequest _$ShipmentDecisionRequestFromJson(
+    Map<String, dynamic> json) {
   return ShipmentDecisionRequest(
     comment: json['comment'] as String,
-    companyDecision: _$enumDecodeNullable(_$DecisionEnumMap, json['companyDecision']),
+    companyDecision:
+        _$enumDecodeNullable(_$DecisionEnumMap, json['companyDecision']),
   );
 }
 
-Map<String, dynamic> _$ShipmentDecisionRequestToJson(ShipmentDecisionRequest instance) => <String, dynamic>{
+Map<String, dynamic> _$ShipmentDecisionRequestToJson(
+        ShipmentDecisionRequest instance) =>
+    <String, dynamic>{
       'comment': instance.comment,
       'companyDecision': _$DecisionEnumMap[instance.companyDecision],
     };
@@ -28,7 +32,9 @@ T _$enumDecode<T>(
         '${enumValues.values.join(', ')}');
   }
 
-  final value = enumValues.entries.singleWhere((e) => e.value == source, orElse: () => null)?.key;
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
 
   if (value == null && unknownValue == null) {
     throw ArgumentError('`$source` is not one of the supported values: '
