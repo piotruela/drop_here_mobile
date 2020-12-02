@@ -105,6 +105,9 @@ class CustomerSpotDropCard extends DropCard {
   String get name => drop.name;
 
   @override
+  Widget get statusField => infoLine(Icons.timer, Colors.black, describeEnum(drop.status));
+
+  @override
   get onExitPressed => null;
 
   @override
