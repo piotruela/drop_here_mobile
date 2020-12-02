@@ -62,4 +62,15 @@ class RouteManagementService {
         out: (dynamic json) => json);
     return ResourceOperationResponse.fromJson(response);
   }
+
+  Future<ResourceOperationResponse> updateDropStatus(String dropUid, DropStatus status, int delayDuration) async {
+    DropManagementRequest request =
+        DropManagementRequest(newStatus: status, delayByMinutes: status == DropStatus.DELAYED ? delayDuration : null);
+    dynamic response = await _httpClient.put(
+        canRepeatRequest: true,
+        path: "/management/companies/drops/$dropUid",
+        body: json.encode(request.toJson()),
+        out: (dynamic json) => json);
+    return ResourceOperationResponse.fromJson(response);
+  }
 }

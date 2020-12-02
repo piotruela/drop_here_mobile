@@ -130,3 +130,27 @@ const _$RouteStatusEnumMap = {
   RouteStatus.ONGOING: 'ONGOING',
   RouteStatus.FINISHED: 'FINISHED',
 };
+
+DropManagementRequest _$DropManagementRequestFromJson(
+    Map<String, dynamic> json) {
+  return DropManagementRequest(
+    newStatus: _$enumDecodeNullable(_$DropStatusEnumMap, json['newStatus']),
+    delayByMinutes: json['delayByMinutes'] as int,
+  );
+}
+
+Map<String, dynamic> _$DropManagementRequestToJson(
+        DropManagementRequest instance) =>
+    <String, dynamic>{
+      'newStatus': _$DropStatusEnumMap[instance.newStatus],
+      'delayByMinutes': instance.delayByMinutes,
+    };
+
+const _$DropStatusEnumMap = {
+  DropStatus.UNPREPARED: 'UNPREPARED',
+  DropStatus.PREPARED: 'PREPARED',
+  DropStatus.DELAYED: 'DELAYED',
+  DropStatus.CANCELLED: 'CANCELLED',
+  DropStatus.FINISHED: 'FINISHED',
+  DropStatus.LIVE: 'LIVE',
+};
