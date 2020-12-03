@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 
-import 'counter/ui/pages/first_page.dart';
+import 'app.dart';
 
 
-void main() => runApp(App());
+void main() => startApp();
 

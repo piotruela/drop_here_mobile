@@ -1,25 +1,14 @@
-
-
-import 'package:drop_here_mobile/counter/ui/pages/first_page.dart';
-import 'package:flutter/material.dart';
+import 'package:drop_here_mobile/common/ui/widgets/main_widget.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:flutter_test/flutter_test.dart';
-
 
 void main() {
   testWidgets('FormPage has icons and title', (WidgetTester tester) async {
-    await tester.pumpWidget(App());
+    await tester.pumpWidget(MainWidget());
 
-    expect(find.text('Flutter Form Validation'), findsOneWidget);
-    expect(find.text('Form Submitted Successfully'), findsNothing);
+    expect(find.text('drop.here'), findsOneWidget);
+    expect(find.text('Get Started'), findsOneWidget);
 
-    expect(find.byIcon(Icons.email), findsOneWidget);
-    expect(find.byIcon(Icons.lock), findsOneWidget);
-
-  });
-
-  testWidgets('FormPage has Submit button', (WidgetTester tester) async {
-    await tester.pumpWidget(App());
-
-    expect(find.byType(RaisedButton), findsOneWidget);
+    expect(find.byType(SvgPicture), findsOneWidget);
   });
 }
