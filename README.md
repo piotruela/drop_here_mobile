@@ -1,16 +1,24 @@
 # drop_here_mobile
 
-A new Flutter project.
+drop.here is a prototype of a mobile app, made as a diploma project in Oct 2020.
+Main purpose of the app is to facilitate the local and time-limited sales process.
 
-## Getting Started
+## General idea of the service is presented in the poster below.
+![](drop_here_explained.png)
 
-This project is a starting point for a Flutter application.
+## UI Design
 
-A few resources to get you started if this is your first Flutter project:
+UI was design using Figma according to Material Design.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+### Selected elements of the graphic design
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![](login.png)
+
+![](products.png)
+
+![](create_spot.png)
+
+![](spot_client_context.png)
+
+![](management.png)
+
